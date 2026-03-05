@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Academy – Impara l'Inglese</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-anchor">
+      <span class="anchor-icon">⚓</span>
+      <div>
+        <h1>English Academy</h1>
+        <p>IMPARA · PRATICA · ECCELLI</p>
+      </div>
+      <span class="anchor-icon">⚓</span>
+    </div>
+  </header>
+
+  <nav>
+    <button class="active" data-page="home">🏠 Home</button>
+    <button data-page="corsi">📚 Corsi</button>
+    <button data-page="marina">⚓ Marina Militare</button>
+    <button data-page="quiz">🎯 Quiz</button>
+    <button data-page="chi-siamo">👥 Chi Siamo</button>
+    <button data-page="contatti">✉️ Contatti</button>
+  </nav>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <h2>Benvenuto nell'English Academy</h2>
+        <p>La piattaforma italiana per imparare l'inglese in modo professionale, moderno e interattivo. Dai corsi base fino all'inglese tecnico per la <strong style="color:var(--gold)">Marina Militare</strong>.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" data-page-target="corsi">🎓 Scopri i Corsi</button>
+          <button class="btn-secondary" data-page-target="quiz">🎯 Fai un Quiz</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">12+</div><div class="stat-label">Corsi Disponibili</div></div>
+        <div class="stat-box"><div class="stat-num">500+</div><div class="stat-label">Studenti Attivi</div></div>
+        <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Quiz Interattivi</div></div>
+        <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">Soddisfazione</div></div>
+      </div>
+
+      <h2 class="section-title">I Nostri Corsi</h2>
+      <div class="divider"></div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🌱</div>
+          <h3>Inglese Base</h3>
+          <p>Perfetto per principianti che vogliono iniziare da zero. Grammatica, vocabolario essenziale e conversazione semplice.</p>
+          <span class="badge">LIVELLO A1–A2</span><br>
+          <button class="btn" data-page-target="corsi">Scopri →</button>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>Inglese Intermedio</h3>
+          <p>Migliora conversazione, grammatica avanzata e comprensione di testi autentici.</p>
+          <span class="badge">LIVELLO B1–B2</span><br>
+          <button class="btn" data-page-target="corsi">Scopri →</button>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">💼</div>
+          <h3>Inglese Business</h3>
+          <p>Ideale per professionisti e aziende. Email formali, presentazioni, negoziazioni.</p>
+          <span class="badge">LIVELLO B2–C1</span><br>
+          <button class="btn" data-page-target="corsi">Scopri →</button>
+        </div>
+
+        <div class="card card-naval">
+          <div class="card-icon">⚓</div>
+          <h3>Inglese Navale – Marina</h3>
+          <p>Corso specializzato per il personale della Marina Militare. Terminologia navale, navi, componenti e comunicazioni.</p>
+          <span class="badge badge-blue">TECNICO SPECIALIZZATO</span><br>
+          <button class="btn" data-page-target="marina">Scopri →</button>
+        </div>
+      </div>
+
+      <div class="naval-hero">
+        <div class="naval-tag">⚓ NOVITÀ – SEZIONE MARINA MILITARE</div>
+        <h2>Inglese Tecnico per la Marina</h2>
+        <p>Una sezione dedicata interamente alla terminologia navale in inglese. Studia tipologie di navi, componenti, strumentazione di bordo e vocabolario operativo.</p>
+        <button class="btn-primary mt-20" data-page-target="marina">⚓ Esplora la Sezione Marina →</button>
+      </div>
+    </section>
+
+    <section id="corsi" class="page">
+      <h2 class="section-title">Tutti i Corsi</h2>
+      <p class="section-sub">Scegli il percorso più adatto alle tue esigenze</p>
+      <div class="divider"></div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🌱</div>
+          <h3>Inglese Base (A1–A2)</h3>
+          <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, il presente semplice.</p>
+          <span class="badge">8 SETTIMANE</span>
+          <p class="small-note">✓ Grammatica di base · ✓ Vocabolario quotidiano · ✓ Conversazione semplice</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📗</div>
+          <h3>Inglese Pre-Intermedio (A2–B1)</h3>
+          <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
+          <span class="badge">10 SETTIMANE</span>
+          <p class="small-note">✓ Tempi verbali · ✓ Listening avanzato · ✓ Scrittura formale base</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📘</div>
+          <h3>Inglese Intermedio (B1–B2)</h3>
+          <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
+          <span class="badge">12 SETTIMANE</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📙</div>
+          <h3>Inglese Avanzato (C1–C2)</h3>
+          <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
+          <span class="badge">14 SETTIMANE</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">💼</div>
+          <h3>Business English</h3>
+          <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
+          <span class="badge">8 SETTIMANE</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">✈️</div>
+          <h3>Inglese per Viaggi</h3>
+          <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
+          <span class="badge">4 SETTIMANE</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🎓</div>
+          <h3>Preparazione IELTS / Cambridge</h3>
+          <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
+          <span class="badge">12 SETTIMANE</span>
+        </div>
+
+        <div class="card card-naval">
+          <div class="card-icon">⚓</div>
+          <h3>Inglese Navale – Marina Militare</h3>
+          <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
+          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span>
+          <br>
+          <button class="btn" data-page-target="marina">Vai alla sezione →</button>
+        </div>
+      </div>
+
+      <h3 class="section-title faq-title">Domande Frequenti</h3>
+      <div class="divider"></div>
+
+      <div class="accordion">
+        <button class="acc-header" type="button">
+          <span>Come scelgo il corso giusto?</span>
+          <span class="acc-chevron">▼</span>
+        </button>
+        <div class="acc-body">Inizia con un quiz di livello nella sezione Quiz. Ti aiuteremo a individuare il tuo livello e il percorso più adatto.</div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" type="button">
+          <span>I corsi sono online o in presenza?</span>
+          <span class="acc-chevron">▼</span>
+        </button>
+        <div class="acc-body">Offriamo entrambe le modalità. Alcuni corsi specialistici sono disponibili anche in presenza presso sedi convenzionate.</div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" type="button">
+          <span>Ricevo un certificato al termine?</span>
+          <span class="acc-chevron">▼</span>
+        </button>
+        <div class="acc-body">Sì. Al termine di ogni corso ricevi un attestato di completamento.</div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" type="button">
+          <span>Il corso Marina è aperto solo ai militari?</span>
+          <span class="acc-chevron">▼</span>
+        </button>
+        <div class="acc-body">No. È aperto anche a civili, appassionati di nautica, tecnici portuali e professionisti del settore marittimo.</div>
+      </div>
+    </section>
+
+    <section id="marina" class="page">
+      <div class="naval-hero">
+        <div class="naval-tag">⚓ INGLESE TECNICO – MARINA MILITARE</div>
+        <h2>Le Navi e i Componenti Navali</h2>
+        <p>Impara la terminologia inglese delle principali imbarcazioni militari e dei loro componenti. Ogni scheda è bilingue.</p>
+      </div>
+
+      <h2 class="section-title">Tipologie di Navi</h2>
+      <div class="divider"></div>
+
+      <div class="ship-grid">
+        <div class="ship-card">
+          <div class="ship-header">
+            <span class="ship-emoji">🛸</span>
+            <div><h3>Aircraft Carrier</h3><span>Portaerei</span></div>
+          </div>
+          <div class="ship-body">
+            <ul class="comp-list">
+              <li><span class="comp-en">Flight deck</span><span class="comp-it">Piano di volo.</span></li>
+              <li><span class="comp-en">Catapult</span><span class="comp-it">Sistema che accelera gli aerei per il decollo.</span></li>
+              <li><span class="comp-en">Arrestor wire</span><span class="comp-it">Cavo che frena l'aereo in atterraggio.</span></li>
+              <li><span class="comp-en">Island</span><span class="comp-it">Superstruttura con plancia e controllo aereo.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ship-card">
+          <div class="ship-header">
+            <span class="ship-emoji">🚢</span>
+            <div><h3>Destroyer</h3><span>Cacciatorpediniere</span></div>
+          </div>
+          <div class="ship-body">
+            <ul class="comp-list">
+              <li><span class="comp-en">Hull</span><span class="comp-it">Scafo.</span></li>
+              <li><span class="comp-en">Bow</span><span class="comp-it">Prua.</span></li>
+              <li><span class="comp-en">Stern</span><span class="comp-it">Poppa.</span></li>
+              <li><span class="comp-en">CIC</span><span class="comp-it">Centro operativo di combattimento.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ship-card">
+          <div class="ship-header">
+            <span class="ship-emoji">🤿</span>
+            <div><h3>Submarine</h3><span>Sottomarino</span></div>
+          </div>
+          <div class="ship-body">
+            <ul class="comp-list">
+              <li><span class="comp-en">Conning tower</span><span class="comp-it">Torre di comando.</span></li>
+              <li><span class="comp-en">Ballast tanks</span><span class="comp-it">Casse di zavorra.</span></li>
+              <li><span class="comp-en">Periscope</span><span class="comp-it">Periscopio.</span></li>
+              <li><span class="comp-en">Dive planes</span><span class="comp-it">Timoni di profondità.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ship-card">
+          <div class="ship-header">
+            <span class="ship-emoji">⚓</span>
+            <div><h3>Frigate</h3><span>Fregata</span></div>
+          </div>
+          <div class="ship-body">
+            <ul class="comp-list">
+              <li><span class="comp-en">Bridge</span><span class="comp-it">Plancia di comando.</span></li>
+              <li><span class="comp-en">Mast</span><span class="comp-it">Albero con sensori e radar.</span></li>
+              <li><span class="comp-en">Funnel</span><span class="comp-it">Fumaiolo.</span></li>
+              <li><span class="comp-en">Helipad</span><span class="comp-it">Piazzola elicotteri.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ship-card">
+          <div class="ship-header">
+            <span class="ship-emoji">🔱</span>
+            <div><h3>Corvette</h3><span>Corvetta</span></div>
+          </div>
+          <div class="ship-body">
+            <ul class="comp-list">
+              <li><span class="comp-en">Main gun</span><span class="comp-it">Cannone principale.</span></li>
+              <li><span class="comp-en">Depth charges</span><span class="comp-it">Bombe di profondità.</span></li>
+              <li><span class="comp-en">Rudder</span><span class="comp-it">Timone.</span></li>
+              <li><span class="comp-en">Propeller</span><span class="comp-it">Elica.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ship-card">
+          <div class="ship-header">
+            <span class="ship-emoji">🔭</span>
+            <div><h3>Patrol Vessel</h3><span>Pattugliatore</span></div>
+          </div>
+          <div class="ship-body">
+            <ul class="comp-list">
+              <li><span class="comp-en">Waterline</span><span class="comp-it">Linea di galleggiamento.</span></li>
+              <li><span class="comp-en">Draft</span><span class="comp-it">Pescaggio.</span></li>
+              <li><span class="comp-en">Freeboard</span><span class="comp-it">Bordo libero.</span></li>
+              <li><span class="comp-en">Mooring lines</span><span class="comp-it">Cavi di ormeggio.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Componenti Comuni</h2>
+      <div class="divider"></div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🧭</div>
+          <h3>Navigation Systems</h3>
+          <p>GPS, Compass, ECDIS, Radar, AIS.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Engine Room</h3>
+          <p>Main engine, Boiler, Generator, Bilge pump, Fuel tank.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📡</div>
+          <h3>Communications</h3>
+          <p>VHF radio, Satellite phone, Signal lamp, IFF system.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛟</div>
+          <h3>Safety Equipment</h3>
+          <p>Life jacket, Life raft, Fire extinguisher, Emergency beacon, Damage control.</p>
+        </div>
+      </div>
+
+      <div class="center-block">
+        <button class="btn-primary" id="naval-quiz-cta">⚓ Metti alla prova le tue conoscenze navali →</button>
+      </div>
+    </section>
+
+    <section id="quiz" class="page">
+      <h2 class="section-title">Quiz Interattivi</h2>
+      <p class="section-sub">Testa le tue conoscenze. Ogni quiz include punteggio e valutazione finale.</p>
+      <div class="divider"></div>
+
+      <div class="quiz-wrapper">
+        <div id="step-name" class="name-form">
+          <h3>👤 Come ti chiami?</h3>
+          <p>Inserisci il tuo nome per personalizzare il quiz e salvare il punteggio</p>
+          <input type="text" id="student-name-input" class="name-input" placeholder="Il tuo nome..." maxlength="40">
+          <button class="btn-primary" id="submit-name-btn">Continua →</button>
+        </div>
+
+        <div id="step-select" class="hidden">
+          <p class="quiz-greeting">Ciao <strong id="display-name"></strong>! Scegli il quiz:</p>
+          <div class="quiz-selector">
+            <button class="quiz-btn-sel" data-quiz="0"><span class="qi">🌱</span>Inglese Base</button>
+            <button class="quiz-btn-sel" data-quiz="1"><span class="qi">📈</span>Intermedio</button>
+            <button class="quiz-btn-sel" data-quiz="2"><span class="qi">💼</span>Business</button>
+            <button class="quiz-btn-sel" data-quiz="3"><span class="qi">⚓</span>Marina Militare<br><small>10 domande casuali</small></button>
+          </div>
+        </div>
+
+        <div id="step-quiz" class="quiz-container hidden">
+          <div class="quiz-meta">
+            <span class="quiz-student" id="quiz-student-label">👤 Studente</span>
+            <span class="quiz-progress-text" id="quiz-progress">Domanda 1 di 6</span>
+            <span class="quiz-score-live" id="quiz-score-live">⭐ 0 / 0</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+
+          <div class="question-num" id="q-num">DOMANDA 1</div>
+          <div class="question-text" id="q-text">Domanda...</div>
+          <div class="options-grid" id="q-options"></div>
+          <div id="q-feedback" class="feedback-msg hidden"></div>
+          <button class="next-btn" id="next-btn">Prossima →</button>
+        </div>
+
+        <div id="step-results" class="hidden">
+          <div class="quiz-container results-panel">
+            <div class="score-circle" id="score-circle">
+              <div class="score-circle-inner">
+                <span class="score-pct" id="score-pct">0%</span>
+                <span class="score-label">PUNTEGGIO</span>
+              </div>
+            </div>
+
+            <h3 id="result-title">Risultato</h3>
+            <p class="student-name" id="result-student"></p>
+
+            <div class="result-details">
+              <span class="result-pill pill-correct" id="r-correct">✓ 0 corrette</span>
+              <span class="result-pill pill-wrong" id="r-wrong">✗ 0 errate</span>
+              <span class="result-pill pill-total" id="r-total">📊 0 totali</span>
+            </div>
+
+            <div class="grade-badge" id="grade-badge">—</div>
+            <br>
+            <button class="btn-primary" id="retry-quiz-btn">🔄 Riprova</button>
+            <button class="btn-secondary" id="change-quiz-btn">📚 Altro quiz</button>
+          </div>
+
+          <div class="leaderboard hidden" id="leaderboard">
+            <div class="lb-title">🏆 I tuoi ultimi risultati</div>
+            <div id="lb-entries"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chi-siamo" class="page">
+      <h2 class="section-title">Chi Siamo</h2>
+      <p class="section-sub">Il team dietro English Academy</p>
+      <div class="divider"></div>
+
+      <div class="hero hero-small">
+        <h2>La nostra missione</h2>
+        <p>English Academy nasce dall'idea che imparare l'inglese debba essere accessibile, efficace e contestualizzato. Ogni corso è progettato per rispondere a esigenze reali.</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="avatar">👩‍🏫</div>
+          <h4>Prof.ssa Laura Ferretti</h4>
+          <div class="role">DIRETTRICE DIDATTICA</div>
+          <p>Esperta di insegnamento dell'inglese per adulti e contesti professionali.</p>
+        </div>
+
+        <div class="team-card">
+          <div class="avatar">👨‍✈️</div>
+          <h4>Cap. Marco Olivieri</h4>
+          <div class="role">ESPERTO INGLESE NAVALE</div>
+          <p>Ex ufficiale della Marina Militare Italiana e referente del curriculum tecnico-navale.</p>
+        </div>
+
+        <div class="team-card">
+          <div class="avatar">👩‍💼</div>
+          <h4>Dott.ssa Sofia Ricci</h4>
+          <div class="role">COORDINATRICE CORSI</div>
+          <p>Linguista specializzata in inglese per scopi specifici e percorsi business.</p>
+        </div>
+
+        <div class="team-card">
+          <div class="avatar">🧑‍💻</div>
+          <h4>Ing. Davide Conti</h4>
+          <div class="role">RESPONSABILE PIATTAFORMA</div>
+          <p>Sviluppatore e specialista e-learning per un'esperienza digitale semplice e stabile.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contatti" class="page">
+      <h2 class="section-title">Contatti</h2>
+      <p class="section-sub">Siamo qui per aiutarti. Scrivici o chiamaci.</p>
+      <div class="divider"></div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
+          <h4>Sede</h4>
+          <p>Via della Marina, 14<br>00100 Roma (RM)<br>Italia</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <h4>Telefono</h4>
+          <p><a href="tel:+390612345678">+39 06 1234 5678</a><br><span class="small-note">Lun–Ven 9:00–18:00</span></p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <h4>Email</h4>
+          <p><a href="mailto:info@englishacademy.it">info@englishacademy.it</a><br><a href="mailto:corsi@englishacademy.it">corsi@englishacademy.it</a></p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">💬</div>
+          <h4>Social</h4>
+          <p><a href="#">Instagram</a> · <a href="#">LinkedIn</a><br><a href="#">Facebook</a> · <a href="#">YouTube</a></p>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>📩 Scrivici un messaggio</h3>
+        <div id="form-sent" class="form-sent">✅ Messaggio inviato! Ti risponderemo entro 24 ore.</div>
+
+        <div id="contact-form-fields">
+          <div class="form-row">
+            <label for="contact-name">NOME E COGNOME</label>
+            <input id="contact-name" type="text" placeholder="Mario Rossi">
+          </div>
+
+          <div class="form-row">
+            <label for="contact-email">EMAIL</label>
+            <input id="contact-email" type="email" placeholder="mario@email.it">
+          </div>
+
+          <div class="form-row">
+            <label for="contact-course">CORSO DI INTERESSE</label>
+            <select id="contact-course">
+              <option>-- Seleziona --</option>
+              <option>Inglese Base (A1–A2)</option>
+              <option>Inglese Intermedio (B1–B2)</option>
+              <option>Business English</option>
+              <option>Inglese Navale – Marina Militare</option>
+              <option>Preparazione IELTS / Cambridge</option>
+              <option>Altro</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="contact-message">MESSAGGIO</label>
+            <textarea id="contact-message" placeholder="Scrivi qui la tua richiesta..."></textarea>
+          </div>
+
+          <button class="btn-primary full-width" id="submit-form-btn">Invia Messaggio ✉️</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
