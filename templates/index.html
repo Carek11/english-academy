@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Academy – Impara l'Inglese</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy2: #112240;
+    --navy3: #1a3a6e;
+    --gold: #c9a84c;
+    --gold2: #f0c96a;
+    --silver: #8babd6;
+    --white: #f0f4ff;
+    --light: #dce8f8;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #0d2b5e 100%);
+    padding: 28px 40px 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content:'';
+    position:absolute;
+    top:-60px; left:-60px; right:-60px; bottom:-20px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .header-anchor { display:flex; align-items:center; justify-content:center; gap:14px; }
+  .anchor-icon { font-size:2.4rem; filter: drop-shadow(0 2px 8px rgba(201,168,76,0.5)); }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--gold2);
+    letter-spacing: 1px;
+    text-shadow: 0 2px 16px rgba(201,168,76,0.3);
+  }
+  header p { color: var(--silver); font-size: 1rem; margin-top: 4px; letter-spacing: 1.5px; }
+
+  /* NAV */
+  nav {
+    background: var(--navy2);
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: var(--silver);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 8px 22px;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.25s;
+  }
+  nav button:hover, nav button.active {
+    background: var(--gold);
+    color: var(--navy);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  }
+
+  /* PAGES */
+  .page { display: none; padding: 40px 20px 60px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* SECTIONS */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold2);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--silver);
+    margin-bottom: 32px;
+    font-size: 1rem;
+  }
+  .divider {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 12px auto 28px;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background: var(--navy2);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.3);
+  }
+  .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
+  .card h3 { font-family:'Playfair Display',serif; font-size:1.25rem; color:var(--gold2); margin-bottom:8px; }
+  .card p { color:var(--light); font-size:0.92rem; line-height:1.6; }
+  .card .badge {
+    display: inline-block;
+    margin-top: 12px;
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 50px;
+    border: 1px solid rgba(201,168,76,0.3);
+    letter-spacing: 0.8px;
+  }
+  .card .btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 9px 20px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.88rem;
+    border-radius: 50px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .card .btn:hover { transform:scale(1.04); box-shadow: 0 4px 16px rgba(201,168,76,0.4); }
+
+  /* HERO (HOME) */
+  .hero {
+    background: linear-gradient(135deg, var(--navy2) 0%, #0d2b5e 100%);
+    border-radius: 20px;
+    padding: 56px 40px;
+    text-align: center;
+    margin-bottom: 40px;
+    border: 1px solid rgba(201,168,76,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '⚓';
+    position:absolute;
+    right: -20px; bottom: -30px;
+    font-size: 8rem;
+    opacity: 0.05;
+  }
+  .hero h2 { font-family:'Playfair Display',serif; font-size:2.8rem; color:var(--gold2); margin-bottom:16px; line-height:1.2; }
+  .hero p { font-size:1.1rem; color:var(--light); max-width:640px; margin:0 auto 28px; line-height:1.7; }
+  .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary {
+    padding: 13px 32px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,168,76,0.4); }
+  .btn-secondary {
+    padding: 13px 32px;
+    background: transparent;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 2px solid var(--gold);
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { background:rgba(201,168,76,0.1); transform:translateY(-2px); }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-box {
+    background: var(--navy2);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-num { font-family:'Playfair Display',serif; font-size:2rem; color:var(--gold2); }
+  .stat-label { font-size:0.82rem; color:var(--silver); margin-top:4px; }
+
+  /* NAVAL SECTION */
+  .naval-hero {
+    background: linear-gradient(135deg, #071a3e 0%, #0a2a5e 50%, #071a3e 100%);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .naval-hero::before {
+    content:'🚢';
+    position:absolute; left:-10px; bottom:-20px;
+    font-size:9rem; opacity:0.06;
+  }
+  .naval-hero h2 { font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--gold2); }
+  .naval-hero p { color:var(--light); margin-top:10px; line-height:1.7; max-width:680px; margin-left:auto; margin-right:auto; }
+  .naval-tag {
+    display:inline-block;
+    background:rgba(10,100,200,0.25);
+    border:1px solid rgba(100,160,255,0.35);
+    color:#a8d0ff;
+    font-size:0.78rem; font-weight:700;
+    padding:3px 14px; border-radius:50px;
+    margin-bottom:12px; letter-spacing:1px;
+  }
+
+  .ship-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .ship-card {
+    background: var(--navy2);
+    border: 1px solid rgba(100,160,255,0.2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .ship-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.5); }
+  .ship-header {
+    background: linear-gradient(135deg, #071a3e, #0d2b5e);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 2px solid rgba(201,168,76,0.3);
+  }
+  .ship-emoji { font-size: 2.2rem; }
+  .ship-header h3 { font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--gold2); }
+  .ship-header span { font-size:0.82rem; color:var(--silver); }
+  .ship-body { padding: 20px 24px; }
+  .comp-list { list-style: none; }
+  .comp-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.9rem;
+  }
+  .comp-list li:last-child { border-bottom: none; }
+  .comp-en {
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 130px;
+    flex-shrink: 0;
+  }
+  .comp-it { color: var(--light); line-height: 1.4; }
+
+  /* QUIZ */
+  .quiz-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .name-form {
+    background: var(--navy2);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: var(--radius);
+    padding: 36px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .name-form h3 { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--gold2); margin-bottom:8px; }
+  .name-form p { color:var(--silver); margin-bottom:20px; }
+  .name-input {
+    width: 100%; max-width: 360px;
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(201,168,76,0.3);
+    border-radius: 50px;
+    color: var(--white);
+    font-size: 1rem;
+    font-family: 'Source Sans 3', sans-serif;
+    outline: none;
+    text-align: center;
+    margin-bottom: 16px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .name-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.15); }
+
+  .quiz-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .quiz-btn-sel {
+    background: var(--navy2);
+    border: 2px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius);
+    padding: 18px;
+    cursor: pointer;
+    color: var(--light);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.25s;
+  }
+  .quiz-btn-sel:hover, .quiz-btn-sel.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    color: var(--gold2);
+  }
+  .quiz-btn-sel .qi { font-size:1.8rem; display:block; margin-bottom:8px; }
+
+  .quiz-container {
+    background: var(--navy2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+  .quiz-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .quiz-student { color:var(--gold); font-weight:700; font-size:0.95rem; }
+  .quiz-progress-text { color:var(--silver); font-size:0.88rem; }
+  .quiz-score-live {
+    background: rgba(201,168,76,0.15);
+    color: var(--gold2);
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+  }
+  .question-num { font-size:0.8rem; color:var(--silver); margin-bottom:8px; letter-spacing:1px; font-weight:700; }
+  .question-text { font-family:'Playfair Display',serif; font-size:1.35rem; color:var(--white); margin-bottom:24px; line-height:1.4; }
+  .options-grid { display:grid; gap:10px; }
+  .option-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--light);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .option-btn:hover:not(:disabled) { background:rgba(201,168,76,0.1); border-color:rgba(201,168,76,0.4); color:var(--gold2); }
+  .option-btn.correct { background:rgba(46,204,113,0.15); border-color:#2ecc71; color:#2ecc71; }
+  .option-btn.wrong { background:rgba(231,76,60,0.15); border-color:#e74c3c; color:#e74c3c; }
+  .option-letter {
+    width:28px; height:28px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.8rem; font-weight:700;
+    flex-shrink:0;
+  }
+  .feedback-msg {
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:10px;
+    font-size:0.92rem;
+    font-weight:600;
+  }
+  .feedback-msg.correct { background:rgba(46,204,113,0.12); color:#2ecc71; border:1px solid rgba(46,204,113,0.3); }
+  .feedback-msg.wrong { background:rgba(231,76,60,0.12); color:#e74c3c; border:1px solid rgba(231,76,60,0.3); }
+  .next-btn {
+    margin-top:20px;
+    padding:11px 28px;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    color:var(--navy);
+    font-weight:700;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    font-family:'Source Sans 3',sans-serif;
+    font-size:0.95rem;
+    transition:all 0.2s;
+    display:none;
+  }
+  .next-btn:hover { transform:scale(1.03); box-shadow:0 4px 16px rgba(201,168,76,0.4); }
+
+  /* RESULTS */
+  .results-panel {
+    text-align: center;
+    padding: 20px;
+  }
+  .score-circle {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: conic-gradient(var(--gold) 0deg, rgba(255,255,255,0.06) 0deg);
+    display: flex; align-items:center; justify-content:center;
+    margin: 0 auto 24px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(201,168,76,0.2);
+  }
+  .score-circle-inner {
+    width:110px; height:110px;
+    border-radius:50%;
+    background:var(--navy2);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .score-pct { font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--gold2); font-weight:900; }
+  .score-label { font-size:0.72rem; color:var(--silver); letter-spacing:1px; }
+  .results-panel h3 { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--gold2); margin-bottom:8px; }
+  .results-panel .student-name { color:var(--silver); margin-bottom:20px; font-size:0.95rem; }
+  .result-details {
+    display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:24px;
+  }
+  .result-pill {
+    padding:8px 20px;
+    border-radius:50px;
+    font-size:0.88rem;
+    font-weight:700;
+  }
+  .pill-correct { background:rgba(46,204,113,0.15); color:#2ecc71; border:1px solid rgba(46,204,113,0.3); }
+  .pill-wrong { background:rgba(231,76,60,0.15); color:#e74c3c; border:1px solid rgba(231,76,60,0.3); }
+  .pill-total { background:rgba(201,168,76,0.15); color:var(--gold); border:1px solid rgba(201,168,76,0.3); }
+  .grade-badge {
+    font-size:1.1rem;
+    font-weight:700;
+    padding:10px 28px;
+    border-radius:50px;
+    margin-bottom:24px;
+    display:inline-block;
+  }
+
+  /* CHI SIAMO */
+  .team-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap:22px;
+    margin-bottom:40px;
+  }
+  .team-card {
+    background:var(--navy2);
+    border:1px solid rgba(201,168,76,0.15);
+    border-radius:var(--radius);
+    padding:28px 22px;
+    text-align:center;
+    transition:all 0.3s;
+  }
+  .team-card:hover { transform:translateY(-4px); box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+  .avatar {
+    width:72px; height:72px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--navy3),#1a4a8e);
+    border:2px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-size:2rem;
+    margin:0 auto 14px;
+  }
+  .team-card h4 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--gold2); margin-bottom:6px; }
+  .team-card .role { font-size:0.82rem; color:var(--gold); font-weight:700; margin-bottom:8px; letter-spacing:0.5px; }
+  .team-card p { font-size:0.88rem; color:var(--light); line-height:1.6; }
+
+  /* CONTATTI */
+  .contact-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap:22px;
+    margin-bottom:40px;
+  }
+  .contact-card {
+    background:var(--navy2);
+    border:1px solid rgba(201,168,76,0.15);
+    border-radius:var(--radius);
+    padding:28px 24px;
+    text-align:center;
+    transition:all 0.3s;
+  }
+  .contact-card:hover { border-color:rgba(201,168,76,0.4); transform:translateY(-3px); }
+  .contact-icon { font-size:2.5rem; margin-bottom:12px; }
+  .contact-card h4 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--gold2); margin-bottom:8px; }
+  .contact-card p { color:var(--light); font-size:0.9rem; line-height:1.6; }
+  .contact-card a { color:var(--gold); text-decoration:none; font-weight:600; }
+  .contact-card a:hover { text-decoration:underline; }
+
+  .contact-form {
+    background:var(--navy2);
+    border:1px solid rgba(201,168,76,0.2);
+    border-radius:var(--radius);
+    padding:36px;
+    max-width:600px;
+    margin:0 auto;
+  }
+  .contact-form h3 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--gold2); margin-bottom:20px; }
+  .form-row { margin-bottom:16px; }
+  .form-row label { display:block; font-size:0.85rem; color:var(--silver); margin-bottom:6px; font-weight:600; letter-spacing:0.5px; }
+  .form-row input, .form-row textarea, .form-row select {
+    width:100%;
+    padding:12px 16px;
+    background:rgba(255,255,255,0.05);
+    border:1.5px solid rgba(201,168,76,0.2);
+    border-radius:10px;
+    color:var(--white);
+    font-size:0.95rem;
+    font-family:'Source Sans 3',sans-serif;
+    outline:none;
+    transition:all 0.2s;
+  }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,168,76,0.1);
+  }
+  .form-row textarea { resize:vertical; min-height:110px; }
+  .form-row select option { background:var(--navy2); }
+  .form-sent { display:none; text-align:center; padding:20px; color:var(--success); font-size:1.1rem; font-weight:700; }
+
+  /* ACCORDION */
+  .accordion { margin-bottom: 12px; }
+  .acc-header {
+    background:var(--navy2);
+    border:1px solid rgba(201,168,76,0.15);
+    border-radius:10px;
+    padding:16px 20px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:600;
+    color:var(--light);
+    transition:all 0.2s;
+  }
+  .acc-header:hover { border-color:rgba(201,168,76,0.35); color:var(--gold2); }
+  .acc-header.open { border-bottom-radius:0; border-color:rgba(201,168,76,0.3); color:var(--gold2); }
+  .acc-body {
+    display:none;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(201,168,76,0.12);
+    border-top:none;
+    border-radius:0 0 10px 10px;
+    padding:16px 20px;
+  }
+  .acc-body.open { display:block; }
+  .acc-chevron { transition:transform 0.3s; }
+  .acc-header.open .acc-chevron { transform:rotate(180deg); }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:28px; right:28px;
+    background:var(--navy2);
+    border:1px solid var(--gold);
+    color:var(--gold2);
+    padding:14px 22px;
+    border-radius:var(--radius);
+    font-weight:600;
+    font-size:0.9rem;
+    z-index:999;
+    transform:translateY(100px);
+    opacity:0;
+    transition:all 0.4s;
+    max-width:320px;
+  }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  /* RESPONSIVE */
+  @media(max-width:600px){
+    header h1 { font-size:1.8rem; }
+    .hero h2 { font-size:1.9rem; }
+    .page { padding:24px 14px 50px; }
+    .comp-en { min-width:100px; }
+    .quiz-container { padding:20px; }
+  }
+
+  /* LEADERBOARD */
+  .leaderboard {
+    background:var(--navy2);
+    border:1px solid rgba(201,168,76,0.2);
+    border-radius:var(--radius);
+    padding:24px;
+    margin-top:30px;
+  }
+  .lb-title { font-family:'Playfair Display',serif; color:var(--gold2); margin-bottom:16px; font-size:1.2rem; display:flex; align-items:center; gap:10px; }
+  .lb-entry {
+    display:flex; align-items:center; gap:14px;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    font-size:0.9rem;
+  }
+  .lb-entry:last-child { border-bottom:none; }
+  .lb-rank { width:28px; height:28px; border-radius:50%; background:rgba(201,168,76,0.15); color:var(--gold); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:0.82rem; flex-shrink:0; }
+  .lb-name { flex:1; font-weight:600; color:var(--light); }
+  .lb-quiz { font-size:0.8rem; color:var(--silver); }
+  .lb-score { font-weight:700; color:var(--gold2); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-anchor">
+    <span class="anchor-icon">⚓</span>
+    <div>
+      <h1>English Academy</h1>
+      <p>IMPARA · PRATICA · ECCELLI</p>
+    </div>
+    <span class="anchor-icon">⚓</span>
+  </div>
+</header>
+
+<nav>
+  <button class="active" onclick="showPage('home')">🏠 Home</button>
+  <button onclick="showPage('corsi')">📚 Corsi</button>
+  <button onclick="showPage('marina')">⚓ Marina Militare</button>
+  <button onclick="showPage('quiz')">🎯 Quiz</button>
+  <button onclick="showPage('chi-siamo')">👥 Chi Siamo</button>
+  <button onclick="showPage('contatti')">✉️ Contatti</button>
+</nav>
+
+<!-- ============ HOME ============ -->
+<div id="home" class="page active">
+  <div class="hero">
+    <h2>Benvenuto nell'English Academy</h2>
+    <p>La piattaforma italiana per imparare l'inglese in modo professionale, moderno e interattivo. Dai corsi base fino all'inglese tecnico per la <strong style="color:var(--gold)">Marina Militare</strong>.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('corsi')">🎓 Scopri i Corsi</button>
+      <button class="btn-secondary" onclick="showPage('quiz')">🎯 Fai un Quiz</button>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num">12+</div><div class="stat-label">Corsi Disponibili</div></div>
+    <div class="stat-box"><div class="stat-num">500+</div><div class="stat-label">Studenti Attivi</div></div>
+    <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Quiz Interattivi</div></div>
+    <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">Soddisfazione</div></div>
+  </div>
+
+  <h2 class="section-title">I Nostri Corsi</h2>
+  <div class="divider"></div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🌱</div>
+      <h3>Inglese Base</h3>
+      <p>Perfetto per principianti che vogliono iniziare da zero. Grammatica, vocabolario essenziale e conversazione semplice.</p>
+      <span class="badge">LIVELLO A1–A2</span><br>
+      <button class="btn" onclick="showPage('corsi')">Scopri →</button>
+    </div>
+    <div class="card">
+      <div class="card-icon">📈</div>
+      <h3>Inglese Intermedio</h3>
+      <p>Migliora conversazione, grammatica avanzata e comprensione di testi autentici.</p>
+      <span class="badge">LIVELLO B1–B2</span><br>
+      <button class="btn" onclick="showPage('corsi')">Scopri →</button>
+    </div>
+    <div class="card">
+      <div class="card-icon">💼</div>
+      <h3>Inglese Business</h3>
+      <p>Ideale per professionisti e aziende. Email formali, presentazioni, negoziazioni.</p>
+      <span class="badge">LIVELLO B2–C1</span><br>
+      <button class="btn" onclick="showPage('corsi')">Scopri →</button>
+    </div>
+    <div class="card" style="border-color:rgba(100,160,255,0.35);">
+      <div class="card-icon">⚓</div>
+      <h3>Inglese Navale – Marina</h3>
+      <p>Corso specializzato per il personale della Marina Militare. Terminologia navale, navi, componenti e comunicazioni.</p>
+      <span class="badge" style="background:rgba(10,100,200,0.2);border-color:rgba(100,160,255,0.3);color:#a8d0ff;">TECNICO SPECIALIZZATO</span><br>
+      <button class="btn" onclick="showPage('marina')">Scopri →</button>
+    </div>
+  </div>
+
+  <div class="naval-hero">
+    <div class="naval-tag">⚓ NOVITÀ – SEZIONE MARINA MILITARE</div>
+    <h2>Inglese Tecnico per la Marina</h2>
+    <p>Una sezione dedicata interamente alla terminologia navale in inglese. Studia le tipologie di navi, i loro componenti, la strumentazione di bordo e il vocabolario operativo usato nella Marina Militare Italiana e NATO.</p>
+    <button class="btn-primary" onclick="showPage('marina')" style="margin-top:20px;">⚓ Esplora la Sezione Marina →</button>
+  </div>
+</div>
+
+<!-- ============ CORSI ============ -->
+<div id="corsi" class="page">
+  <h2 class="section-title">Tutti i Corsi</h2>
+  <p class="section-sub">Scegli il percorso più adatto alle tue esigenze</p>
+  <div class="divider"></div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🌱</div>
+      <h3>Inglese Base (A1–A2)</h3>
+      <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, il presente semplice.</p>
+      <span class="badge">8 SETTIMANE</span>
+      <p style="margin-top:10px;font-size:0.85rem;color:var(--silver);">✓ Grammatica di base &nbsp;✓ Vocabolario quotidiano<br>✓ Conversazione semplice</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📗</div>
+      <h3>Inglese Pre-Intermedio (A2–B1)</h3>
+      <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
+      <span class="badge">10 SETTIMANE</span>
+      <p style="margin-top:10px;font-size:0.85rem;color:var(--silver);">✓ Tempi verbali &nbsp;✓ Listening avanzato<br>✓ Scrittura formale base</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📘</div>
+      <h3>Inglese Intermedio (B1–B2)</h3>
+      <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
+      <span class="badge">12 SETTIMANE</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">📙</div>
+      <h3>Inglese Avanzato (C1–C2)</h3>
+      <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
+      <span class="badge">14 SETTIMANE</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💼</div>
+      <h3>Business English</h3>
+      <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
+      <span class="badge">8 SETTIMANE</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">✈️</div>
+      <h3>Inglese per Viaggi</h3>
+      <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
+      <span class="badge">4 SETTIMANE</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎓</div>
+      <h3>Preparazione IELTS / Cambridge</h3>
+      <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
+      <span class="badge">12 SETTIMANE</span>
+    </div>
+    <div class="card" style="border-color:rgba(100,160,255,0.35);">
+      <div class="card-icon">⚓</div>
+      <h3>Inglese Navale – Marina Militare</h3>
+      <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
+      <span class="badge" style="background:rgba(10,100,200,0.2);border-color:rgba(100,160,255,0.3);color:#a8d0ff;">TECNICO – 16 SETTIMANE</span>
+      <br><button class="btn" onclick="showPage('marina')">Vai alla sezione →</button>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:20px;">Domande Frequenti</div>
+  <div class="divider"></div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">Come scelgo il corso giusto? <span class="acc-chevron">▼</span></div>
+    <div class="acc-body">Inizia con un quiz di livello nella sezione Quiz. Ti aiuteremo a individuare il tuo livello CEFR e suggeriamo il corso più adatto. Puoi anche contattarci direttamente.</div>
+  </div>
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">I corsi sono online o in presenza? <span class="acc-chevron">▼</span></div>
+    <div class="acc-body">Offriamo entrambe le modalità. I corsi online sono disponibili in video-lezione sincrona (live) e asincrona (registrata). Il corso Marina Militare è disponibile anche in presenza presso le sedi convenzionate.</div>
+  </div>
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">Ricevo un certificato al termine? <span class="acc-chevron">▼</span></div>
+    <div class="acc-body">Sì. Al termine di ogni corso ricevi un attestato di completamento. Per i corsi certificati IELTS/Cambridge collaboriamo con enti di certificazione accreditati.</div>
+  </div>
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">Il corso Marina è aperto solo ai militari? <span class="acc-chevron">▼</span></div>
+    <div class="acc-body">No! Il corso di inglese navale è aperto a chiunque: cadetti, ufficiali, appassionati di nautica, tecnici portuali, civili che lavorano nel settore marittimo.</div>
+  </div>
+</div>
+
+<!-- ============ MARINA MILITARE ============ -->
+<div id="marina" class="page">
+  <div class="naval-hero">
+    <div class="naval-tag">⚓ INGLESE TECNICO – MARINA MILITARE</div>
+    <h2>Le Navi e i Componenti Navali</h2>
+    <p>Impara la terminologia inglese delle principali imbarcazioni militari e dei loro componenti. Ogni scheda è bilingue: termine inglese + spiegazione in italiano.</p>
+  </div>
+
+  <h2 class="section-title">Tipologie di Navi</h2>
+  <div class="divider"></div>
+
+  <div class="ship-grid">
+
+    <!-- PORTAEREI -->
+    <div class="ship-card">
+      <div class="ship-header">
+        <span class="ship-emoji">🛸</span>
+        <div><h3>Aircraft Carrier</h3><span>Portaerei</span></div>
+      </div>
+      <div class="ship-body">
+        <ul class="comp-list">
+          <li><span class="comp-en">Flight deck</span><span class="comp-it">Piano di volo: la superficie superiore della nave da cui decollano e atterrano gli aerei</span></li>
+          <li><span class="comp-en">Catapult</span><span class="comp-it">Catapulta: sistema che accelera gli aerei per il decollo in breve spazio</span></li>
+          <li><span class="comp-en">Arrestor wire</span><span class="comp-it">Cavo d'arresto: cavo d'acciaio teso sul piano di volo che frena l'aereo in atterraggio</span></li>
+          <li><span class="comp-en">Island</span><span class="comp-it">Isola: superstruttura laterale con plancia e controllo del traffico aereo</span></li>
+          <li><span class="comp-en">Hangar deck</span><span class="comp-it">Ponte hangar: ponte sotterraneo dove si ricoverano e riparano gli aeromobili</span></li>
+          <li><span class="comp-en">Elevator</span><span class="comp-it">Elevatore: piattaforma meccanica che porta gli aerei dall'hangar al piano di volo</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CACCIATORPEDINIERE -->
+    <div class="ship-card">
+      <div class="ship-header">
+        <span class="ship-emoji">🚢</span>
+        <div><h3>Destroyer</h3><span>Cacciatorpediniere</span></div>
+      </div>
+      <div class="ship-body">
+        <ul class="comp-list">
+          <li><span class="comp-en">Hull</span><span class="comp-it">Scafo: la struttura esterna della nave, immersa in acqua</span></li>
+          <li><span class="comp-en">Bow</span><span class="comp-it">Prua: la parte anteriore della nave che fende l'acqua</span></li>
+          <li><span class="comp-en">Stern</span><span class="comp-it">Poppa: la parte posteriore della nave</span></li>
+          <li><span class="comp-en">Combat Information Center</span><span class="comp-it">Centro Operazioni di Combattimento (CIC): sala operativa tattica</span></li>
+          <li><span class="comp-en">Torpedo tubes</span><span class="comp-it">Tubi lanciasiluri: dispositivi per il lancio di siluri</span></li>
+          <li><span class="comp-en">Sonar dome</span><span class="comp-it">Cupola sonar: struttura sotto la chiglia che ospita il sonar attivo</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SOTTOMARINO -->
+    <div class="ship-card">
+      <div class="ship-header">
+        <span class="ship-emoji">🤿</span>
+        <div><h3>Submarine</h3><span>Sottomarino</span></div>
+      </div>
+      <div class="ship-body">
+        <ul class="comp-list">
+          <li><span class="comp-en">Conning tower / Sail</span><span class="comp-it">Torre di comando: struttura verticale sopra lo scafo usata per la navigazione in superficie</span></li>
+          <li><span class="comp-en">Ballast tanks</span><span class="comp-it">Casse di zavorra: serbatoi riempiti d'acqua o aria per controllare l'immersione</span></li>
+          <li><span class="comp-en">Periscope</span><span class="comp-it">Periscopio: dispositivo ottico per osservare la superficie restando immersi</span></li>
+          <li><span class="comp-en">Torpedo room</span><span class="comp-it">Sala siluri: vano a prua dove si trovano i tubi lanciasiluri</span></li>
+          <li><span class="comp-en">Reactor compartment</span><span class="comp-it">Vano reattore: compartimento con il reattore nucleare (nei sottomarini a propulsione nucleare)</span></li>
+          <li><span class="comp-en">Dive planes</span><span class="comp-it">Timoni di profondità: superfici mobili che controllano l'angolo d'immersione</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FREGATA -->
+    <div class="ship-card">
+      <div class="ship-header">
+        <span class="ship-emoji">⚓</span>
+        <div><h3>Frigate</h3><span>Fregata</span></div>
+      </div>
+      <div class="ship-body">
+        <ul class="comp-list">
+          <li><span class="comp-en">Bridge</span><span class="comp-it">Plancia di comando: la cabina di pilotaggio della nave, dove si trovano i comandi di navigazione</span></li>
+          <li><span class="comp-en">Mast</span><span class="comp-it">Albero: struttura verticale che porta antenne, radar e sensori</span></li>
+          <li><span class="comp-en">Funnel / Stack</span><span class="comp-it">Fumaiolo: tubo di scarico dei gas prodotti dai motori</span></li>
+          <li><span class="comp-en">Helipad</span><span class="comp-it">Piazzola per elicotteri: superficie poppiera destinata all'atterraggio degli elicotteri navali</span></li>
+          <li><span class="comp-en">VLS (Vertical Launch System)</span><span class="comp-it">Sistema di lancio verticale: installazione per il lancio di missili in posizione verticale</span></li>
+          <li><span class="comp-en">Keel</span><span class="comp-it">Chiglia: trave longitudinale centrale alla base dello scafo, la struttura portante principale</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CORVETTA -->
+    <div class="ship-card">
+      <div class="ship-header">
+        <span class="ship-emoji">🔱</span>
+        <div><h3>Corvette</h3><span>Corvetta</span></div>
+      </div>
+      <div class="ship-body">
+        <ul class="comp-list">
+          <li><span class="comp-en">Main gun</span><span class="comp-it">Cannone principale: il pezzo d'artiglieria navale montato a prua</span></li>
+          <li><span class="comp-en">Depth charges</span><span class="comp-it">Bombe di profondità: ordigni antisommergibile che esplodono ad una certa profondità</span></li>
+          <li><span class="comp-en">Anti-submarine warfare (ASW)</span><span class="comp-it">Guerra antisommergibile: missione specializzata nella rilevazione e neutralizzazione di sottomarini</span></li>
+          <li><span class="comp-en">Rudder</span><span class="comp-it">Timone: superficie idrodinamica che consente di cambiare la direzione della nave</span></li>
+          <li><span class="comp-en">Propeller / Screw</span><span class="comp-it">Elica: dispositivo rotante che genera la spinta per muovere la nave</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PATTUGLIATORE -->
+    <div class="ship-card">
+      <div class="ship-header">
+        <span class="ship-emoji">🔭</span>
+        <div><h3>Patrol Vessel</h3><span>Pattugliatore</span></div>
+      </div>
+      <div class="ship-body">
+        <ul class="comp-list">
+          <li><span class="comp-en">Waterline</span><span class="comp-it">Linea di galleggiamento: linea immaginaria che separa la parte emersa dallo scafo immerso</span></li>
+          <li><span class="comp-en">Draft / Draught</span><span class="comp-it">Pescaggio: profondità della parte immersa dello scafo</span></li>
+          <li><span class="comp-en">Freeboard</span><span class="comp-it">Bordo libero: altezza tra la linea di galleggiamento e il bordo del ponte</span></li>
+          <li><span class="comp-en">Bollard</span><span class="comp-it">Bitta: colonnina d'acciaio a cui si assicurano i cavi di ormeggio</span></li>
+          <li><span class="comp-en">Mooring lines</span><span class="comp-it">Cavi di ormeggio: cavi usati per legare la nave alla banchina o a una boa</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPONENTI COMUNI -->
+  <h2 class="section-title">Componenti Comuni a Tutte le Navi</h2>
+  <div class="divider"></div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🧭</div>
+      <h3>Navigation Systems</h3>
+      <p><strong style="color:var(--gold)">GPS (Global Positioning System)</strong> – Sistema di posizionamento globale.<br>
+      <strong style="color:var(--gold)">Compass</strong> – Bussola.<br>
+      <strong style="color:var(--gold)">ECDIS</strong> – Sistema di carte nautiche elettroniche.<br>
+      <strong style="color:var(--gold)">Radar</strong> – Rilevamento radio di ostacoli e navi.<br>
+      <strong style="color:var(--gold)">AIS</strong> – Sistema di identificazione automatica.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>Engine Room</h3>
+      <p><strong style="color:var(--gold)">Main engine</strong> – Motore principale.<br>
+      <strong style="color:var(--gold)">Boiler</strong> – Caldaia.<br>
+      <strong style="color:var(--gold)">Generator</strong> – Generatore elettrico.<br>
+      <strong style="color:var(--gold)">Bilge pump</strong> – Pompa sentina (scarica acqua dallo scafo).<br>
+      <strong style="color:var(--gold)">Fuel tank</strong> – Serbatoio carburante.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h3>Communications</h3>
+      <p><strong style="color:var(--gold)">VHF radio</strong> – Radio VHF per comunicazioni corto-medio raggio.<br>
+      <strong style="color:var(--gold)">Satellite phone</strong> – Telefono satellitare.<br>
+      <strong style="color:var(--gold)">Signal lamp</strong> – Lampada segnali (comunicazione ottica).<br>
+      <strong style="color:var(--gold)">IFF system</strong> – Identificazione amico-nemico.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛟</div>
+      <h3>Safety Equipment</h3>
+      <p><strong style="color:var(--gold)">Life jacket</strong> – Giubbotto di salvataggio.<br>
+      <strong style="color:var(--gold)">Life raft</strong> – Zattera di salvataggio.<br>
+      <strong style="color:var(--gold)">Fire extinguisher</strong> – Estintore.<br>
+      <strong style="color:var(--gold)">Emergency beacon (EPIRB)</strong> – Radiofaro di emergenza.<br>
+      <strong style="color:var(--gold)">Damage control</strong> – Controllo danni.</p>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:30px;">
+    <button class="btn-primary" onclick="showPage('quiz');selectNavalQuiz()">⚓ Metti alla prova le tue conoscenze navali →</button>
+  </div>
+</div>
+
+<!-- ============ QUIZ ============ -->
+<div id="quiz" class="page">
+  <h2 class="section-title">Quiz Interattivi</h2>
+  <p class="section-sub">Testa le tue conoscenze. Ogni quiz include punteggio e valutazione finale.</p>
+  <div class="divider"></div>
+
+  <div class="quiz-wrapper">
+
+    <!-- STEP 1: Nome -->
+    <div id="step-name" class="name-form">
+      <h3>👤 Come ti chiami?</h3>
+      <p>Inserisci il tuo nome per personalizzare il quiz e salvare il punteggio</p>
+      <input type="text" id="student-name-input" class="name-input" placeholder="Il tuo nome..." maxlength="40">
+      <br>
+      <button class="btn-primary" onclick="submitName()">Continua →</button>
+    </div>
+
+    <!-- STEP 2: Selezione quiz -->
+    <div id="step-select" style="display:none;">
+      <p style="color:var(--silver);margin-bottom:18px;">Ciao <strong id="display-name" style="color:var(--gold2)"></strong>! Scegli il quiz:</p>
+      <div class="quiz-selector">
+        <div class="quiz-btn-sel" onclick="selectQuiz(0)"><span class="qi">🌱</span>Inglese Base</div>
+        <div class="quiz-btn-sel" onclick="selectQuiz(1)"><span class="qi">📈</span>Intermedio</div>
+        <div class="quiz-btn-sel" onclick="selectQuiz(2)"><span class="qi">💼</span>Business</div>
+        <div class="quiz-btn-sel" id="naval-quiz-btn" onclick="selectQuiz(3)"><span class="qi">⚓</span>Marina Militare<br><small style="font-size:0.72rem;opacity:0.7;">100 domande · 10 casuali</small></div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Quiz -->
+    <div id="step-quiz" class="quiz-container" style="display:none;">
+      <div class="quiz-meta">
+        <span class="quiz-student" id="quiz-student-label">👤 Studente</span>
+        <span class="quiz-progress-text" id="quiz-progress">Domanda 1 di 6</span>
+        <span class="quiz-score-live" id="quiz-score-live">⭐ 0 / 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="question-num" id="q-num">DOMANDA 1</div>
+      <div class="question-text" id="q-text">Domanda...</div>
+      <div class="options-grid" id="q-options"></div>
+      <div id="q-feedback" class="feedback-msg" style="display:none;"></div>
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">Prossima →</button>
+    </div>
+
+    <!-- STEP 4: Risultati -->
+    <div id="step-results" style="display:none;">
+      <div class="quiz-container results-panel">
+        <div class="score-circle" id="score-circle">
+          <div class="score-circle-inner">
+            <span class="score-pct" id="score-pct">0%</span>
+            <span class="score-label">PUNTEGGIO</span>
+          </div>
+        </div>
+        <h3 id="result-title">Risultato</h3>
+        <p class="student-name" id="result-student"></p>
+        <div class="result-details">
+          <span class="result-pill pill-correct" id="r-correct">✓ 0 corrette</span>
+          <span class="result-pill pill-wrong" id="r-wrong">✗ 0 errate</span>
+          <span class="result-pill pill-total" id="r-total">📊 0 totali</span>
+        </div>
+        <div class="grade-badge" id="grade-badge">—</div>
+        <br>
+        <button class="btn-primary" onclick="retryQuiz()" style="margin-right:10px;">🔄 Riprova</button>
+        <button class="btn-secondary" onclick="changeQuiz()">📚 Altro quiz</button>
+      </div>
+      <div class="leaderboard" id="leaderboard">
+        <div class="lb-title">🏆 I tuoi ultimi risultati</div>
+        <div id="lb-entries"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ CHI SIAMO ============ -->
+<div id="chi-siamo" class="page">
+  <h2 class="section-title">Chi Siamo</h2>
+  <p class="section-sub">Il team dietro English Academy</p>
+  <div class="divider"></div>
+
+  <div class="hero" style="margin-bottom:36px;">
+    <h2 style="font-size:1.9rem;">La nostra missione</h2>
+    <p>English Academy nasce dall'idea che imparare l'inglese debba essere accessibile, efficace e contestualizzato. Non offriamo solo lezioni generiche: ogni corso è progettato per rispondere a esigenze reali, dal mondo del lavoro alla Marina Militare.</p>
+  </div>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="avatar">👩‍🏫</div>
+      <h4>Prof.ssa Laura Ferretti</h4>
+      <div class="role">DIRETTRICE DIDATTICA</div>
+      <p>20 anni di esperienza nell'insegnamento dell'inglese. Specializzata in didattica per adulti e contesti professionali. Certificata Cambridge DELTA.</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar">👨‍✈️</div>
+      <h4>Cap. Marco Olivieri</h4>
+      <div class="role">ESPERTO INGLESE NAVALE</div>
+      <p>Ex ufficiale della Marina Militare Italiana. 15 anni di navigazione. Responsabile del curriculum di inglese tecnico NATO e navale.</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar">👩‍💼</div>
+      <h4>Dott.ssa Sofia Ricci</h4>
+      <div class="role">COORDINATRICE CORSI</div>
+      <p>Linguista specializzata in inglese per scopi specifici (ESP). Coordina i percorsi business e i programmi di preparazione agli esami internazionali.</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar">🧑‍💻</div>
+      <h4>Ing. Davide Conti</h4>
+      <div class="role">RESPONSABILE PIATTAFORMA</div>
+      <p>Sviluppatore e specialista di e-learning. Garantisce un'esperienza digitale fluida e moderna per tutti gli studenti della piattaforma.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">I Nostri Valori</h2>
+  <div class="divider"></div>
+  <div class="cards-grid">
+    <div class="card"><div class="card-icon">🎯</div><h3>Efficacia</h3><p>Ogni lezione è progettata per massimizzare l'apprendimento in poco tempo, con metodi basati su ricerche scientifiche aggiornate.</p></div>
+    <div class="card"><div class="card-icon">🌍</div><h3>Contesto Reale</h3><p>Insegniamo l'inglese che si usa davvero: in ufficio, in navigazione, in aeroporto, nelle comunicazioni militari NATO.</p></div>
+    <div class="card"><div class="card-icon">🤝</div><h3>Comunità</h3><p>Creiamo un ambiente di apprendimento collaborativo, dove studenti e insegnanti crescono insieme.</p></div>
+  </div>
+</div>
+
+<!-- ============ CONTATTI ============ -->
+<div id="contatti" class="page">
+  <h2 class="section-title">Contatti</h2>
+  <p class="section-sub">Siamo qui per aiutarti. Scrivici o chiamaci.</p>
+  <div class="divider"></div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">📍</div>
+      <h4>Sede</h4>
+      <p>Via della Marina, 14<br>00100 Roma (RM)<br>Italia</p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">📞</div>
+      <h4>Telefono</h4>
+      <p><a href="tel:+390612345678">+39 06 1234 5678</a><br><span style="font-size:0.82rem;color:var(--silver);">Lun–Ven 9:00–18:00</span></p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <h4>Email</h4>
+      <p><a href="/cdn-cgi/l/email-protection#bfd6d1d9d0ffdad1d8d3d6ccd7dedcdedbdad2c691d6cb"><span class="__cf_email__" data-cfemail="563f383039163338313a3f253e37353732333b2f783f22">[email&#160;protected]</span></a><br><a href="/cdn-cgi/l/email-protection#e984889b808788a98c878e85809a81888a888d8c8490c7809d"><span class="__cf_email__" data-cfemail="a9c4c8dbc0c7c8e9ccc7cec5c0dac1c8cac8cdccc4d087c0dd">[email&#160;protected]</span></a></p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">💬</div>
+      <h4>Social</h4>
+      <p><a href="#">Instagram</a> &nbsp;·&nbsp; <a href="#">LinkedIn</a><br><a href="#">Facebook</a> &nbsp;·&nbsp; <a href="#">YouTube</a></p>
+    </div>
+  </div>
+
+  <div class="contact-form">
+    <h3>📩 Scrivici un messaggio</h3>
+    <div id="form-sent" class="form-sent">✅ Messaggio inviato! Ti risponderemo entro 24 ore.</div>
+    <div id="contact-form-fields">
+      <div class="form-row"><label>NOME E COGNOME</label><input type="text" placeholder="Mario Rossi"></div>
+      <div class="form-row"><label>EMAIL</label><input type="email" placeholder="mario@email.it"></div>
+      <div class="form-row">
+        <label>CORSO DI INTERESSE</label>
+        <select>
+          <option>-- Seleziona --</option>
+          <option>Inglese Base (A1–A2)</option>
+          <option>Inglese Intermedio (B1–B2)</option>
+          <option>Business English</option>
+          <option>Inglese Navale – Marina Militare</option>
+          <option>Preparazione IELTS / Cambridge</option>
+          <option>Altro</option>
+        </select>
+      </div>
+      <div class="form-row"><label>MESSAGGIO</label><textarea placeholder="Scrivi qui la tua richiesta..."></textarea></div>
+      <button class="btn-primary" onclick="submitForm()" style="width:100%;">Invia Messaggio ✉️</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ==================== NAVIGATION ====================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const navBtns = document.querySelectorAll('nav button');
+  const pageMap = {'home':0,'corsi':1,'marina':2,'quiz':3,'chi-siamo':4,'contatti':5};
+  if(pageMap[id] !== undefined) navBtns[pageMap[id]].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleAcc(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ==================== FORM ====================
+function submitForm() {
+  document.getElementById('contact-form-fields').style.display='none';
+  document.getElementById('form-sent').style.display='block';
+  showToast('✅ Messaggio inviato!');
+}
+
+// ==================== QUIZ DATA ====================
+const quizData = [
+  // 0: INGLESE BASE
+  {
+    title: "Inglese Base",
+    emoji: "🌱",
+    questions: [
+      { q: "Come si dice 'Buongiorno' in inglese?", opts: ["Hello","Good morning","Good evening","Goodbye"], ans: 1 },
+      { q: "Quale è il plurale di 'child'?", opts: ["Childs","Children","Childrens","Childre"], ans: 1 },
+      { q: "Completa: 'She ___ a teacher.'", opts: ["am","is","are","be"], ans: 1 },
+      { q: "Come si dice 'Gatto' in inglese?", opts: ["Dog","Bird","Cat","Fish"], ans: 2 },
+      { q: "Quale frase è corretta?", opts: ["I doesn't like coffee","I don't like coffee","I not like coffee","I no like coffee"], ans: 1 },
+      { q: "Come si dice 'Quanto costa?' in inglese?", opts: ["How much is it?","What is the price how?","How many cost?","Is it how much?"], ans: 0 },
+    ]
+  },
+  // 1: INTERMEDIO
+  {
+    title: "Inglese Intermedio",
+    emoji: "📈",
+    questions: [
+      { q: "Choose the correct form: 'By the time she arrived, we ___ the food.'", opts: ["already ate","had already eaten","already had eat","was eating"], ans: 1 },
+      { q: "Which sentence uses the passive voice correctly?", opts: ["The report wrote by him","The report was written by him","He written the report","Written the report by him"], ans: 1 },
+      { q: "'Despite the rain, they continued the match.' What does 'despite' mean?", opts: ["Because of","In spite of","Thanks to","Due to"], ans: 1 },
+      { q: "Choose the correct preposition: 'She is good ___ mathematics.'", opts: ["in","on","at","for"], ans: 2 },
+      { q: "What is the meaning of 'procrastinate'?", opts: ["To plan ahead","To delay doing something","To hurry up","To forget"], ans: 1 },
+      { q: "'I wish I ___ more time.' Complete correctly.", opts: ["have","had","would have","will have"], ans: 1 },
+    ]
+  },
+  // 2: BUSINESS
+  {
+    title: "Business English",
+    emoji: "💼",
+    questions: [
+      { q: "Which phrase is appropriate to open a formal email?", opts: ["Hey there!","Yo, what's up?","Dear Sir/Madam,","Hiya!"], ans: 2 },
+      { q: "What does 'KPI' stand for?", opts: ["Key Performance Indicator","Knowledge Process Integration","Key Project Initiative","Known Process Index"], ans: 0 },
+      { q: "'Let's circle back on this' means:", opts: ["Draw a circle","Return to this topic later","Cancel the meeting","Work in a circle"], ans: 1 },
+      { q: "Which is the correct way to decline a meeting?", opts: ["No, I can't.","I'm afraid I won't be able to attend.","Meeting is bad for me.","I don't want."], ans: 1 },
+      { q: "What does 'due diligence' mean in business?", opts: ["Being polite","Careful investigation before a deal","Paying bills on time","Following orders"], ans: 1 },
+      { q: "'Please find attached the document' is used when:", opts: ["You're presenting verbally","You include a file with an email","You ask for a document","You delete a file"], ans: 1 },
+    ]
+  },
+  // 3: MARINA MILITARE
+  {
+    title: "Marina Militare",
+    emoji: "⚓",
+    questions: [
+      // NAVI - STRUTTURA
+      { q: "Come si chiama in inglese la parte anteriore di una nave?", opts: ["Stern","Port","Bow","Starboard"], ans: 2 },
+      { q: "Come si chiama la parte posteriore di una nave?", opts: ["Bow","Stern","Port","Keel"], ans: 1 },
+      { q: "Cosa è il 'Hull' di una nave?", opts: ["L'albero","Lo scafo","Il timone","Il radar"], ans: 1 },
+      { q: "Il 'Keel' è:", opts: ["La chiglia","Il fumaiolo","Il ponte","Il radar"], ans: 0 },
+      { q: "Come si chiama il lato sinistro della nave (guardando a prua)?", opts: ["Starboard","Bow","Port","Stern"], ans: 2 },
+      { q: "Come si chiama il lato destro della nave (guardando a prua)?", opts: ["Port","Starboard","Beam","Aft"], ans: 1 },
+      { q: "Il 'Bridge' di una nave è:", opts: ["Il ponte di poppa","La plancia di comando","La sala macchine","Il hangar"], ans: 1 },
+      { q: "Cosa si intende per 'Draft' (o Draught)?", opts: ["La velocità della nave","Il pescaggio (profondità immersa)","Il carico massimo","L'autonomia"], ans: 1 },
+      { q: "Il 'Freeboard' è:", opts: ["La velocità massima","La distanza tra linea di galleggiamento e bordo del ponte","Il peso dello scafo","Il raggio d'azione"], ans: 1 },
+      { q: "Il 'Mast' di una nave è:", opts: ["Il timone","L'albero","Il fumaiolo","La prua"], ans: 1 },
+      // NAVI - TIPOLOGIE
+      { q: "Come si dice 'Portaerei' in inglese?", opts: ["Destroyer","Aircraft Carrier","Cruiser","Frigate"], ans: 1 },
+      { q: "Come si dice 'Sottomarino' in inglese?", opts: ["Destroyer","Submarine","Frigate","Corvette"], ans: 1 },
+      { q: "Come si dice 'Fregata' in inglese?", opts: ["Corvette","Destroyer","Frigate","Cruiser"], ans: 2 },
+      { q: "Come si dice 'Cacciatorpediniere' in inglese?", opts: ["Destroyer","Frigate","Cruiser","Patrol vessel"], ans: 0 },
+      { q: "Come si dice 'Corvetta' in inglese?", opts: ["Cruiser","Corvette","Destroyer","Minesweeper"], ans: 1 },
+      { q: "Come si dice 'Incrociatore' in inglese?", opts: ["Cruiser","Frigate","Destroyer","Carrier"], ans: 0 },
+      { q: "Come si dice 'Pattugliatore' in inglese?", opts: ["Minesweeper","Tanker","Patrol vessel","Landing ship"], ans: 2 },
+      { q: "Come si dice 'Nave da sbarco' in inglese?", opts: ["Landing ship","Supply ship","Patrol vessel","Survey ship"], ans: 0 },
+      { q: "Come si dice 'Dragamine' in inglese?", opts: ["Minelayer","Minesweeper","Submarine","Trawler"], ans: 1 },
+      { q: "Una 'LST' (Landing Ship Tank) è:", opts: ["Una nave per trasporto carri armati e truppe","Una nave atomica","Un tipo di sottomarino","Una nave ospedale"], ans: 0 },
+      // PROPULSIONE
+      { q: "Il 'Rudder' è:", opts: ["Il radar","Il timone","L'elica","Il sonar"], ans: 1 },
+      { q: "Il 'Propeller' (o Screw) è:", opts: ["Il timone","Il sonar","L'elica","Il motore"], ans: 2 },
+      { q: "La 'Engine room' è:", opts: ["La sala mensa","La sala macchine","La plancia","Il deposito munizioni"], ans: 1 },
+      { q: "Il 'Boiler' è:", opts: ["La caldaia","Il motore diesel","Il generatore","Il turbofan"], ans: 0 },
+      { q: "Cosa significa 'Knot' in ambito navale?", opts: ["Un nodo del cavo","L'unità di misura della velocità navale (1,852 km/h)","Un tipo di ancora","Un comando di manovra"], ans: 1 },
+      { q: "Il 'Bilge' è:", opts: ["Il pavimento della sala macchine","La sentina (parte più bassa dello scafo)","Il serbatoio del carburante","Il tubo di scarico"], ans: 1 },
+      { q: "Il 'Fuel tank' è:", opts: ["Il serbatoio del carburante","La cassa d'acqua","Il serbatoio del vapore","Il deposito lubrificanti"], ans: 0 },
+      { q: "Cosa è un 'Gas turbine' su una nave militare?", opts: ["Un motore a turbina a gas ad alta velocità","Un sistema di filtrazione aria","Un tipo di caldaia","Un motore elettrico"], ans: 0 },
+      { q: "La 'Shaft' che collega motore ed elica si chiama:", opts: ["Propeller shaft (asse portaelica)","Drive belt","Crankshaft","Turbine blade"], ans: 0 },
+      { q: "Il 'Stabilizer' su una nave serve per:", opts: ["Stabilizzare la velocità","Ridurre il rollio","Frenare la nave","Mantenere la rotta"], ans: 1 },
+      // ARMI
+      { q: "Cosa è il sistema 'VLS' (Vertical Launch System)?", opts: ["Sistema di navigazione verticale","Sistema di lancio verticale missili","Sensore sonar verticale","Sistema di comunicazione laser"], ans: 1 },
+      { q: "Il 'Torpedo' è:", opts: ["Un tipo di missile aria-aria","Un siluro (arma subacquea autopropulsa)","Una mina navale","Una bomba a profondità"], ans: 1 },
+      { q: "I 'Depth charges' sono:", opts: ["Bombe di profondità antisommergibile","Missili subacquei","Mine galleggianti","Razzi illuminanti"], ans: 0 },
+      { q: "Il 'CIWS' (Close-In Weapon System) serve per:", opts: ["Guerra sottomarina","Difesa ravvicinata contro missili e aerei","Attacco a lungo raggio","Comunicazioni sicure"], ans: 1 },
+      { q: "Il 'Harpoon' è:", opts: ["Un siluro","Un missile antinave","Una bomba di profondità","Un cannone navale"], ans: 1 },
+      { q: "Il 'Naval gun' è:", opts: ["Il cannone navale","Il fucile del marinaio","Il lanciamissili","Il siluro"], ans: 0 },
+      { q: "Una 'Mine' navale è:", opts: ["Un ordigno esplosivo subacqueo posizionato in attesa","Un siluro guidato","Una bomba lanciata da elicottero","Un missile da crociera"], ans: 0 },
+      { q: "Il 'SAM' (Surface-to-Air Missile) è:", opts: ["Un missile superficie-superficie","Un missile superficie-aria","Un missile aria-terra","Un siluro guidato"], ans: 1 },
+      { q: "Il missile 'Exocet' è un:", opts: ["Missile balistico","Missile antinave","Missile terra-aria","Siluro pesante"], ans: 1 },
+      { q: "Cosa è un 'Decoy' in tattica navale?", opts: ["Un'esca/diversivo per ingannare missili o radar nemici","Un tipo di sonar","Una mina intelligente","Un sistema di comunicazione"], ans: 0 },
+      // SENSORI E SISTEMI ELETTRONICI
+      { q: "Il 'Radar' navale serve principalmente per:", opts: ["Comunicare via radio","Rilevare oggetti e navi tramite onde radio","Navigare sotto l'acqua","Localizzare le mine"], ans: 1 },
+      { q: "Il 'Sonar' è usato per:", opts: ["Rilevare aerei","Rilevare oggetti sott'acqua tramite onde sonore","Comunicare con i satelliti","Misurare la velocità del vento"], ans: 1 },
+      { q: "Cosa è il 'Passive sonar'?", opts: ["Sonar che emette e riceve segnali","Sonar che ascolta solo senza emettere segnali","Sonar che usa raggi laser","Sonar montato su elicottero"], ans: 1 },
+      { q: "Il sistema 'AIS' (Automatic Identification System) serve per:", opts: ["Identificare automaticamente le navi in zona","Gestire le armi automaticamente","Controllare la propulsione","Navigare in automatico"], ans: 0 },
+      { q: "L''ECDIS' è:", opts: ["Un sistema di comunicazione","Un sistema di carte nautiche elettroniche","Un radar tridimensionale","Un sistema missilistico"], ans: 1 },
+      { q: "Il sistema 'IFF' (Identification Friend or Foe) serve per:", opts: ["Identificare amici e nemici radar","Comunicare con la flotta","Guidare i missili","Navigare in autonomia"], ans: 0 },
+      { q: "Il 'GPS' su una nave militare serve per:", opts: ["Guidare i missili solo","Il posizionamento globale della nave","Comunicare con il comando","Controllare le armi"], ans: 1 },
+      { q: "Cosa è il 'ESM' (Electronic Support Measures)?", opts: ["Sistema di misure di supporto elettronico per raccolta segnali nemici","Sistema di propulsione elettrica","Sensore sonar passivo","Missile elettromagnetico"], ans: 0 },
+      { q: "Il 'ECM' (Electronic Countermeasures) serve per:", opts: ["Attaccare elettronicamente il nemico","Disturbare/ingannare i sistemi elettronici nemici","Comunicare in modo sicuro","Navigare senza GPS"], ans: 1 },
+      { q: "Il 'Combat Information Center (CIC)' è:", opts: ["Il centro mensa della nave","La sala operativa tattica dove si coordina il combattimento","La sala macchine","Il deposito armi"], ans: 1 },
+      // COMUNICAZIONI
+      { q: "Il 'VHF radio' in ambito navale opera su:", opts: ["Frequenze molto alte (30-300 MHz) per comunicazioni a corto-medio raggio","Frequenze bassissime per comunicare coi sottomarini","Frequenze radio AM","Laser ottico"], ans: 0 },
+      { q: "La 'Signal lamp' è:", opts: ["Una luce di posizione","Una lampada per comunicare messaggi in codice Morse ottico","Un faro di atterraggio","Un segnale di emergenza laser"], ans: 1 },
+      { q: "Il 'SATCOM' è:", opts: ["Un sistema di comunicazione via satellite","Un tipo di sonar satellitare","Un radar per satelliti","Un sistema GPS avanzato"], ans: 0 },
+      { q: "Il codice usato per comunicare via radio con lettere dell'alfabeto si chiama:", opts: ["Codice Morse","Alfabeto fonetico NATO (Alpha, Bravo, Charlie...)","Codice binario navale","Semaforica navale"], ans: 1 },
+      { q: "Il 'Mayday' è:", opts: ["Un saluto navale","Il segnale di soccorso internazionale di massima emergenza","Un codice meteorologico","Un segnale di avvistamento nemico"], ans: 1 },
+      // SOTTOMARINI
+      { q: "Cosa significa 'Ballast tanks' su un sottomarino?", opts: ["Serbatoi carburante","Casse di zavorra per controllare l'immersione","Serbatoi d'acqua potabile","Casse munizioni"], ans: 1 },
+      { q: "Il 'Periscope' è:", opts: ["Un tipo di radar","Un dispositivo ottico per osservare la superficie restando immersi","Un sistema di comunicazione subacquea","Un sensore di profondità"], ans: 1 },
+      { q: "Il 'Conning tower' (o Sail) di un sottomarino è:", opts: ["La torre di comando sopra lo scafo","La prua del sottomarino","Il vano motori","Il vano siluri"], ans: 0 },
+      { q: "I 'Dive planes' di un sottomarino servono per:", opts: ["Controllare la velocità","Controllare l'angolo e la profondità d'immersione","Stabilizzare il rollio in superficie","Guidare i siluri"], ans: 1 },
+      { q: "Il 'Snorkel' (o Snort) su un sottomarino è:", opts: ["Un tubo che permette di caricare le batterie restando in immersione periscoscopica","Un sistema di respirazione per l'equipaggio","Un tipo di periscopio","Un'antenna radar retrattile"], ans: 0 },
+      { q: "Un sottomarino SSN è:", opts: ["A propulsione diesel-elettrica","A propulsione nucleare con armamento convenzionale","A propulsione nucleare con missili balistici","Un sommergibile costiero"], ans: 1 },
+      { q: "Un sottomarino SSBN è:", opts: ["A propulsione diesel con siluri","A propulsione nucleare con missili balistici (deterrenza strategica)","Un sottomarino d'attacco convenzionale","Un sommergibile di ricerca"], ans: 1 },
+      { q: "Il 'Torpedo room' di un sottomarino è:", opts: ["Il vano a prua dove si trovano i tubi lanciasiluri","La sala mensa","Il vano reattore","Il compartimento di comando"], ans: 0 },
+      // PORTAEREI E AVIAZIONE NAVALE
+      { q: "Il 'Flight deck' su una portaerei è:", opts: ["Il ponte motori","La plancia di comando","Il piano di volo","La sala equipaggio"], ans: 2 },
+      { q: "L''Island' su una portaerei è:", opts: ["Una postazione armi laterale","La superstruttura con plancia e controllo del traffico aereo","Il deposito munizioni","La sala macchine"], ans: 1 },
+      { q: "L''Arrestor wire' su una portaerei serve per:", opts: ["Lanciare gli aerei","Frenare gli aerei in atterraggio","Rifornire gli aerei in volo","Sollevare gli aerei"], ans: 1 },
+      { q: "La 'Catapult' su una portaerei serve per:", opts: ["Lanciare missili","Accelerare gli aerei per il decollo","Frenare gli aerei","Sollevare i veicoli"], ans: 1 },
+      { q: "L''Elevator' su una portaerei è:", opts: ["L'ascensore che porta gli aerei dall'hangar al piano di volo","Il sistema di catapulta","Il cavo di arresto","Il radar di controllo"], ans: 0 },
+      { q: "Il 'Hangar deck' su una portaerei è:", opts: ["Il ponte di volo","Il ponte sotterraneo dove si ricoverano gli aerei","La sala macchine","Il deposito carburante aerei"], ans: 1 },
+      { q: "Il 'STOBAR' (Short Take-Off But Arrested Recovery) usa:", opts: ["Catapulta e cavo di arresto","Rampa di salto-sci (ski-jump) per decollo e cavo per atterraggio","Solo catapulta elettromagnetica","Solo motori VTOL"], ans: 1 },
+      // SICUREZZA E SALVATAGGIO
+      { q: "Il 'Life jacket' è:", opts: ["Una tuta subacquea","Un giubbotto di salvataggio","Una scialuppa di salvataggio","Un casco balistico"], ans: 1 },
+      { q: "Il 'Life raft' è:", opts: ["Un cavo di salvataggio","Una zattera di salvataggio gonfiabile","Un elicottero di soccorso","Una barca di servizio"], ans: 1 },
+      { q: "L''EPIRB' (Emergency Position Indicating Radio Beacon) è:", opts: ["Un radiofaro di emergenza che segnala la posizione ai soccorritori","Un tipo di radar di emergenza","Un sistema di comunicazione crittografata","Un segnale luminoso di soccorso"], ans: 0 },
+      { q: "Il 'Damage control' è:", opts: ["Il controllo dei danni di combattimento e la loro riparazione d'emergenza","Il sistema di sorveglianza delle armi","La manutenzione ordinaria","Il controllo qualità del carburante"], ans: 0 },
+      { q: "Il 'Fire extinguisher' è:", opts: ["Il sistema antincendio ad acqua","L'estintore","Il rivelatore di fumo","La pompa antincendio"], ans: 1 },
+      { q: "Il 'Man overboard' (MOB) è:", opts: ["Una manovra di attacco","L'allarme e procedura per uomo caduto in mare","Un tipo di esercitazione di abbandono nave","Un segnale di nebbia"], ans: 1 },
+      { q: "Il 'Abandon ship' è:", opts: ["Il segnale di prepararsi al combattimento","L'ordine di abbandonare la nave in emergenza","Una manovra di attracco","Un esercizio antincendio"], ans: 1 },
+      // NAVIGAZIONE
+      { q: "Il 'Compass' è:", opts: ["Il GPS","La bussola","Il cronometro di bordo","Il sestante"], ans: 1 },
+      { q: "Il 'Sextant' (sestante) è uno strumento per:", opts: ["Misurare la velocità","Misurare la profondità","Determinare la posizione astronomica","Comunicare in codice"], ans: 2 },
+      { q: "La 'Nautical chart' è:", opts: ["Il registro di bordo","La carta nautica","Il manuale di navigazione","Il bollettino meteo"], ans: 1 },
+      { q: "Il 'Logbook' di bordo è:", opts: ["Il registro giornaliero delle attività e navigazione della nave","Il manuale del motore","La lista dell'equipaggio","Il piano di carico"], ans: 0 },
+      { q: "Il termine 'Bearing' in navigazione significa:", opts: ["La profondità dell'acqua","Il rilevamento (direzione angolare di un oggetto)","La velocità del vento","L'altezza delle onde"], ans: 1 },
+      { q: "Il 'Waypoint' è:", opts: ["Un punto di navigazione intermedio programmato nella rotta","Il punto di arrivo finale","Il porto di partenza","Una boa di segnalazione"], ans: 0 },
+      { q: "La 'Dead reckoning' è:", opts: ["La navigazione stimata basata su velocità, rotta e tempo senza riferimenti esterni","La navigazione satellitare","La navigazione astronomica","La navigazione radar"], ans: 0 },
+      // ORMEGGIO E OPERAZIONI PORTUALI
+      { q: "Il 'Bollard' (bitta) è:", opts: ["La colonnina d'acciaio per assicurare i cavi di ormeggio","Il cavo di ormeggio stesso","Il gancio della gru","Il punto di attracco"], ans: 0 },
+      { q: "I 'Mooring lines' sono:", opts: ["Le linee radar","I cavi di ormeggio usati per legare la nave alla banchina","Le linee di tiro dei cannoni","I cavi dell'ancora"], ans: 1 },
+      { q: "L''Anchor' è:", opts: ["Il verricello","L'ancora","La catena di ormeggio","Il paranco"], ans: 1 },
+      { q: "Il 'Gangway' è:", opts: ["Il passaggio/scaletta di imbarco che collega la nave alla banchina","Il corridoio interno della nave","Il ponte di prua","La passerella sopraelevata"], ans: 0 },
+      { q: "Il 'Winch' è:", opts: ["Il timone elettrico","Il verricello/argano per cavi e ancore","Il motore di prua","L'elica di manovra"], ans: 1 },
+      // EQUIPAGGIO E GRADI
+      { q: "Il 'Commanding Officer' (CO) di una nave è:", opts: ["Il primo ufficiale","Il comandante della nave","Il capo motorista","L'ufficiale di guardia"], ans: 1 },
+      { q: "Il 'Executive Officer' (XO) è:", opts: ["L'ufficiale responsabile delle armi","Il secondo in comando (primo ufficiale)","L'ufficiale di navigazione","Il capo della sicurezza"], ans: 1 },
+      { q: "Il 'Helmsman' è:", opts: ["Il timoniere","Il fuochista","Il cannoniere","Il segnalatore"], ans: 0 },
+      { q: "Il 'Lookout' a bordo è:", opts: ["Il cuoco di bordo","La vedetta (marinaio incaricato di osservare)","Il medico di bordo","Il telegrafista"], ans: 1 },
+      { q: "Il turno di guardia a bordo si chiama:", opts: ["Shift","Watch","Turn","Duty round"], ans: 1 },
+      // NATO E OPERAZIONI
+      { q: "Cosa significa 'UNREP' (Underway Replenishment)?", opts: ["Rifornimento in navigazione (carburante/viveri da nave a nave)","Una manovra di attacco subacqueo","Un tipo di esercitazione NATO","Un segnale di soccorso"], ans: 0 },
+      { q: "Il termine 'Flank speed' indica:", opts: ["La velocità di crociera","La velocità massima assoluta della nave","La velocità di manovra portuale","La velocità in immersione"], ans: 1 },
+      { q: "Il termine 'General quarters' (o 'Action stations') è:", opts: ["L'allarme generale che porta l'equipaggio ai posti di combattimento","Una chiamata alla mensa","Il segnale di fine turno","Il segnale di attracco"], ans: 0 },
+      { q: "Il 'Task Force' in ambito NATO è:", opts: ["Un gruppo di navi assegnate a uno specifico compito operativo","Un tipo di missile","Un sistema di difesa costiera","Un accordo diplomatico"], ans: 0 },
+      { q: "Il 'Flagship' è:", opts: ["La nave più veloce","La nave ammiraglia (da cui comanda l'ammiraglio)","La nave con più armamenti","La nave di supporto logistico"], ans: 1 },
+    ]
+  }
+];
+
+// ==================== QUIZ STATE ====================
+let state = {
+  studentName: '',
+  quizIndex: -1,
+  current: 0,
+  score: 0,
+  answered: false,
+  history: [],
+  activeQuestions: []
+};
+
+function submitName() {
+  const val = document.getElementById('student-name-input').value.trim();
+  if(!val) { showToast('⚠️ Inserisci il tuo nome!'); return; }
+  state.studentName = val;
+  document.getElementById('display-name').textContent = val;
+  document.getElementById('step-name').style.display = 'none';
+  document.getElementById('step-select').style.display = 'block';
+}
+
+function selectNavalQuiz() {
+  showPage('quiz');
+  setTimeout(()=>{
+    if(!state.studentName) return;
+    selectQuiz(3);
+  }, 100);
+}
+
+function selectQuiz(idx) {
+  state.quizIndex = idx;
+  state.current = 0;
+  state.score = 0;
+  state.answered = false;
+  const allQ = quizData[idx].questions;
+  if(idx === 3 && allQ.length > 10) {
+    const shuffled = [...allQ].sort(() => Math.random() - 0.5);
+    state.activeQuestions = shuffled.slice(0, 10);
+  } else {
+    state.activeQuestions = [...allQ];
+  }
+  document.getElementById('step-select').style.display = 'none';
+  document.getElementById('step-results').style.display = 'none';
+  document.getElementById('step-quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const quiz = quizData[state.quizIndex];
+  const q = state.activeQuestions[state.current];
+  const total = state.activeQuestions.length;
+  const pct = (state.current / total) * 100;
+
+  document.getElementById('quiz-student-label').textContent = '👤 ' + state.studentName;
+  document.getElementById('quiz-progress').textContent = `Domanda ${state.current+1} di ${total}`;
+  document.getElementById('quiz-score-live').textContent = `⭐ ${state.score} / ${state.current}`;
+  document.getElementById('q-num').textContent = `DOMANDA ${state.current+1} – ${quiz.title.toUpperCase()}`;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+  state.answered = false;
+
+  const letters = ['A','B','C','D'];
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt}`;
+    btn.onclick = () => answerQuestion(i, btn);
+    container.appendChild(btn);
+  });
+}
+
+function answerQuestion(chosen, btn) {
+  if(state.answered) return;
+  state.answered = true;
+  const q = state.activeQuestions[state.current];
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('q-feedback');
+  const total = state.activeQuestions.length;
+
+  if(chosen === q.ans) {
+    state.score++;
+    btn.classList.add('correct');
+    fb.className = 'feedback-msg correct';
+    fb.textContent = '✅ Risposta corretta! Ottimo lavoro!';
+  } else {
+    btn.classList.add('wrong');
+    allBtns[q.ans].classList.add('correct');
+    fb.className = 'feedback-msg wrong';
+    fb.textContent = `❌ Risposta errata. La risposta corretta era: "${q.opts[q.ans]}"`;
+  }
+
+  document.getElementById('quiz-score-live').textContent = `⭐ ${state.score} / ${state.current+1}`;
+  fb.style.display = 'block';
+  document.getElementById('next-btn').style.display = 'inline-block';
+  document.getElementById('next-btn').textContent = (state.current+1 >= total) ? '🏁 Vedi risultati' : 'Prossima →';
+}
+
+function nextQuestion() {
+  const total = state.activeQuestions.length;
+  if(state.current + 1 >= total) {
+    showResults();
+  } else {
+    state.current++;
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  const total = state.activeQuestions.length;
+  const pct = Math.round((state.score / total) * 100);
+  const wrong = total - state.score;
+
+  document.getElementById('step-quiz').style.display = 'none';
+  document.getElementById('step-results').style.display = 'block';
+
+  // Animate circle
+  const deg = (pct / 100) * 360;
+  document.getElementById('score-circle').style.background =
+    `conic-gradient(var(--gold) ${deg}deg, rgba(255,255,255,0.06) ${deg}deg)`;
+
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('result-student').textContent = '👤 ' + state.studentName + ' – ' + quizData[state.quizIndex].title;
+  document.getElementById('r-correct').textContent = `✓ ${state.score} corrette`;
+  document.getElementById('r-wrong').textContent = `✗ ${wrong} errate`;
+  document.getElementById('r-total').textContent = `📊 ${total} totali`;
+
+  let grade, color;
+  if(pct >= 90) { grade = '🏆 ECCELLENTE'; color = 'var(--gold2)'; }
+  else if(pct >= 75) { grade = '⭐ OTTIMO'; color = '#6ade8a'; }
+  else if(pct >= 60) { grade = '👍 BUONO'; color = '#4ac8f0'; }
+  else if(pct >= 40) { grade = '📚 SUFFICIENTE'; color = '#f0b34a'; }
+  else { grade = '💪 DA MIGLIORARE'; color = '#e07070'; }
+
+  const gradeBadge = document.getElementById('grade-badge');
+  gradeBadge.textContent = grade;
+  gradeBadge.style.background = `${color}22`;
+  gradeBadge.style.color = color;
+  gradeBadge.style.border = `1px solid ${color}55`;
+
+  let resultTitle;
+  if(pct >= 90) resultTitle = 'Risultato Eccellente!';
+  else if(pct >= 75) resultTitle = 'Ottimo Lavoro!';
+  else if(pct >= 60) resultTitle = 'Buon Risultato!';
+  else if(pct >= 40) resultTitle = 'Continua a Studiare!';
+  else resultTitle = 'Non Mollare!';
+  document.getElementById('result-title').textContent = resultTitle;
+
+  // Save to history
+  state.history.unshift({
+    name: state.studentName,
+    quiz: quizData[state.quizIndex].title,
+    score: state.score,
+    total: total,
+    pct: pct,
+    grade: grade,
+    date: new Date().toLocaleDateString('it-IT')
+  });
+
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById('lb-entries');
+  container.innerHTML = '';
+  const last5 = state.history.slice(0,5);
+  if(last5.length === 0) {
+    document.getElementById('leaderboard').style.display='none';
+    return;
+  }
+  document.getElementById('leaderboard').style.display='block';
+  last5.forEach((entry, i) => {
+    const div = document.createElement('div');
+    div.className = 'lb-entry';
+    div.innerHTML = `
+      <div class="lb-rank">${i+1}</div>
+      <div class="lb-name">${entry.name}</div>
+   
