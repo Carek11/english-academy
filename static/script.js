@@ -635,45 +635,38 @@ function collegaFormContatti() {
 
 function inviaContatto() {
   try {
-    const nome = document.getElementById("contact-name").value;
-    const email = document.getElementById("contact-email").value;
-    const messaggio = document.getElementById("contact-message").value;
+    const nome = document.getElementById("contact-name").value.trim();
+    const email = document.getElementById("contact-email").value.trim();
+    const messaggio = document.getElementById("contact-message").value.trim();
+    const corso = (document.getElementById("contact-corso")?.value || "").trim();
 
     if (!nome || !email || !messaggio) {
-      mostraNotifica("Per favore, compila tutti i campi.");
+      mostraNotifica("Per favore, compila i campi obbligatori.");
       return;
     }
 
     const btnInvia = document.getElementById("submit-form-btn");
+    const txtNormale = document.getElementById("submit-btn-text");
+    const txtLoading = document.getElementById("submit-btn-loading");
     btnInvia.disabled = true;
-    btnInvia.textContent = "Invio...";
+    if (txtNormale) txtNormale.style.display = "none";
+    if (txtLoading) txtLoading.style.display = "inline";
 
     fetch('/api/contact', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: nome, email, message: messaggio })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: nome, email, message: messaggio, corso })
     })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         document.getElementById("contact-form-fields").style.display = "none";
         document.getElementById("form-sent").classList.add("show");
-        
-        setTimeout(() => {
-          document.getElementById("contact-form-fields").style.display = "block";
-          document.getElementById("form-sent").classList.remove("show");
-          document.getElementById("contact-name").value = "";
-          document.getElementById("contact-email").value = "";
-          document.getElementById("contact-message").value = "";
-          btnInvia.disabled = false;
-          btnInvia.textContent = "Invia Messaggio ✉️";
-        }, 3000);
       } else {
         mostraNotifica("Errore: " + data.message);
         btnInvia.disabled = false;
-        btnInvia.textContent = "Invia Messaggio ✉️";
+        if (txtNormale) txtNormale.style.display = "inline";
+        if (txtLoading) txtLoading.style.display = "none";
       }
     })
     .catch(error => {

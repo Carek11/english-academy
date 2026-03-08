@@ -738,31 +738,102 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
 
     <section id="contatti" class="page">
       <h2 class="section-title">Contatti</h2>
-      <p class="section-sub">Invia un messaggio e ti risponderemo al più presto</p>
+      <p class="section-sub">Siamo qui per rispondere a ogni tua domanda</p>
       <div class="divider"></div>
 
-      <div class="contact-form">
-        <h3>📩 Scrivici un messaggio</h3>
-        <div id="form-sent" class="form-sent">✅ Messaggio inviato con successo!</div>
+      <div class="contact-layout">
 
-        <div id="contact-form-fields">
-          <div class="form-row">
-            <label for="contact-name">NOME E COGNOME</label>
-            <input id="contact-name" type="text" placeholder="Mario Rossi">
+        <!-- Colonna sinistra: info -->
+        <div class="contact-info-col">
+          <h3 class="contact-info-title">Vieni a trovarci</h3>
+          <p class="contact-info-sub">Parla con il nostro team e scopri il corso più adatto a te.</p>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📍</div>
+            <div>
+              <strong>Sede</strong>
+              <span>Via della Marina 12, Roma (RM)</span>
+            </div>
           </div>
 
-          <div class="form-row">
-            <label for="contact-email">EMAIL</label>
-            <input id="contact-email" type="email" placeholder="mario@email.it">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📞</div>
+            <div>
+              <strong>Telefono</strong>
+              <a href="tel:+390612345678">+39 06 1234 5678</a>
+            </div>
           </div>
 
-          <div class="form-row">
-            <label for="contact-message">MESSAGGIO</label>
-            <textarea id="contact-message" placeholder="Scrivi qui il tuo messaggio..."></textarea>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">✉️</div>
+            <div>
+              <strong>Email</strong>
+              <a href="mailto:info@englishacademy.it">info@englishacademy.it</a>
+            </div>
           </div>
 
-          <button class="btn-primary full-width" id="submit-form-btn">Invia Messaggio ✉️</button>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">🕐</div>
+            <div>
+              <strong>Orari</strong>
+              <span>Lun – Ven: 09:00 – 19:00</span>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">💬</div>
+            <div>
+              <strong>WhatsApp</strong>
+              <a href="https://wa.me/390612345678" target="_blank" rel="noopener">Scrivici su WhatsApp</a>
+            </div>
+          </div>
         </div>
+
+        <!-- Colonna destra: form -->
+        <div class="contact-form-col">
+          <h3 class="contact-form-title">📩 Scrivici un messaggio</h3>
+
+          <div id="form-sent" class="form-sent">
+            <span class="form-sent-icon">✅</span>
+            <strong>Messaggio inviato!</strong>
+            <p>Ti risponderemo entro 24 ore all'indirizzo email indicato.</p>
+          </div>
+
+          <div id="contact-form-fields">
+            <div class="form-row">
+              <label for="contact-name">Nome e Cognome <span class="req">*</span></label>
+              <input id="contact-name" type="text" placeholder="Mario Rossi" autocomplete="name">
+            </div>
+
+            <div class="form-row">
+              <label for="contact-email">Email <span class="req">*</span></label>
+              <input id="contact-email" type="email" placeholder="mario@email.it" autocomplete="email">
+            </div>
+
+            <div class="form-row">
+              <label for="contact-corso">Corso di interesse</label>
+              <select id="contact-corso">
+                <option value="">— Seleziona un corso —</option>
+                <option value="Inglese Generale">Inglese Generale</option>
+                <option value="Marina Militare">Marina Militare</option>
+                <option value="Business English">Business English</option>
+                <option value="IELTS / Certificazioni">IELTS / Certificazioni</option>
+                <option value="Altro">Altro</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="contact-message">Messaggio <span class="req">*</span></label>
+              <textarea id="contact-message" placeholder="Scrivi qui la tua domanda o richiesta..."></textarea>
+            </div>
+
+            <button class="btn-primary full-width" id="submit-form-btn">
+              <span id="submit-btn-text">Invia Messaggio ✉️</span>
+              <span id="submit-btn-loading" style="display:none">Invio in corso…</span>
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
   </main>
