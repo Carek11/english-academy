@@ -8,6 +8,11 @@ if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
 $csrfToken = $_SESSION['token'];
+
+// Impedisce la cache del browser — ogni visita carica HTML fresco
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -19,7 +24,7 @@ $csrfToken = $_SESSION['token'];
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/style.css?v=<?= filemtime(__DIR__.'/static/style.css') ?>">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -920,7 +925,7 @@ $csrfToken = $_SESSION['token'];
   <script>
     window.CSRF_TOKEN = "<?php echo htmlspecialchars($csrfToken, ENT_QUOTES); ?>";
   </script>
-  <script src="/static/script.js"></script>
+  <script src="/static/script.js?v=<?= filemtime(__DIR__.'/static/script.js') ?>"></script>
 
 </body>
 </html>
