@@ -184,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     collegaQuiz();
     collegaFormContatti();
     collegaModalNave();
+    inizializzaAuth();
   } catch (err) {
     console.error("Errore inizializzazione:", err);
   }
@@ -629,6 +630,162 @@ function mostraNotifica(messaggio) {
     setTimeout(() => toast.classList.remove("show"), 3000);
   } catch (err) {
     console.error("Errore mostraNotifica:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE: MODAL ACCEDI / ISCRIVITI
+   ======================================== */
+
+let _corsoAuth = "";
+
+function apriModalAuth(corso) {
+  try {
+    _corsoAuth = corso || "";
+    const label = document.getElementById("auth-corso-label");
+    if (label) {
+      label.textContent = corso
+        ? `Iscriviti per accedere al corso: ${corso}`
+        : "Crea il tuo account gratuito.";
+    }
+    impostaTabAuth("iscriviti");
+    document.getElementById("auth-modal").classList.add("aperto");
+    document.body.style.overflow = "hidden";
+  } catch (err) {
+    console.error("Errore apriModalAuth:", err);
+  }
+}
+
+function chiudiModalAuth() {
+  try {
+    document.getElementById("auth-modal").classList.remove("aperto");
+    document.body.style.overflow = "";
+    resetFormAuth();
+  } catch (err) {
+    console.error("Errore chiudiModalAuth:", err);
+  }
+}
+
+function impostaTabAuth(tab) {
+  document.querySelectorAll(".auth-tab").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === tab);
+  });
+  document.querySelectorAll(".auth-panel").forEach(p => p.classList.remove("active"));
+  const panel = document.getElementById("auth-panel-" + tab);
+  if (panel) panel.classList.add("active");
+}
+
+function resetFormAuth() {
+  ["login-email","login-password","reg-nome","reg-cognome","reg-email","reg-password"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+  ["auth-login-error","auth-reg-error"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = ""; el.classList.add("hidden"); }
+  });
+}
+
+function inizializzaAuth() {
+  try {
+    document.getElementById("auth-close").addEventListener("click", chiudiModalAuth);
+    document.getElementById("btn-auth-chiudi").addEventListener("click", chiudiModalAuth);
+
+    document.getElementById("auth-modal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) chiudiModalAuth();
+    });
+
+    document.querySelectorAll(".auth-tab").forEach(btn => {
+      btn.addEventListener("click", () => impostaTabAuth(btn.dataset.tab));
+    });
+
+    document.querySelectorAll("[data-tab-switch]").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        impostaTabAuth(link.dataset.tabSwitch);
+      });
+    });
+
+    document.querySelectorAll("[data-apri-auth]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".card");
+        const corso = card ? (card.querySelector("h3")?.textContent?.trim() || "") : "";
+        apriModalAuth(corso);
+      });
+    });
+
+    document.getElementById("btn-login").addEventListener("click", async () => {
+      const email    = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+      const errEl    = document.getElementById("auth-login-error");
+      const btn      = document.getElementById("btn-login");
+
+      if (!email || !password) {
+        errEl.textContent = "Inserisci email e password.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      btn.disabled = true; btn.textContent = "⏳ Accesso...";
+      try {
+        const res  = await fetch("/api/login", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ email, password }) });
+        const data = await res.json();
+        if (data.success) {
+          impostaTabAuth("success");
+          document.getElementById("auth-success-title").textContent = "Accesso effettuato!";
+          document.getElementById("auth-success-msg").textContent   = data.message;
+        } else {
+          errEl.textContent = data.message;
+          errEl.classList.remove("hidden");
+        }
+      } catch(e) {
+        errEl.textContent = "Errore di connessione. Riprova.";
+        errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false; btn.textContent = "Accedi →";
+      }
+    });
+
+    document.getElementById("btn-register").addEventListener("click", async () => {
+      const nome     = document.getElementById("reg-nome").value.trim();
+      const cognome  = document.getElementById("reg-cognome").value.trim();
+      const email    = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const errEl    = document.getElementById("auth-reg-error");
+      const btn      = document.getElementById("btn-register");
+
+      if (!nome || !cognome || !email || !password) {
+        errEl.textContent = "Compila tutti i campi.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      btn.disabled = true; btn.textContent = "⏳ Registrazione...";
+      try {
+        const res  = await fetch("/api/register", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ nome, cognome, email, password, corso: _corsoAuth }) });
+        const data = await res.json();
+        if (data.success) {
+          impostaTabAuth("success");
+          document.getElementById("auth-success-title").textContent = "Iscrizione completata!";
+          document.getElementById("auth-success-msg").textContent   = data.message + (_corsoAuth ? ` Hai scelto: ${_corsoAuth}.` : "");
+        } else {
+          errEl.textContent = data.message;
+          errEl.classList.remove("hidden");
+        }
+      } catch(e) {
+        errEl.textContent = "Errore di connessione. Riprova.";
+        errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false; btn.textContent = "Crea Account →";
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") chiudiModalAuth();
+    });
+
+  } catch (err) {
+    console.error("Errore inizializzaAuth:", err);
   }
 }
 

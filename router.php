@@ -21,6 +21,8 @@ $apiRoutes = [
     '/api/ai-tutor'   => __DIR__ . '/api/ai_tutor.php',
     '/api/contact'    => __DIR__ . '/api/contact.php',
     '/api/token'      => __DIR__ . '/api/token.php',
+    '/api/register'   => __DIR__ . '/api/register.php',
+    '/api/login'      => __DIR__ . '/api/login.php',
 ];
 
 foreach ($apiRoutes as $route => $file) {

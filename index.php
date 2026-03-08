@@ -135,42 +135,42 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
       </div>
 
@@ -181,21 +181,21 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
       </div>
 
@@ -231,42 +231,42 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
       </div>
 
@@ -278,21 +278,21 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="contatti">Iscriviti →</button>
+          <button class="btn" data-apri-auth>Iscriviti →</button>
         </div>
       </div>
 
@@ -610,6 +610,72 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         <img id="modal-image" src="" alt="Immagine della nave" style="display:block; margin:20px auto; max-width:100%; height:auto;">
         <h3 id="modal-subtitle"></h3>
         <p id="modal-description"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL ACCEDI / ISCRIVITI                                     -->
+  <!-- ============================================================ -->
+  <div id="auth-modal" class="auth-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="auth-box">
+      <button class="auth-close" id="auth-close" aria-label="Chiudi">&times;</button>
+
+      <div class="auth-logo">🎓 English Academy</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="accedi">Accedi</button>
+        <button class="auth-tab" data-tab="iscriviti">Iscriviti</button>
+      </div>
+
+      <!-- TAB ACCEDI -->
+      <div class="auth-panel active" id="auth-panel-accedi">
+        <p class="auth-subtitle">Bentornato! Inserisci le tue credenziali.</p>
+        <div id="auth-login-error" class="auth-error hidden"></div>
+        <div class="auth-field">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="mario@email.it" autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="La tua password" autocomplete="current-password">
+        </div>
+        <button class="btn-primary full-width" id="btn-login">Accedi →</button>
+        <p class="auth-switch">Non hai un account? <a href="#" data-tab-switch="iscriviti">Iscriviti gratis</a></p>
+      </div>
+
+      <!-- TAB ISCRIVITI -->
+      <div class="auth-panel" id="auth-panel-iscriviti">
+        <p class="auth-subtitle" id="auth-corso-label">Crea il tuo account gratuito.</p>
+        <div id="auth-reg-error" class="auth-error hidden"></div>
+        <div class="auth-row-2">
+          <div class="auth-field">
+            <label>Nome</label>
+            <input type="text" id="reg-nome" placeholder="Mario" autocomplete="given-name">
+          </div>
+          <div class="auth-field">
+            <label>Cognome</label>
+            <input type="text" id="reg-cognome" placeholder="Rossi" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="auth-field">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="mario@email.it" autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>Password <span class="auth-hint">(min. 6 caratteri)</span></label>
+          <input type="password" id="reg-password" placeholder="Crea una password" autocomplete="new-password">
+        </div>
+        <button class="btn-primary full-width" id="btn-register">Crea Account →</button>
+        <p class="auth-switch">Hai già un account? <a href="#" data-tab-switch="accedi">Accedi</a></p>
+      </div>
+
+      <!-- STATO SUCCESSO -->
+      <div class="auth-panel" id="auth-panel-success">
+        <div class="auth-success-icon">✅</div>
+        <h3 id="auth-success-title">Operazione completata!</h3>
+        <p id="auth-success-msg" class="auth-subtitle"></p>
+        <button class="btn-primary full-width" id="btn-auth-chiudi">Chiudi</button>
       </div>
     </div>
   </div>
