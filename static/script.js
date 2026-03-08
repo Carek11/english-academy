@@ -915,26 +915,72 @@ function inizializzaEserciziNavali() {
     });
 
     // — Flashcard —
-    const tutteLeCard = document.querySelectorAll(".flashcard");
-    const totaleCard = tutteLeCard.length;
+    const _fcPool = [
+      { en: "Starboard",      it: "Dritta",               desc: "Lato destro della nave (guardando la prua)" },
+      { en: "Port",           it: "Sinistra (Babordo)",   desc: "Lato sinistro della nave" },
+      { en: "Bow",            it: "Prua",                 desc: "Parte anteriore della nave" },
+      { en: "Stern",          it: "Poppa",                desc: "Parte posteriore della nave" },
+      { en: "Helm",           it: "Timone",               desc: "Dispositivo di sterzo della nave" },
+      { en: "Anchor",         it: "Ancora",               desc: "Dispositivo per ancorare la nave" },
+      { en: "Bilge",          it: "Sentina",              desc: "Parte più bassa dello scafo" },
+      { en: "Keel",           it: "Chiglia",              desc: "Struttura portante centrale dello scafo" },
+      { en: "Bridge",         it: "Plancia di comando",   desc: "Centro di controllo della nave" },
+      { en: "Mast",           it: "Albero",               desc: "Struttura verticale per sensori e segnali" },
+      { en: "Helipad",        it: "Piazzola elicotteri",  desc: "Piattaforma di atterraggio per elicotteri" },
+      { en: "Hull",           it: "Scafo",                desc: "Struttura esterna impermeabile della nave" },
+      { en: "Bulkhead",       it: "Paratia",              desc: "Divisorio interno per compartimenti stagni" },
+      { en: "Conning tower",  it: "Torre di comando",     desc: "Torretta di controllo del sottomarino" },
+      { en: "Propeller",      it: "Elica",                desc: "Dispositivo di propulsione rotante" },
+      { en: "Periscope",      it: "Periscopio",           desc: "Ottica per osservare in superficie" },
+      { en: "Deck",           it: "Ponte",                desc: "Piano orizzontale praticabile della nave" },
+      { en: "Radar",          it: "Radar",                desc: "Sistema di rilevamento via onde radio" },
+      { en: "Sonar",          it: "Sonar",                desc: "Rilevamento subacqueo via onde sonore" },
+      { en: "Torpedo",        it: "Siluro",               desc: "Arma subacquea autopropulsa" },
+      { en: "Hatch",          it: "Boccaporto",           desc: "Apertura con coperchio sul ponte" },
+      { en: "Gangway",        it: "Passerella",           desc: "Collegamento mobile a terra" },
+    ];
 
-    tutteLeCard.forEach(card => {
-      card.addEventListener("click", () => {
-        card.classList.toggle("flipped");
-        const girate = document.querySelectorAll(".flashcard.flipped").length;
-        if (girate === totaleCard) {
-          setTimeout(() => {
-            document.querySelectorAll(".flashcard").forEach(c => c.classList.remove("flipped"));
-          }, 900);
-        }
+    function _fcPesca6(escludi) {
+      const disponibili = _fcPool.filter(t => !escludi || !escludi.includes(t.en));
+      const base = disponibili.length >= 6 ? disponibili : _fcPool;
+      return base.sort(() => Math.random() - 0.5).slice(0, 6);
+    }
+
+    let _fcUltimiTermini = [];
+
+    function renderFlashcard() {
+      const grid = document.getElementById("flashcard-grid");
+      if (!grid) return;
+      const sel = _fcPesca6(_fcUltimiTermini);
+      _fcUltimiTermini = sel.map(t => t.en);
+      grid.innerHTML = sel.map(t => `
+        <div class="flashcard">
+          <div class="flashcard-face flashcard-front">
+            <span class="fc-term">${t.en}</span>
+            <span class="fc-hint">Clicca per tradurre</span>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <span class="fc-it">${t.it}</span>
+            <span class="fc-desc">${t.desc}</span>
+          </div>
+        </div>`).join("");
+
+      grid.querySelectorAll(".flashcard").forEach(card => {
+        card.addEventListener("click", () => {
+          card.classList.toggle("flipped");
+          const girate = grid.querySelectorAll(".flashcard.flipped").length;
+          if (girate === 6) {
+            setTimeout(renderFlashcard, 950);
+          }
+        });
       });
-    });
+    }
+
+    renderFlashcard();
 
     const fcReset = document.getElementById("fc-reset-btn");
     if (fcReset) {
-      fcReset.addEventListener("click", () => {
-        document.querySelectorAll(".flashcard").forEach(c => c.classList.remove("flipped"));
-      });
+      fcReset.addEventListener("click", renderFlashcard);
     }
 
     // — Fill in the Blank —

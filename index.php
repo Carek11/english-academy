@@ -396,40 +396,7 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
       <!-- FLASHCARD -->
       <div id="es-panel-flashcard" class="es-panel">
         <p class="flashcard-score">Clicca ogni card per girare e vedere la traduzione italiana</p>
-        <div class="flashcard-grid">
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Starboard</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Dritta</span><span class="fc-desc">Lato destro della nave (guardando la prua)</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Port</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Sinistra (Babordo)</span><span class="fc-desc">Lato sinistro della nave</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Bow</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Prua</span><span class="fc-desc">Parte anteriore della nave</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Stern</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Poppa</span><span class="fc-desc">Parte posteriore della nave</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Helm</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Timone</span><span class="fc-desc">Dispositivo di sterzo della nave</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Anchor</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Ancora</span><span class="fc-desc">Dispositivo per ancorare la nave</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Bilge</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Sentina</span><span class="fc-desc">Parte più bassa dello scafo</span></div>
-          </div>
-          <div class="flashcard">
-            <div class="flashcard-face flashcard-front"><span class="fc-term">Keel</span><span class="fc-hint">Clicca per tradurre</span></div>
-            <div class="flashcard-face flashcard-back"><span class="fc-it">Chiglia</span><span class="fc-desc">Struttura portante centrale dello scafo</span></div>
-          </div>
-        </div>
+        <div class="flashcard-grid" id="flashcard-grid"></div>
         <button class="fc-reset-btn" id="fc-reset-btn">↺ Reimposta tutte le card</button>
       </div>
 
