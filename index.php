@@ -278,6 +278,18 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         </div>
       </div>
 
+      <!-- Categoria: Marina Militare -->
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">⚓ Marina Militare</h3>
+      <div class="cards-grid">
+        <div class="card card-naval cat-card">
+          <div class="card-icon">⚓</div>
+          <h3>Inglese Navale – Marina Militare</h3>
+          <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
+          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span><br>
+          <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
+        </div>
+      </div>
+
       <h3 class="section-title faq-title">Domande Frequenti</h3>
       <div class="divider"></div>
 
