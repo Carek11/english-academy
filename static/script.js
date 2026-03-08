@@ -643,6 +643,20 @@ let _utenteLoggato = !!localStorage.getItem("ea_utente");
 function salvaUtenteLoggato(nome) {
   localStorage.setItem("ea_utente", nome);
   _utenteLoggato = true;
+  aggiornaNavAuthBtn();
+}
+
+function aggiornaNavAuthBtn() {
+  const btn  = document.getElementById("nav-auth-btn");
+  if (!btn) return;
+  const nome = localStorage.getItem("ea_utente");
+  if (nome) {
+    btn.textContent = "✅ " + nome;
+    btn.classList.add("loggato");
+  } else {
+    btn.textContent = "👤 Iscriviti / Accedi";
+    btn.classList.remove("loggato");
+  }
 }
 
 function apriModalAuth(corso) {
@@ -694,6 +708,19 @@ function resetFormAuth() {
 
 function inizializzaAuth() {
   try {
+    aggiornaNavAuthBtn();
+
+    document.getElementById("nav-auth-btn").addEventListener("click", () => {
+      if (_utenteLoggato) {
+        impostaTabAuth("accedi");
+        document.getElementById("auth-modal").classList.add("aperto");
+        document.body.style.overflow = "hidden";
+      } else {
+        apriModalAuth("");
+        impostaTabAuth("iscriviti");
+      }
+    });
+
     document.getElementById("auth-close").addEventListener("click", chiudiModalAuth);
     document.getElementById("btn-auth-chiudi").addEventListener("click", chiudiModalAuth);
 

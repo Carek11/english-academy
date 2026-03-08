@@ -87,6 +87,23 @@ nav button:hover {
   color: var(--secondary);
 }
 
+nav .nav-auth-btn {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  padding: 8px 18px;
+  margin-left: 8px;
+  font-size: .9em;
+  transition: background .2s, transform .1s;
+}
+nav .nav-auth-btn:hover {
+  background: var(--secondary);
+  color: #fff;
+}
+nav .nav-auth-btn.loggato {
+  background: #2e7d32;
+}
+
 main {
   max-width: 1200px;
   margin: 0 auto;
