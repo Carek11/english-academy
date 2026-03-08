@@ -92,64 +92,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
       100% { background-position: -200% 0; }
     }
 
-    /* ── AI Tutor Sidebar ── */
-    #ai-tutor-sidebar {
-      position: fixed;
-      top: 0; right: -420px;
-      width: 420px; height: 100vh;
-      background: #0f172a;
-      display: flex; flex-direction: column;
-      z-index: 9999;
-      transition: right .35s cubic-bezier(.4,0,.2,1);
-      box-shadow: -8px 0 32px rgba(0,0,0,.4);
-    }
-    #ai-tutor-sidebar.aperto { right: 0; }
-    #tutor-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.5);
-      z-index: 9998;
-    }
-    #tutor-overlay.visibile { display: block; }
-    .tutor-header {
-      padding: 16px 20px;
-      background: linear-gradient(135deg, #1e3a5f, #0f172a);
-      border-bottom: 1px solid #1e293b;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .tutor-chat {
-      flex: 1; overflow-y: auto; padding: 16px;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .tutor-msg { max-width: 88%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
-    .tutor-msg.user { background: #1d4ed8; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
-    .tutor-msg.ai   { background: #1e293b; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; }
-    .tutor-msg.ai.thinking { opacity: .6; font-style: italic; }
-    .tutor-esercizio {
-      margin: 12px 16px; padding: 12px 14px;
-      background: #1e293b; border-left: 3px solid #3b82f6;
-      border-radius: 8px; font-size: 12px; color: #94a3b8;
-    }
-    .tutor-input-area {
-      padding: 12px 16px;
-      border-top: 1px solid #1e293b;
-      display: flex; gap: 8px; align-items: flex-end;
-    }
-    #tutor-input {
-      flex: 1; background: #1e293b; color: #e2e8f0;
-      border: 1px solid #334155; border-radius: 10px;
-      padding: 10px 12px; font-size: 13px; resize: none;
-      font-family: inherit; max-height: 100px; outline: none;
-    }
-    #tutor-input:focus { border-color: #3b82f6; }
-    #tutor-send {
-      background: #1d4ed8; color: white; border: none;
-      border-radius: 10px; padding: 10px 14px; cursor: pointer;
-      font-size: 16px; transition: background .2s;
-    }
-    #tutor-send:hover { background: #1e40af; }
-    #tutor-send:disabled { opacity: .5; cursor: not-allowed; }
-
     /* ── Hub Inglese Card ── */
     .hub-card {
       background: white; border-radius: 16px;
@@ -830,9 +772,9 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
     <section id="hub-inglese" class="page">
 
       <div class="naval-hero">
-        <div class="naval-tag">🤖 AI-POWERED LEARNING HUB</div>
-        <h2>Hub Inglese con AI Tutor</h2>
-        <p>3000 esercizi su 8 percorsi di inglese. In ogni esercizio puoi chiedere spiegazioni al <strong style="color:var(--gold)">Tutor AI</strong> che ti guida senza darti subito la risposta.</p>
+        <div class="naval-tag">📚 LEARNING HUB</div>
+        <h2>Hub Inglese</h2>
+        <p>3000 esercizi su 8 percorsi di inglese. Scegli il corso, esplora gli argomenti e metti alla prova il tuo inglese.</p>
       </div>
 
       <!-- Selezione corso (vista principale) -->
@@ -922,41 +864,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   </main>
 
   <!-- ============================================================ -->
-  <!-- AI TUTOR SIDEBAR (globale, sempre presente nel DOM)          -->
-  <!-- ============================================================ -->
-  <div id="tutor-overlay"></div>
-
-  <aside id="ai-tutor-sidebar" role="complementary" aria-label="AI Tutor">
-
-    <div class="tutor-header">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-size:1.4rem;">🤖</span>
-        <div>
-          <div style="color:white;font-weight:700;font-size:.95rem;">Tutor AI</div>
-          <div style="color:#94a3b8;font-size:.7rem;">Ti spiega senza darti la risposta</div>
-        </div>
-      </div>
-      <button id="tutor-close" style="background:none;border:none;color:#94a3b8;font-size:1.4rem;cursor:pointer;line-height:1;" aria-label="Chiudi tutor">✕</button>
-    </div>
-
-    <!-- Esercizio corrente -->
-    <div id="tutor-esercizio-box" class="tutor-esercizio" style="display:none;"></div>
-
-    <!-- Chat -->
-    <div class="tutor-chat" id="tutor-chat">
-      <div class="tutor-msg ai">
-        👋 Ciao! Sono il tuo Tutor AI di inglese.<br>Clicca <strong>"Chiedi al Tutor"</strong> su un esercizio per iniziare.
-      </div>
-    </div>
-
-    <!-- Input area -->
-    <div class="tutor-input-area">
-      <textarea id="tutor-input" placeholder="Scrivi la tua domanda..." rows="1"></textarea>
-      <button id="tutor-send" aria-label="Invia">➤</button>
-    </div>
-
-  </aside>
-
   <div class="toast" id="toast"></div>
 
   <div id="ship-modal" class="modal">

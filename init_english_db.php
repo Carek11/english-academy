@@ -329,7 +329,7 @@ foreach ($corsi as [$corso, $esercizi, $livello, $target]) {
     while (count($pool) < $target) {
         foreach ($esercizi as $ex) {
             if (count($pool) >= $target) break;
-            $pool[] = [$ex[0], "[Variante {$variante}] " . $ex[1], $ex[2]];
+            $pool[] = [$ex[0], $ex[1], $ex[2]];
             $variante++;
         }
     }

@@ -954,18 +954,16 @@ console.log("English Academy - App caricata con successo");
 
 
 // ============================================================
-// SEZIONE 12: HUB INGLESE AI — ESERCIZI + AI TUTOR
+// SEZIONE 12: HUB INGLESE — ESERCIZI
 // ============================================================
 
 /* ── Stato Hub Inglese ── */
 const hubStato = {
-  corsoAttivo:   "",
-  pagina:        1,
-  perPagina:     20,
-  totale:        0,
-  ricerca:       "",
-  cronologiaTutor: [],
-  esercizioTutor: null,
+  corsoAttivo: "",
+  pagina:      1,
+  perPagina:   20,
+  totale:      0,
+  ricerca:     "",
 };
 
 /* ── Colori per corso ── */
@@ -1078,8 +1076,6 @@ function creaHubCard(ex, indice) {
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <button class="btn-secondary" style="font-size:12px;padding:6px 12px;"
         onclick="toggleSoluzione(${ex.id})">👁 Mostra soluzione</button>
-      <button class="btn-primary" style="font-size:12px;padding:6px 12px;background:${colore.text};"
-        onclick="apriTutor(${ex.id}, \`${esc(ex.testo)}\`)">🤖 Chiedi al Tutor</button>
     </div>
   `;
   return card;
@@ -1101,128 +1097,14 @@ window.toggleSoluzione = function(id) {
   box.classList.toggle("aperta");
 };
 
-/* ── AI TUTOR: apri sidebar ── */
-window.apriTutor = function(id, testo) {
-  hubStato.esercizioTutor = testo;
-  hubStato.cronologiaTutor = [];
-
-  const sidebar  = document.getElementById("ai-tutor-sidebar");
-  const overlay  = document.getElementById("tutor-overlay");
-  const eBox     = document.getElementById("tutor-esercizio-box");
-  const chatEl   = document.getElementById("tutor-chat");
-
-  eBox.innerHTML = `<strong style="color:#60a5fa;font-size:11px;">ESERCIZIO</strong><br><span style="color:#e2e8f0;">${esc(testo)}</span>`;
-  eBox.style.display = "block";
-
-  chatEl.innerHTML = `
-    <div class="tutor-msg ai">
-      Ciao! Sono pronto ad aiutarti con questo esercizio. 😊<br>
-      Cosa non ti è chiaro? Puoi chiedermi la regola grammaticale, il significato di una parola o come ragionare sulla struttura della frase.
-    </div>`;
-
-  sidebar.classList.add("aperto");
-  overlay.classList.add("visibile");
-  document.getElementById("tutor-input").focus();
-};
-
-/* ── Chiudi tutor ── */
-function chiudiTutor() {
-  document.getElementById("ai-tutor-sidebar").classList.remove("aperto");
-  document.getElementById("tutor-overlay").classList.remove("visibile");
-}
-
-/* ── Invia messaggio al tutor ── */
-async function inviaTutor() {
-  const input  = document.getElementById("tutor-input");
-  const chat   = document.getElementById("tutor-chat");
-  const btn    = document.getElementById("tutor-send");
-  const testo  = input.value.trim();
-  if (!testo) return;
-
-  input.value = "";
-  input.style.height = "auto";
-
-  // Messaggio utente
-  const msgU = document.createElement("div");
-  msgU.className = "tutor-msg user";
-  msgU.textContent = testo;
-  chat.appendChild(msgU);
-
-  // Messaggio "sto pensando..."
-  const msgAI = document.createElement("div");
-  msgAI.className = "tutor-msg ai thinking";
-  msgAI.textContent = "⏳ Il tutor sta pensando...";
-  chat.appendChild(msgAI);
-  chat.scrollTop = chat.scrollHeight;
-
-  btn.disabled = true;
-  input.disabled = true;
-
-  try {
-    const res  = await fetch("/api/ai-tutor", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        esercizio:  hubStato.esercizioTutor,
-        domanda:    testo,
-        cronologia: hubStato.cronologiaTutor,
-      }),
-    });
-    const data = await res.json();
-
-    if (data.risposta) {
-      msgAI.className = "tutor-msg ai";
-      msgAI.textContent = data.risposta;
-
-      // Aggiorna cronologia
-      hubStato.cronologiaTutor.push({ role: "user",      content: testo });
-      hubStato.cronologiaTutor.push({ role: "assistant", content: data.risposta });
-
-      // Tieni cronologia a max 12 messaggi
-      if (hubStato.cronologiaTutor.length > 12) {
-        hubStato.cronologiaTutor = hubStato.cronologiaTutor.slice(-12);
-      }
-    } else {
-      msgAI.className = "tutor-msg ai";
-      msgAI.textContent = "⚠️ " + (data.errore || "Errore sconosciuto.");
-    }
-  } catch (err) {
-    msgAI.className = "tutor-msg ai";
-    msgAI.textContent = "⚠️ Errore di connessione. Riprova.";
-    console.error("AI Tutor:", err);
-  } finally {
-    btn.disabled = false;
-    input.disabled = false;
-    chat.scrollTop = chat.scrollHeight;
-    input.focus();
-  }
-}
-
 /* ── Inizializza Hub Inglese (chiamata da initPage) ── */
 function inizializzaHubInglese() {
   try {
     const backBtn  = document.getElementById("hub-back-btn");
     const searchEl = document.getElementById("hub-search");
     const loadMore = document.getElementById("hub-load-more");
-    const overlay  = document.getElementById("tutor-overlay");
-    const closeBtn = document.getElementById("tutor-close");
-    const sendBtn  = document.getElementById("tutor-send");
-    const input    = document.getElementById("tutor-input");
 
-    if (backBtn)  backBtn.addEventListener("click", tornaCors);
-    if (overlay)  overlay.addEventListener("click", chiudiTutor);
-    if (closeBtn) closeBtn.addEventListener("click", chiudiTutor);
-    if (sendBtn)  sendBtn.addEventListener("click", inviaTutor);
-
-    if (input) {
-      input.addEventListener("keydown", e => {
-        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); inviaTutor(); }
-      });
-      input.addEventListener("input", function() {
-        this.style.height = "auto";
-        this.style.height = Math.min(this.scrollHeight, 100) + "px";
-      });
-    }
+    if (backBtn) backBtn.addEventListener("click", tornaCors);
 
     let debounceTimer;
     if (searchEl) {
