@@ -948,36 +948,22 @@ function inizializzaEserciziNavali() {
     }
 
     let _fcUltimiTermini = [];
-    let _fcSerie = "en"; // "en" = inglese→italiano, "it" = italiano→inglese
 
-    function renderFlashcard(nuoviTermini) {
+    function renderFlashcard() {
       const grid = document.getElementById("flashcard-grid");
-      const badge = document.getElementById("fc-serie-badge");
       if (!grid) return;
 
-      if (nuoviTermini) {
-        const sel = _fcPesca6(_fcUltimiTermini);
-        _fcUltimiTermini = sel.map(t => t.en);
-        _fcSerieTermini = sel;
-      }
+      const sel = _fcPesca6(_fcUltimiTermini);
+      _fcUltimiTermini = sel.map(t => t.en);
 
-      const termini = _fcSerieTermini;
-      const enToIt = _fcSerie === "en";
-
-      if (badge) {
-        badge.textContent = enToIt
-          ? "🇬🇧 Serie 1 — Inglese → Italiano"
-          : "🇮🇹 Serie 2 — Italiano → Inglese";
-      }
-
-      grid.innerHTML = termini.map(t => `
+      grid.innerHTML = sel.map(t => `
         <div class="flashcard">
           <div class="flashcard-face flashcard-front">
-            <span class="fc-term">${enToIt ? t.en : t.it}</span>
-            <span class="fc-hint">Clicca per tradurre</span>
+            <span class="fc-term">${t.en}</span>
+            <span class="fc-hint">Clicca per vedere in italiano</span>
           </div>
           <div class="flashcard-face flashcard-back">
-            <span class="fc-it">${enToIt ? t.it : t.en}</span>
+            <span class="fc-it">${t.it}</span>
             <span class="fc-desc">${t.desc}</span>
           </div>
         </div>`).join("");
@@ -987,30 +973,17 @@ function inizializzaEserciziNavali() {
           card.classList.toggle("flipped");
           const girate = grid.querySelectorAll(".flashcard.flipped").length;
           if (girate === 6) {
-            setTimeout(() => {
-              if (_fcSerie === "en") {
-                _fcSerie = "it";
-                renderFlashcard(false);
-              } else {
-                _fcSerie = "en";
-                renderFlashcard(true);
-              }
-            }, 950);
+            setTimeout(renderFlashcard, 950);
           }
         });
       });
     }
 
-    let _fcSerieTermini = _fcPesca6([]);
-    _fcUltimiTermini = _fcSerieTermini.map(t => t.en);
-    renderFlashcard(false);
+    renderFlashcard();
 
     const fcReset = document.getElementById("fc-reset-btn");
     if (fcReset) {
-      fcReset.addEventListener("click", () => {
-        _fcSerie = "en";
-        renderFlashcard(true);
-      });
+      fcReset.addEventListener("click", renderFlashcard);
     }
 
     // — Fill in the Blank —
