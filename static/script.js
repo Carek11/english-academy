@@ -236,6 +236,17 @@ function mostraPagina(idPagina) {
     const btnNav = document.querySelector(`[data-page="${idPagina}"]`);
     if (btnNav) btnNav.classList.add("active");
 
+    if (idPagina === "quiz") {
+      const nomeLocale = localStorage.getItem("ea_utente");
+      if (nomeLocale && !stato.nomeStudente) {
+        stato.nomeStudente = nomeLocale;
+        document.getElementById("display-name").textContent = nomeLocale;
+        document.getElementById("quiz-student-label").textContent = "👤 " + nomeLocale;
+        document.getElementById("step-name").classList.add("hidden");
+        document.getElementById("step-select").classList.remove("hidden");
+      }
+    }
+
   } catch (err) {
     console.error("Errore mostraPagina:", err);
   }
