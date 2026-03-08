@@ -281,6 +281,7 @@ $csrfToken = $_SESSION['token'];
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span>
           <p class="small-note">✓ Grammatica di base · ✓ Vocabolario quotidiano · ✓ Conversazione semplice</p>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Base (A1-A2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
@@ -288,30 +289,35 @@ $csrfToken = $_SESSION['token'];
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span>
           <p class="small-note">✓ Tempi verbali · ✓ Listening avanzato · ✓ Scrittura formale base</p>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Pre-Intermedio (A2-B1)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Intermedio (B1-B2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Avanzato (C1-C2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese per Viaggi">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Preparazione IELTS / Cambridge">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -323,18 +329,21 @@ $csrfToken = $_SESSION['token'];
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -381,7 +390,8 @@ $csrfToken = $_SESSION['token'];
           <h3>Inglese Navale – Marina Militare</h3>
           <p>Terminologia navale NATO, navi da guerra, sottomarini, fregate e comunicazioni.</p>
           <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span><br>
-          <button class="btn" data-page-target="marina">Vai alla sezione →</button>
+          <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
+          <button class="btn" style="margin-top:6px;" data-page-target="hub-inglese" data-hub-corso="Inglese Navale - Marina Militare">Vai agli esercizi →</button>
         </div>
       </div>
 

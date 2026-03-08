@@ -200,13 +200,18 @@ function collegaNavigazione() {
     // Collega pulsanti nav con attributi data-page e data-page-target
     document.querySelectorAll("[data-page], [data-page-target]").forEach(btn => {
       btn.addEventListener("click", () => {
-        const pagina = btn.dataset.page || btn.dataset.pageTarget;
-        const cat    = btn.dataset.cat || "";
+        const pagina    = btn.dataset.page || btn.dataset.pageTarget;
+        const cat       = btn.dataset.cat     || "";
+        const hubCorso  = btn.dataset.hubCorso || "";
         if (pagina) {
           mostraPagina(pagina);
-          // Se naviga agli esercizi con categoria preset
+          // Naviga agli esercizi programmazione con categoria preset
           if (pagina === "esercizi" && cat) {
             setTimeout(() => impostaFiltroCategoria(cat), 50);
+          }
+          // Naviga all'Hub Inglese con corso preset
+          if (pagina === "hub-inglese" && hubCorso) {
+            setTimeout(() => apriCorso(hubCorso), 80);
           }
         }
       });
@@ -242,7 +247,17 @@ function mostraPagina(idPagina) {
     const btnNav = document.querySelector(`[data-page="${idPagina}"]`);
     if (btnNav) btnNav.classList.add("active");
 
-    // Carica esercizi la prima volta che si entra nella sezione
+    // Quando si naviga all'Hub Inglese direttamente (senza corso preset),
+    // mostra la griglia corsi e nascondi la vista esercizi
+    if (idPagina === "hub-inglese") {
+      const corsiGrid    = document.getElementById("hub-corsi-grid");
+      const eserciziView = document.getElementById("hub-esercizi-view");
+      if (corsiGrid)    corsiGrid.style.display    = "block";
+      if (eserciziView) eserciziView.style.display = "none";
+      hubStato.corsoAttivo = "";
+    }
+
+    // Carica esercizi la prima volta che si entra nella sezione programmazione
     if (idPagina === "esercizi") {
       const grid = document.getElementById("ex-grid");
       if (grid && !grid.querySelector(".ex-card")) {
