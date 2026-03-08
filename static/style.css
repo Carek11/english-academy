@@ -385,50 +385,7 @@ main {
   font-size: 0.95em;
 }
 
-.ship-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: var(--primary);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 0.85em;
-  white-space: nowrap;
-  z-index: 10;
-  display: none;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.ship-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 8px;
-  border: 5px solid transparent;
-  border-top-color: var(--primary);
-}
-
-/* Overlay evidenziazione zona nave nel modal */
-.ship-highlight-overlay {
-  position: absolute;
-  pointer-events: none;
-  z-index: 999;
-  background: rgba(212, 175, 55, 0.25);
-  border: 3px solid var(--secondary);
-  border-radius: 6px;
-  animation: pulse 0.6s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { 
-    box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.7);
-  }
-  50% { 
-    box-shadow: 0 0 0 8px rgba(201, 169, 97, 0);
-  }
-}
+/* Tooltip e hover overlay rimossi */
 
 .ship-icon-btn {
   display: inline-block;
