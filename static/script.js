@@ -156,7 +156,7 @@ const datiNavi = {
     nome: "Aircraft Carrier",
     nomeIT: "Portaerei",
     descrizione: "Nave da guerra di grandi dimensioni con ponte di volo per lancio e atterraggio aerei.",
-    immagine: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop",
+    immagine: "/static/img_carrier.jpg",
     componentiZone: {
       "Flight deck": { zona: "top", descrizione: "Piano di volo continuo." },
       "Catapult": { zona: "top-center", descrizione: "Sistema di lancio aerei." },
