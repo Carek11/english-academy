@@ -241,7 +241,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span>
-          <p class="small-note">✓ Grammatica di base · ✓ Vocabolario quotidiano · ✓ Conversazione semplice</p>
           <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Base (A1-A2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
@@ -249,7 +248,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span>
-          <p class="small-note">✓ Tempi verbali · ✓ Listening avanzato · ✓ Scrittura formale base</p>
           <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Pre-Intermedio (A2-B1)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
@@ -340,7 +338,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span>
-          <p class="small-note">✓ Grammatica di base · ✓ Vocabolario quotidiano · ✓ Conversazione semplice</p>
           <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Base (A1-A2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
@@ -348,7 +345,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span>
-          <p class="small-note">✓ Tempi verbali · ✓ Listening avanzato · ✓ Scrittura formale base</p>
           <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Pre-Intermedio (A2-B1)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
