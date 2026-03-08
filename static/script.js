@@ -3,6 +3,20 @@
    Applicazione web per l'insegnamento dell'inglese
    ======================================== */
 
+/* ── Patch globale fetch: aggiunge X-CSRF-Token su tutte le chiamate /api/ ── */
+(function() {
+  const _fetch = window.fetch.bind(window);
+  window.fetch = function(url, options) {
+    if (typeof url === 'string' && url.startsWith('/api/')) {
+      options = options || {};
+      options.headers = Object.assign({}, options.headers || {}, {
+        'X-CSRF-Token': window.CSRF_TOKEN || '',
+      });
+    }
+    return _fetch(url, options);
+  };
+})();
+
 /* ========================================
    SEZIONE 1: DATI
    ======================================== */
@@ -941,14 +955,14 @@ const hubStato = {
 
 /* ── Colori per corso ── */
 const CORSO_COLORI = {
-  "Inglese Base":       { bg: "#dcfce7", text: "#16a34a", badge: "#bbf7d0" },
-  "Pre-Intermedio":     { bg: "#dbeafe", text: "#2563eb", badge: "#bfdbfe" },
-  "Intermedio":         { bg: "#ede9fe", text: "#7c3aed", badge: "#ddd6fe" },
-  "Avanzato":           { bg: "#fee2e2", text: "#dc2626", badge: "#fecaca" },
-  "Business English":   { bg: "#cffafe", text: "#0891b2", badge: "#a5f3fc" },
-  "Inglese per Viaggi": { bg: "#fef3c7", text: "#d97706", badge: "#fde68a" },
-  "IELTS / Cambridge":  { bg: "#fce7f3", text: "#be185d", badge: "#fbcfe8" },
-  "Inglese Navale":     { bg: "#dbeafe", text: "#1a3a52", badge: "#93c5fd" },
+  "Inglese Base (A1-A2)":              { bg: "#dcfce7", text: "#16a34a", badge: "#bbf7d0" },
+  "Inglese Pre-Intermedio (A2-B1)":    { bg: "#dbeafe", text: "#2563eb", badge: "#bfdbfe" },
+  "Inglese Intermedio (B1-B2)":        { bg: "#ede9fe", text: "#7c3aed", badge: "#ddd6fe" },
+  "Inglese Avanzato (C1-C2)":          { bg: "#fee2e2", text: "#dc2626", badge: "#fecaca" },
+  "Business English":                  { bg: "#cffafe", text: "#0891b2", badge: "#a5f3fc" },
+  "Inglese per Viaggi":                { bg: "#fef3c7", text: "#d97706", badge: "#fde68a" },
+  "Preparazione IELTS / Cambridge":    { bg: "#fce7f3", text: "#be185d", badge: "#fbcfe8" },
+  "Inglese Navale - Marina Militare":  { bg: "#dbeafe", text: "#1a3a52", badge: "#93c5fd" },
 };
 
 /* ── Apri corso (click su card) ── */
