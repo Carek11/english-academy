@@ -915,9 +915,21 @@ function inizializzaEserciziNavali() {
     });
 
     // — Flashcard —
-    document.querySelectorAll(".flashcard").forEach(card => {
-      card.addEventListener("click", () => card.classList.toggle("flipped"));
+    const tutteLeCard = document.querySelectorAll(".flashcard");
+    const totaleCard = tutteLeCard.length;
+
+    tutteLeCard.forEach(card => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("flipped");
+        const girate = document.querySelectorAll(".flashcard.flipped").length;
+        if (girate === totaleCard) {
+          setTimeout(() => {
+            document.querySelectorAll(".flashcard").forEach(c => c.classList.remove("flipped"));
+          }, 900);
+        }
+      });
     });
+
     const fcReset = document.getElementById("fc-reset-btn");
     if (fcReset) {
       fcReset.addEventListener("click", () => {
