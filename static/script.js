@@ -274,6 +274,17 @@ function collegaNavigazione() {
     });
 
     // Pulsante speciale per quiz marino
+    document.querySelectorAll(".avanzato-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".avanzato-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        const panel = tab.dataset.panel;
+        document.querySelectorAll(".avanzato-panel").forEach(p => p.classList.add("hidden"));
+        const target = document.getElementById("panel-" + panel);
+        if (target) target.classList.remove("hidden");
+      });
+    });
+
     document.querySelectorAll("[data-quiz-direct]").forEach(btn => {
       btn.addEventListener("click", () => {
         const idx = parseInt(btn.dataset.quizDirect, 10);

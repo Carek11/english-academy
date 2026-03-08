@@ -87,6 +87,46 @@ nav button:hover {
   color: var(--secondary);
 }
 
+.avanzato-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 1.5rem 0 1rem;
+}
+
+.avanzato-tab {
+  padding: 10px 22px;
+  border: 2px solid var(--border);
+  background: white;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: .95em;
+  color: var(--primary);
+  transition: all .25s;
+}
+
+.avanzato-tab:hover {
+  border-color: var(--secondary);
+  background: #f5f5f5;
+}
+
+.avanzato-tab.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.avanzato-panel { margin-top: 1rem; }
+.avanzato-panel.hidden { display: none; }
+
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 1rem;
+}
+
 nav .nav-auth-btn {
   background: var(--primary);
   color: #fff;

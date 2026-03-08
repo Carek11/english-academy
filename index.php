@@ -390,86 +390,179 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
       <p class="section-sub">Grammatica complessa, idiomi, stile accademico e padronanza della lingua</p>
       <div class="divider"></div>
 
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-6" style="color:var(--primary);">🔧 Strutture Grammaticali Avanzate</h3>
-      <div class="cards-grid">
-        <div class="card cat-card">
-          <div class="card-icon">🔄</div>
-          <h3>Inversione (Inversion)</h3>
-          <p><strong>Never had I</strong> seen such a sight.<br><strong>Not only did</strong> she win, but she also broke the record.<br><strong>Hardly had</strong> he arrived when it started raining.</p>
-          <span class="badge">C1–C2</span>
+      <div class="avanzato-selector">
+        <button class="avanzato-tab active" data-panel="grammatica">🔧 Grammatica</button>
+        <button class="avanzato-tab" data-panel="idiomi">💬 Idiomi</button>
+        <button class="avanzato-tab" data-panel="vocabolario">📚 Vocabolario</button>
+        <button class="avanzato-tab" data-panel="scrittura">✍️ Scrittura</button>
+      </div>
+
+      <div class="avanzato-panel" id="panel-grammatica">
+        <h3 class="panel-title">🔧 Strutture Grammaticali Avanzate</h3>
+        <div class="cards-grid">
+          <div class="card cat-card">
+            <div class="card-icon">🔄</div>
+            <h3>Inversione (Inversion)</h3>
+            <p><strong>Never had I</strong> seen such a sight.<br><strong>Not only did</strong> she win, but she also broke the record.<br><strong>Hardly had</strong> he arrived when it started raining.<br><strong>Little did</strong> they know what would happen.</p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">📐</div>
+            <h3>Congiuntivo (Subjunctive)</h3>
+            <p>The board insists that he <strong>submit</strong> the report.<br>It is vital that she <strong>be</strong> informed.<br>If I <strong>were</strong> you, I would reconsider.<br>They demanded that he <strong>leave</strong> immediately.</p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">✂️</div>
+            <h3>Cleft Sentences</h3>
+            <p><strong>It was</strong> John <strong>who</strong> called.<br><strong>What</strong> I need <strong>is</strong> more time.<br><strong>It is</strong> hard work <strong>that</strong> leads to success.<br><strong>What happened was</strong> unexpected.</p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">📦</div>
+            <h3>Nominalizzazione</h3>
+            <p>Trasformare verbi/aggettivi in sostantivi:<br><em>discover → <strong>discovery</strong></em><br><em>contribute → <strong>contribution</strong></em><br><em>effective → <strong>effectiveness</strong></em><br><em>analyse → <strong>analysis</strong></em></p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🗣️</div>
+            <h3>Discorso Indiretto Avanzato</h3>
+            <p>"I will finish it" → She said <strong>she would finish it</strong>.<br>"Have you met him?" → He asked <strong>if I had met him</strong>.<br>"Don't be late!" → She told me <strong>not to be late</strong>.<br>"I might leave" → He said he <strong>might leave</strong>.</p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">⚙️</div>
+            <h3>Passivo Avanzato</h3>
+            <p>The report <strong>is said to have been written</strong> by an expert.<br>He <strong>is believed to be</strong> the leader.<br>It <strong>is thought that</strong> the economy will recover.<br>She <strong>is reported to have left</strong> the country.</p>
+            <span class="badge">C1–C2</span>
+          </div>
         </div>
-        <div class="card cat-card">
-          <div class="card-icon">📐</div>
-          <h3>Congiuntivo (Subjunctive)</h3>
-          <p>The board insists that he <strong>submit</strong> the report.<br>It is vital that she <strong>be</strong> informed.<br>If I <strong>were</strong> you, I would reconsider.</p>
-          <span class="badge">C1–C2</span>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">✂️</div>
-          <h3>Cleft Sentences</h3>
-          <p><strong>It was</strong> John <strong>who</strong> called.<br><strong>What</strong> I need <strong>is</strong> more time.<br><strong>It is</strong> hard work <strong>that</strong> leads to success.</p>
-          <span class="badge">C1–C2</span>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">📦</div>
-          <h3>Nominalizzazione</h3>
-          <p>Trasformare verbi/aggettivi in sostantivi per lo stile accademico:<br><em>discover → <strong>discovery</strong></em><br><em>contribute → <strong>contribution</strong></em><br><em>effective → <strong>effectiveness</strong></em></p>
-          <span class="badge">C1–C2</span>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">🗣️</div>
-          <h3>Discorso Indiretto Avanzato</h3>
-          <p>"I will finish it" → She said <strong>she would finish it</strong>.<br>"Have you met him?" → He asked <strong>if I had met him</strong>.<br>"Don't be late!" → She told me <strong>not to be late</strong>.</p>
-          <span class="badge">C1–C2</span>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">⚙️</div>
-          <h3>Passivo Avanzato</h3>
-          <p>The report <strong>is said to have been written</strong> by an expert.<br>He <strong>is believed to be</strong> the leader.<br>It <strong>is thought that</strong> the economy will recover.</p>
-          <span class="badge">C1–C2</span>
+        <div class="center-block" style="margin-top:1.5rem;">
+          <button class="btn-primary" data-quiz-direct="3">📙 Quiz Grammatica Avanzata →</button>
         </div>
       </div>
 
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💬 Idiomi e Frasi Fisse</h3>
-      <div class="cards-grid">
-        <div class="card cat-card">
-          <div class="card-icon">🪄</div>
-          <h3>Idiomi Comuni C1</h3>
-          <p><strong>Bite the bullet</strong> — affrontare qualcosa di difficile.<br><strong>Burn bridges</strong> — rovinare una relazione per sempre.<br><strong>Cut corners</strong> — fare le cose in modo frettoloso e approssimativo.</p>
+      <div class="avanzato-panel hidden" id="panel-idiomi">
+        <h3 class="panel-title">💬 Idiomi, Collocazioni e Frasi Fisse</h3>
+        <div class="cards-grid">
+          <div class="card cat-card">
+            <div class="card-icon">🪄</div>
+            <h3>Idiomi C1 — Difficoltà</h3>
+            <p><strong>Bite the bullet</strong> — affrontare qualcosa di difficile.<br><strong>Burn bridges</strong> — rovinare una relazione per sempre.<br><strong>Cut corners</strong> — fare le cose in modo approssimativo.<br><strong>Bite off more than you can chew</strong> — assumersi troppo.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🌟</div>
+            <h3>Idiomi C1 — Successo</h3>
+            <p><strong>Hit the nail on the head</strong> — dire la cosa giusta.<br><strong>Go the extra mile</strong> — fare più del necessario.<br><strong>Pull strings</strong> — usare le proprie influenze.<br><strong>Rise to the occasion</strong> — essere all'altezza.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🎯</div>
+            <h3>Collocazioni Avanzate</h3>
+            <p><strong>Reach a consensus</strong> — trovare un accordo.<br><strong>Draw a conclusion</strong> — trarre una conclusione.<br><strong>Take precedence</strong> — avere la priorità.<br><strong>Strike a balance</strong> — trovare un equilibrio.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">💼</div>
+            <h3>Idiomi Formali C2</h3>
+            <p><strong>On the fence</strong> — indeciso, neutrale.<br><strong>Play devil's advocate</strong> — difendere una posizione opposta.<br><strong>Catch-22</strong> — situazione senza via d'uscita.<br><strong>The tip of the iceberg</strong> — solo la parte visibile di un problema.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🔑</div>
+            <h3>Connettori Accademici</h3>
+            <p><strong>Nevertheless</strong> — nonostante ciò.<br><strong>Furthermore</strong> — inoltre, per di più.<br><strong>Consequently</strong> — di conseguenza.<br><strong>Notwithstanding</strong> — nondimeno.<br><strong>Albeit</strong> — sebbene.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🔁</div>
+            <h3>Phrasal Verbs Avanzati</h3>
+            <p><strong>Account for</strong> — spiegare, giustificare.<br><strong>Bear out</strong> — confermare, dare ragione.<br><strong>Call into question</strong> — mettere in dubbio.<br><strong>Set out to</strong> — proporsi di fare qualcosa.</p>
+          </div>
         </div>
-        <div class="card cat-card">
-          <div class="card-icon">🎯</div>
-          <h3>Collocazioni Avanzate</h3>
-          <p><strong>Reach a consensus</strong> — trovare un accordo.<br><strong>Draw a conclusion</strong> — trarre una conclusione.<br><strong>Take precedence</strong> — avere la priorità.</p>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">🔑</div>
-          <h3>Connettori Accademici</h3>
-          <p><strong>Nevertheless</strong> — nonostante ciò.<br><strong>Furthermore</strong> — inoltre, per di più.<br><strong>Consequently</strong> — di conseguenza.<br><strong>Notwithstanding</strong> — nondimeno.</p>
+        <div class="center-block" style="margin-top:1.5rem;">
+          <button class="btn-primary" data-quiz-direct="3">📙 Quiz Idiomi e Frasi →</button>
         </div>
       </div>
 
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">📚 Vocabolario Accademico (AWL)</h3>
-      <div class="cards-grid">
-        <div class="card cat-card">
-          <div class="card-icon">🔬</div>
-          <h3>Analisi e Ricerca</h3>
-          <p><strong>Corroborate</strong> — confermare con prove.<br><strong>Substantiate</strong> — supportare con fatti.<br><strong>Extrapolate</strong> — estendere dati oltre i valori noti.<br><strong>Juxtapose</strong> — mettere a confronto.</p>
+      <div class="avanzato-panel hidden" id="panel-vocabolario">
+        <h3 class="panel-title">📚 Vocabolario Accademico (AWL)</h3>
+        <div class="cards-grid">
+          <div class="card cat-card">
+            <div class="card-icon">🔬</div>
+            <h3>Analisi e Ricerca</h3>
+            <p><strong>Corroborate</strong> — confermare con prove.<br><strong>Substantiate</strong> — supportare con fatti.<br><strong>Extrapolate</strong> — estendere dati oltre i valori noti.<br><strong>Juxtapose</strong> — mettere a confronto.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">⚖️</div>
+            <h3>Argomentazione</h3>
+            <p><strong>Equivocal</strong> — ambiguo, non chiaro.<br><strong>Fallacious</strong> — basato su un errore logico.<br><strong>Unequivocal</strong> — assolutamente chiaro.<br><strong>Postulate</strong> — ipotizzare come vero.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">📊</div>
+            <h3>Dati e Statistiche</h3>
+            <p><strong>Fluctuate</strong> — variare in modo irregolare.<br><strong>Correlate</strong> — essere in relazione.<br><strong>Plummet</strong> — calare drasticamente.<br><strong>Surge</strong> — aumentare bruscamente.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🏛️</div>
+            <h3>Registro Formale</h3>
+            <p><strong>Endeavour</strong> — sforzarsi, tentare (formale).<br><strong>Commenced</strong> — iniziato (formale per "started").<br><strong>Ascertain</strong> — accertare, stabilire con certezza.<br><strong>Hitherto</strong> — fino ad ora (molto formale).</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🌍</div>
+            <h3>Parole Chiave IELTS/C2</h3>
+            <p><strong>Ubiquitous</strong> — presente ovunque.<br><strong>Proliferate</strong> — diffondersi rapidamente.<br><strong>Mitigate</strong> — attenuare, ridurre.<br><strong>Exacerbate</strong> — aggravare, peggiorare.</p>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🎓</div>
+            <h3>Stile Accademico</h3>
+            <p><strong>Purport to</strong> — pretendere di, affermare di.<br><strong>Allude to</strong> — fare allusione a.<br><strong>Contend</strong> — sostenere (un'opinione).<br><strong>Concede</strong> — ammettere (un punto avversario).</p>
+          </div>
         </div>
-        <div class="card cat-card">
-          <div class="card-icon">⚖️</div>
-          <h3>Argomentazione</h3>
-          <p><strong>Equivocal</strong> — ambiguo, non chiaro.<br><strong>Fallacious</strong> — basato su un errore logico.<br><strong>Unequivocal</strong> — assolutamente chiaro.<br><strong>Postulate</strong> — ipotizzare come vero.</p>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">📊</div>
-          <h3>Dati e Statistiche</h3>
-          <p><strong>Fluctuate</strong> — variare in modo irregolare.<br><strong>Correlate</strong> — essere in relazione.<br><strong>Plummet</strong> — calare drasticamente.<br><strong>Surge</strong> — aumentare bruscamente.</p>
+        <div class="center-block" style="margin-top:1.5rem;">
+          <button class="btn-primary" data-quiz-direct="3">📙 Quiz Vocabolario C1–C2 →</button>
         </div>
       </div>
 
-      <div class="center-block" style="margin-top:2rem;">
-        <button class="btn-primary" data-quiz-direct="3">📙 Fai il Quiz Avanzato C1–C2 →</button>
+      <div class="avanzato-panel hidden" id="panel-scrittura">
+        <h3 class="panel-title">✍️ Scrittura Accademica e Formale</h3>
+        <div class="cards-grid">
+          <div class="card cat-card">
+            <div class="card-icon">📝</div>
+            <h3>Struttura del Saggio</h3>
+            <p><strong>Introduzione:</strong> hook + contesto + thesis statement.<br><strong>Corpo:</strong> topic sentence → argomenti → esempi → analisi.<br><strong>Conclusione:</strong> riformulazione tesi + implicazioni finali.</p>
+            <span class="badge">IELTS / C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🎯</div>
+            <h3>Thesis Statement</h3>
+            <p>La tesi deve essere chiara, discutibile e specifica.<br><em>Debole:</em> "Technology is important."<br><em>Forte:</em> "Widespread adoption of AI in education risks undermining critical thinking skills unless carefully regulated."</p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🔗</div>
+            <h3>Coesione e Coerenza</h3>
+            <p>Usa pronomi di riferimento, sinonimi e connettori per evitare ripetizioni.<br><strong>Riferimento:</strong> "The study… <em>it</em>… <em>this research</em>…"<br><strong>Sostituzione:</strong> "The results were significant. <em>These findings</em> suggest…"</p>
+            <span class="badge">C1–C2</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">⚠️</div>
+            <h3>Errori da Evitare</h3>
+            <p>❌ Contrazioni: <em>don't → <strong>do not</strong></em><br>❌ Vaghe: <em>things, stuff, a lot → <strong>factors, elements, considerably</strong></em><br>❌ Prima persona: <em>I think → <strong>It can be argued that</strong></em><br>❌ Ripetizioni eccessive dello stesso vocabolo.</p>
+            <span class="badge">Formale</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">📧</div>
+            <h3>Email Formale C1</h3>
+            <p><strong>Apertura:</strong> I am writing to enquire about…<br><strong>Richiesta:</strong> I would be grateful if you could…<br><strong>Chiusura:</strong> I look forward to hearing from you.<br><strong>Firma:</strong> Yours sincerely / Yours faithfully.</p>
+            <span class="badge">C1</span>
+          </div>
+          <div class="card cat-card">
+            <div class="card-icon">🏆</div>
+            <h3>Registro C2 — Sfumature</h3>
+            <p>Distingui tra <strong>nonetheless</strong> (più formale) e <strong>however</strong>.<br>Usa <strong>whilst</strong> invece di <strong>while</strong> in contesti scritti formali.<br><strong>Owing to</strong> è più formale di <strong>because of</strong>.<br><strong>In view of</strong> = considerando che.</p>
+            <span class="badge">C2</span>
+          </div>
+        </div>
+        <div class="center-block" style="margin-top:1.5rem;">
+          <button class="btn-primary" data-quiz-direct="5">🎓 Quiz IELTS / Cambridge →</button>
+        </div>
       </div>
     </section>
 
