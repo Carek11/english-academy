@@ -77,9 +77,9 @@ const datiNavi = {
     descrizione: "Nave da guerra di grandi dimensioni con ponte di volo per lancio e atterraggio aerei.",
     immagine: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop",
     componentiZone: {
-      "Flight deck": { zona: "top", descrizione: "Piano di volo continuo" },
-      "Island": { zona: "center-right", descrizione: "Superstruttura centrale" },
-      "Catapult": { zona: "top-center", descrizione: "Sistema lancio aerei" }
+      "Flight deck": { zona: "top", descrizione: "Piano di volo continuo." },
+      "Catapult": { zona: "top-center", descrizione: "Sistema di lancio aerei." },
+      "Island": { zona: "center-right", descrizione: "Superstruttura centrale." }
     }
   },
   destroyer: {
@@ -88,9 +88,9 @@ const datiNavi = {
     descrizione: "Nave veloce e manovrabile per escorta e combattimento tattico.",
     immagine: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop",
     componentiZone: {
-      "Hull": { zona: "center", descrizione: "Scafo principale" },
-      "Bow": { zona: "left", descrizione: "Prua anteriore" },
-      "Stern": { zona: "right", descrizione: "Poppa posteriore" }
+      "Hull": { zona: "center", descrizione: "Scafo principale." },
+      "Bow": { zona: "left", descrizione: "Prua anteriore." },
+      "Stern": { zona: "right", descrizione: "Poppa posteriore." }
     }
   },
   submarine: {
@@ -99,9 +99,9 @@ const datiNavi = {
     descrizione: "Nave militare sommersa con sensori avanzati e navigazione sottomarina.",
     immagine: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop",
     componentiZone: {
-      "Conning tower": { zona: "top-center", descrizione: "Torre di comando" },
-      "Periscope": { zona: "top-left", descrizione: "Dispositivo ottico elevabile" },
-      "Propeller": { zona: "bottom-right", descrizione: "Elica motrice" }
+      "Conning tower": { zona: "top-center", descrizione: "Torre di comando." },
+      "Periscope": { zona: "top-left", descrizione: "Dispositivo ottico elevabile." },
+      "Propeller": { zona: "bottom-right", descrizione: "Elica motrice." }
     }
   },
   frigate: {
@@ -110,9 +110,9 @@ const datiNavi = {
     descrizione: "Nave multiruolo di medie dimensioni per operazioni navali diversificate.",
     immagine: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop",
     componentiZone: {
-      "Bridge": { zona: "center-right", descrizione: "Plancia di comando" },
-      "Mast": { zona: "top-center", descrizione: "Albero con sensori" },
-      "Helipad": { zona: "bottom-right", descrizione: "Piazzola elicotteri" }
+      "Bridge": { zona: "center-right", descrizione: "Plancia di comando." },
+      "Mast": { zona: "top-center", descrizione: "Albero con sensori." },
+      "Helipad": { zona: "bottom-right", descrizione: "Piazzola elicotteri." }
     }
   },
   cruiser: {
@@ -121,9 +121,9 @@ const datiNavi = {
     descrizione: "Nave corazzata potentemente armata per battaglia e operazioni strategiche.",
     immagine: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop",
     componentiZone: {
-      "Main battery": { zona: "top-center", descrizione: "Batteria principale cannoni" },
-      "Gun turret": { zona: "center", descrizione: "Torretta girevole armata" },
-      "Armored belt": { zona: "middle", descrizione: "Corazza di protezione" }
+      "Main battery": { zona: "top-center", descrizione: "Batteria principale cannoni." },
+      "Gun turret": { zona: "center", descrizione: "Torretta girevole armata." },
+      "Armored belt": { zona: "middle", descrizione: "Corazza di protezione." }
     }
   },
   trainingship: {
@@ -132,9 +132,9 @@ const datiNavi = {
     descrizione: "Nave specializzata per formazione e addestramento di marinai e ufficiali.",
     immagine: "https://images.unsplash.com/photo-1544551763-92ab472cad5d?w=1200&h=800&fit=crop",
     componentiZone: {
-      "Classroom deck": { zona: "center", descrizione: "Ponte aula didattico" },
-      "Training rigging": { zona: "top", descrizione: "Attrezzatura velica" },
-      "Practice bridge": { zona: "right", descrizione: "Plancia didattica" }
+      "Classroom deck": { zona: "center", descrizione: "Ponte aula didattico." },
+      "Training rigging": { zona: "top", descrizione: "Attrezzatura velica." },
+      "Practice bridge": { zona: "right", descrizione: "Plancia didattica." }
     }
   }
 };
