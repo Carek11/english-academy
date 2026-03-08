@@ -984,13 +984,16 @@ function inizializzaEserciziNavali() {
           const girate = grid.querySelectorAll(".flashcard.flipped").length;
           if (girate === 6) {
             setTimeout(() => {
-              if (_fcDirezione === "en") {
-                _fcDirezione = "it";
-                renderFlashcard(false);
-              } else {
-                _fcDirezione = "en";
-                renderFlashcard(true);
-              }
+              grid.querySelectorAll(".flashcard").forEach(c => c.classList.remove("flipped"));
+              setTimeout(() => {
+                if (_fcDirezione === "en") {
+                  _fcDirezione = "it";
+                  renderFlashcard(false);
+                } else {
+                  _fcDirezione = "en";
+                  renderFlashcard(true);
+                }
+              }, 600);
             }, 5000);
           }
         });
