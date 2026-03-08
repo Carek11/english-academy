@@ -104,7 +104,7 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
     <button class="active" data-page="corsi">📚 Corsi</button>
     <button data-page="marina">⚓ Marina Militare</button>
     <button data-page="avanzato">📙 Avanzato</button>
-    <button data-page="quiz">🎯 Quiz</button>
+    <button data-page="quiz" data-quiz-direct="2">🎯 Quiz</button>
     <button data-page="contatti">✉️ Contatti</button>
     <button id="nav-auth-btn" class="nav-auth-btn" data-apri-auth-nav>👤 Iscriviti / Entra</button>
   </nav>
@@ -123,42 +123,42 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="0">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="1">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="2">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="3">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="4">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="5">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -170,21 +170,21 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="6">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="6">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
+          <button class="btn" data-quiz-direct="6">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -572,26 +572,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
       <div class="divider"></div>
 
       <div class="quiz-wrapper">
-        <div id="step-name" class="name-form">
-          <h3>👤 Come ti chiami?</h3>
-          <p>Inserisci il tuo nome per personalizzare il quiz e salvare il punteggio</p>
-          <input type="text" id="student-name-input" class="name-input" placeholder="Il tuo nome..." maxlength="40">
-          <button class="btn-primary" id="submit-name-btn">Continua →</button>
-        </div>
-
-        <div id="step-select" class="hidden">
-          <p class="quiz-greeting">Ciao <strong id="display-name"></strong>! Scegli il quiz:</p>
-          <div class="quiz-selector">
-            <button class="quiz-btn-sel" data-quiz="0"><span class="qi">🌱</span>Base (A1–A2)</button>
-            <button class="quiz-btn-sel" data-quiz="1"><span class="qi">📗</span>Pre-Intermedio (A2–B1)</button>
-            <button class="quiz-btn-sel" data-quiz="2"><span class="qi">📘</span>Intermedio (B1–B2)</button>
-            <button class="quiz-btn-sel" data-quiz="3"><span class="qi">📙</span>Avanzato (C1–C2)</button>
-            <button class="quiz-btn-sel" data-quiz="4"><span class="qi">✈️</span>Inglese per Viaggi</button>
-            <button class="quiz-btn-sel" data-quiz="5"><span class="qi">🎓</span>IELTS / Cambridge</button>
-            <button class="quiz-btn-sel" data-quiz="6"><span class="qi">💼</span>Business English</button>
-            <button class="quiz-btn-sel" data-quiz="7"><span class="qi">⚓</span>Marina Militare</button>
-          </div>
-        </div>
 
         <div id="step-quiz" class="quiz-container hidden">
           <div class="quiz-meta">

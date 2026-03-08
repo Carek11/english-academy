@@ -54,7 +54,10 @@ Nav: **Corsi · Marina Militare · Avanzato · Quiz · Contatti · Iscriviti/Ent
 - **8 categorie** con domande appropriate per argomento:
   - 0: Base A1-A2 | 1: Pre-Intermedio A2-B1 | 2: Intermedio B1-B2 | 3: Avanzato C1-C2
   - 4: Viaggi | 5: IELTS/Cambridge | 6: Business English | 7: Marina Militare
-- Utente loggato: salta step-name, va diretto a step-select
+- **Flusso diretto**: niente step-name né step-select — ogni card corso ha `data-quiz-direct="N"` e avvia il quiz corretto immediatamente
+- Nav "Quiz" usa `data-quiz-direct="2"` (Intermedio come default)
+- `avviaQuizDiretto(idx)`: usa nome da `localStorage ea_utente` o "Studente" e chiama `selezionaQuiz(idx)`
+- `cambiaQuiz()`: torna a Corsi invece di mostrare step-select
 - Punteggio real-time, leaderboard sessione
 
 ### Contatti (`#contatti`)

@@ -265,8 +265,9 @@ function collegaNavigazione() {
   try {
     // Collega pulsanti nav con attributi data-page e data-page-target
     document.querySelectorAll("[data-page], [data-page-target]").forEach(btn => {
+      if (btn.dataset.quizDirect !== undefined) return;
       btn.addEventListener("click", () => {
-        const pagina    = btn.dataset.page || btn.dataset.pageTarget;
+        const pagina = btn.dataset.page || btn.dataset.pageTarget;
         if (pagina) {
           mostraPagina(pagina);
         }
@@ -289,14 +290,7 @@ function collegaNavigazione() {
       btn.addEventListener("click", () => {
         const idx = parseInt(btn.dataset.quizDirect, 10);
         mostraPagina("quiz");
-        setTimeout(() => {
-          if (!stato.nomeStudente) {
-            document.getElementById("step-name").classList.remove("hidden");
-            document.getElementById("step-select").classList.add("hidden");
-          } else {
-            selezionaQuiz(idx);
-          }
-        }, 100);
+        setTimeout(() => avviaQuizDiretto(idx), 50);
       });
     });
 
@@ -304,14 +298,7 @@ function collegaNavigazione() {
     if (btnQuizNavale) {
       btnQuizNavale.addEventListener("click", () => {
         mostraPagina("quiz");
-        setTimeout(() => {
-          if (!stato.nomeStudente) {
-            document.getElementById("step-name").classList.remove("hidden");
-            document.getElementById("step-select").classList.add("hidden");
-          } else {
-            selezionaQuiz(7);
-          }
-        }, 100);
+        setTimeout(() => avviaQuizDiretto(7), 50);
       });
     }
   } catch (err) {
@@ -329,16 +316,6 @@ function mostraPagina(idPagina) {
     const btnNav = document.querySelector(`[data-page="${idPagina}"]`);
     if (btnNav) btnNav.classList.add("active");
 
-    if (idPagina === "quiz") {
-      const nomeLocale = localStorage.getItem("ea_utente");
-      if (nomeLocale && !stato.nomeStudente) {
-        stato.nomeStudente = nomeLocale;
-        document.getElementById("display-name").textContent = nomeLocale;
-        document.getElementById("quiz-student-label").textContent = "👤 " + nomeLocale;
-        document.getElementById("step-name").classList.add("hidden");
-        document.getElementById("step-select").classList.remove("hidden");
-      }
-    }
 
   } catch (err) {
     console.error("Errore mostraPagina:", err);
@@ -452,17 +429,6 @@ function toggleAccordion(header) {
 
 function collegaQuiz() {
   try {
-    const btnNome = document.getElementById("submit-name-btn");
-    const inputNome = document.getElementById("student-name-input");
-
-    if (btnNome) {
-      btnNome.addEventListener("click", () => inviaNome(inputNome.value));
-    }
-
-    document.querySelectorAll(".quiz-btn-sel").forEach((btn, idx) => {
-      btn.addEventListener("click", () => selezionaQuiz(idx));
-    });
-
     const btnProssimo = document.getElementById("next-btn");
     if (btnProssimo) {
       btnProssimo.addEventListener("click", prossimaDomanda);
@@ -482,19 +448,16 @@ function collegaQuiz() {
   }
 }
 
-function inviaNome(nome) {
+function avviaQuizDiretto(indice) {
   try {
-    if (!nome.trim()) {
-      mostraNotifica("Per favore, inserisci il tuo nome.");
-      return;
+    const nomeLocale = localStorage.getItem("ea_utente") || "Studente";
+    if (!stato.nomeStudente) {
+      stato.nomeStudente = nomeLocale;
     }
-    stato.nomeStudente = nome;
-    document.getElementById("display-name").textContent = nome;
-    document.getElementById("quiz-student-label").textContent = "👤 " + nome;
-    document.getElementById("step-name").classList.add("hidden");
-    document.getElementById("step-select").classList.remove("hidden");
+    document.getElementById("quiz-student-label").textContent = "👤 " + stato.nomeStudente;
+    selezionaQuiz(indice);
   } catch (err) {
-    console.error("Errore inviaNome:", err);
+    console.error("Errore avviaQuizDiretto:", err);
   }
 }
 
@@ -505,7 +468,6 @@ function selezionaQuiz(indice) {
     stato.punteggio = 0;
     stato.risposto = false;
     stato.domandeAttive = [...datiQuiz[indice].domande].sort(() => Math.random() - 0.5);
-    document.getElementById("step-select").classList.add("hidden");
     document.getElementById("step-quiz").classList.remove("hidden");
     caricaDomanda();
   } catch (err) {
@@ -645,7 +607,8 @@ function cambiaQuiz() {
     stato.risposto = false;
     stato.indiceQuiz = -1;
     document.getElementById("step-results").classList.add("hidden");
-    document.getElementById("step-select").classList.remove("hidden");
+    document.getElementById("step-quiz").classList.add("hidden");
+    mostraPagina("corsi");
   } catch (err) {
     console.error("Errore cambiaQuiz:", err);
   }
