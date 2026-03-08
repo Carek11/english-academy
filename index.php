@@ -103,7 +103,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   <nav>
     <button class="active" data-page="corsi">📚 Corsi</button>
     <button data-page="marina">⚓ Marina Militare</button>
-    <button data-page="avanzato">📙 Avanzato</button>
     <button data-page="quiz" data-quiz-direct="2">🎯 Quiz</button>
     <button data-page="contatti">✉️ Contatti</button>
     <button id="nav-auth-btn" class="nav-auth-btn" data-apri-auth-nav>👤 Iscriviti / Entra</button>
