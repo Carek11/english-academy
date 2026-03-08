@@ -948,22 +948,32 @@ function inizializzaEserciziNavali() {
     }
 
     let _fcUltimiTermini = [];
+    let _fcTerminiCorrente = [];
+    let _fcDirezione = "en"; // "en" = inglese→italiano, "it" = italiano→inglese
 
-    function renderFlashcard() {
+    function renderFlashcard(nuovi) {
       const grid = document.getElementById("flashcard-grid");
+      const badge = document.getElementById("fc-serie-badge");
       if (!grid) return;
 
-      const sel = _fcPesca6(_fcUltimiTermini);
-      _fcUltimiTermini = sel.map(t => t.en);
+      if (nuovi) {
+        _fcTerminiCorrente = _fcPesca6(_fcUltimiTermini);
+        _fcUltimiTermini = _fcTerminiCorrente.map(t => t.en);
+      }
 
-      grid.innerHTML = sel.map(t => `
+      const termini = _fcTerminiCorrente;
+      const enToIt = _fcDirezione === "en";
+
+      if (badge) badge.textContent = enToIt ? "Inglese - Italiano" : "Italiano - Inglese";
+
+      grid.innerHTML = termini.map(t => `
         <div class="flashcard">
           <div class="flashcard-face flashcard-front">
-            <span class="fc-term">${t.en}</span>
-            <span class="fc-hint">Clicca per vedere in italiano</span>
+            <span class="fc-term">${enToIt ? t.en : t.it}</span>
+            <span class="fc-hint">Clicca per tradurre</span>
           </div>
           <div class="flashcard-face flashcard-back">
-            <span class="fc-it">${t.it}</span>
+            <span class="fc-it">${enToIt ? t.it : t.en}</span>
             <span class="fc-desc">${t.desc}</span>
           </div>
         </div>`).join("");
@@ -973,17 +983,28 @@ function inizializzaEserciziNavali() {
           card.classList.toggle("flipped");
           const girate = grid.querySelectorAll(".flashcard.flipped").length;
           if (girate === 6) {
-            setTimeout(renderFlashcard, 5000);
+            setTimeout(() => {
+              if (_fcDirezione === "en") {
+                _fcDirezione = "it";
+                renderFlashcard(false);
+              } else {
+                _fcDirezione = "en";
+                renderFlashcard(true);
+              }
+            }, 5000);
           }
         });
       });
     }
 
-    renderFlashcard();
+    renderFlashcard(true);
 
     const fcReset = document.getElementById("fc-reset-btn");
     if (fcReset) {
-      fcReset.addEventListener("click", renderFlashcard);
+      fcReset.addEventListener("click", () => {
+        _fcDirezione = "en";
+        renderFlashcard(true);
+      });
     }
 
     // — Fill in the Blank —
