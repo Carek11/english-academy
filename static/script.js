@@ -252,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
     collegaFormContatti();
     collegaModalNave();
     inizializzaAuth();
+    inizializzaEserciziNavali();
   } catch (err) {
     console.error("Errore inizializzazione:", err);
   }
@@ -892,6 +893,226 @@ function inizializzaAuth() {
 
   } catch (err) {
     console.error("Errore inizializzaAuth:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE: ESERCIZI INTERATTIVI NAVALI
+   ======================================== */
+
+function inizializzaEserciziNavali() {
+  try {
+    // — Tab selector —
+    document.querySelectorAll(".es-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".es-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        const panel = tab.dataset.esPanel;
+        document.querySelectorAll(".es-panel").forEach(p => p.classList.add("hidden"));
+        const el = document.getElementById("es-panel-" + panel);
+        if (el) el.classList.remove("hidden");
+      });
+    });
+
+    // — Flashcard —
+    document.querySelectorAll(".flashcard").forEach(card => {
+      card.addEventListener("click", () => card.classList.toggle("flipped"));
+    });
+    const fcReset = document.getElementById("fc-reset-btn");
+    if (fcReset) {
+      fcReset.addEventListener("click", () => {
+        document.querySelectorAll(".flashcard").forEach(c => c.classList.remove("flipped"));
+      });
+    }
+
+    // — Fill in the Blank —
+    inizializzaFillBlank();
+
+    // — Matching —
+    inizializzaMatching();
+
+  } catch (err) {
+    console.error("Errore inizializzaEserciziNavali:", err);
+  }
+}
+
+function inizializzaFillBlank() {
+  let punteggio = 0;
+  let totale = 0;
+
+  function aggiornaScoreBlank() {
+    const lbl = document.getElementById("blank-score-label");
+    if (lbl) lbl.innerHTML = `Punteggio: <strong>${punteggio} / 6</strong>`;
+  }
+
+  document.querySelectorAll(".blank-question").forEach(q => {
+    const risposta = q.dataset.blankAnswer;
+    const slot = q.querySelector(".blank-slot");
+    const feedback = q.querySelector(".blank-feedback");
+
+    q.querySelectorAll(".blank-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (q.dataset.answered) return;
+        q.dataset.answered = "1";
+        totale++;
+
+        const scelta = btn.dataset.val;
+        q.querySelectorAll(".blank-opt").forEach(b => {
+          b.disabled = true;
+          if (b.dataset.val === risposta) b.classList.add("correct");
+        });
+
+        if (scelta === risposta) {
+          btn.classList.add("correct");
+          slot.textContent = risposta;
+          slot.style.borderColor = "#22c55e";
+          slot.style.color = "#16a34a";
+          feedback.textContent = "✅ Corretto!";
+          feedback.className = "blank-feedback ok";
+          punteggio++;
+        } else {
+          btn.classList.add("wrong");
+          slot.textContent = risposta;
+          slot.style.borderColor = "#22c55e";
+          slot.style.color = "#16a34a";
+          feedback.textContent = `❌ Sbagliato. La risposta è: ${risposta}`;
+          feedback.className = "blank-feedback err";
+        }
+        aggiornaScoreBlank();
+      });
+    });
+  });
+
+  const resetBtn = document.getElementById("blank-reset-btn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      punteggio = 0;
+      totale = 0;
+      document.querySelectorAll(".blank-question").forEach(q => {
+        delete q.dataset.answered;
+        const slot = q.querySelector(".blank-slot");
+        slot.textContent = "___";
+        slot.style.borderColor = "";
+        slot.style.color = "";
+        const feedback = q.querySelector(".blank-feedback");
+        feedback.textContent = "";
+        feedback.className = "blank-feedback";
+        q.querySelectorAll(".blank-opt").forEach(b => {
+          b.disabled = false;
+          b.classList.remove("correct", "wrong");
+        });
+      });
+      aggiornaScoreBlank();
+    });
+  }
+}
+
+function inizializzaMatching() {
+  const coppie = [
+    { en: "Flight deck",  it: "Piano di volo" },
+    { en: "Periscope",    it: "Periscopio" },
+    { en: "Hull",         it: "Scafo" },
+    { en: "Bridge",       it: "Plancia di comando" },
+    { en: "Helipad",      it: "Piazzola elicotteri" },
+    { en: "Stern",        it: "Poppa" },
+  ];
+
+  let selSx = null;
+  let selDx = null;
+  let matched = 0;
+
+  function renderMatching() {
+    const leftCol  = document.getElementById("match-left-col");
+    const rightCol = document.getElementById("match-right-col");
+    if (!leftCol || !rightCol) return;
+
+    const shuffledEn = [...coppie].sort(() => Math.random() - 0.5);
+    const shuffledIt = [...coppie].sort(() => Math.random() - 0.5);
+
+    leftCol.innerHTML  = '<h4>🇬🇧 Termine Inglese</h4>';
+    rightCol.innerHTML = '<h4>🇮🇹 Traduzione Italiana</h4>';
+
+    shuffledEn.forEach(p => {
+      const el = document.createElement("div");
+      el.className = "match-item";
+      el.dataset.en = p.en;
+      el.textContent = p.en;
+      leftCol.appendChild(el);
+    });
+
+    shuffledIt.forEach(p => {
+      const el = document.createElement("div");
+      el.className = "match-item";
+      el.dataset.it = p.it;
+      el.dataset.en = p.en;
+      el.textContent = p.it;
+      rightCol.appendChild(el);
+    });
+
+    aggiungListenerMatch();
+  }
+
+  function aggiornaMsgMatch() {
+    const lbl = document.getElementById("match-score-label");
+    if (!lbl) return;
+    if (matched === coppie.length) {
+      lbl.innerHTML = "🎉 Perfetto! Hai abbinato tutte le coppie!";
+    } else {
+      lbl.innerHTML = `Abbinati: <strong>${matched} / ${coppie.length}</strong> — Clicca un termine, poi la sua traduzione`;
+    }
+  }
+
+  function aggiungListenerMatch() {
+    selSx = null; selDx = null; matched = 0;
+    aggiornaMsgMatch();
+
+    document.querySelectorAll("#match-left-col .match-item").forEach(el => {
+      el.addEventListener("click", () => {
+        if (el.classList.contains("matched-ok")) return;
+        document.querySelectorAll("#match-left-col .match-item").forEach(x => x.classList.remove("selected"));
+        el.classList.add("selected");
+        selSx = el;
+        if (selDx) confrontaCoppia();
+      });
+    });
+
+    document.querySelectorAll("#match-right-col .match-item").forEach(el => {
+      el.addEventListener("click", () => {
+        if (el.classList.contains("matched-ok")) return;
+        document.querySelectorAll("#match-right-col .match-item").forEach(x => x.classList.remove("selected"));
+        el.classList.add("selected");
+        selDx = el;
+        if (selSx) confrontaCoppia();
+      });
+    });
+  }
+
+  function confrontaCoppia() {
+    if (!selSx || !selDx) return;
+    const ok = selSx.dataset.en === selDx.dataset.en;
+    if (ok) {
+      selSx.classList.replace("selected", "matched-ok");
+      selDx.classList.replace("selected", "matched-ok");
+      matched++;
+      selSx = null; selDx = null;
+      aggiornaMsgMatch();
+    } else {
+      selSx.classList.add("matched-err");
+      selDx.classList.add("matched-err");
+      const sx = selSx, dx = selDx;
+      selSx = null; selDx = null;
+      setTimeout(() => {
+        sx.classList.remove("selected", "matched-err");
+        dx.classList.remove("selected", "matched-err");
+      }, 600);
+    }
+  }
+
+  renderMatching();
+
+  const resetBtn = document.getElementById("match-reset-btn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", renderMatching);
   }
 }
 

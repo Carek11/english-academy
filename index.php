@@ -380,7 +380,147 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         </div>
       </div>
 
-      <div class="center-block">
+      <!-- ============================================================ -->
+      <!-- ESERCIZI INTERATTIVI NAVALI                                  -->
+      <!-- ============================================================ -->
+      <h2 class="section-title" style="margin-top:48px;">Esercizi Interattivi</h2>
+      <p class="section-sub">Metti alla prova il tuo vocabolario navale con tre tipi di esercizi</p>
+      <div class="divider"></div>
+
+      <div class="es-tab-selector">
+        <button class="es-tab active" data-es-panel="flashcard">🃏 Flashcard</button>
+        <button class="es-tab" data-es-panel="fillblank">✍️ Completa la Frase</button>
+        <button class="es-tab" data-es-panel="matching">🔗 Abbinamento</button>
+      </div>
+
+      <!-- FLASHCARD -->
+      <div id="es-panel-flashcard" class="es-panel">
+        <p class="flashcard-score">Clicca ogni card per girare e vedere la traduzione italiana</p>
+        <div class="flashcard-grid">
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Starboard</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Dritta</span><span class="fc-desc">Lato destro della nave (guardando la prua)</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Port</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Sinistra (Babordo)</span><span class="fc-desc">Lato sinistro della nave</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Bow</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Prua</span><span class="fc-desc">Parte anteriore della nave</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Stern</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Poppa</span><span class="fc-desc">Parte posteriore della nave</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Helm</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Timone</span><span class="fc-desc">Dispositivo di sterzo della nave</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Anchor</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Ancora</span><span class="fc-desc">Dispositivo per ancorare la nave</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Bilge</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Sentina</span><span class="fc-desc">Parte più bassa dello scafo</span></div>
+          </div>
+          <div class="flashcard">
+            <div class="flashcard-face flashcard-front"><span class="fc-term">Keel</span><span class="fc-hint">Clicca per tradurre</span></div>
+            <div class="flashcard-face flashcard-back"><span class="fc-it">Chiglia</span><span class="fc-desc">Struttura portante centrale dello scafo</span></div>
+          </div>
+        </div>
+        <button class="fc-reset-btn" id="fc-reset-btn">↺ Reimposta tutte le card</button>
+      </div>
+
+      <!-- FILL IN THE BLANK -->
+      <div id="es-panel-fillblank" class="es-panel hidden">
+        <p class="blank-score" id="blank-score-label">Punteggio: <strong>0 / 6</strong></p>
+
+        <div class="blank-question" data-blank-answer="HELM">
+          <div class="blank-sentence">The <span class="blank-slot">___</span> is used to steer the ship.</div>
+          <div class="blank-options">
+            <button class="blank-opt" data-val="RADAR">RADAR</button>
+            <button class="blank-opt" data-val="HELM">HELM</button>
+            <button class="blank-opt" data-val="ANCHOR">ANCHOR</button>
+            <button class="blank-opt" data-val="MAST">MAST</button>
+          </div>
+          <div class="blank-feedback"></div>
+        </div>
+
+        <div class="blank-question" data-blank-answer="VHF">
+          <div class="blank-sentence">A <span class="blank-slot">___</span> radio is used for short-range communications at sea.</div>
+          <div class="blank-options">
+            <button class="blank-opt" data-val="GPS">GPS</button>
+            <button class="blank-opt" data-val="AIS">AIS</button>
+            <button class="blank-opt" data-val="VHF">VHF</button>
+            <button class="blank-opt" data-val="ECDIS">ECDIS</button>
+          </div>
+          <div class="blank-feedback"></div>
+        </div>
+
+        <div class="blank-question" data-blank-answer="FLIGHT">
+          <div class="blank-sentence">The <span class="blank-slot">___</span> deck is where aircraft take off on an aircraft carrier.</div>
+          <div class="blank-options">
+            <button class="blank-opt" data-val="UPPER">UPPER</button>
+            <button class="blank-opt" data-val="MAIN">MAIN</button>
+            <button class="blank-opt" data-val="BRIDGE">BRIDGE</button>
+            <button class="blank-opt" data-val="FLIGHT">FLIGHT</button>
+          </div>
+          <div class="blank-feedback"></div>
+        </div>
+
+        <div class="blank-question" data-blank-answer="ANCHOR">
+          <div class="blank-sentence">The ship drops its <span class="blank-slot">___</span> to stay in position.</div>
+          <div class="blank-options">
+            <button class="blank-opt" data-val="ANCHOR">ANCHOR</button>
+            <button class="blank-opt" data-val="KEEL">KEEL</button>
+            <button class="blank-opt" data-val="PROPELLER">PROPELLER</button>
+            <button class="blank-opt" data-val="MAST">MAST</button>
+          </div>
+          <div class="blank-feedback"></div>
+        </div>
+
+        <div class="blank-question" data-blank-answer="CONNING">
+          <div class="blank-sentence">The <span class="blank-slot">___</span> tower on a submarine allows observation of the surface.</div>
+          <div class="blank-options">
+            <button class="blank-opt" data-val="MAIN">MAIN</button>
+            <button class="blank-opt" data-val="RADAR">RADAR</button>
+            <button class="blank-opt" data-val="CONNING">CONNING</button>
+            <button class="blank-opt" data-val="CONTROL">CONTROL</button>
+          </div>
+          <div class="blank-feedback"></div>
+        </div>
+
+        <div class="blank-question" data-blank-answer="JACKET">
+          <div class="blank-sentence">A life <span class="blank-slot">___</span> is mandatory safety equipment on all vessels.</div>
+          <div class="blank-options">
+            <button class="blank-opt" data-val="RING">RING</button>
+            <button class="blank-opt" data-val="ROPE">ROPE</button>
+            <button class="blank-opt" data-val="RAFT">RAFT</button>
+            <button class="blank-opt" data-val="JACKET">JACKET</button>
+          </div>
+          <div class="blank-feedback"></div>
+        </div>
+
+        <button class="blank-reset-btn" id="blank-reset-btn">↺ Ricomincia</button>
+      </div>
+
+      <!-- MATCHING -->
+      <div id="es-panel-matching" class="es-panel hidden">
+        <p class="match-score" id="match-score-label">Abbina ogni termine inglese alla sua traduzione italiana</p>
+        <div class="matching-game">
+          <div class="match-col" id="match-left-col">
+            <h4>🇬🇧 Termine Inglese</h4>
+          </div>
+          <div class="match-col" id="match-right-col">
+            <h4>🇮🇹 Traduzione Italiana</h4>
+          </div>
+        </div>
+        <button class="match-reset-btn" id="match-reset-btn">↺ Nuova partita</button>
+      </div>
+
+      <div class="center-block" style="margin-top:48px;">
         <button class="btn-primary" id="naval-quiz-cta">⚓ Metti alla prova le tue conoscenze navali →</button>
       </div>
     </section>
