@@ -377,6 +377,31 @@ main {
   font-size: 0.95em;
 }
 
+.ship-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: var(--primary);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  z-index: 10;
+  display: none;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.ship-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 8px;
+  border: 5px solid transparent;
+  border-top-color: var(--primary);
+}
+
 .ship-icon-btn {
   display: inline-block;
   width: 50px;

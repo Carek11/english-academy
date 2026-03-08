@@ -372,6 +372,8 @@ function bindContactForm() {
   if (submitBtn) {
     submitBtn.addEventListener("click", submitContact);
   }
+  
+  bindShipPartTooltips();
 }
 
 function submitContact() {
@@ -384,16 +386,71 @@ function submitContact() {
     return;
   }
 
-  document.getElementById("contact-form-fields").style.display = "none";
-  document.getElementById("form-sent").classList.add("show");
+  const submitBtn = document.getElementById("submit-form-btn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Invio...";
 
-  setTimeout(() => {
-    document.getElementById("contact-form-fields").style.display = "block";
-    document.getElementById("form-sent").classList.remove("show");
-    document.getElementById("contact-name").value = "";
-    document.getElementById("contact-email").value = "";
-    document.getElementById("contact-message").value = "";
-  }, 3000);
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name, email, message })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById("contact-form-fields").style.display = "none";
+      document.getElementById("form-sent").classList.add("show");
+      
+      setTimeout(() => {
+        document.getElementById("contact-form-fields").style.display = "block";
+        document.getElementById("form-sent").classList.remove("show");
+        document.getElementById("contact-name").value = "";
+        document.getElementById("contact-email").value = "";
+        document.getElementById("contact-message").value = "";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Invia Messaggio ✉️";
+      }, 3000);
+    } else {
+      showToast("Errore: " + data.message);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Invia Messaggio ✉️";
+    }
+  })
+  .catch(error => {
+    showToast("Errore di connessione");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Invia Messaggio ✉️";
+  });
+}
+
+function bindShipPartTooltips() {
+  document.querySelectorAll(".comp-list li").forEach(item => {
+    item.style.cursor = "pointer";
+    item.style.position = "relative";
+    
+    item.addEventListener("mouseenter", (e) => {
+      const compEn = item.querySelector(".comp-en").textContent;
+      const compIt = item.querySelector(".comp-it").textContent;
+      
+      let tooltip = item.querySelector(".ship-tooltip");
+      if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.className = "ship-tooltip";
+        tooltip.innerHTML = `<strong>${compEn}</strong><br>${compIt}`;
+        item.appendChild(tooltip);
+      }
+      tooltip.style.display = "block";
+    });
+    
+    item.addEventListener("mouseleave", () => {
+      const tooltip = item.querySelector(".ship-tooltip");
+      if (tooltip) {
+        tooltip.style.display = "none";
+      }
+    });
+  });
 }
 
 function showToast(msg) {
