@@ -101,8 +101,7 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   </header>
 
   <nav>
-    <button class="active" data-page="home">🏠 Home</button>
-    <button data-page="corsi">📚 Corsi</button>
+    <button class="active" data-page="corsi">📚 Corsi</button>
     <button data-page="marina">⚓ Marina Militare</button>
     <button data-page="quiz">🎯 Quiz</button>
     <button data-page="contatti">✉️ Contatti</button>
@@ -110,116 +109,7 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   </nav>
 
   <main>
-    <section id="home" class="page active">
-      <div class="hero">
-        <h2>Benvenuto nell'English Academy</h2>
-        <p>La piattaforma italiana per imparare l'inglese in modo professionale, moderno e interattivo. Dai corsi base fino all'inglese tecnico per la <strong style="color:var(--gold)">Marina Militare</strong>.</p>
-        <div class="hero-btns">
-          <button class="btn-primary" data-page-target="quiz">🎯 Fai un Quiz</button>
-        </div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-box"><div class="stat-num">12+</div><div class="stat-label">Corsi Disponibili</div></div>
-        <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Quiz Interattivi</div></div>
-        <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">Soddisfazione</div></div>
-      </div>
-
-      <h2 class="section-title">Tutti i Corsi</h2>
-      <p class="section-sub">Scegli il percorso più adatto alle tue esigenze</p>
-      <div class="divider"></div>
-
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-6" style="color:var(--primary);">🇬🇧 Inglese Generale</h3>
-      <div class="cards-grid">
-        <div class="card cat-card">
-          <div class="card-icon">🌱</div>
-          <h3>Inglese Base (A1–A2)</h3>
-          <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
-          <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">📗</div>
-          <h3>Inglese Pre-Intermedio (A2–B1)</h3>
-          <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
-          <span class="badge">10 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">📘</div>
-          <h3>Inglese Intermedio (B1–B2)</h3>
-          <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
-          <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">📙</div>
-          <h3>Inglese Avanzato (C1–C2)</h3>
-          <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
-          <span class="badge">14 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">✈️</div>
-          <h3>Inglese per Viaggi</h3>
-          <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
-          <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">🎓</div>
-          <h3>Preparazione IELTS / Cambridge</h3>
-          <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
-          <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-      </div>
-
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💼 Business & Professionale</h3>
-      <div class="cards-grid">
-        <div class="card cat-card">
-          <div class="card-icon">💼</div>
-          <h3>Business English</h3>
-          <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
-          <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">🤝</div>
-          <h3>Inglese per Negoziazioni</h3>
-          <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
-          <span class="badge">6 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-        <div class="card cat-card">
-          <div class="card-icon">📊</div>
-          <h3>Inglese per Presentazioni</h3>
-          <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
-          <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
-        </div>
-      </div>
-
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">⚓ Marina Militare</h3>
-      <div class="cards-grid">
-        <div class="card card-naval cat-card">
-          <div class="card-icon">⚓</div>
-          <h3>Inglese Navale – Marina Militare</h3>
-          <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
-          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span>
-          <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
-        </div>
-      </div>
-
-      <div class="naval-hero">
-        <div class="naval-tag">⚓ NOVITÀ – SEZIONE MARINA MILITARE</div>
-        <h2>Inglese Tecnico per la Marina</h2>
-        <p>Una sezione dedicata interamente alla terminologia navale in inglese. Studia tipologie di navi, componenti, strumentazione di bordo e vocabolario operativo.</p>
-        <button class="btn-primary mt-20" data-page-target="marina">⚓ Esplora la Sezione Marina →</button>
-      </div>
-    </section>
-
-    <section id="corsi" class="page">
+    <section id="corsi" class="page active">
       <h2 class="section-title">Tutti i Corsi</h2>
       <p class="section-sub">Scegli il percorso più adatto alle tue esigenze</p>
       <div class="divider"></div>
@@ -510,10 +400,14 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         <div id="step-select" class="hidden">
           <p class="quiz-greeting">Ciao <strong id="display-name"></strong>! Scegli il quiz:</p>
           <div class="quiz-selector">
-            <button class="quiz-btn-sel" data-quiz="0"><span class="qi">🌱</span>Inglese Base</button>
-            <button class="quiz-btn-sel" data-quiz="1"><span class="qi">📈</span>Intermedio</button>
-            <button class="quiz-btn-sel" data-quiz="2"><span class="qi">💼</span>Business</button>
-            <button class="quiz-btn-sel" data-quiz="3"><span class="qi">⚓</span>Marina Militare<br><small>10 domande casuali</small></button>
+            <button class="quiz-btn-sel" data-quiz="0"><span class="qi">🌱</span>Base (A1–A2)</button>
+            <button class="quiz-btn-sel" data-quiz="1"><span class="qi">📗</span>Pre-Intermedio (A2–B1)</button>
+            <button class="quiz-btn-sel" data-quiz="2"><span class="qi">📘</span>Intermedio (B1–B2)</button>
+            <button class="quiz-btn-sel" data-quiz="3"><span class="qi">📙</span>Avanzato (C1–C2)</button>
+            <button class="quiz-btn-sel" data-quiz="4"><span class="qi">✈️</span>Inglese per Viaggi</button>
+            <button class="quiz-btn-sel" data-quiz="5"><span class="qi">🎓</span>IELTS / Cambridge</button>
+            <button class="quiz-btn-sel" data-quiz="6"><span class="qi">💼</span>Business English</button>
+            <button class="quiz-btn-sel" data-quiz="7"><span class="qi">⚓</span>Marina Militare</button>
           </div>
         </div>
 
