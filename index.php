@@ -227,40 +227,92 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">Soddisfazione</div></div>
       </div>
 
-      <h2 class="section-title">I Nostri Corsi</h2>
+      <h2 class="section-title">Tutti i Corsi</h2>
+      <p class="section-sub">Scegli il percorso più adatto alle tue esigenze</p>
       <div class="divider"></div>
 
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-6" style="color:var(--primary);">🇬🇧 Inglese Generale</h3>
       <div class="cards-grid">
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">🌱</div>
-          <h3>Inglese Base</h3>
-          <p>Perfetto per principianti che vogliono iniziare da zero. Grammatica, vocabolario essenziale e conversazione semplice.</p>
-          <span class="badge">LIVELLO A1–A2</span><br>
-          <button class="btn" data-page-target="corsi">Scopri →</button>
+          <h3>Inglese Base (A1–A2)</h3>
+          <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
+          <span class="badge">8 SETTIMANE</span>
+          <p class="small-note">✓ Grammatica di base · ✓ Vocabolario quotidiano · ✓ Conversazione semplice</p>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Base (A1-A2)">Vai agli esercizi →</button>
         </div>
-
-        <div class="card">
-          <div class="card-icon">📈</div>
-          <h3>Inglese Intermedio</h3>
-          <p>Migliora conversazione, grammatica avanzata e comprensione di testi autentici.</p>
-          <span class="badge">LIVELLO B1–B2</span><br>
-          <button class="btn" data-page-target="corsi">Scopri →</button>
+        <div class="card cat-card">
+          <div class="card-icon">📗</div>
+          <h3>Inglese Pre-Intermedio (A2–B1)</h3>
+          <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
+          <span class="badge">10 SETTIMANE</span>
+          <p class="small-note">✓ Tempi verbali · ✓ Listening avanzato · ✓ Scrittura formale base</p>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Pre-Intermedio (A2-B1)">Vai agli esercizi →</button>
         </div>
+        <div class="card cat-card">
+          <div class="card-icon">📘</div>
+          <h3>Inglese Intermedio (B1–B2)</h3>
+          <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
+          <span class="badge">12 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Intermedio (B1-B2)">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">📙</div>
+          <h3>Inglese Avanzato (C1–C2)</h3>
+          <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
+          <span class="badge">14 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Avanzato (C1-C2)">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">✈️</div>
+          <h3>Inglese per Viaggi</h3>
+          <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
+          <span class="badge">4 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese per Viaggi">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">🎓</div>
+          <h3>Preparazione IELTS / Cambridge</h3>
+          <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
+          <span class="badge">12 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Preparazione IELTS / Cambridge">Vai agli esercizi →</button>
+        </div>
+      </div>
 
-        <div class="card">
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💼 Business & Professionale</h3>
+      <div class="cards-grid">
+        <div class="card cat-card">
           <div class="card-icon">💼</div>
-          <h3>Inglese Business</h3>
-          <p>Ideale per professionisti e aziende. Email formali, presentazioni, negoziazioni.</p>
-          <span class="badge">LIVELLO B2–C1</span><br>
-          <button class="btn" data-page-target="corsi">Scopri →</button>
+          <h3>Business English</h3>
+          <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
+          <span class="badge">8 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
+        <div class="card cat-card">
+          <div class="card-icon">🤝</div>
+          <h3>Inglese per Negoziazioni</h3>
+          <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
+          <span class="badge">6 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">📊</div>
+          <h3>Inglese per Presentazioni</h3>
+          <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
+          <span class="badge">4 SETTIMANE</span>
+          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
+        </div>
+      </div>
 
-        <div class="card card-naval">
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">⚓ Marina Militare</h3>
+      <div class="cards-grid">
+        <div class="card card-naval cat-card">
           <div class="card-icon">⚓</div>
-          <h3>Inglese Navale – Marina</h3>
-          <p>Corso specializzato per il personale della Marina Militare. Terminologia navale, navi, componenti e comunicazioni.</p>
-          <span class="badge badge-blue">TECNICO SPECIALIZZATO</span><br>
-          <button class="btn" data-page-target="marina">Scopri →</button>
+          <h3>Inglese Navale – Marina Militare</h3>
+          <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
+          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span>
+          <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
+          <button class="btn" style="margin-top:6px;" data-page-target="hub-inglese" data-hub-corso="Inglese Navale - Marina Militare">Vai agli esercizi →</button>
         </div>
       </div>
 
