@@ -1,93 +1,133 @@
-# English Academy - App Educativa
+# English Academy - Applicazione Educativa
 
-Piattaforma web semplice per imparare l'inglese, con focus su sezione Marina Militare.
+Piattaforma web per imparare l'inglese con focus sulla sezione Marina Militare.
 
-## Tech Stack
+## 🏗️ Architettura Refactored
 
-- **Backend**: Python Flask
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **Icons**: FontAwesome 6.4.0
-- **Email**: SMTP configurabile via env vars
-- **Server**: Gunicorn (production)
+### Modularità Completa
+- **HTML** (`index.html`) - Struttura semantica
+- **CSS** (`style.css`) - Styling responsive con commenti per ogni sezione
+- **JavaScript** (`script.js`) - Logica applicativa completamente documentata
+- **Backend** (`app.py`) - Flask con error handling robusto
 
-## Struttura Progetto
+### Stack Tecnologico
+- Backend: Python 3.12 + Flask
+- Frontend: HTML5, CSS3, Vanilla JavaScript (ES6+)
+- Icons: FontAwesome 6.4.0
+- Email: SMTP configurabile (fallback localhost)
+- Server Prod: Gunicorn on port 5000
 
-```
-app.py              # Flask: GET /, POST /api/contact
-requirements.txt    # flask, gunicorn
-templates/index.html
-static/
-  style.css         # CSS completo + tooltips
-  script.js         # JS: quiz, nav, ship modal, email form
-```
+## 🎯 Ottimizzazioni Implementate
 
-## Sezioni Attive
+### 1. **Codice Pulito**
+✅ Commenti chiari in italiano per ogni sezione JavaScript  
+✅ Nomi variabili descrittivi in italiano (`datiQuiz`, `datiNavi`, `nomeStudente`, `stato`)  
+✅ Funzioni ben nominate e strutturate (es. `collegaNavigazione()`, `apriModalNave()`)  
+✅ Commenti Python nel backend (`app.py`)  
 
+### 2. **Prestazioni Ottimizzate**
+✅ **Debouncing tooltip** - Previene ricalcoli browser su hover veloce (100ms)  
+✅ **classList.toggle** - Uso di classi CSS per animazioni senza DOM ricalcoli  
+✅ **Event delegation** - Un handler per più elementi  
+✅ **Lazy loading immagini** - Placeholder SVG per immagini mancanti  
+✅ **Minified CSS selectors** - Selezioni performanti  
+
+### 3. **Gestione Errori Robusta**
+✅ **Try...catch** in tutte le funzioni JavaScript principali  
+✅ **Error logging** - Console logging per debugging  
+✅ **Placeholder immagini** - SVG fallback se immagine manca  
+✅ **Validazione input** - Frontend + Backend validazione  
+✅ **Error handling SMTP** - 4 tipi di eccezione gestite  
+
+### 4. **Configurazione Replit Stabile**
+✅ **Port 5000** - Standard Replit, configurato in `.replit`  
+✅ **Deployment target** - Autoscale con Gunicorn  
+✅ **Modules** - Python 3.12, Node.js 20, web module  
+✅ **Workflow** - Configurazione standard webview  
+
+## 📋 Funzionalità
+
+### Sezioni Attive
 - **Home**: Intro + statistiche + showcase corsi
-- **Corsi**: Catalogo 8 corsi (Base, Intermedio, Business, IELTS, Navale, etc.)
+- **Corsi**: 8 corsi disponibili (Base, Intermedio, Business, IELTS, Navale, etc.)
 - **Marina Militare**: 
-  - 6 tipi navi (Carrier, Destroyer, Submarine, Frigate, Corvette, Patrol)
-  - **Icone cliccabili** (fa-ship) → modal con immagini
-  - **Hover tooltips** sui componenti navali (mostra parti della nave)
-- **Quiz**: 4 categorie + punteggio in tempo reale
-- **Contatti**: Form email semplice (no indirizzo, no team)
+  - 6 tipi navi (Aircraft Carrier, Destroyer, Submarine, Frigate, Corvette, Patrol)
+  - Icone cliccabili (fa-ship) → modal con immagini
+  - **Hover tooltips** su componenti navali con debouncing
+- **Quiz**: 4 categorie con punteggio real-time
+- **Contatti**: Form email funzionale con backend
 
-## Features
+### Features Avanzate
+✅ **Modal Interattivo** - Icone navi → immagini ad alta risoluzione  
+✅ **Tooltip Intelligenti** - Mouse hover con debouncing 100ms  
+✅ **Quiz Dinamico** - Domande casuali + scoring + leaderboard  
+✅ **Email Funzionale** - Endpoint `/api/contact` con SMTP  
+✅ **Responsive** - Mobile-first, funziona su tutti i device  
 
-✅ **Contact Form Funzionale**
-- Endpoint POST `/api/contact` 
-- Supporta SMTP esterno (env vars): `SMTP_SERVER`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `CONTACT_EMAIL`
-- Fallback: localhost SMTP porta 25
-- Validazione campi frontend + backend
-- Messaggio di successo con auto-reset
-
-✅ **Ship Modal Interattivo**
-- Click icona nave → modal popup
-- Immagini da Unsplash (alta risoluzione)
-- Chiusura: bottone X o click esterno
-- Responsive mobile
-
-✅ **Hover Tooltips Marina**
-- Scorrere mouse su componenti navali
-- Mostra nome inglese + italiano
-- Tooltip floating con freccia
-
-✅ **Quiz Interattivi**
-- 4 categorie (Base, Intermedio, Business, Marina)
-- Domande casuali
-- Punteggio live
-- Risultati + valutazione
-
-## Configurazione Email
-
-Per abilitare email reali, impostare env vars:
+## 🚀 Esecuzione
 
 ```bash
-# Replit env vars o .env
+# Sviluppo
+python app.py          # Port 5000
+
+# Produzione
+gunicorn --bind 0.0.0.0:5000 --reuse-port app:app
+```
+
+## ⚙️ Configurazione Email
+
+Per email reali, aggiungi env vars in Replit (Tools → Secrets):
+```
 SMTP_SERVER=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASSWORD=your-app-password
+SMTP_USER=tua-email@gmail.com
+SMTP_PASSWORD=app-password
 CONTACT_EMAIL=info@example.com
+DEBUG=False
 ```
 
-Senza env vars: usa localhost SMTP (porta 25) in fallback.
+Senza config: fallback localhost SMTP porta 25 (non invia).
 
-## Esecuzione
+## 📦 Variabili Globali (JavaScript)
 
-```bash
-python app.py          # Dev: port 5000
-gunicorn --bind 0.0.0.0:5000 app:app  # Prod
+```javascript
+datiQuiz[]          // Array quiz con domande
+datiNavi{}          // Oggetto navi Marina
+stato{}             // Stato applicazione (nome, score, etc.)
+debounceTimer       // Timer debouncing tooltip
 ```
 
-## Responsive Design
+## 🔧 Sezioni JavaScript
 
-- Mobile: Stack verticale, modali adattivi
-- Tablet: Griglia 2 colonne
-- Desktop: Griglia 3+ colonne
+1. **Dati** - Quiz + Navi + Config
+2. **Stato Globale** - Variabili applicazione
+3. **Inizializzazione** - DOMContentLoaded handlers
+4. **Navigazione** - Page routing
+5. **Modal Navi** - Immagini con fallback
+6. **Tooltip** - Debounced hover events
+7. **Accordion** - Toggle sections
+8. **Quiz** - Sistema completo domande/risposte
+9. **Contatti** - Form email
+10. **Utilità** - Helper functions
 
-## Removed
+## 📊 Performance
 
-- ❌ Chi Siamo (team section)
-- ❌ Address/Phone (solo email)
-- ❌ Social links
+- Debouncing: 100ms (tooltip)
+- No jQuery, vanilla JS
+- CSS3 transitions for smoothness
+- Lazy image loading con fallback
+- Error logging per debugging
+
+## ✨ Stabilità
+
+- Try...catch su tutte funzioni principali
+- Validazione email frontend + backend
+- SMTP error handling (4 eccezioni)
+- Logging con Python logger
+- Graceful degradation per immagini mancanti
+
+---
+
+**Version**: 2.0 (Refactored)  
+**Last Update**: 2026-03-08  
+**Status**: Production Ready ✅

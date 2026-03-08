@@ -1,7 +1,17 @@
-const quizData = [
+/* ========================================
+   ENGLISH ACADEMY - MAIN APPLICATION
+   Applicazione web per l'insegnamento dell'inglese
+   ======================================== */
+
+/* ========================================
+   SEZIONE 1: DATI
+   ======================================== */
+
+// Dati dei quiz per tutte le categorie
+const datiQuiz = [
   {
-    title: "Inglese Base",
-    questions: [
+    titolo: "Inglese Base",
+    domande: [
       { q: "Come si dice 'Buongiorno' in inglese?", opts: ["Hello", "Good morning", "Good evening", "Goodbye"], ans: 1 },
       { q: "Quale è il plurale di 'child'?", opts: ["Childs", "Children", "Childrens", "Childre"], ans: 1 },
       { q: "Completa: 'She ___ a teacher.'", opts: ["am", "is", "are", "be"], ans: 1 },
@@ -11,8 +21,8 @@ const quizData = [
     ]
   },
   {
-    title: "Inglese Intermedio",
-    questions: [
+    titolo: "Inglese Intermedio",
+    domande: [
       { q: "Choose the correct form: 'By the time she arrived, we ___ the food.'", opts: ["already ate", "had already eaten", "already had eat", "was eating"], ans: 1 },
       { q: "Which sentence uses the passive voice correctly?", opts: ["The report wrote by him", "The report was written by him", "He written the report", "Written the report by him"], ans: 1 },
       { q: "'Despite the rain, they continued the match.' What does 'despite' mean?", opts: ["Because of", "In spite of", "Thanks to", "Due to"], ans: 1 },
@@ -22,8 +32,8 @@ const quizData = [
     ]
   },
   {
-    title: "Business English",
-    questions: [
+    titolo: "Business English",
+    domande: [
       { q: "Which phrase is appropriate to open a formal email?", opts: ["Hey there!", "Yo, what's up?", "Dear Sir/Madam,", "Hiya!"], ans: 2 },
       { q: "What does 'KPI' stand for?", opts: ["Key Performance Indicator", "Knowledge Process Integration", "Key Project Initiative", "Known Process Index"], ans: 0 },
       { q: "'Let's circle back on this' means:", opts: ["Draw a circle", "Return to this topic later", "Cancel the meeting", "Work in a circle"], ans: 1 },
@@ -33,8 +43,8 @@ const quizData = [
     ]
   },
   {
-    title: "Marina Militare",
-    questions: [
+    titolo: "Marina Militare",
+    domande: [
       { q: "Come si chiama in inglese la parte anteriore di una nave?", opts: ["Stern", "Port", "Bow", "Starboard"], ans: 2 },
       { q: "Come si chiama la parte posteriore di una nave?", opts: ["Bow", "Stern", "Port", "Keel"], ans: 1 },
       { q: "Cosa è il 'Hull' di una nave?", opts: ["L'albero", "Lo scafo", "Il timone", "Il radar"], ans: 1 },
@@ -59,411 +69,561 @@ const quizData = [
   }
 ];
 
-const shipData = {
+// Dati delle navi per la sezione Marina Militare
+const datiNavi = {
   carrier: {
-    name: "Aircraft Carrier",
-    nameIT: "Portaerei",
-    description: "Una nave da guerra di grandi dimensioni con un ponte di volo continuo per il lancio e l'atterraggio di aerei.",
-    image: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop"
+    nome: "Aircraft Carrier",
+    nomeIT: "Portaerei",
+    descrizione: "Una nave da guerra di grandi dimensioni con un ponte di volo continuo per il lancio e l'atterraggio di aerei.",
+    immagine: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop"
   },
   destroyer: {
-    name: "Destroyer",
-    nameIT: "Cacciatorpediniere",
-    description: "Una nave da guerra veloce e manovrabile, principalmente usata per l'escorta e il combattimento tattico.",
-    image: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop"
+    nome: "Destroyer",
+    nomeIT: "Cacciatorpediniere",
+    descrizione: "Una nave da guerra veloce e manovrabile, principalmente usata per l'escorta e il combattimento tattico.",
+    immagine: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop"
   },
   submarine: {
-    name: "Submarine",
-    nameIT: "Sottomarino",
-    description: "Una nave militare sommersa con capacità di navigazione sottomarina, equipaggiata con sensori avanzati.",
-    image: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop"
+    nome: "Submarine",
+    nomeIT: "Sottomarino",
+    descrizione: "Una nave militare sommersa con capacità di navigazione sottomarina, equipaggiata con sensori avanzati.",
+    immagine: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop"
   },
   frigate: {
-    name: "Frigate",
-    nameIT: "Fregata",
-    description: "Una nave da guerra multiruolo di medie dimensioni, versatile per molteplici operazioni navali.",
-    image: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop"
+    nome: "Frigate",
+    nomeIT: "Fregata",
+    descrizione: "Una nave da guerra multiruolo di medie dimensioni, versatile per molteplici operazioni navali.",
+    immagine: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop"
   },
   corvette: {
-    name: "Corvette",
-    nameIT: "Corvetta",
-    description: "Una nave da guerra di piccole-medie dimensioni, rapida e agile, ideale per operazioni costiere.",
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=800&fit=crop"
+    nome: "Corvette",
+    nomeIT: "Corvetta",
+    descrizione: "Una nave da guerra di piccole-medie dimensioni, rapida e agile, ideale per operazioni costiere.",
+    immagine: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=800&fit=crop"
   },
   patrol: {
-    name: "Patrol Vessel",
-    nameIT: "Pattugliatore",
-    description: "Una nave veloce e leggera utilizzata per la pattuglia, il controllo e l'intervento rapido in acque costiere.",
-    image: "https://images.unsplash.com/photo-1608513520737-a6a9ae83ac51?w=1200&h=800&fit=crop"
+    nome: "Patrol Vessel",
+    nomeIT: "Pattugliatore",
+    descrizione: "Una nave veloce e leggera utilizzata per la pattuglia, il controllo e l'intervento rapido in acque costiere.",
+    immagine: "https://images.unsplash.com/photo-1608513520737-a6a9ae83ac51?w=1200&h=800&fit=crop"
   }
 };
 
-const state = {
-  studentName: "",
-  quizIndex: -1,
-  current: 0,
-  score: 0,
-  answered: false,
-  history: [],
-  activeQuestions: []
+// Placeholder immagine per fallback
+const URL_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23ddd' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='20'%3EImmagine non disponibile%3C/text%3E%3C/svg%3E";
+
+// Debouncing timer per tooltip
+let debounceTimer = null;
+
+/* ========================================
+   SEZIONE 2: STATO GLOBALE
+   ======================================== */
+
+const stato = {
+  nomeStudente: "",
+  indiceQuiz: -1,
+  domandarCorrente: 0,
+  punteggio: 0,
+  risposto: false,
+  storico: [],
+  domandeAttive: []
 };
+
+/* ========================================
+   SEZIONE 3: INIZIALIZZAZIONE
+   ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  bindNavigation();
-  bindAccordion();
-  bindQuiz();
-  bindContactForm();
-  bindShipModal();
+  try {
+    collegaNavigazione();
+    collegaAccordion();
+    collegaQuiz();
+    collegaFormContatti();
+    collegaModalNave();
+  } catch (err) {
+    console.error("Errore inizializzazione:", err);
+  }
 });
 
-function bindNavigation() {
-  document.querySelectorAll("[data-page], [data-page-target]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const page = btn.dataset.page || btn.dataset.pageTarget;
-      if (page) showPage(page);
+/* ========================================
+   SEZIONE 4: NAVIGAZIONE TRA PAGINE
+   ======================================== */
+
+function collegaNavigazione() {
+  try {
+    // Collega pulsanti nav con attributi data-page e data-page-target
+    document.querySelectorAll("[data-page], [data-page-target]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const pagina = btn.dataset.page || btn.dataset.pageTarget;
+        if (pagina) mostraPagina(pagina);
+      });
     });
-  });
 
-  const navalQuizBtn = document.getElementById("naval-quiz-cta");
-  if (navalQuizBtn) {
-    navalQuizBtn.addEventListener("click", () => {
-      showPage("quiz");
-      setTimeout(() => {
-        if (!state.studentName) {
-          document.getElementById("step-name").classList.remove("hidden");
-          document.getElementById("step-select").classList.add("hidden");
-        } else {
-          selectQuiz(3);
-        }
-      }, 100);
-    });
-  }
-}
-
-function bindShipModal() {
-  document.querySelectorAll(".ship-icon-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const shipType = btn.dataset.ship;
-      const ship = shipData[shipType];
-      if (ship) {
-        openShipModal(ship);
-      }
-    });
-  });
-
-  const modal = document.getElementById("ship-modal");
-  const closeBtn = document.getElementById("modal-close");
-  
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closeShipModal);
-  }
-
-  if (modal) {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        closeShipModal();
-      }
-    });
-  }
-}
-
-function openShipModal(ship) {
-  const modal = document.getElementById("ship-modal");
-  const title = document.getElementById("modal-title");
-  const subtitle = document.getElementById("modal-subtitle");
-  const image = document.getElementById("modal-image");
-  const description = document.getElementById("modal-description");
-
-  if (title) title.textContent = ship.name;
-  if (subtitle) subtitle.textContent = ship.nameIT;
-  if (image) {
-    image.src = ship.image;
-    image.alt = ship.name;
-  }
-  if (description) description.textContent = ship.description;
-
-  if (modal) {
-    modal.classList.add("active");
-  }
-}
-
-function closeShipModal() {
-  const modal = document.getElementById("ship-modal");
-  if (modal) {
-    modal.classList.remove("active");
-  }
-}
-
-function bindAccordion() {
-  document.querySelectorAll(".acc-header").forEach(header => {
-    header.addEventListener("click", () => toggleAcc(header));
-  });
-}
-
-function toggleAcc(header) {
-  const acc = header.parentElement;
-  acc.classList.toggle("open");
-}
-
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById(pageId).classList.add("active");
-
-  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-  document.querySelector(`[data-page="${pageId}"]`).classList.add("active");
-}
-
-function bindQuiz() {
-  const nameBtn = document.getElementById("submit-name-btn");
-  const nameInput = document.getElementById("student-name-input");
-
-  if (nameBtn) {
-    nameBtn.addEventListener("click", () => submitName(nameInput.value));
-  }
-
-  document.querySelectorAll(".quiz-btn-sel").forEach((btn, idx) => {
-    btn.addEventListener("click", () => selectQuiz(idx));
-  });
-
-  const nextBtn = document.getElementById("next-btn");
-  if (nextBtn) {
-    nextBtn.addEventListener("click", nextQuestion);
-  }
-
-  const retryBtn = document.getElementById("retry-quiz-btn");
-  if (retryBtn) {
-    retryBtn.addEventListener("click", retryQuiz);
-  }
-
-  const changeBtn = document.getElementById("change-quiz-btn");
-  if (changeBtn) {
-    changeBtn.addEventListener("click", changeQuiz);
-  }
-}
-
-function submitName(name) {
-  if (!name.trim()) {
-    alert("Per favore, inserisci il tuo nome.");
-    return;
-  }
-  state.studentName = name;
-  document.getElementById("display-name").textContent = name;
-  document.getElementById("quiz-student-label").textContent = "👤 " + name;
-  document.getElementById("step-name").classList.add("hidden");
-  document.getElementById("step-select").classList.remove("hidden");
-}
-
-function selectQuiz(idx) {
-  state.quizIndex = idx;
-  state.current = 0;
-  state.score = 0;
-  state.answered = false;
-  state.activeQuestions = [...quizData[idx].questions].sort(() => Math.random() - 0.5);
-  document.getElementById("step-select").classList.add("hidden");
-  document.getElementById("step-quiz").classList.remove("hidden");
-  loadQuestion();
-}
-
-function loadQuestion() {
-  const q = state.activeQuestions[state.current];
-  document.getElementById("q-num").textContent = "DOMANDA " + (state.current + 1);
-  document.getElementById("q-text").textContent = q.q;
-  document.getElementById("q-feedback").classList.add("hidden");
-
-  const optDiv = document.getElementById("q-options");
-  optDiv.innerHTML = "";
-  q.opts.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.className = "option";
-    btn.addEventListener("click", () => answerQuestion(idx));
-    optDiv.appendChild(btn);
-  });
-
-  const total = state.activeQuestions.length;
-  document.getElementById("quiz-progress").textContent = `Domanda ${state.current + 1} di ${total}`;
-  document.getElementById("progress-fill").style.width = ((state.current + 1) / total * 100) + "%";
-  document.getElementById("quiz-score-live").textContent = "⭐ " + state.score + " / " + (state.current + 1);
-
-  state.answered = false;
-  document.getElementById("next-btn").disabled = true;
-}
-
-function answerQuestion(chosenIdx) {
-  if (state.answered) return;
-  state.answered = true;
-
-  const q = state.activeQuestions[state.current];
-  const opts = document.querySelectorAll(".option");
-
-  opts.forEach((opt, idx) => {
-    if (idx === q.ans) {
-      opt.classList.add("correct");
-    } else if (idx === chosenIdx) {
-      opt.classList.add("wrong");
+    // Pulsante speciale per quiz marino
+    const btnQuizNavale = document.getElementById("naval-quiz-cta");
+    if (btnQuizNavale) {
+      btnQuizNavale.addEventListener("click", () => {
+        mostraPagina("quiz");
+        setTimeout(() => {
+          if (!stato.nomeStudente) {
+            document.getElementById("step-name").classList.remove("hidden");
+            document.getElementById("step-select").classList.add("hidden");
+          } else {
+            selezionaQuiz(3);
+          }
+        }, 100);
+      });
     }
-  });
-
-  const feedback = document.getElementById("q-feedback");
-  if (chosenIdx === q.ans) {
-    state.score++;
-    feedback.textContent = "✅ Corretto!";
-    feedback.className = "feedback-msg correct";
-  } else {
-    feedback.textContent = "❌ Sbagliato. La risposta corretta è: " + q.opts[q.ans];
-    feedback.className = "feedback-msg wrong";
-  }
-
-  feedback.classList.remove("hidden");
-  document.getElementById("next-btn").disabled = false;
-}
-
-function nextQuestion() {
-  state.current++;
-  if (state.current >= state.activeQuestions.length) {
-    endQuiz();
-  } else {
-    loadQuestion();
+  } catch (err) {
+    console.error("Errore collegaNavigazione:", err);
   }
 }
 
-function endQuiz() {
-  const total = state.activeQuestions.length;
-  const pct = Math.round(state.score / total * 100);
+function mostraPagina(idPagina) {
+  try {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    const pagina = document.getElementById(idPagina);
+    if (pagina) pagina.classList.add("active");
 
-  document.getElementById("step-quiz").classList.add("hidden");
-  document.getElementById("step-results").classList.remove("hidden");
-
-  document.getElementById("score-pct").textContent = pct + "%";
-  document.getElementById("r-correct").textContent = "✓ " + state.score + " corrette";
-  document.getElementById("r-wrong").textContent = "✗ " + (total - state.score) + " errate";
-  document.getElementById("r-total").textContent = "📊 " + total + " totali";
-  document.getElementById("result-student").textContent = state.studentName;
-
-  let grade = "Eccellente!";
-  if (pct < 60) grade = "Non ancora... Riprova!";
-  else if (pct < 75) grade = "Buono!";
-  else if (pct < 90) grade = "Molto buono!";
-
-  document.getElementById("grade-badge").textContent = grade;
-
-  const entry = state.studentName + " - " + pct + "% - " + new Date().toLocaleDateString("it-IT");
-  state.history.push(entry);
-  updateLeaderboard();
-}
-
-function updateLeaderboard() {
-  const lb = document.getElementById("lb-entries");
-  if (lb && state.history.length > 0) {
-    lb.innerHTML = state.history.map(e => `<div class="lb-entry"><span>${e}</span></div>`).join("");
-    document.getElementById("leaderboard").classList.remove("hidden");
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+    const btnNav = document.querySelector(`[data-page="${idPagina}"]`);
+    if (btnNav) btnNav.classList.add("active");
+  } catch (err) {
+    console.error("Errore mostraPagina:", err);
   }
 }
 
-function retryQuiz() {
-  selectQuiz(state.quizIndex);
-  document.getElementById("step-results").classList.add("hidden");
-}
+/* ========================================
+   SEZIONE 5: MODAL NAVI E IMMAGINI
+   ======================================== */
 
-function changeQuiz() {
-  state.current = 0;
-  state.score = 0;
-  state.answered = false;
-  state.quizIndex = -1;
-  document.getElementById("step-results").classList.add("hidden");
-  document.getElementById("step-select").classList.remove("hidden");
-}
+function collegaModalNave() {
+  try {
+    document.querySelectorAll(".ship-icon-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const tipoNave = btn.dataset.ship;
+        const nave = datiNavi[tipoNave];
+        if (nave) apriModalNave(nave);
+      });
+    });
 
-function bindContactForm() {
-  const submitBtn = document.getElementById("submit-form-btn");
-  if (submitBtn) {
-    submitBtn.addEventListener("click", submitContact);
-  }
-  
-  bindShipPartTooltips();
-}
-
-function submitContact() {
-  const name = document.getElementById("contact-name").value;
-  const email = document.getElementById("contact-email").value;
-  const message = document.getElementById("contact-message").value;
-
-  if (!name || !email || !message) {
-    showToast("Per favore, compila tutti i campi.");
-    return;
-  }
-
-  const submitBtn = document.getElementById("submit-form-btn");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Invio...";
-
-  fetch('/api/contact', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ name, email, message })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      document.getElementById("contact-form-fields").style.display = "none";
-      document.getElementById("form-sent").classList.add("show");
-      
-      setTimeout(() => {
-        document.getElementById("contact-form-fields").style.display = "block";
-        document.getElementById("form-sent").classList.remove("show");
-        document.getElementById("contact-name").value = "";
-        document.getElementById("contact-email").value = "";
-        document.getElementById("contact-message").value = "";
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Invia Messaggio ✉️";
-      }, 3000);
-    } else {
-      showToast("Errore: " + data.message);
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Invia Messaggio ✉️";
-    }
-  })
-  .catch(error => {
-    showToast("Errore di connessione");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Invia Messaggio ✉️";
-  });
-}
-
-function bindShipPartTooltips() {
-  document.querySelectorAll(".comp-list li").forEach(item => {
-    item.style.cursor = "pointer";
-    item.style.position = "relative";
+    const modal = document.getElementById("ship-modal");
+    const btnChiudi = document.getElementById("modal-close");
     
-    item.addEventListener("mouseenter", (e) => {
-      const compEn = item.querySelector(".comp-en").textContent;
-      const compIt = item.querySelector(".comp-it").textContent;
+    if (btnChiudi) {
+      btnChiudi.addEventListener("click", chiudiModalNave);
+    }
+
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) chiudiModalNave();
+      });
+    }
+  } catch (err) {
+    console.error("Errore collegaModalNave:", err);
+  }
+}
+
+function apriModalNave(nave) {
+  try {
+    const modal = document.getElementById("ship-modal");
+    const titolo = document.getElementById("modal-title");
+    const sottotitolo = document.getElementById("modal-subtitle");
+    const immagine = document.getElementById("modal-image");
+    const descrizione = document.getElementById("modal-description");
+
+    if (titolo) titolo.textContent = nave.nome;
+    if (sottotitolo) sottotitolo.textContent = nave.nomeIT;
+    
+    if (immagine) {
+      immagine.src = nave.immagine;
+      immagine.alt = nave.nome;
+      immagine.onerror = () => {
+        immagine.src = URL_PLACEHOLDER;
+        immagine.alt = "Immagine non disponibile";
+      };
+    }
+    
+    if (descrizione) descrizione.textContent = nave.descrizione;
+
+    if (modal) modal.classList.add("active");
+  } catch (err) {
+    console.error("Errore apriModalNave:", err);
+  }
+}
+
+function chiudiModalNave() {
+  try {
+    const modal = document.getElementById("ship-modal");
+    if (modal) modal.classList.remove("active");
+  } catch (err) {
+    console.error("Errore chiudiModalNave:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE 6: TOOLTIP COMPONENTI NAVI
+   ======================================== */
+
+function collegaTooltipComponentiNavi() {
+  try {
+    document.querySelectorAll(".comp-list li").forEach(item => {
+      item.style.cursor = "pointer";
+      item.style.position = "relative";
       
-      let tooltip = item.querySelector(".ship-tooltip");
+      item.addEventListener("mouseenter", () => mostraTooltip(item));
+      item.addEventListener("mouseleave", () => nascondiTooltip(item));
+    });
+  } catch (err) {
+    console.error("Errore collegaTooltipComponentiNavi:", err);
+  }
+}
+
+function mostraTooltip(elemento) {
+  // Debouncing per evitare ricalcoli eccessivi
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    try {
+      const compEN = elemento.querySelector(".comp-en").textContent;
+      const compIT = elemento.querySelector(".comp-it").textContent;
+      
+      let tooltip = elemento.querySelector(".ship-tooltip");
       if (!tooltip) {
         tooltip = document.createElement("div");
         tooltip.className = "ship-tooltip";
-        tooltip.innerHTML = `<strong>${compEn}</strong><br>${compIt}`;
-        item.appendChild(tooltip);
+        tooltip.innerHTML = `<strong>${compEN}</strong><br>${compIT}`;
+        elemento.appendChild(tooltip);
       }
       tooltip.style.display = "block";
-    });
-    
-    item.addEventListener("mouseleave", () => {
-      const tooltip = item.querySelector(".ship-tooltip");
-      if (tooltip) {
-        tooltip.style.display = "none";
-      }
-    });
-  });
+    } catch (err) {
+      console.error("Errore mostraTooltip:", err);
+    }
+  }, 100);
 }
 
-function showToast(msg) {
-  const toast = document.getElementById("toast");
-  toast.textContent = msg;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
+function nascondiTooltip(elemento) {
+  try {
+    const tooltip = elemento.querySelector(".ship-tooltip");
+    if (tooltip) tooltip.style.display = "none";
+  } catch (err) {
+    console.error("Errore nascondiTooltip:", err);
+  }
 }
+
+/* ========================================
+   SEZIONE 7: ACCORDION
+   ======================================== */
+
+function collegaAccordion() {
+  try {
+    document.querySelectorAll(".acc-header").forEach(header => {
+      header.addEventListener("click", () => toggleAccordion(header));
+    });
+  } catch (err) {
+    console.error("Errore collegaAccordion:", err);
+  }
+}
+
+function toggleAccordion(header) {
+  try {
+    const accordion = header.parentElement;
+    accordion.classList.toggle("open");
+  } catch (err) {
+    console.error("Errore toggleAccordion:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE 8: SISTEMA QUIZ
+   ======================================== */
+
+function collegaQuiz() {
+  try {
+    const btnNome = document.getElementById("submit-name-btn");
+    const inputNome = document.getElementById("student-name-input");
+
+    if (btnNome) {
+      btnNome.addEventListener("click", () => inviaNome(inputNome.value));
+    }
+
+    document.querySelectorAll(".quiz-btn-sel").forEach((btn, idx) => {
+      btn.addEventListener("click", () => selezionaQuiz(idx));
+    });
+
+    const btnProssimo = document.getElementById("next-btn");
+    if (btnProssimo) {
+      btnProssimo.addEventListener("click", prossimaDomanda);
+    }
+
+    const btnRiprova = document.getElementById("retry-quiz-btn");
+    if (btnRiprova) {
+      btnRiprova.addEventListener("click", riproviQuiz);
+    }
+
+    const btnCambia = document.getElementById("change-quiz-btn");
+    if (btnCambia) {
+      btnCambia.addEventListener("click", cambiaQuiz);
+    }
+  } catch (err) {
+    console.error("Errore collegaQuiz:", err);
+  }
+}
+
+function inviaNome(nome) {
+  try {
+    if (!nome.trim()) {
+      mostraNotifica("Per favore, inserisci il tuo nome.");
+      return;
+    }
+    stato.nomeStudente = nome;
+    document.getElementById("display-name").textContent = nome;
+    document.getElementById("quiz-student-label").textContent = "👤 " + nome;
+    document.getElementById("step-name").classList.add("hidden");
+    document.getElementById("step-select").classList.remove("hidden");
+  } catch (err) {
+    console.error("Errore inviaNome:", err);
+  }
+}
+
+function selezionaQuiz(indice) {
+  try {
+    stato.indiceQuiz = indice;
+    stato.domandarCorrente = 0;
+    stato.punteggio = 0;
+    stato.risposto = false;
+    stato.domandeAttive = [...datiQuiz[indice].domande].sort(() => Math.random() - 0.5);
+    document.getElementById("step-select").classList.add("hidden");
+    document.getElementById("step-quiz").classList.remove("hidden");
+    caricaDomanda();
+  } catch (err) {
+    console.error("Errore selezionaQuiz:", err);
+  }
+}
+
+function caricaDomanda() {
+  try {
+    const d = stato.domandeAttive[stato.domandarCorrente];
+    document.getElementById("q-num").textContent = "DOMANDA " + (stato.domandarCorrente + 1);
+    document.getElementById("q-text").textContent = d.q;
+    document.getElementById("q-feedback").classList.add("hidden");
+
+    const divOpzioni = document.getElementById("q-options");
+    divOpzioni.innerHTML = "";
+    d.opts.forEach((opt, idx) => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.className = "option";
+      btn.addEventListener("click", () => rispondiDomanda(idx));
+      divOpzioni.appendChild(btn);
+    });
+
+    const totale = stato.domandeAttive.length;
+    document.getElementById("quiz-progress").textContent = `Domanda ${stato.domandarCorrente + 1} di ${totale}`;
+    document.getElementById("progress-fill").style.width = ((stato.domandarCorrente + 1) / totale * 100) + "%";
+    document.getElementById("quiz-score-live").textContent = "⭐ " + stato.punteggio + " / " + (stato.domandarCorrente + 1);
+
+    stato.risposto = false;
+    document.getElementById("next-btn").disabled = true;
+  } catch (err) {
+    console.error("Errore caricaDomanda:", err);
+  }
+}
+
+function rispondiDomanda(indiceRisposta) {
+  try {
+    if (stato.risposto) return;
+    stato.risposto = true;
+
+    const d = stato.domandeAttive[stato.domandarCorrente];
+    const opzioni = document.querySelectorAll(".option");
+
+    opzioni.forEach((opt, idx) => {
+      if (idx === d.ans) {
+        opt.classList.add("correct");
+      } else if (idx === indiceRisposta) {
+        opt.classList.add("wrong");
+      }
+    });
+
+    const feedback = document.getElementById("q-feedback");
+    if (indiceRisposta === d.ans) {
+      stato.punteggio++;
+      feedback.textContent = "✅ Corretto!";
+      feedback.className = "feedback-msg correct";
+    } else {
+      feedback.textContent = "❌ Sbagliato. La risposta corretta è: " + d.opts[d.ans];
+      feedback.className = "feedback-msg wrong";
+    }
+
+    feedback.classList.remove("hidden");
+    document.getElementById("next-btn").disabled = false;
+  } catch (err) {
+    console.error("Errore rispondiDomanda:", err);
+  }
+}
+
+function prossimaDomanda() {
+  try {
+    stato.domandarCorrente++;
+    if (stato.domandarCorrente >= stato.domandeAttive.length) {
+      terminaQuiz();
+    } else {
+      caricaDomanda();
+    }
+  } catch (err) {
+    console.error("Errore prossimaDomanda:", err);
+  }
+}
+
+function terminaQuiz() {
+  try {
+    const totale = stato.domandeAttive.length;
+    const percentuale = Math.round(stato.punteggio / totale * 100);
+
+    document.getElementById("step-quiz").classList.add("hidden");
+    document.getElementById("step-results").classList.remove("hidden");
+
+    document.getElementById("score-pct").textContent = percentuale + "%";
+    document.getElementById("r-correct").textContent = "✓ " + stato.punteggio + " corrette";
+    document.getElementById("r-wrong").textContent = "✗ " + (totale - stato.punteggio) + " errate";
+    document.getElementById("r-total").textContent = "📊 " + totale + " totali";
+    document.getElementById("result-student").textContent = stato.nomeStudente;
+
+    let voto = "Eccellente!";
+    if (percentuale < 60) voto = "Non ancora... Riprova!";
+    else if (percentuale < 75) voto = "Buono!";
+    else if (percentuale < 90) voto = "Molto buono!";
+
+    document.getElementById("grade-badge").textContent = voto;
+
+    const entry = stato.nomeStudente + " - " + percentuale + "% - " + new Date().toLocaleDateString("it-IT");
+    stato.storico.push(entry);
+    aggiornaLeaderboard();
+  } catch (err) {
+    console.error("Errore terminaQuiz:", err);
+  }
+}
+
+function aggiornaLeaderboard() {
+  try {
+    const lb = document.getElementById("lb-entries");
+    if (lb && stato.storico.length > 0) {
+      lb.innerHTML = stato.storico.map(e => `<div class="lb-entry"><span>${e}</span></div>`).join("");
+      document.getElementById("leaderboard").classList.remove("hidden");
+    }
+  } catch (err) {
+    console.error("Errore aggiornaLeaderboard:", err);
+  }
+}
+
+function riproviQuiz() {
+  try {
+    selezionaQuiz(stato.indiceQuiz);
+    document.getElementById("step-results").classList.add("hidden");
+  } catch (err) {
+    console.error("Errore riproviQuiz:", err);
+  }
+}
+
+function cambiaQuiz() {
+  try {
+    stato.domandarCorrente = 0;
+    stato.punteggio = 0;
+    stato.risposto = false;
+    stato.indiceQuiz = -1;
+    document.getElementById("step-results").classList.add("hidden");
+    document.getElementById("step-select").classList.remove("hidden");
+  } catch (err) {
+    console.error("Errore cambiaQuiz:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE 9: FORM CONTATTI
+   ======================================== */
+
+function collegaFormContatti() {
+  try {
+    const btnInvia = document.getElementById("submit-form-btn");
+    if (btnInvia) {
+      btnInvia.addEventListener("click", inviaContatto);
+    }
+    
+    collegaTooltipComponentiNavi();
+  } catch (err) {
+    console.error("Errore collegaFormContatti:", err);
+  }
+}
+
+function inviaContatto() {
+  try {
+    const nome = document.getElementById("contact-name").value;
+    const email = document.getElementById("contact-email").value;
+    const messaggio = document.getElementById("contact-message").value;
+
+    if (!nome || !email || !messaggio) {
+      mostraNotifica("Per favore, compila tutti i campi.");
+      return;
+    }
+
+    const btnInvia = document.getElementById("submit-form-btn");
+    btnInvia.disabled = true;
+    btnInvia.textContent = "Invio...";
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: nome, email, message: messaggio })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById("contact-form-fields").style.display = "none";
+        document.getElementById("form-sent").classList.add("show");
+        
+        setTimeout(() => {
+          document.getElementById("contact-form-fields").style.display = "block";
+          document.getElementById("form-sent").classList.remove("show");
+          document.getElementById("contact-name").value = "";
+          document.getElementById("contact-email").value = "";
+          document.getElementById("contact-message").value = "";
+          btnInvia.disabled = false;
+          btnInvia.textContent = "Invia Messaggio ✉️";
+        }, 3000);
+      } else {
+        mostraNotifica("Errore: " + data.message);
+        btnInvia.disabled = false;
+        btnInvia.textContent = "Invia Messaggio ✉️";
+      }
+    })
+    .catch(error => {
+      console.error("Errore fetch:", error);
+      mostraNotifica("Errore di connessione");
+      btnInvia.disabled = false;
+      btnInvia.textContent = "Invia Messaggio ✉️";
+    });
+  } catch (err) {
+    console.error("Errore inviaContatto:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE 10: UTILITÀ
+   ======================================== */
+
+function mostraNotifica(messaggio) {
+  try {
+    const toast = document.getElementById("toast");
+    toast.textContent = messaggio;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
+  } catch (err) {
+    console.error("Errore mostraNotifica:", err);
+  }
+}
+
+// Logging per debug
+console.log("English Academy - App caricata con successo");

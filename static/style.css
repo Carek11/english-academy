@@ -1,17 +1,25 @@
+/* ========================================
+   ENGLISH ACADEMY - STYLESHEET
+   Stili per l'applicazione educativa
+   ======================================== */
+
+/* Variabili colore globali */
 :root {
-  --primary: #1a3a52;
-  --secondary: #c9a961;
-  --gold: #d4af37;
-  --light: #f5f5f5;
-  --dark: #1a1a1a;
-  --border: #ddd;
+  --primary: #1a3a52;    /* Blu scuro - colore principale */
+  --secondary: #c9a961;  /* Oro scuro - colore secondario */
+  --gold: #d4af37;       /* Oro chiaro - accenti */
+  --light: #f5f5f5;      /* Grigio chiarissimo - sfondo */
+  --dark: #1a1a1a;       /* Nero - testo principale */
+  --border: #ddd;        /* Grigio bordi */
 }
 
+/* Reset e base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 
 body {
   font-family: "Source Sans 3", sans-serif;
