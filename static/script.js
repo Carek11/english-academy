@@ -69,43 +69,73 @@ const datiQuiz = [
   }
 ];
 
-// Dati delle navi per la sezione Marina Militare
+/* Dati delle 6 navi principali per la sezione Marina Militare */
 const datiNavi = {
   carrier: {
     nome: "Aircraft Carrier",
     nomeIT: "Portaerei",
-    descrizione: "Una nave da guerra di grandi dimensioni con un ponte di volo continuo per il lancio e l'atterraggio di aerei.",
-    immagine: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop"
+    descrizione: "Nave da guerra di grandi dimensioni con ponte di volo per lancio e atterraggio aerei.",
+    immagine: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop",
+    componentiZone: {
+      "Flight deck": { zona: "top", descrizione: "Piano di volo continuo" },
+      "Island": { zona: "center-right", descrizione: "Superstruttura centrale" },
+      "Catapult": { zona: "top-center", descrizione: "Sistema lancio aerei" }
+    }
   },
   destroyer: {
     nome: "Destroyer",
     nomeIT: "Cacciatorpediniere",
-    descrizione: "Una nave da guerra veloce e manovrabile, principalmente usata per l'escorta e il combattimento tattico.",
-    immagine: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop"
+    descrizione: "Nave veloce e manovrabile per escorta e combattimento tattico.",
+    immagine: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop",
+    componentiZone: {
+      "Hull": { zona: "center", descrizione: "Scafo principale" },
+      "Bow": { zona: "left", descrizione: "Prua anteriore" },
+      "Stern": { zona: "right", descrizione: "Poppa posteriore" }
+    }
   },
   submarine: {
     nome: "Submarine",
     nomeIT: "Sottomarino",
-    descrizione: "Una nave militare sommersa con capacità di navigazione sottomarina, equipaggiata con sensori avanzati.",
-    immagine: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop"
+    descrizione: "Nave militare sommersa con sensori avanzati e navigazione sottomarina.",
+    immagine: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop",
+    componentiZone: {
+      "Conning tower": { zona: "top-center", descrizione: "Torre di comando" },
+      "Periscope": { zona: "top-left", descrizione: "Dispositivo ottico elevabile" },
+      "Propeller": { zona: "bottom-right", descrizione: "Elica motrice" }
+    }
   },
   frigate: {
     nome: "Frigate",
     nomeIT: "Fregata",
-    descrizione: "Una nave da guerra multiruolo di medie dimensioni, versatile per molteplici operazioni navali.",
-    immagine: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop"
+    descrizione: "Nave multiruolo di medie dimensioni per operazioni navali diversificate.",
+    immagine: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop",
+    componentiZone: {
+      "Bridge": { zona: "center-right", descrizione: "Plancia di comando" },
+      "Mast": { zona: "top-center", descrizione: "Albero con sensori" },
+      "Helipad": { zona: "bottom-right", descrizione: "Piazzola elicotteri" }
+    }
   },
-  corvette: {
-    nome: "Corvette",
-    nomeIT: "Corvetta",
-    descrizione: "Una nave da guerra di piccole-medie dimensioni, rapida e agile, ideale per operazioni costiere.",
-    immagine: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=800&fit=crop"
+  cruiser: {
+    nome: "Cruiser",
+    nomeIT: "Incrociatore",
+    descrizione: "Nave corazzata potentemente armata per battaglia e operazioni strategiche.",
+    immagine: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop",
+    componentiZone: {
+      "Main battery": { zona: "top-center", descrizione: "Batteria principale cannoni" },
+      "Gun turret": { zona: "center", descrizione: "Torretta girevole armata" },
+      "Armored belt": { zona: "middle", descrizione: "Corazza di protezione" }
+    }
   },
-  patrol: {
-    nome: "Patrol Vessel",
-    nomeIT: "Pattugliatore",
-    descrizione: "Una nave veloce e leggera utilizzata per la pattuglia, il controllo e l'intervento rapido in acque costiere.",
-    immagine: "https://images.unsplash.com/photo-1608513520737-a6a9ae83ac51?w=1200&h=800&fit=crop"
+  trainingship: {
+    nome: "Training Ship",
+    nomeIT: "Nave Scuola",
+    descrizione: "Nave specializzata per formazione e addestramento di marinai e ufficiali.",
+    immagine: "https://images.unsplash.com/photo-1544551763-92ab472cad5d?w=1200&h=800&fit=crop",
+    componentiZone: {
+      "Classroom deck": { zona: "center", descrizione: "Ponte aula didattico" },
+      "Training rigging": { zona: "top", descrizione: "Attrezzatura velica" },
+      "Practice bridge": { zona: "right", descrizione: "Plancia didattica" }
+    }
   }
 };
 
@@ -266,17 +296,70 @@ function chiudiModalNave() {
    SEZIONE 6: TOOLTIP COMPONENTI NAVI
    ======================================== */
 
+/* Collega i tooltip sui componenti della nave con evidenziazione zona immagine */
 function collegaTooltipComponentiNavi() {
   try {
     document.querySelectorAll(".comp-list li").forEach(item => {
       item.style.cursor = "pointer";
       item.style.position = "relative";
       
-      item.addEventListener("mouseenter", () => mostraTooltip(item));
-      item.addEventListener("mouseleave", () => nascondiTooltip(item));
+      item.addEventListener("mouseenter", () => {
+        mostraTooltip(item);
+        evidenziaZonaNave(item);
+      });
+      item.addEventListener("mouseleave", () => {
+        nascondiTooltip(item);
+        rimuoviEvidenziazione();
+      });
     });
   } catch (err) {
     console.error("Errore collegaTooltipComponentiNavi:", err);
+  }
+}
+
+/* Evidenzia la zona dell'immagine della nave nel modal quando hover su componente */
+function evidenziaZonaNave(elemento) {
+  try {
+    const compEN = elemento.querySelector(".comp-en")?.textContent.trim();
+    const modal = document.getElementById("ship-modal");
+    const immagine = document.getElementById("modal-image");
+    
+    if (!modal.classList.contains("active") || !immagine) return;
+    
+    // Crea overlay dinamico se non esiste
+    let overlay = immagine.nextElementSibling;
+    if (!overlay || !overlay.classList.contains("ship-highlight-overlay")) {
+      overlay = document.createElement("div");
+      overlay.className = "ship-highlight-overlay";
+      overlay.style.cssText = `
+        position: absolute;
+        top: ${immagine.offsetTop}px;
+        left: ${immagine.offsetLeft}px;
+        width: ${immagine.offsetWidth}px;
+        height: ${immagine.offsetHeight}px;
+        background: rgba(212, 175, 55, 0.3);
+        border: 2px solid #c9a961;
+        border-radius: 4px;
+        pointer-events: none;
+        z-index: 999;
+        animation: pulse 0.5s ease-in-out;
+      `;
+      immagine.parentElement.insertBefore(overlay, immagine.nextSibling);
+    } else {
+      overlay.style.display = "block";
+    }
+  } catch (err) {
+    console.error("Errore evidenziaZonaNave:", err);
+  }
+}
+
+/* Rimuove l'evidenziazione della zona nave */
+function rimuoviEvidenziazione() {
+  try {
+    const overlay = document.querySelector(".ship-highlight-overlay");
+    if (overlay) overlay.style.display = "none";
+  } catch (err) {
+    console.error("Errore rimuoviEvidenziazione:", err);
   }
 }
 

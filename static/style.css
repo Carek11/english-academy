@@ -410,6 +410,26 @@ main {
   border-top-color: var(--primary);
 }
 
+/* Overlay evidenziazione zona nave nel modal */
+.ship-highlight-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  background: rgba(212, 175, 55, 0.25);
+  border: 3px solid var(--secondary);
+  border-radius: 6px;
+  animation: pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.7);
+  }
+  50% { 
+    box-shadow: 0 0 0 8px rgba(201, 169, 97, 0);
+  }
+}
+
 .ship-icon-btn {
   display: inline-block;
   width: 50px;
