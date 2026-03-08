@@ -24,9 +24,21 @@ if (strlen($pw) < 6) {
 }
 
 $dbPath = __DIR__ . '/../data/hub_inglese.db';
+if (!is_dir(dirname($dbPath))) {
+    mkdir(dirname($dbPath), 0755, true);
+}
 try {
     $pdo = new PDO('sqlite:' . $dbPath);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("CREATE TABLE IF NOT EXISTS utenti (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        cognome TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        corso_interesse TEXT,
+        creato_il DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
 
     $check = $pdo->prepare('SELECT id FROM utenti WHERE email = ?');
     $check->execute([$email]);
