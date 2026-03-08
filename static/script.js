@@ -124,13 +124,18 @@ function bindNavigation() {
     });
   });
 
-  const navalQuizBtn = document.getElementById("go-naval-quiz");
+  const navalQuizBtn = document.getElementById("naval-quiz-cta");
   if (navalQuizBtn) {
     navalQuizBtn.addEventListener("click", () => {
       showPage("quiz");
-      if (state.studentName) {
-        selectQuiz(3);
-      }
+      setTimeout(() => {
+        if (!state.studentName) {
+          document.getElementById("step-name").classList.remove("hidden");
+          document.getElementById("step-select").classList.add("hidden");
+        } else {
+          selectQuiz(3);
+        }
+      }, 100);
     });
   }
 }
