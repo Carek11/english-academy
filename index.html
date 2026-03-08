@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -220,6 +221,9 @@
               <li><span class="comp-en">Arrestor wire</span><span class="comp-it">Cavo che frena l'aereo in atterraggio.</span></li>
               <li><span class="comp-en">Island</span><span class="comp-it">Superstruttura con plancia e controllo aereo.</span></li>
             </ul>
+            <button class="ship-icon-btn" data-ship="carrier" title="Visualizza immagine della Portaerei">
+              <i class="fas fa-ship"></i>
+            </button>
           </div>
         </div>
 
@@ -235,6 +239,9 @@
               <li><span class="comp-en">Stern</span><span class="comp-it">Poppa.</span></li>
               <li><span class="comp-en">CIC</span><span class="comp-it">Centro operativo di combattimento.</span></li>
             </ul>
+            <button class="ship-icon-btn" data-ship="destroyer" title="Visualizza immagine del Cacciatorpediniere">
+              <i class="fas fa-ship"></i>
+            </button>
           </div>
         </div>
 
@@ -250,6 +257,9 @@
               <li><span class="comp-en">Periscope</span><span class="comp-it">Periscopio.</span></li>
               <li><span class="comp-en">Dive planes</span><span class="comp-it">Timoni di profondità.</span></li>
             </ul>
+            <button class="ship-icon-btn" data-ship="submarine" title="Visualizza immagine del Sottomarino">
+              <i class="fas fa-ship"></i>
+            </button>
           </div>
         </div>
 
@@ -265,6 +275,9 @@
               <li><span class="comp-en">Funnel</span><span class="comp-it">Fumaiolo.</span></li>
               <li><span class="comp-en">Helipad</span><span class="comp-it">Piazzola elicotteri.</span></li>
             </ul>
+            <button class="ship-icon-btn" data-ship="frigate" title="Visualizza immagine della Fregata">
+              <i class="fas fa-ship"></i>
+            </button>
           </div>
         </div>
 
@@ -280,6 +293,9 @@
               <li><span class="comp-en">Rudder</span><span class="comp-it">Timone.</span></li>
               <li><span class="comp-en">Propeller</span><span class="comp-it">Elica.</span></li>
             </ul>
+            <button class="ship-icon-btn" data-ship="corvette" title="Visualizza immagine della Corvetta">
+              <i class="fas fa-ship"></i>
+            </button>
           </div>
         </div>
 
@@ -295,6 +311,9 @@
               <li><span class="comp-en">Freeboard</span><span class="comp-it">Bordo libero.</span></li>
               <li><span class="comp-en">Mooring lines</span><span class="comp-it">Cavi di ormeggio.</span></li>
             </ul>
+            <button class="ship-icon-btn" data-ship="patrol" title="Visualizza immagine del Pattugliatore">
+              <i class="fas fa-ship"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -515,6 +534,20 @@
   </main>
 
   <div class="toast" id="toast"></div>
+
+  <div id="ship-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Nave</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image" src="" alt="Immagine della nave" style="display:block; margin:20px auto; max-width:100%; height:auto;">
+        <h3 id="modal-subtitle"></h3>
+        <p id="modal-description"></p>
+      </div>
+    </div>
+  </div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 

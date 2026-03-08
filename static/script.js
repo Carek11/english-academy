@@ -59,6 +59,45 @@ const quizData = [
   }
 ];
 
+const shipData = {
+  carrier: {
+    name: "Aircraft Carrier",
+    nameIT: "Portaerei",
+    description: "Una nave da guerra di grandi dimensioni con un ponte di volo continuo per il lancio e l'atterraggio di aerei.",
+    image: "https://images.unsplash.com/photo-1552087405-ac1c40e9c629?w=1200&h=800&fit=crop"
+  },
+  destroyer: {
+    name: "Destroyer",
+    nameIT: "Cacciatorpediniere",
+    description: "Una nave da guerra veloce e manovrabile, principalmente usata per l'escorta e il combattimento tattico.",
+    image: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop"
+  },
+  submarine: {
+    name: "Submarine",
+    nameIT: "Sottomarino",
+    description: "Una nave militare sommersa con capacità di navigazione sottomarina, equipaggiata con sensori avanzati.",
+    image: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop"
+  },
+  frigate: {
+    name: "Frigate",
+    nameIT: "Fregata",
+    description: "Una nave da guerra multiruolo di medie dimensioni, versatile per molteplici operazioni navali.",
+    image: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop"
+  },
+  corvette: {
+    name: "Corvette",
+    nameIT: "Corvetta",
+    description: "Una nave da guerra di piccole-medie dimensioni, rapida e agile, ideale per operazioni costiere.",
+    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=800&fit=crop"
+  },
+  patrol: {
+    name: "Patrol Vessel",
+    nameIT: "Pattugliatore",
+    description: "Una nave veloce e leggera utilizzata per la pattuglia, il controllo e l'intervento rapido in acque costiere.",
+    image: "https://images.unsplash.com/photo-1608513520737-a6a9ae83ac51?w=1200&h=800&fit=crop"
+  }
+};
+
 const state = {
   studentName: "",
   quizIndex: -1,
@@ -74,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindAccordion();
   bindQuiz();
   bindContactForm();
+  bindShipModal();
 });
 
 function bindNavigation() {
@@ -92,322 +132,273 @@ function bindNavigation() {
   }
 }
 
+function bindShipModal() {
+  document.querySelectorAll(".ship-icon-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const shipType = btn.dataset.ship;
+      const ship = shipData[shipType];
+      if (ship) {
+        openShipModal(ship);
+      }
+    });
+  });
+
+  const modal = document.getElementById("ship-modal");
+  const closeBtn = document.getElementById("modal-close");
+  
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeShipModal);
+  }
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeShipModal();
+      }
+    });
+  }
+}
+
+function openShipModal(ship) {
+  const modal = document.getElementById("ship-modal");
+  const title = document.getElementById("modal-title");
+  const subtitle = document.getElementById("modal-subtitle");
+  const image = document.getElementById("modal-image");
+  const description = document.getElementById("modal-description");
+
+  if (title) title.textContent = ship.name;
+  if (subtitle) subtitle.textContent = ship.nameIT;
+  if (image) {
+    image.src = ship.image;
+    image.alt = ship.name;
+  }
+  if (description) description.textContent = ship.description;
+
+  if (modal) {
+    modal.classList.add("active");
+  }
+}
+
+function closeShipModal() {
+  const modal = document.getElementById("ship-modal");
+  if (modal) {
+    modal.classList.remove("active");
+  }
+}
+
 function bindAccordion() {
   document.querySelectorAll(".acc-header").forEach(header => {
     header.addEventListener("click", () => toggleAcc(header));
   });
 }
 
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  acc.classList.toggle("open");
+}
+
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(pageId).classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  document.querySelector(`[data-page="${pageId}"]`).classList.add("active");
+}
+
 function bindQuiz() {
-  const submitNameBtn = document.getElementById("submit-name-btn");
-  const nextBtn = document.getElementById("next-btn");
-  const retryBtn = document.getElementById("retry-btn");
-  const changeQuizBtn = document.getElementById("change-quiz-btn");
+  const nameBtn = document.getElementById("submit-name-btn");
   const nameInput = document.getElementById("student-name-input");
 
-  if (submitNameBtn) submitNameBtn.addEventListener("click", submitName);
-  if (nextBtn) nextBtn.addEventListener("click", nextQuestion);
-  if (retryBtn) retryBtn.addEventListener("click", retryQuiz);
-  if (changeQuizBtn) changeQuizBtn.addEventListener("click", changeQuiz);
-
-  if (nameInput) {
-    nameInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        submitName();
-      }
-    });
+  if (nameBtn) {
+    nameBtn.addEventListener("click", () => submitName(nameInput.value));
   }
 
-  document.querySelectorAll(".quiz-btn-sel").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const quizIndex = Number(btn.dataset.quiz);
-      selectQuiz(quizIndex);
-    });
+  document.querySelectorAll(".quiz-btn-sel").forEach((btn, idx) => {
+    btn.addEventListener("click", () => selectQuiz(idx));
   });
-}
 
-function bindContactForm() {
-  const form = document.getElementById("contact-form-fields");
-  if (!form) return;
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    submitForm();
-  });
-}
-
-function showPage(id) {
-  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
-  document.querySelectorAll("nav button").forEach(button => button.classList.remove("active"));
-
-  const page = document.getElementById(id);
-  if (page) page.classList.add("active");
-
-  const navMap = {
-    home: 0,
-    corsi: 1,
-    marina: 2,
-    quiz: 3,
-    "chi-siamo": 4,
-    contatti: 5
-  };
-
-  const navButtons = document.querySelectorAll("nav button");
-  if (navMap[id] !== undefined && navButtons[navMap[id]]) {
-    navButtons[navMap[id]].classList.add("active");
+  const nextBtn = document.getElementById("next-btn");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", nextQuestion);
   }
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const retryBtn = document.getElementById("retry-quiz-btn");
+  if (retryBtn) {
+    retryBtn.addEventListener("click", retryQuiz);
+  }
+
+  const changeBtn = document.getElementById("change-quiz-btn");
+  if (changeBtn) {
+    changeBtn.addEventListener("click", changeQuiz);
+  }
 }
 
-function toggleAcc(header) {
-  header.classList.toggle("open");
-  const body = header.nextElementSibling;
-  if (body) body.classList.toggle("open");
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  if (!toast) return;
-
-  toast.textContent = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
-}
-
-function submitForm() {
-  const fields = document.getElementById("contact-form-fields");
-  const sent = document.getElementById("form-sent");
-
-  if (fields) fields.style.display = "none";
-  if (sent) sent.style.display = "block";
-
-  showToast("✅ Messaggio inviato!");
-}
-
-function submitName() {
-  const input = document.getElementById("student-name-input");
-  if (!input) return;
-
-  const val = input.value.trim();
-  if (!val) {
-    showToast("⚠️ Inserisci il tuo nome!");
+function submitName(name) {
+  if (!name.trim()) {
+    alert("Per favore, inserisci il tuo nome.");
     return;
   }
-
-  state.studentName = val;
-
-  document.getElementById("display-name").textContent = val;
-  document.getElementById("step-name").style.display = "none";
-  document.getElementById("step-select").style.display = "block";
-  document.getElementById("step-quiz").style.display = "none";
-  document.getElementById("step-results").style.display = "none";
+  state.studentName = name;
+  document.getElementById("display-name").textContent = name;
+  document.getElementById("quiz-student-label").textContent = "👤 " + name;
+  document.getElementById("step-name").classList.add("hidden");
+  document.getElementById("step-select").classList.remove("hidden");
 }
 
 function selectQuiz(idx) {
-  if (!quizData[idx]) return;
-
   state.quizIndex = idx;
   state.current = 0;
   state.score = 0;
   state.answered = false;
-
-  const allQuestions = quizData[idx].questions;
-
-  if (idx === 3 && allQuestions.length > 10) {
-    const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
-    state.activeQuestions = shuffled.slice(0, 10);
-  } else {
-    state.activeQuestions = [...allQuestions];
-  }
-
-  document.getElementById("step-select").style.display = "none";
-  document.getElementById("step-results").style.display = "none";
-  document.getElementById("step-quiz").style.display = "block";
-
-  document.querySelectorAll(".quiz-btn-sel").forEach(btn => btn.classList.remove("selected"));
-  const selectedBtn = document.querySelector(`.quiz-btn-sel[data-quiz="${idx}"]`);
-  if (selectedBtn) selectedBtn.classList.add("selected");
-
-  renderQuestion();
+  state.activeQuestions = [...quizData[idx].questions].sort(() => Math.random() - 0.5);
+  document.getElementById("step-select").classList.add("hidden");
+  document.getElementById("step-quiz").classList.remove("hidden");
+  loadQuestion();
 }
 
-function renderQuestion() {
-  const quiz = quizData[state.quizIndex];
+function loadQuestion() {
   const q = state.activeQuestions[state.current];
-  if (!quiz || !q) return;
+  document.getElementById("q-num").textContent = "DOMANDA " + (state.current + 1);
+  document.getElementById("q-text").textContent = q.q;
+  document.getElementById("q-feedback").classList.add("hidden");
+
+  const optDiv = document.getElementById("q-options");
+  optDiv.innerHTML = "";
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.className = "option";
+    btn.addEventListener("click", () => answerQuestion(idx));
+    optDiv.appendChild(btn);
+  });
 
   const total = state.activeQuestions.length;
-  const progress = (state.current / total) * 100;
-
-  document.getElementById("quiz-student-label").textContent = "👤 " + state.studentName;
   document.getElementById("quiz-progress").textContent = `Domanda ${state.current + 1} di ${total}`;
-  document.getElementById("quiz-score-live").textContent = `⭐ ${state.score} / ${state.current}`;
-  document.getElementById("q-num").textContent = `DOMANDA ${state.current + 1} – ${quiz.title.toUpperCase()}`;
-  document.getElementById("q-text").textContent = q.q;
-  document.getElementById("progress-fill").style.width = `${progress}%`;
-  document.getElementById("q-feedback").style.display = "none";
-  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("progress-fill").style.width = ((state.current + 1) / total * 100) + "%";
+  document.getElementById("quiz-score-live").textContent = "⭐ " + state.score + " / " + (state.current + 1);
 
   state.answered = false;
-
-  const letters = ["A", "B", "C", "D"];
-  const container = document.getElementById("q-options");
-  container.innerHTML = "";
-
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement("button");
-    btn.className = "option-btn";
-    btn.type = "button";
-    btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt}`;
-    btn.addEventListener("click", () => answerQuestion(i, btn));
-    container.appendChild(btn);
-  });
+  document.getElementById("next-btn").disabled = true;
 }
 
-function answerQuestion(chosen, btn) {
+function answerQuestion(chosenIdx) {
   if (state.answered) return;
-
   state.answered = true;
 
   const q = state.activeQuestions[state.current];
-  const allBtns = document.querySelectorAll(".option-btn");
-  allBtns.forEach(button => button.disabled = true);
+  const opts = document.querySelectorAll(".option");
+
+  opts.forEach((opt, idx) => {
+    if (idx === q.ans) {
+      opt.classList.add("correct");
+    } else if (idx === chosenIdx) {
+      opt.classList.add("wrong");
+    }
+  });
 
   const feedback = document.getElementById("q-feedback");
-  const total = state.activeQuestions.length;
-
-  if (chosen === q.ans) {
+  if (chosenIdx === q.ans) {
     state.score++;
-    btn.classList.add("correct");
+    feedback.textContent = "✅ Corretto!";
     feedback.className = "feedback-msg correct";
-    feedback.textContent = "✅ Risposta corretta! Ottimo lavoro!";
   } else {
-    btn.classList.add("wrong");
-    if (allBtns[q.ans]) allBtns[q.ans].classList.add("correct");
+    feedback.textContent = "❌ Sbagliato. La risposta corretta è: " + q.opts[q.ans];
     feedback.className = "feedback-msg wrong";
-    feedback.textContent = `❌ Risposta errata. La risposta corretta era: "${q.opts[q.ans]}"`;
   }
 
-  document.getElementById("quiz-score-live").textContent = `⭐ ${state.score} / ${state.current + 1}`;
-  feedback.style.display = "block";
-
-  const nextBtn = document.getElementById("next-btn");
-  nextBtn.style.display = "inline-block";
-  nextBtn.textContent = state.current + 1 >= total ? "🏁 Vedi risultati" : "Prossima →";
+  feedback.classList.remove("hidden");
+  document.getElementById("next-btn").disabled = false;
 }
 
 function nextQuestion() {
-  const total = state.activeQuestions.length;
-
-  if (state.current + 1 >= total) {
-    showResults();
+  state.current++;
+  if (state.current >= state.activeQuestions.length) {
+    endQuiz();
   } else {
-    state.current++;
-    renderQuestion();
+    loadQuestion();
   }
 }
 
-function showResults() {
+function endQuiz() {
   const total = state.activeQuestions.length;
-  const pct = Math.round((state.score / total) * 100);
-  const wrong = total - state.score;
+  const pct = Math.round(state.score / total * 100);
 
-  document.getElementById("step-quiz").style.display = "none";
-  document.getElementById("step-results").style.display = "block";
+  document.getElementById("step-quiz").classList.add("hidden");
+  document.getElementById("step-results").classList.remove("hidden");
 
-  const degrees = (pct / 100) * 360;
-  document.getElementById("score-circle").style.background =
-    `conic-gradient(var(--gold) ${degrees}deg, rgba(255,255,255,0.06) ${degrees}deg)`;
+  document.getElementById("score-pct").textContent = pct + "%";
+  document.getElementById("r-correct").textContent = "✓ " + state.score + " corrette";
+  document.getElementById("r-wrong").textContent = "✗ " + (total - state.score) + " errate";
+  document.getElementById("r-total").textContent = "📊 " + total + " totali";
+  document.getElementById("result-student").textContent = state.studentName;
 
-  document.getElementById("score-pct").textContent = `${pct}%`;
-  document.getElementById("result-student").textContent = `👤 ${state.studentName} – ${quizData[state.quizIndex].title}`;
-  document.getElementById("r-correct").textContent = `✓ ${state.score} corrette`;
-  document.getElementById("r-wrong").textContent = `✗ ${wrong} errate`;
-  document.getElementById("r-total").textContent = `📊 ${total} totali`;
+  let grade = "Eccellente!";
+  if (pct < 60) grade = "Non ancora... Riprova!";
+  else if (pct < 75) grade = "Buono!";
+  else if (pct < 90) grade = "Molto buono!";
 
-  let grade;
-  let color;
-  let title;
+  document.getElementById("grade-badge").textContent = grade;
 
-  if (pct >= 90) {
-    grade = "🏆 ECCELLENTE";
-    color = "var(--gold2)";
-    title = "Risultato Eccellente!";
-  } else if (pct >= 75) {
-    grade = "⭐ OTTIMO";
-    color = "#6ade8a";
-    title = "Ottimo Lavoro!";
-  } else if (pct >= 60) {
-    grade = "👍 BUONO";
-    color = "#4ac8f0";
-    title = "Buon Risultato!";
-  } else if (pct >= 40) {
-    grade = "📚 SUFFICIENTE";
-    color = "#f0b34a";
-    title = "Continua a Studiare!";
-  } else {
-    grade = "💪 DA MIGLIORARE";
-    color = "#e07070";
-    title = "Non Mollare!";
-  }
-
-  const gradeBadge = document.getElementById("grade-badge");
-  gradeBadge.textContent = grade;
-  gradeBadge.style.background = `${color}22`;
-  gradeBadge.style.color = color;
-  gradeBadge.style.border = `1px solid ${color}55`;
-
-  document.getElementById("result-title").textContent = title;
-
-  state.history.unshift({
-    name: state.studentName,
-    quiz: quizData[state.quizIndex].title,
-    score: state.score,
-    total,
-    pct
-  });
-
-  renderLeaderboard();
+  const entry = state.studentName + " - " + pct + "% - " + new Date().toLocaleDateString("it-IT");
+  state.history.push(entry);
+  updateLeaderboard();
 }
 
-function renderLeaderboard() {
-  const container = document.getElementById("lb-entries");
-  const leaderboard = document.getElementById("leaderboard");
-  if (!container || !leaderboard) return;
-
-  container.innerHTML = "";
-
-  const last5 = state.history.slice(0, 5);
-  if (last5.length === 0) {
-    leaderboard.style.display = "none";
-    return;
+function updateLeaderboard() {
+  const lb = document.getElementById("lb-entries");
+  if (lb && state.history.length > 0) {
+    lb.innerHTML = state.history.map(e => `<div class="lb-entry"><span>${e}</span></div>`).join("");
+    document.getElementById("leaderboard").classList.remove("hidden");
   }
-
-  leaderboard.style.display = "block";
-
-  last5.forEach((entry, i) => {
-    const div = document.createElement("div");
-    div.className = "lb-entry";
-    div.innerHTML = `
-      <div class="lb-rank">${i + 1}</div>
-      <div class="lb-name">${entry.name}</div>
-      <div class="lb-quiz">${entry.quiz}</div>
-      <div class="lb-score">${entry.pct}%</div>
-    `;
-    container.appendChild(div);
-  });
 }
 
 function retryQuiz() {
-  if (state.quizIndex >= 0) {
-    selectQuiz(state.quizIndex);
-  }
+  selectQuiz(state.quizIndex);
+  document.getElementById("step-results").classList.add("hidden");
 }
 
 function changeQuiz() {
-  document.getElementById("step-results").style.display = "none";
-  document.getElementById("step-quiz").style.display = "none";
-  document.getElementById("step-select").style.display = "block";
+  state.current = 0;
+  state.score = 0;
+  state.answered = false;
+  state.quizIndex = -1;
+  document.getElementById("step-results").classList.add("hidden");
+  document.getElementById("step-select").classList.remove("hidden");
+}
+
+function bindContactForm() {
+  const submitBtn = document.getElementById("submit-form-btn");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", submitContact);
+  }
+}
+
+function submitContact() {
+  const name = document.getElementById("contact-name").value;
+  const email = document.getElementById("contact-email").value;
+  const message = document.getElementById("contact-message").value;
+
+  if (!name || !email || !message) {
+    showToast("Per favore, compila tutti i campi.");
+    return;
+  }
+
+  document.getElementById("contact-form-fields").style.display = "none";
+  document.getElementById("form-sent").classList.add("show");
+
+  setTimeout(() => {
+    document.getElementById("contact-form-fields").style.display = "block";
+    document.getElementById("form-sent").classList.remove("show");
+    document.getElementById("contact-name").value = "";
+    document.getElementById("contact-email").value = "";
+    document.getElementById("contact-message").value = "";
+  }, 3000);
+}
+
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
 }
