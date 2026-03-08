@@ -9,6 +9,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      prefix: 'tw-',
+      corePlugins: { preflight: false }
+    }
+  </script>
+  <style>
+    /* Sezione Esercizi - stili specifici */
+    #esercizi .ex-card { transition: box-shadow .2s, transform .2s; }
+    #esercizi .ex-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.13); transform: translateY(-2px); }
+    #esercizi .soluzione-box { display: none; }
+    #esercizi .soluzione-box.aperta { display: block; }
+    #esercizi pre { white-space: pre-wrap; word-break: break-word; }
+    .badge-web   { background:#2563eb; color:#fff; }
+    .badge-php   { background:#7c3aed; color:#fff; }
+    .badge-db    { background:#059669; color:#fff; }
+    .badge-py    { background:#d97706; color:#fff; }
+    .badge-logic { background:#dc2626; color:#fff; }
+    .badge-base  { background:#d1fae5; color:#065f46; }
+    .badge-inter { background:#fef3c7; color:#92400e; }
+    .badge-avanz { background:#fee2e2; color:#991b1b; }
+    .filtro-attivo { background: var(--primary) !important; color: #fff !important; border-color: var(--primary) !important; }
+    #corsi .cat-card { border-left: 4px solid var(--secondary); }
+  </style>
 </head>
 <body>
 
@@ -26,6 +51,7 @@
   <nav>
     <button class="active" data-page="home">🏠 Home</button>
     <button data-page="corsi">📚 Corsi</button>
+    <button data-page="esercizi">🛠️ Esercizi</button>
     <button data-page="marina">⚓ Marina Militare</button>
     <button data-page="quiz">🎯 Quiz</button>
     <button data-page="contatti">✉️ Contatti</button>
@@ -44,7 +70,7 @@
 
       <div class="stats-row">
         <div class="stat-box"><div class="stat-num">12+</div><div class="stat-label">Corsi Disponibili</div></div>
-        <div class="stat-box"><div class="stat-num">500+</div><div class="stat-label">Studenti Attivi</div></div>
+        <div class="stat-box"><div class="stat-num">3000+</div><div class="stat-label">Esercizi Pratici</div></div>
         <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Quiz Interattivi</div></div>
         <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">Soddisfazione</div></div>
       </div>
@@ -99,64 +125,115 @@
       <p class="section-sub">Scegli il percorso più adatto alle tue esigenze</p>
       <div class="divider"></div>
 
+      <!-- Categoria: Inglese Generale -->
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-6" style="color:var(--primary);">🇬🇧 Inglese Generale</h3>
       <div class="cards-grid">
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">🌱</div>
           <h3>Inglese Base (A1–A2)</h3>
-          <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, il presente semplice.</p>
+          <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span>
           <p class="small-note">✓ Grammatica di base · ✓ Vocabolario quotidiano · ✓ Conversazione semplice</p>
         </div>
-
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span>
           <p class="small-note">✓ Tempi verbali · ✓ Listening avanzato · ✓ Scrittura formale base</p>
         </div>
-
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span>
         </div>
-
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span>
         </div>
-
-        <div class="card">
-          <div class="card-icon">💼</div>
-          <h3>Business English</h3>
-          <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
-          <span class="badge">8 SETTIMANE</span>
-        </div>
-
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span>
         </div>
-
-        <div class="card">
+        <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span>
         </div>
+      </div>
 
-        <div class="card card-naval">
+      <!-- Categoria: Business & Professionale -->
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💼 Business & Professionale</h3>
+      <div class="cards-grid">
+        <div class="card cat-card">
+          <div class="card-icon">💼</div>
+          <h3>Business English</h3>
+          <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
+          <span class="badge">8 SETTIMANE</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">🤝</div>
+          <h3>Inglese per Negoziazioni</h3>
+          <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
+          <span class="badge">6 SETTIMANE</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">📊</div>
+          <h3>Inglese per Presentazioni</h3>
+          <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
+          <span class="badge">4 SETTIMANE</span>
+        </div>
+      </div>
+
+      <!-- Categoria: Programmazione & Tech -->
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💻 Programmazione & Tech</h3>
+      <div class="cards-grid">
+        <div class="card cat-card" style="border-left-color:#2563eb;">
+          <div class="card-icon">🌐</div>
+          <h3>Web Development</h3>
+          <p>HTML5, CSS Grid/Flexbox, JavaScript ES6+, React Hooks. Esercizi pratici inclusi.</p>
+          <span class="badge" style="background:#2563eb;color:#fff;">TECNICO</span><br>
+          <button class="btn" data-page-target="esercizi" data-cat="Web">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card" style="border-left-color:#7c3aed;">
+          <div class="card-icon">🐘</div>
+          <h3>PHP</h3>
+          <p>Cicli, liste, funzioni, web scraping con cURL, automazione e parsing HTML.</p>
+          <span class="badge" style="background:#7c3aed;color:#fff;">TECNICO</span><br>
+          <button class="btn" data-page-target="esercizi" data-cat="PHP">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card" style="border-left-color:#059669;">
+          <div class="card-icon">🗄️</div>
+          <h3>Database SQL & NoSQL</h3>
+          <p>Query SQL, JOIN, aggregazioni, CTE, indici. Introduzione a MongoDB.</p>
+          <span class="badge" style="background:#059669;color:#fff;">TECNICO</span><br>
+          <button class="btn" data-page-target="esercizi" data-cat="Database">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card" style="border-left-color:#d97706;">
+          <div class="card-icon">🐍</div>
+          <h3>Python & Algoritmi</h3>
+          <p>Strutture dati, algoritmi di ordinamento, ricerca, generatori, decoratori.</p>
+          <span class="badge" style="background:#d97706;color:#fff;">TECNICO</span><br>
+          <button class="btn" data-page-target="esercizi" data-cat="Python">Vai agli esercizi →</button>
+        </div>
+        <div class="card cat-card" style="border-left-color:#dc2626;">
+          <div class="card-icon">🧠</div>
+          <h3>Logica & Problem Solving</h3>
+          <p>FizzBuzz, palindromi, anagrammi, Fibonacci, duplicati e algoritmi classici.</p>
+          <span class="badge" style="background:#dc2626;color:#fff;">LOGICA</span><br>
+          <button class="btn" data-page-target="esercizi" data-cat="Logica">Vai agli esercizi →</button>
+        </div>
+        <div class="card card-naval cat-card">
           <div class="card-icon">⚓</div>
           <h3>Inglese Navale – Marina Militare</h3>
-          <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
-          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span>
-          <br>
+          <p>Terminologia navale NATO, navi da guerra, sottomarini, fregate e comunicazioni.</p>
+          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span><br>
           <button class="btn" data-page-target="marina">Vai alla sezione →</button>
         </div>
       </div>
@@ -197,6 +274,96 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- SEZIONE ESERCIZI                                             -->
+    <!-- ============================================================ -->
+    <section id="esercizi" class="page">
+
+      <div class="naval-hero">
+        <div class="naval-tag">🛠️ PRATICA ATTIVA</div>
+        <h2>Esercizi di Programmazione</h2>
+        <p>Studia, pratica e migliora con esercizi reali su Web, PHP, Database, Python e Logica. Clicca su ogni card per vedere la soluzione.</p>
+      </div>
+
+      <!-- ── Filtri e Ricerca ── -->
+      <div class="tw-bg-white tw-rounded-2xl tw-shadow-md tw-p-6 tw-mb-8" style="margin-top:24px;">
+        <div class="tw-flex tw-flex-wrap tw-gap-3 tw-mb-4">
+          <!-- Ricerca -->
+          <div class="tw-flex-1 tw-min-w-[200px]">
+            <input id="ex-search"
+                   type="text"
+                   placeholder="🔍 Cerca esercizi..."
+                   class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2 tw-text-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-400"
+                   style="font-family:inherit;">
+          </div>
+          <!-- Select difficoltà -->
+          <select id="ex-diff"
+                  class="tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm"
+                  style="font-family:inherit;">
+            <option value="">Tutti i livelli</option>
+            <option value="Base">🟢 Base</option>
+            <option value="Intermedio">🟡 Intermedio</option>
+            <option value="Avanzato">🔴 Avanzato</option>
+          </select>
+          <!-- Reset -->
+          <button id="ex-reset"
+                  class="tw-px-4 tw-py-2 tw-text-sm tw-rounded-lg tw-border tw-border-gray-300 tw-bg-gray-50 hover:tw-bg-gray-100"
+                  style="font-family:inherit;">
+            ✕ Reset
+          </button>
+        </div>
+
+        <!-- Filtri categoria -->
+        <div class="tw-flex tw-flex-wrap tw-gap-2" id="filtri-categoria">
+          <button class="filtro-cat filtro-attivo tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold" data-cat="" style="font-family:inherit;">
+            Tutti
+          </button>
+          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-web" data-cat="Web" style="font-family:inherit;">
+            🌐 Web
+          </button>
+          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-php" data-cat="PHP" style="font-family:inherit;">
+            🐘 PHP
+          </button>
+          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-db" data-cat="Database" style="font-family:inherit;">
+            🗄️ Database
+          </button>
+          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-py" data-cat="Python" style="font-family:inherit;">
+            🐍 Python
+          </button>
+          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-logic" data-cat="Logica" style="font-family:inherit;">
+            🧠 Logica
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Statistiche risultati ── -->
+      <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+        <p id="ex-count" class="tw-text-sm tw-text-gray-500">Caricamento esercizi...</p>
+        <div class="tw-flex tw-gap-2">
+          <button id="ex-prev" class="tw-px-3 tw-py-1 tw-text-sm tw-rounded-lg tw-border tw-border-gray-300 tw-bg-white hover:tw-bg-gray-50 disabled:tw-opacity-40" style="font-family:inherit;" disabled>← Prec</button>
+          <span id="ex-pag-info" class="tw-px-3 tw-py-1 tw-text-sm tw-text-gray-600">Pag. 1</span>
+          <button id="ex-next" class="tw-px-3 tw-py-1 tw-text-sm tw-rounded-lg tw-border tw-border-gray-300 tw-bg-white hover:tw-bg-gray-50 disabled:tw-opacity-40" style="font-family:inherit;">Succ →</button>
+        </div>
+      </div>
+
+      <!-- ── Griglia Esercizi ── -->
+      <div id="ex-grid" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-6">
+        <div class="tw-text-center tw-col-span-3 tw-py-12 tw-text-gray-400">
+          <div class="tw-text-5xl tw-mb-4">⏳</div>
+          <p>Caricamento esercizi in corso...</p>
+        </div>
+      </div>
+
+      <!-- ── CTA bottom ── -->
+      <div class="center-block" style="margin-top:40px;">
+        <button class="btn-primary" data-page-target="quiz">🎯 Mettiti alla prova con i Quiz →</button>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SEZIONE MARINA MILITARE                                      -->
+    <!-- ============================================================ -->
     <section id="marina" class="page">
       <div class="naval-hero">
         <div class="naval-tag">⚓ INGLESE TECNICO – MARINA MILITARE</div>

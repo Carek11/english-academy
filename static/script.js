@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     collegaQuiz();
     collegaFormContatti();
     collegaModalNave();
+    inizializzaEsercizi();
   } catch (err) {
     console.error("Errore inizializzazione:", err);
   }
@@ -185,7 +186,14 @@ function collegaNavigazione() {
     document.querySelectorAll("[data-page], [data-page-target]").forEach(btn => {
       btn.addEventListener("click", () => {
         const pagina = btn.dataset.page || btn.dataset.pageTarget;
-        if (pagina) mostraPagina(pagina);
+        const cat    = btn.dataset.cat || "";
+        if (pagina) {
+          mostraPagina(pagina);
+          // Se naviga agli esercizi con categoria preset
+          if (pagina === "esercizi" && cat) {
+            setTimeout(() => impostaFiltroCategoria(cat), 50);
+          }
+        }
       });
     });
 
@@ -218,6 +226,14 @@ function mostraPagina(idPagina) {
     document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
     const btnNav = document.querySelector(`[data-page="${idPagina}"]`);
     if (btnNav) btnNav.classList.add("active");
+
+    // Carica esercizi la prima volta che si entra nella sezione
+    if (idPagina === "esercizi") {
+      const grid = document.getElementById("ex-grid");
+      if (grid && !grid.querySelector(".ex-card")) {
+        caricaEsercizi();
+      }
+    }
   } catch (err) {
     console.error("Errore mostraPagina:", err);
   }
@@ -612,6 +628,270 @@ function mostraNotifica(messaggio) {
     setTimeout(() => toast.classList.remove("show"), 3000);
   } catch (err) {
     console.error("Errore mostraNotifica:", err);
+  }
+}
+
+/* ========================================
+   SEZIONE 11: ESERCIZI (DB-Driven)
+   ======================================== */
+
+// Stato globale esercizi
+const statoEsercizi = {
+  categoriaAttiva: "",
+  difficolta: "",
+  ricerca: "",
+  paginaCorrente: 1,
+  pagineTotali: 1,
+  perPagina: 12,
+  timerRicerca: null
+};
+
+// Badge colori per categoria e difficoltà
+function badgeCategoria(cat) {
+  const mappa = {
+    Web:      "badge-web",
+    PHP:      "badge-php",
+    Database: "badge-db",
+    Python:   "badge-py",
+    Logica:   "badge-logic"
+  };
+  return mappa[cat] || "";
+}
+
+function badgeDiff(diff) {
+  const mappa = { Base: "badge-base", Intermedio: "badge-inter", Avanzato: "badge-avanz" };
+  return mappa[diff] || "";
+}
+
+// Costruisce HTML di una card esercizio
+function creaCardEsercizio(ex) {
+  const bCat  = badgeCategoria(ex.categoria);
+  const bDiff = badgeDiff(ex.difficolta);
+  // Sfondo del bordo superiore card per categoria
+  const colBorda = { Web:"#2563eb", PHP:"#7c3aed", Database:"#059669", Python:"#d97706", Logica:"#dc2626" };
+  const colore   = colBorda[ex.categoria] || "var(--primary)";
+
+  return `
+    <div class="ex-card tw-bg-white tw-rounded-2xl tw-border tw-border-gray-200 tw-p-5 tw-flex tw-flex-col tw-gap-3"
+         style="border-top: 4px solid ${colore};">
+      <!-- Header -->
+      <div class="tw-flex tw-items-start tw-justify-between tw-gap-2">
+        <h4 class="tw-font-bold tw-text-sm tw-leading-snug" style="color:var(--primary); flex:1;">${escHtml(ex.titolo)}</h4>
+        <div class="tw-flex tw-gap-1 tw-flex-shrink-0">
+          <span class="tw-px-2 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-semibold ${bCat}">${escHtml(ex.categoria)}</span>
+          <span class="tw-px-2 tw-py-0.5 tw-rounded-full tw-text-xs tw-font-semibold ${bDiff}">${escHtml(ex.difficolta)}</span>
+        </div>
+      </div>
+
+      <!-- Sotto-categoria -->
+      <p class="tw-text-xs tw-text-gray-400 -tw-mt-2">📁 ${escHtml(ex.sotto)}</p>
+
+      <!-- Testo esercizio -->
+      <p class="tw-text-sm tw-text-gray-700 tw-leading-relaxed">${escHtml(ex.testo)}</p>
+
+      <!-- Toggle soluzione -->
+      <button class="tw-mt-auto tw-text-xs tw-font-semibold tw-py-2 tw-px-3 tw-rounded-lg tw-border tw-border-gray-300 hover:tw-bg-gray-50 tw-text-left"
+              style="font-family:inherit; color:var(--primary);"
+              onclick="toggleSoluzione(this)">
+        👁️ Mostra soluzione
+      </button>
+
+      <!-- Box soluzione -->
+      <div class="soluzione-box tw-bg-gray-900 tw-rounded-xl tw-p-4 tw-mt-1">
+        <p class="tw-text-xs tw-text-gray-400 tw-mb-2 tw-font-semibold">✅ SOLUZIONE</p>
+        <pre class="tw-text-xs tw-text-green-300 tw-font-mono">${escHtml(ex.soluzione)}</pre>
+      </div>
+    </div>
+  `;
+}
+
+// Escape HTML sicuro
+function escHtml(str) {
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+// Toggle visibilità soluzione
+function toggleSoluzione(btn) {
+  try {
+    const box = btn.nextElementSibling;
+    const aperta = box.classList.toggle("aperta");
+    btn.textContent = aperta ? "🙈 Nascondi soluzione" : "👁️ Mostra soluzione";
+  } catch (err) {
+    console.error("Errore toggleSoluzione:", err);
+  }
+}
+
+// Carica esercizi dall'API Flask
+async function caricaEsercizi() {
+  try {
+    const grid       = document.getElementById("ex-grid");
+    const exCount    = document.getElementById("ex-count");
+    const pagInfo    = document.getElementById("ex-pag-info");
+    const btnPrev    = document.getElementById("ex-prev");
+    const btnNext    = document.getElementById("ex-next");
+
+    // Stato caricamento
+    grid.innerHTML = `
+      <div class="tw-text-center tw-col-span-3 tw-py-12 tw-text-gray-400">
+        <div class="tw-text-5xl tw-mb-4">⏳</div>
+        <p>Caricamento...</p>
+      </div>`;
+
+    // Costruisce URL con parametri
+    const params = new URLSearchParams();
+    if (statoEsercizi.categoriaAttiva) params.set("categoria",  statoEsercizi.categoriaAttiva);
+    if (statoEsercizi.difficolta)      params.set("difficolta", statoEsercizi.difficolta);
+    if (statoEsercizi.ricerca)         params.set("q",          statoEsercizi.ricerca);
+    params.set("page",     statoEsercizi.paginaCorrente);
+    params.set("per_page", statoEsercizi.perPagina);
+
+    const risposta = await fetch(`/api/exercises?${params}`);
+    if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+    const dati = await risposta.json();
+
+    // Aggiorna stato paginazione
+    statoEsercizi.pagineTotali = dati.pagine_tot || 1;
+
+    // Render card
+    if (!dati.esercizi || dati.esercizi.length === 0) {
+      grid.innerHTML = `
+        <div class="tw-text-center tw-col-span-3 tw-py-16 tw-text-gray-400">
+          <div class="tw-text-5xl tw-mb-4">🔍</div>
+          <p class="tw-text-lg">Nessun esercizio trovato</p>
+          <p class="tw-text-sm tw-mt-1">Prova a modificare i filtri</p>
+        </div>`;
+    } else {
+      grid.innerHTML = dati.esercizi.map(creaCardEsercizio).join("");
+    }
+
+    // Aggiorna contatore
+    const da  = (statoEsercizi.paginaCorrente - 1) * statoEsercizi.perPagina + 1;
+    const a   = Math.min(da + (dati.esercizi?.length || 0) - 1, dati.totale);
+    exCount.textContent = dati.totale > 0
+      ? `Mostrati ${da}–${a} di ${dati.totale} esercizi`
+      : "Nessun esercizio trovato";
+
+    // Paginazione
+    pagInfo.textContent = `Pag. ${statoEsercizi.paginaCorrente} / ${statoEsercizi.pagineTotali}`;
+    btnPrev.disabled = statoEsercizi.paginaCorrente <= 1;
+    btnNext.disabled = statoEsercizi.paginaCorrente >= statoEsercizi.pagineTotali;
+
+  } catch (err) {
+    console.error("Errore caricaEsercizi:", err);
+    const grid = document.getElementById("ex-grid");
+    if (grid) grid.innerHTML = `
+      <div class="tw-text-center tw-col-span-3 tw-py-12 tw-text-red-400">
+        <div class="tw-text-4xl tw-mb-3">⚠️</div>
+        <p>Errore caricamento esercizi.<br><span class="tw-text-xs">${err.message}</span></p>
+      </div>`;
+  }
+}
+
+// Imposta filtro categoria da esterno (es. da "Corsi")
+function impostaFiltroCategoria(cat) {
+  try {
+    statoEsercizi.categoriaAttiva = cat;
+    statoEsercizi.paginaCorrente  = 1;
+    // Aggiorna UI filtri
+    document.querySelectorAll(".filtro-cat").forEach(btn => {
+      const attivo = (btn.dataset.cat === cat);
+      btn.classList.toggle("filtro-attivo", attivo);
+    });
+    caricaEsercizi();
+  } catch (err) {
+    console.error("Errore impostaFiltroCategoria:", err);
+  }
+}
+
+// Inizializzazione completa sezione esercizi
+function inizializzaEsercizi() {
+  try {
+    // Filtri categoria
+    document.querySelectorAll(".filtro-cat").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filtro-cat").forEach(b => b.classList.remove("filtro-attivo"));
+        btn.classList.add("filtro-attivo");
+        statoEsercizi.categoriaAttiva = btn.dataset.cat || "";
+        statoEsercizi.paginaCorrente  = 1;
+        caricaEsercizi();
+      });
+    });
+
+    // Select difficoltà
+    const selDiff = document.getElementById("ex-diff");
+    if (selDiff) {
+      selDiff.addEventListener("change", () => {
+        statoEsercizi.difficolta     = selDiff.value;
+        statoEsercizi.paginaCorrente = 1;
+        caricaEsercizi();
+      });
+    }
+
+    // Ricerca con debounce 350ms
+    const inputRicerca = document.getElementById("ex-search");
+    if (inputRicerca) {
+      inputRicerca.addEventListener("input", () => {
+        clearTimeout(statoEsercizi.timerRicerca);
+        statoEsercizi.timerRicerca = setTimeout(() => {
+          statoEsercizi.ricerca        = inputRicerca.value.trim();
+          statoEsercizi.paginaCorrente = 1;
+          caricaEsercizi();
+        }, 350);
+      });
+    }
+
+    // Reset
+    const btnReset = document.getElementById("ex-reset");
+    if (btnReset) {
+      btnReset.addEventListener("click", () => {
+        statoEsercizi.categoriaAttiva = "";
+        statoEsercizi.difficolta      = "";
+        statoEsercizi.ricerca         = "";
+        statoEsercizi.paginaCorrente  = 1;
+        if (inputRicerca) inputRicerca.value = "";
+        if (selDiff) selDiff.value = "";
+        document.querySelectorAll(".filtro-cat").forEach(b => b.classList.remove("filtro-attivo"));
+        const tuttiBtn = document.querySelector(".filtro-cat[data-cat='']");
+        if (tuttiBtn) tuttiBtn.classList.add("filtro-attivo");
+        caricaEsercizi();
+      });
+    }
+
+    // Paginazione
+    const btnPrev = document.getElementById("ex-prev");
+    const btnNext = document.getElementById("ex-next");
+    if (btnPrev) {
+      btnPrev.addEventListener("click", () => {
+        if (statoEsercizi.paginaCorrente > 1) {
+          statoEsercizi.paginaCorrente--;
+          caricaEsercizi();
+          document.getElementById("esercizi").scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+    if (btnNext) {
+      btnNext.addEventListener("click", () => {
+        if (statoEsercizi.paginaCorrente < statoEsercizi.pagineTotali) {
+          statoEsercizi.paginaCorrente++;
+          caricaEsercizi();
+          document.getElementById("esercizi").scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+
+    // Carica gli esercizi quando si entra nella sezione
+    document.querySelectorAll("[data-page='esercizi'], [data-page-target='esercizi']").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!document.getElementById("ex-grid").querySelector(".ex-card")) {
+          caricaEsercizi();
+        }
+      });
+    });
+
+  } catch (err) {
+    console.error("Errore inizializzaEsercizi:", err);
   }
 }
 

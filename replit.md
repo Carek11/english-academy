@@ -1,99 +1,102 @@
 # English Academy - Applicazione Educativa
 
-Piattaforma web per imparare l'inglese con focus sulla sezione Marina Militare.
+Piattaforma web italiana per imparare l'inglese, con focus sulla Marina Militare e sistema esercizi di programmazione scalabile.
 
-## 🏗️ Architettura Refactored
+## Architettura
 
-### Modularità Completa
-- **HTML** (`index.html`) - Struttura semantica
-- **CSS** (`style.css`) - Styling responsive con commenti
-- **JavaScript** (`script.js`) - Logica applicativa documentata
-- **Backend** (`app.py`) - Flask con error handling robusto
+| File | Ruolo |
+|---|---|
+| `index.html` + `templates/index.html` | Unico template HTML (sempre sincronizzati con `cp`) |
+| `static/style.css` | CSS responsivo (1000+ righe con commenti) |
+| `static/script.js` | Logica JS ES6+ — 11 sezioni commentate in italiano |
+| `app.py` | Backend Flask — 6 sezioni con API esercizi + SMTP |
+| `exercises.db` | SQLite — esercizi pratici scalabile a 3000+ |
+| `init_db.py` | Crea il DB con 40 esercizi reali. Esegui: `python init_db.py` |
+| `generate_exercises.py` | Aggiunge N esercizi. Esegui: `python generate_exercises.py [n]` |
 
-### Stack Tecnologico
-- Backend: Python 3.12 + Flask
-- Frontend: HTML5, CSS3, Vanilla JavaScript (ES6+)
-- Icons: FontAwesome 6.4.0
-- Email: SMTP configurabile (fallback localhost)
-- Server Prod: Gunicorn on port 5000
+## Stack Tecnologico
 
-## 🚢 Sezione Marina Militare - FINALE
+- **Backend**: Python 3.12 + Flask + SQLite (`sqlite3` stdlib)
+- **Frontend**: HTML5, CSS3, Vanilla JS ES6+
+- **UI Extras**: Tailwind CSS CDN (prefix `tw-`, preflight disabilitato), FontAwesome 6.4
+- **Email**: SMTP configurabile via env vars, fallback localhost
+- **Server Prod**: Gunicorn su porta 5000
 
-### 6 Navi Principali
-1. **Portaerei** (Aircraft Carrier) - Flight deck, Catapult, Island
-2. **Cacciatorpediniere** (Destroyer) - Hull, Bow, Stern
-3. **Sottomarino** (Submarine) - Conning tower, Periscope, Propeller
-4. **Fregata** (Frigate) - Bridge, Mast, Helipad
-5. **Incrociatore** (Cruiser) - Main battery, Gun turret, Armored belt
-6. **Nave Scuola** (Training Ship) - Classroom deck, Training rigging, Practice bridge
+## Sezioni dell'App
 
-### Componenti Tecnici - Pulizia Completa ✓
-- **Zero duplicati**: 21 componenti unici, nessuna ripetizione
-- **Descrizioni univoche**: Ogni termine appare una sola volta
-- **Testi sincronizzati**: HTML e JS perfettamente allineati
-- **Tooltip rimossi**: Nessun effetto hover sui termini
+### Home
+- Hero con CTA verso Corsi e Quiz
+- Statistiche: 12+ corsi, 3000+ esercizi, 50+ quiz, 98% soddisfazione
+- Showcase dei corsi principali + promo Marina Militare
 
-### Immagini Stock
-- Ogni nave ha immagine Unsplash dedicata (w=1200, h=800)
-- Placeholder SVG automatico se immagine non carica
-- Modal popup interattivo al click su icona ⚓
+### Corsi (`/` → tab Corsi)
+- **Inglese Generale**: Base A1-A2, Pre-Intermedio, Intermedio B1-B2, Avanzato C1-C2, Viaggi, IELTS
+- **Business & Professionale**: Business English, Negoziazioni, Presentazioni
+- **Programmazione & Tech**: Web, PHP, Database, Python, Logica — link diretti agli esercizi filtrati
+- FAQ con accordion
+- Tutte le card hanno `border-left` via `.cat-card`
 
-## 🎯 Ottimizzazioni Implementate
+### Esercizi (`/` → tab Esercizi)
+- **40 esercizi reali** nel DB + generatore per scalare a 3000+
+- Categorie: Web (HTML5/CSS/JS/React), PHP, Database (SQL/NoSQL), Python, Logica
+- Filtri: categoria (pulsanti colorati), difficoltà (select), ricerca full-text con debounce 350ms
+- Paginazione: 12 per pagina, bottoni Prec/Succ con info pagina
+- Card con badge colorati, testo esercizio, toggle "Mostra/Nascondi soluzione" con `<pre>` verde
+- Navigazione da "Corsi" → Esercizi con categoria pre-filtrata (via `data-cat`)
 
-### 1. **Codice Pulito**
-✅ Commenti chiari in italiano per ogni sezione  
-✅ Nomi variabili descrittivi in italiano  
-✅ Funzioni ben nominate e strutturate  
-✅ Zero testi fantasma o commentati  
+### Marina Militare
+- 6 navi: Portaerei, Cacciatorpediniere, Sottomarino, Fregata, Incrociatore, Nave Scuola
+- 21 componenti tecnici unici, zero duplicati, zero tooltip
+- Immagini Unsplash via modal al click sull'icona ⚓
 
-### 2. **Prestazioni Ottimizzate**
-✅ Vanilla JS senza jQuery  
-✅ CSS3 transitions per smoothness  
-✅ Lazy image loading con fallback  
-✅ Minified selectors performanti  
+### Quiz
+- 4 categorie di domande con scoring real-time
+- Pulsante CTA "Metti alla prova le tue conoscenze navali"
 
-### 3. **Gestione Errori Robusta**
-✅ **Try...catch** in tutte le funzioni JavaScript  
-✅ **Error logging** per debugging  
-✅ **Placeholder immagini** - SVG fallback  
-✅ **Validazione input** - Frontend + Backend  
-✅ **SMTP error handling** - 4 eccezioni gestite  
+### Contatti
+- Form con validazione frontend + backend
+- Endpoint `/api/contact` SMTP
 
-### 4. **Configurazione Replit Stabile**
-✅ **Port 5000** - Standard configurato  
-✅ **Deployment target** - Autoscale con Gunicorn  
-✅ **Modules** - Python 3.12, Node.js 20, web  
-✅ **Workflow** - Configurazione standard webview  
+## API Backend
 
-## 📋 Funzionalità
+| Endpoint | Descrizione |
+|---|---|
+| `GET /` | Serve `templates/index.html` |
+| `GET /api/exercises` | Lista esercizi con filtri (categoria, sotto, difficolta, q, page, per_page) |
+| `GET /api/exercises/categories` | Categorie, sottocategorie, difficoltà e totale esercizi |
+| `GET /api/exercises/<id>` | Singolo esercizio per ID |
+| `POST /api/contact` | Invia email di contatto |
 
-### Sezioni Attive
-- **Home**: Intro + statistiche + showcase corsi
-- **Corsi**: 8 corsi disponibili
-- **Marina Militare**: 6 navi con immagini e descrizioni
-- **Quiz**: 4 categorie con punteggio real-time
-- **Contatti**: Form email funzionale
+## Database Esercizi
 
-### Features
-✅ **Modal Interattivo** - Icone navi → immagini Unsplash  
-✅ **Quiz Dinamico** - Domande casuali + scoring  
-✅ **Email Funzionale** - Endpoint `/api/contact` SMTP  
-✅ **Responsive** - Mobile-first, tutti i device  
-✅ **Pulizia Totale** - Zero tooltip, layout essenziale  
+**Tabella**: `esercizi`  
+**Colonne**: `id, categoria, sotto, difficolta, titolo, testo, soluzione`  
+**Indici**: `idx_categoria`, `idx_difficolta`
 
-## 🚀 Esecuzione
+Categorie disponibili: `Web | PHP | Database | Python | Logica`  
+Difficoltà: `Base | Intermedio | Avanzato`
+
+Per aggiungere esercizi:
+```bash
+python generate_exercises.py 500   # aggiunge 500 esercizi
+```
+
+## Esecuzione
 
 ```bash
 # Sviluppo
 python app.py          # Port 5000
 
+# Primo avvio: crea il database
+python init_db.py
+
 # Produzione
 gunicorn --bind 0.0.0.0:5000 --reuse-port app:app
 ```
 
-## ⚙️ Configurazione Email
+## Configurazione Email (opzionale)
 
-Per email reali, aggiungi env vars:
+Aggiungi env vars nel pannello Secrets:
 ```
 SMTP_SERVER=smtp.gmail.com
 SMTP_PORT=587
@@ -102,24 +105,15 @@ SMTP_PASSWORD=app-password
 CONTACT_EMAIL=info@example.com
 ```
 
-## 📊 Performance
+## Note Sviluppo
 
-- Vanilla JavaScript ES6+
-- CSS3 animations
-- Lazy image loading con fallback
-- Error logging per debugging
-- Zero tooltip overhead
-
-## ✨ Stabilità
-
-- 21 componenti navali, ZERO duplicati
-- Descrizioni univoche per ogni termine
-- Nessun effetto hover confusionario
-- Layout pulito e professionale
-- JavaScript validato, zero errori
+- **Template sync**: dopo ogni modifica a `index.html` eseguire `cp index.html templates/index.html`
+- **Tailwind**: prefix `tw-`, preflight disabilitato per coesistere con `style.css` esistente
+- **JS Section 11**: logica esercizi — `statoEsercizi`, `caricaEsercizi()`, `inizializzaEsercizi()`, `toggleSoluzione()`
+- **Navigazione con filtro**: `data-page-target="esercizi" data-cat="Web"` → apre Esercizi filtrato per Web
 
 ---
 
-**Version**: 2.2 (Tooltip Removed)  
+**Version**: 3.0 (Sistema Esercizi)  
 **Last Update**: 2026-03-08  
-**Status**: Production Ready ✅
+**Status**: Production Ready
