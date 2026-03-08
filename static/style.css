@@ -1401,6 +1401,19 @@ main {
 
 .fc-reset-btn:hover { background: var(--navy); }
 
+.fc-serie-badge {
+  text-align: center;
+  font-size: .88rem;
+  font-weight: 700;
+  color: white;
+  background: var(--primary);
+  display: block;
+  width: fit-content;
+  padding: 5px 18px;
+  border-radius: 20px;
+  margin: 0 auto 18px;
+}
+
 /* — Fill in the Blank — */
 .blank-score {
   text-align: center;

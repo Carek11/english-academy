@@ -401,9 +401,10 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
 
       <!-- FLASHCARD -->
       <div id="es-panel-flashcard" class="es-panel">
-        <p class="flashcard-score">Clicca ogni card per girare e vedere la traduzione italiana</p>
+        <p class="flashcard-score">Gira tutte le card — poi la serie cambia automaticamente</p>
+        <p id="fc-serie-badge" class="fc-serie-badge">🇬🇧 Serie 1 — Inglese → Italiano</p>
         <div class="flashcard-grid" id="flashcard-grid"></div>
-        <button class="fc-reset-btn" id="fc-reset-btn">↺ Reimposta tutte le card</button>
+        <button class="fc-reset-btn" id="fc-reset-btn">↺ Ricomincia dalla serie 1</button>
       </div>
 
       <!-- FILL IN THE BLANK -->
