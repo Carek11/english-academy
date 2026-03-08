@@ -92,35 +92,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
       100% { background-position: -200% 0; }
     }
 
-    /* ── Hub Inglese Card ── */
-    .hub-card {
-      background: white; border-radius: 16px;
-      border: 1px solid #e2e8f0; padding: 20px;
-      display: flex; flex-direction: column; gap: 12px;
-      transition: box-shadow .2s, transform .2s, opacity .4s, translate .4s;
-      opacity: 0; translate: 0 16px;
-    }
-    .hub-card.visibile { opacity: 1; translate: 0 0; }
-    .hub-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.1); transform: translateY(-2px); }
-    .hub-badge-corso {
-      display: inline-block; padding: 2px 10px;
-      border-radius: 99px; font-size: 11px; font-weight: 700;
-    }
-    .hub-soluzione-box { display: none; }
-    .hub-soluzione-box.aperta {
-      display: block;
-      background: #f0fdf4; border-left: 3px solid #22c55e;
-      border-radius: 8px; padding: 10px 14px;
-      font-size: 13px; color: #166534;
-    }
-    .corso-card-big {
-      background: white; border-radius: 20px;
-      padding: 24px; cursor: pointer;
-      border: 2px solid transparent;
-      transition: all .2s;
-    }
-    .corso-card-big:hover { transform: translateY(-4px); border-color: currentColor; box-shadow: 0 12px 32px rgba(0,0,0,.1); }
-
     /* ── Load More button ── */
     #btn-load-more {
       display: none;
@@ -147,7 +118,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   <nav>
     <button class="active" data-page="home">🏠 Home</button>
     <button data-page="corsi">📚 Corsi</button>
-    <button data-page="hub-inglese">🤖 Hub Inglese AI</button>
     <button data-page="esercizi">🛠️ Esercizi</button>
     <button data-page="marina">⚓ Marina Militare</button>
     <button data-page="quiz">🎯 Quiz</button>
@@ -183,42 +153,36 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Base (A1-A2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Pre-Intermedio (A2-B1)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Intermedio (B1-B2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Avanzato (C1-C2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese per Viaggi">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Preparazione IELTS / Cambridge">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -229,21 +193,18 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -255,7 +216,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <p>Terminologia delle navi da guerra, sottomarini, corvette, fregate e componenti navali NATO.</p>
           <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span>
           <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
-          <button class="btn" style="margin-top:6px;" data-page-target="hub-inglese" data-hub-corso="Inglese Navale - Marina Militare">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -280,42 +240,36 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Base (A1-A2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Pre-Intermedio (A2-B1)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Intermedio (B1-B2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese Avanzato (C1-C2)">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Inglese per Viaggi">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Preparazione IELTS / Cambridge">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -327,21 +281,18 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span>
-          <button class="btn" data-page-target="hub-inglese" data-hub-corso="Business English">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -389,7 +340,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <p>Terminologia navale NATO, navi da guerra, sottomarini, fregate e comunicazioni.</p>
           <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span><br>
           <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
-          <button class="btn" style="margin-top:6px;" data-page-target="hub-inglese" data-hub-corso="Inglese Navale - Marina Militare">Vai agli esercizi →</button>
         </div>
       </div>
 
@@ -766,101 +716,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         </div>
       </div>
     </section>
-    <!-- ============================================================ -->
-    <!-- SEZIONE HUB INGLESE AI                                      -->
-    <!-- ============================================================ -->
-    <section id="hub-inglese" class="page">
-
-      <div class="naval-hero">
-        <div class="naval-tag">📚 LEARNING HUB</div>
-        <h2>Hub Inglese</h2>
-        <p>3000 esercizi su 8 percorsi di inglese. Scegli il corso, esplora gli argomenti e metti alla prova il tuo inglese.</p>
-      </div>
-
-      <!-- Selezione corso (vista principale) -->
-      <div id="hub-corsi-grid" style="margin-top:28px;">
-        <h3 class="section-title" style="font-size:1.2rem;">Scegli il tuo percorso</h3>
-        <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 tw-gap-4 tw-mt-4">
-
-          <div class="corso-card-big" style="border-left:4px solid #16a34a;color:#16a34a;" onclick="apriCorso('Inglese Base (A1-A2)')">
-            <div style="font-size:2rem;margin-bottom:8px;">🌱</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Inglese Base</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">A1–A2 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big" style="border-left:4px solid #2563eb;color:#2563eb;" onclick="apriCorso('Inglese Pre-Intermedio (A2-B1)')">
-            <div style="font-size:2rem;margin-bottom:8px;">📗</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Pre-Intermedio</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">A2–B1 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big" style="border-left:4px solid #7c3aed;color:#7c3aed;" onclick="apriCorso('Inglese Intermedio (B1-B2)')">
-            <div style="font-size:2rem;margin-bottom:8px;">📘</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Intermedio</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">B1–B2 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big" style="border-left:4px solid #dc2626;color:#dc2626;" onclick="apriCorso('Inglese Avanzato (C1-C2)')">
-            <div style="font-size:2rem;margin-bottom:8px;">📙</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Avanzato</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">C1–C2 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big" style="border-left:4px solid #0891b2;color:#0891b2;" onclick="apriCorso('Business English')">
-            <div style="font-size:2rem;margin-bottom:8px;">💼</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Business English</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">B2–C1 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big" style="border-left:4px solid #d97706;color:#d97706;" onclick="apriCorso('Inglese per Viaggi')">
-            <div style="font-size:2rem;margin-bottom:8px;">✈️</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Inglese per Viaggi</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">A2–B2 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big" style="border-left:4px solid #be185d;color:#be185d;" onclick="apriCorso('Preparazione IELTS / Cambridge')">
-            <div style="font-size:2rem;margin-bottom:8px;">🎓</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">IELTS / Cambridge</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">B2–C2 · 375 esercizi</p>
-          </div>
-
-          <div class="corso-card-big card-naval" style="border-left:4px solid #1a3a52;color:#1a3a52;" onclick="apriCorso('Inglese Navale - Marina Militare')">
-            <div style="font-size:2rem;margin-bottom:8px;">⚓</div>
-            <h4 style="font-weight:700;font-size:.95rem;color:#111;">Inglese Navale</h4>
-            <p style="font-size:.8rem;color:#6b7280;margin-top:4px;">B1–C1 · 375 esercizi</p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Vista esercizi del corso selezionato -->
-      <div id="hub-esercizi-view" style="display:none; margin-top:24px;">
-
-        <!-- Breadcrumb + filtri -->
-        <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-3 tw-mb-6">
-          <button id="hub-back-btn" class="tw-text-sm tw-px-3 tw-py-2 tw-rounded-lg tw-border tw-border-gray-300 tw-bg-white hover:tw-bg-gray-50" style="font-family:inherit;">
-            ← Tutti i corsi
-          </button>
-          <h3 id="hub-corso-titolo" class="tw-font-bold tw-text-lg" style="color:var(--primary);"></h3>
-          <div class="tw-flex-1"></div>
-          <input id="hub-search" type="text" placeholder="🔍 Cerca..." class="tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm tw-w-40 focus:tw-outline-none" style="font-family:inherit;">
-        </div>
-
-        <!-- Contatore -->
-        <p id="hub-count" class="tw-text-sm tw-text-gray-500 tw-mb-4"></p>
-
-        <!-- Griglia esercizi -->
-        <div id="hub-grid" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-5"></div>
-
-        <!-- Load More -->
-        <div class="center-block" style="margin-top:24px;">
-          <button id="hub-load-more" class="btn-primary" style="display:none;">⬇️ Carica altri esercizi</button>
-        </div>
-
-      </div>
-
-    </section>
-
   </main>
 
   <!-- ============================================================ -->

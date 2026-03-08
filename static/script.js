@@ -185,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
     collegaFormContatti();
     collegaModalNave();
     inizializzaEsercizi();
-    inizializzaHubInglese();
   } catch (err) {
     console.error("Errore inizializzazione:", err);
   }
@@ -201,17 +200,12 @@ function collegaNavigazione() {
     document.querySelectorAll("[data-page], [data-page-target]").forEach(btn => {
       btn.addEventListener("click", () => {
         const pagina    = btn.dataset.page || btn.dataset.pageTarget;
-        const cat       = btn.dataset.cat     || "";
-        const hubCorso  = btn.dataset.hubCorso || "";
+        const cat = btn.dataset.cat || "";
         if (pagina) {
           mostraPagina(pagina);
           // Naviga agli esercizi programmazione con categoria preset
           if (pagina === "esercizi" && cat) {
             setTimeout(() => impostaFiltroCategoria(cat), 50);
-          }
-          // Naviga all'Hub Inglese con corso preset
-          if (pagina === "hub-inglese" && hubCorso) {
-            setTimeout(() => apriCorso(hubCorso), 80);
           }
         }
       });
@@ -246,16 +240,6 @@ function mostraPagina(idPagina) {
     document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
     const btnNav = document.querySelector(`[data-page="${idPagina}"]`);
     if (btnNav) btnNav.classList.add("active");
-
-    // Quando si naviga all'Hub Inglese direttamente (senza corso preset),
-    // mostra la griglia corsi e nascondi la vista esercizi
-    if (idPagina === "hub-inglese") {
-      const corsiGrid    = document.getElementById("hub-corsi-grid");
-      const eserciziView = document.getElementById("hub-esercizi-view");
-      if (corsiGrid)    corsiGrid.style.display    = "block";
-      if (eserciziView) eserciziView.style.display = "none";
-      hubStato.corsoAttivo = "";
-    }
 
     // Carica esercizi la prima volta che si entra nella sezione programmazione
     if (idPagina === "esercizi") {
@@ -953,179 +937,4 @@ function inizializzaEsercizi() {
 console.log("English Academy - App caricata con successo");
 
 
-// ============================================================
-// SEZIONE 12: HUB INGLESE — ESERCIZI
-// ============================================================
-
-/* ── Stato Hub Inglese ── */
-const hubStato = {
-  corsoAttivo: "",
-  pagina:      1,
-  perPagina:   20,
-  totale:      0,
-  ricerca:     "",
-};
-
-/* ── Colori per corso ── */
-const CORSO_COLORI = {
-  "Inglese Base (A1-A2)":              { bg: "#dcfce7", text: "#16a34a", badge: "#bbf7d0" },
-  "Inglese Pre-Intermedio (A2-B1)":    { bg: "#dbeafe", text: "#2563eb", badge: "#bfdbfe" },
-  "Inglese Intermedio (B1-B2)":        { bg: "#ede9fe", text: "#7c3aed", badge: "#ddd6fe" },
-  "Inglese Avanzato (C1-C2)":          { bg: "#fee2e2", text: "#dc2626", badge: "#fecaca" },
-  "Business English":                  { bg: "#cffafe", text: "#0891b2", badge: "#a5f3fc" },
-  "Inglese per Viaggi":                { bg: "#fef3c7", text: "#d97706", badge: "#fde68a" },
-  "Preparazione IELTS / Cambridge":    { bg: "#fce7f3", text: "#be185d", badge: "#fbcfe8" },
-  "Inglese Navale - Marina Militare":  { bg: "#dbeafe", text: "#1a3a52", badge: "#93c5fd" },
-};
-
-/* ── Apri corso (click su card) ── */
-window.apriCorso = function(corso) {
-  hubStato.corsoAttivo = corso;
-  hubStato.pagina      = 1;
-  hubStato.ricerca     = "";
-
-  const search = document.getElementById("hub-search");
-  if (search) search.value = "";
-
-  document.getElementById("hub-corsi-grid").style.display   = "none";
-  document.getElementById("hub-esercizi-view").style.display = "block";
-  document.getElementById("hub-corso-titolo").textContent    = corso;
-
-  caricaEserciziHub("reset");
-};
-
-/* ── Torna alla griglia corsi ── */
-function tornaCors() {
-  document.getElementById("hub-corsi-grid").style.display   = "block";
-  document.getElementById("hub-esercizi-view").style.display = "none";
-  hubStato.corsoAttivo = "";
-}
-
-/* ── Carica esercizi inglese dall'API ── */
-async function caricaEserciziHub(modo) {
-  const grid     = document.getElementById("hub-grid");
-  const countEl  = document.getElementById("hub-count");
-  const btnMore  = document.getElementById("hub-load-more");
-
-  if (modo === "reset") {
-    hubStato.pagina = 1;
-    grid.innerHTML = "";
-    grid.innerHTML = Array(6).fill(
-      `<div class="hub-card">
-        <div class="sk-line" style="height:12px;width:40%;border-radius:6px;"></div>
-        <div class="sk-line" style="height:16px;width:90%;border-radius:6px;"></div>
-        <div class="sk-line" style="height:12px;width:65%;border-radius:6px;"></div>
-      </div>`
-    ).join("");
-    if (btnMore) btnMore.style.display = "none";
-  }
-
-  try {
-    const params = new URLSearchParams({
-      corso:    hubStato.corsoAttivo,
-      q:        hubStato.ricerca,
-      page:     hubStato.pagina,
-      per_page: hubStato.perPagina,
-    });
-    const res  = await fetch(`/api/english?${params}`);
-    const data = await res.json();
-
-    if (modo === "reset") grid.innerHTML = "";
-    hubStato.totale = data.totale || 0;
-
-    if (countEl) {
-      const inizio = (hubStato.pagina - 1) * hubStato.perPagina + 1;
-      const fine   = Math.min(hubStato.pagina * hubStato.perPagina, hubStato.totale);
-      countEl.textContent = hubStato.totale
-        ? `Esercizi ${inizio}–${fine} di ${hubStato.totale.toLocaleString("it-IT")}`
-        : "Nessun esercizio trovato";
-    }
-
-    (data.esercizi || []).forEach((ex, i) => {
-      const card = creaHubCard(ex, i);
-      grid.appendChild(card);
-      setTimeout(() => card.classList.add("visibile"), i * 40);
-    });
-
-    if (btnMore) {
-      const mostrati = hubStato.pagina * hubStato.perPagina;
-      btnMore.style.display = (mostrati < hubStato.totale) ? "block" : "none";
-    }
-
-  } catch (err) {
-    console.error("caricaEserciziHub:", err);
-    if (modo === "reset") grid.innerHTML = `<p style="color:#ef4444;grid-column:1/-1;">Errore caricamento esercizi. Riprova.</p>`;
-  }
-}
-
-/* ── Crea card HTML per un esercizio inglese ── */
-function creaHubCard(ex, indice) {
-  const colore = CORSO_COLORI[ex.corso] || { bg: "#f1f5f9", text: "#334155", badge: "#e2e8f0" };
-  const card   = document.createElement("div");
-  card.className = "hub-card";
-  card.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-      <span class="hub-badge-corso" style="background:${colore.badge};color:${colore.text};">${ex.argomento}</span>
-      <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">${ex.livello}</span>
-    </div>
-    <p style="font-size:.95rem;font-weight:600;color:#1e293b;line-height:1.4;">${esc(ex.testo)}</p>
-    <div class="hub-soluzione-box" id="sol-${ex.id}">
-      <span style="font-size:11px;font-weight:700;color:#15803d;display:block;margin-bottom:4px;">✅ Soluzione</span>
-      ${esc(ex.soluzione)}
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn-secondary" style="font-size:12px;padding:6px 12px;"
-        onclick="toggleSoluzione(${ex.id})">👁 Mostra soluzione</button>
-    </div>
-  `;
-  return card;
-}
-
-function esc(str) {
-  return String(str || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/`/g, "&#96;");
-}
-
-/* ── Toggle soluzione ── */
-window.toggleSoluzione = function(id) {
-  const box = document.getElementById(`sol-${id}`);
-  if (!box) return;
-  box.classList.toggle("aperta");
-};
-
-/* ── Inizializza Hub Inglese (chiamata da initPage) ── */
-function inizializzaHubInglese() {
-  try {
-    const backBtn  = document.getElementById("hub-back-btn");
-    const searchEl = document.getElementById("hub-search");
-    const loadMore = document.getElementById("hub-load-more");
-
-    if (backBtn) backBtn.addEventListener("click", tornaCors);
-
-    let debounceTimer;
-    if (searchEl) {
-      searchEl.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          hubStato.ricerca = searchEl.value.trim();
-          caricaEserciziHub("reset");
-        }, 400);
-      });
-    }
-
-    if (loadMore) {
-      loadMore.addEventListener("click", () => {
-        hubStato.pagina++;
-        caricaEserciziHub("append");
-      });
-    }
-
-  } catch (err) {
-    console.error("inizializzaHubInglese:", err);
-  }
-}
 
