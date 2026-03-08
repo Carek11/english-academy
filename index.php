@@ -357,28 +357,34 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
       <h2 class="section-title">Componenti Comuni</h2>
       <div class="divider"></div>
 
-      <div class="cards-grid">
-        <div class="card">
+      <div class="cards-grid" id="comp-card-grid">
+        <div class="card comp-card" data-comp="nav">
           <div class="card-icon">🧭</div>
           <h3>Navigation Systems</h3>
           <p>GPS, Compass, ECDIS, Radar, AIS.</p>
+          <span class="comp-card-hint">▸ Clicca per gli esercizi</span>
         </div>
-        <div class="card">
+        <div class="card comp-card" data-comp="engine">
           <div class="card-icon">⚡</div>
           <h3>Engine Room</h3>
           <p>Main engine, Boiler, Generator, Bilge pump, Fuel tank.</p>
+          <span class="comp-card-hint">▸ Clicca per gli esercizi</span>
         </div>
-        <div class="card">
+        <div class="card comp-card" data-comp="comms">
           <div class="card-icon">📡</div>
           <h3>Communications</h3>
           <p>VHF radio, Satellite phone, Signal lamp, IFF system.</p>
+          <span class="comp-card-hint">▸ Clicca per gli esercizi</span>
         </div>
-        <div class="card">
+        <div class="card comp-card" data-comp="safety">
           <div class="card-icon">🛟</div>
           <h3>Safety Equipment</h3>
           <p>Life jacket, Life raft, Fire extinguisher, Emergency beacon, Damage control.</p>
+          <span class="comp-card-hint">▸ Clicca per gli esercizi</span>
         </div>
       </div>
+
+      <div id="comp-exer-panel" class="comp-exer-panel hidden"></div>
 
       <!-- ============================================================ -->
       <!-- ESERCIZI INTERATTIVI NAVALI                                  -->

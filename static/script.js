@@ -253,6 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
     collegaModalNave();
     inizializzaAuth();
     inizializzaEserciziNavali();
+    inizializzaComponentiNavali();
   } catch (err) {
     console.error("Errore inizializzazione:", err);
   }
@@ -1171,6 +1172,186 @@ function inizializzaMatching() {
   const resetBtn = document.getElementById("match-reset-btn");
   if (resetBtn) {
     resetBtn.addEventListener("click", renderMatching);
+  }
+}
+
+/* ========================================
+   SEZIONE: COMPONENTI NAVALI CLICCABILI
+   ======================================== */
+
+const _compData = {
+  nav: {
+    titolo: "🧭 Navigation Systems",
+    esercizi: [
+      { q: "What does GPS stand for?", opts: ["Global Patrol Sensor", "Global Positioning System", "Geographic Pointing Signal", "General Patrol Service"], ans: 1 },
+      { q: "What is ECDIS used for?", opts: ["Detecting submarines", "Measuring wind speed", "Displaying the ship's position on electronic charts", "Communicating with satellites"], ans: 2 },
+      { q: "AIS stands for Automatic Identification System.", opts: ["True", "False"], ans: 0 },
+      { q: "Which instrument shows the ship's magnetic heading?", opts: ["Radar", "ECDIS", "Compass", "Sonar"], ans: 2 },
+      { q: "Radar uses sound waves to detect other vessels.", opts: ["True", "False"], ans: 1 },
+      { q: "What does AIS automatically transmit?", opts: ["Engine temperature", "Ship position, speed and identity", "Fuel levels", "Water depth"], ans: 1 },
+      { q: "GPS requires at least ___ satellites to calculate an accurate position.", opts: ["2", "3", "4", "8"], ans: 2 },
+      { q: "ECDIS can replace traditional paper charts.", opts: ["True", "False"], ans: 0 },
+      { q: "Which system warns of other vessels in poor visibility?", opts: ["Sonar", "GPS", "Radar", "IFF"], ans: 2 },
+      { q: "The compass rose on a nautical chart shows:", opts: ["Depth contours", "Magnetic and true north directions", "Shipping lanes", "Weather patterns"], ans: 1 },
+    ]
+  },
+  engine: {
+    titolo: "⚡ Engine Room",
+    esercizi: [
+      { q: "What is the main function of the bilge pump?", opts: ["To fuel the engine", "To remove water from the lowest part of the hull", "To cool the boiler", "To generate electricity"], ans: 1 },
+      { q: "The generator provides electrical power to the ship.", opts: ["True", "False"], ans: 0 },
+      { q: "What is the boiler primarily used for?", opts: ["Storing fuel", "Heating water to produce steam for propulsion", "Cooling the engine", "Filtering seawater"], ans: 1 },
+      { q: "Marine diesel is stored in the:", opts: ["Bilge", "Boiler", "Fuel tank", "Ballast tank"], ans: 2 },
+      { q: "The main engine directly propels the ship through the water.", opts: ["True", "False"], ans: 0 },
+      { q: "What happens if the bilge pump fails?", opts: ["The ship loses communication", "Water accumulates in the hull, risking sinking", "The engine overheats", "Navigation instruments fail"], ans: 1 },
+      { q: "A generator converts ___ energy into electrical energy.", opts: ["Solar", "Nuclear", "Mechanical", "Chemical"], ans: 2 },
+      { q: "The main engine on naval vessels is typically powered by:", opts: ["Petrol", "Diesel or gas turbine", "Coal", "Wind"], ans: 1 },
+      { q: "Ballast tanks are used to adjust the ship's:", opts: ["Speed", "Communication", "Stability and draft", "Engine output"], ans: 2 },
+      { q: "The engine room is typically located at the stern of the ship.", opts: ["True", "False"], ans: 0 },
+    ]
+  },
+  comms: {
+    titolo: "📡 Communications",
+    esercizi: [
+      { q: "VHF stands for:", opts: ["Very Heavy Force", "Very High Frequency", "Vessel High Fidelity", "Variable High Frequency"], ans: 1 },
+      { q: "A signal lamp uses light to transmit Morse code.", opts: ["True", "False"], ans: 0 },
+      { q: "IFF stands for:", opts: ["Integrated Fire and Flame", "International Fleet Force", "Identification Friend or Foe", "Internal Frequency Filter"], ans: 2 },
+      { q: "Which device allows communication from any location on Earth?", opts: ["VHF radio", "Signal lamp", "Satellite phone", "Intercom"], ans: 2 },
+      { q: "VHF radio is mainly used for long-range intercontinental communication.", opts: ["True", "False"], ans: 1 },
+      { q: "Channel 16 on VHF is reserved for:", opts: ["Weather broadcasts", "Distress and calling", "Port traffic", "Military use only"], ans: 1 },
+      { q: "The IFF system is mainly used to:", opts: ["Navigate in fog", "Distinguish allied from enemy vessels", "Measure sea depth", "Control engine speed"], ans: 1 },
+      { q: "A satellite phone works via orbiting satellites.", opts: ["True", "False"], ans: 0 },
+      { q: "GMDSS stands for Global Maritime Distress and Safety ___.", opts: ["Station", "System", "Service", "Standard"], ans: 1 },
+      { q: "Which signal indicates a ship in distress?", opts: ["Three short horn blasts", "Mayday repeated three times on VHF", "One long horn blast", "Raising a blue flag"], ans: 1 },
+    ]
+  },
+  safety: {
+    titolo: "🛟 Safety Equipment",
+    esercizi: [
+      { q: "What does a life jacket do?", opts: ["Keeps the ship afloat", "Helps a person float face-up in water", "Signals the ship's position", "Fights fires"], ans: 1 },
+      { q: "A life raft can support survivors if the ship sinks.", opts: ["True", "False"], ans: 0 },
+      { q: "Which fire extinguisher is safe for electrical fires?", opts: ["Water extinguisher", "Foam extinguisher", "CO₂ extinguisher", "Sand bucket"], ans: 2 },
+      { q: "An EPIRB beacon sends a distress signal to:", opts: ["Nearby ships only", "The engine room", "Search and rescue satellites", "Coast guard radio"], ans: 2 },
+      { q: "Damage control includes actions to prevent a ship from sinking.", opts: ["True", "False"], ans: 0 },
+      { q: "'Man overboard' requires immediate:", opts: ["Engine shutdown", "Recovery and rescue procedures", "Radio silence", "Course continuation"], ans: 1 },
+      { q: "Fire extinguishers on ships must be inspected regularly.", opts: ["True", "False"], ans: 0 },
+      { q: "A muster station is:", opts: ["A weapons storage area", "The assigned gathering point in an emergency", "The engine control room", "The navigation bridge"], ans: 1 },
+      { q: "SOLAS stands for Safety Of Life At ___.", opts: ["Shore", "Sea", "Station", "Ship"], ans: 1 },
+      { q: "Immersion suits protect against hypothermia in cold water.", opts: ["True", "False"], ans: 0 },
+    ]
+  }
+};
+
+function inizializzaComponentiNavali() {
+  try {
+    const panel = document.getElementById("comp-exer-panel");
+    if (!panel) return;
+
+    let compCorrente = null;
+
+    document.querySelectorAll(".comp-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const cat = card.dataset.comp;
+
+        if (compCorrente === cat) {
+          chiudiCompPanel();
+          return;
+        }
+
+        document.querySelectorAll(".comp-card").forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+        compCorrente = cat;
+        renderCompPanel(cat);
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+    });
+
+    function chiudiCompPanel() {
+      panel.classList.add("hidden");
+      document.querySelectorAll(".comp-card").forEach(c => c.classList.remove("active"));
+      compCorrente = null;
+    }
+
+    function renderCompPanel(cat) {
+      const dati = _compData[cat];
+      if (!dati) return;
+
+      const tuttiGliEs = [...dati.esercizi].sort(() => Math.random() - 0.5);
+      let punteggio = 0;
+      let risposti = 0;
+      const totale = tuttiGliEs.length;
+
+      panel.innerHTML = `
+        <div class="ce-header">
+          <span class="ce-title">${dati.titolo}</span>
+          <span class="ce-score" id="ce-score-lbl">⭐ 0 / ${totale}</span>
+          <button class="ce-close-btn" id="ce-close-btn" title="Chiudi">✕</button>
+        </div>
+        <div class="ce-progress"><div class="ce-progress-fill" id="ce-prog" style="width:0%"></div></div>
+        <div id="ce-questions-wrap"></div>`;
+
+      panel.classList.remove("hidden");
+
+      document.getElementById("ce-close-btn").addEventListener("click", chiudiCompPanel);
+
+      const wrap = document.getElementById("ce-questions-wrap");
+
+      tuttiGliEs.forEach((es, i) => {
+        const tipo = es.opts.length === 2 ? "Vero / Falso" : "Scelta multipla";
+        const div = document.createElement("div");
+        div.className = "ce-question";
+        div.innerHTML = `
+          <div class="ce-qnum">Domanda ${i + 1} · ${tipo}</div>
+          <div class="ce-qtext">${es.q}</div>
+          <div class="ce-opts">${es.opts.map((o, j) =>
+            `<button class="ce-opt" data-i="${j}">${o}</button>`
+          ).join("")}</div>
+          <div class="ce-feedback"></div>`;
+        wrap.appendChild(div);
+
+        div.querySelectorAll(".ce-opt").forEach(btn => {
+          btn.addEventListener("click", () => {
+            if (div.dataset.answered) return;
+            div.dataset.answered = "1";
+
+            const scelta = parseInt(btn.dataset.i, 10);
+            div.querySelectorAll(".ce-opt").forEach(b => {
+              b.disabled = true;
+              if (parseInt(b.dataset.i, 10) === es.ans) b.classList.add("ce-correct");
+            });
+
+            const fb = div.querySelector(".ce-feedback");
+            if (scelta === es.ans) {
+              btn.classList.add("ce-correct");
+              fb.textContent = "✅ Corretto!";
+              fb.className = "ce-feedback ok";
+              punteggio++;
+            } else {
+              btn.classList.add("ce-wrong");
+              fb.textContent = `❌ Risposta: ${es.opts[es.ans]}`;
+              fb.className = "ce-feedback err";
+            }
+
+            risposti++;
+            document.getElementById("ce-score-lbl").textContent = `⭐ ${punteggio} / ${totale}`;
+            document.getElementById("ce-prog").style.width = `${(risposti / totale) * 100}%`;
+
+            if (risposti === totale) {
+              const badge = punteggio === totale ? "🏆 Perfetto!" : punteggio >= totale * 0.7 ? "👍 Ottimo!" : "📚 Continua a studiare!";
+              const finale = document.createElement("div");
+              finale.className = "ce-all-done";
+              finale.innerHTML = `${badge} Hai risposto correttamente a <strong>${punteggio}/${totale}</strong> domande.
+                <button class="ce-retry-btn" id="ce-retry-btn">↺ Riprova con ordine diverso</button>`;
+              wrap.appendChild(finale);
+              document.getElementById("ce-retry-btn").addEventListener("click", () => renderCompPanel(cat));
+            }
+          });
+        });
+      });
+    }
+
+  } catch (err) {
+    console.error("Errore inizializzaComponentiNavali:", err);
   }
 }
 

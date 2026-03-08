@@ -1585,3 +1585,212 @@ main {
   .matching-game { grid-template-columns: 1fr; }
   .flashcard-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ============================================================
+   CARD COMPONENTI CLICCABILI + PANNELLO ESERCIZI
+   ============================================================ */
+.comp-card {
+  cursor: pointer;
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.comp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.13);
+  border-color: var(--primary);
+}
+
+.comp-card.active {
+  border-color: var(--primary);
+  background: #eff6ff;
+}
+
+.comp-card-hint {
+  display: block;
+  margin-top: 10px;
+  font-size: .78rem;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: .02em;
+  opacity: .8;
+}
+
+.comp-card.active .comp-card-hint {
+  opacity: 0;
+}
+
+/* — Pannello esercizi componenti — */
+.comp-exer-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-top: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+  border-top: 4px solid var(--primary);
+  animation: cePanelIn .25s ease;
+}
+
+@keyframes cePanelIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.comp-exer-panel.hidden { display: none; }
+
+.ce-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ce-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.ce-score {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: #eff6ff;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.ce-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #6b7280;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background .15s;
+}
+
+.ce-close-btn:hover { background: #f3f4f6; }
+
+.ce-question {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--primary);
+}
+
+.ce-qnum {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 6px;
+}
+
+.ce-qtext {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.ce-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ce-opt {
+  padding: 7px 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  font-size: .88rem;
+  font-weight: 600;
+  color: #374151;
+  transition: all .15s;
+}
+
+.ce-opt:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #eff6ff;
+}
+
+.ce-opt.ce-correct {
+  border-color: #22c55e;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.ce-opt.ce-wrong {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.ce-opt:disabled { cursor: default; }
+
+.ce-feedback {
+  font-size: .82rem;
+  font-weight: 700;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.ce-feedback.ok  { color: #16a34a; }
+.ce-feedback.err { color: #dc2626; }
+
+.ce-progress {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.ce-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 4px;
+  transition: width .3s;
+}
+
+.ce-all-done {
+  text-align: center;
+  padding: 20px 0 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.ce-retry-btn {
+  display: block;
+  margin: 12px auto 0;
+  padding: 9px 26px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: .95rem;
+  transition: background .2s;
+}
+
+.ce-retry-btn:hover { background: var(--navy); }
+
+@media (max-width: 600px) {
+  .comp-exer-panel { padding: 18px 16px; }
+}
