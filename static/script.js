@@ -654,7 +654,7 @@ function aggiornaNavAuthBtn() {
     btn.textContent = "✅ " + nome;
     btn.classList.add("loggato");
   } else {
-    btn.textContent = "👤 Iscriviti / Accedi";
+    btn.textContent = "👤 Iscriviti / Entra";
     btn.classList.remove("loggato");
   }
 }
