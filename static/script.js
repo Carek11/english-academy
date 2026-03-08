@@ -973,7 +973,7 @@ function inizializzaEserciziNavali() {
           card.classList.toggle("flipped");
           const girate = grid.querySelectorAll(".flashcard.flipped").length;
           if (girate === 6) {
-            setTimeout(renderFlashcard, 950);
+            setTimeout(renderFlashcard, 5000);
           }
         });
       });
