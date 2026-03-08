@@ -638,6 +638,12 @@ function mostraNotifica(messaggio) {
    ======================================== */
 
 let _corsoAuth = "";
+let _utenteLoggato = !!localStorage.getItem("ea_utente");
+
+function salvaUtenteLoggato(nome) {
+  localStorage.setItem("ea_utente", nome);
+  _utenteLoggato = true;
+}
 
 function apriModalAuth(corso) {
   try {
@@ -708,9 +714,13 @@ function inizializzaAuth() {
 
     document.querySelectorAll("[data-apri-auth]").forEach(btn => {
       btn.addEventListener("click", () => {
-        const card = btn.closest(".card");
-        const corso = card ? (card.querySelector("h3")?.textContent?.trim() || "") : "";
-        apriModalAuth(corso);
+        if (_utenteLoggato) {
+          mostraPagina("quiz");
+        } else {
+          const card = btn.closest(".card");
+          const corso = card ? (card.querySelector("h3")?.textContent?.trim() || "") : "";
+          apriModalAuth(corso);
+        }
       });
     });
 
@@ -731,6 +741,7 @@ function inizializzaAuth() {
         const res  = await fetch("/api/login", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ email, password }) });
         const data = await res.json();
         if (data.success) {
+          salvaUtenteLoggato(data.nome);
           impostaTabAuth("success");
           document.getElementById("auth-success-title").textContent = "Accesso effettuato!";
           document.getElementById("auth-success-msg").textContent   = data.message;
@@ -765,6 +776,7 @@ function inizializzaAuth() {
         const res  = await fetch("/api/register", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ nome, cognome, email, password, corso: _corsoAuth }) });
         const data = await res.json();
         if (data.success) {
+          salvaUtenteLoggato(data.nome);
           impostaTabAuth("success");
           document.getElementById("auth-success-title").textContent = "Iscrizione completata!";
           document.getElementById("auth-success-msg").textContent   = data.message + (_corsoAuth ? ` Hai scelto: ${_corsoAuth}.` : "");
