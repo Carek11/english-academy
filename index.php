@@ -136,42 +136,42 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
       </div>
 
@@ -182,21 +182,21 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
       </div>
 
@@ -232,42 +232,42 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Inglese Base (A1–A2)</h3>
           <p>Alfabeto, numeri, saluti, presentazioni, verbi essenziali, articoli, presente semplice.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📗</div>
           <h3>Inglese Pre-Intermedio (A2–B1)</h3>
           <p>Passato, futuro, condizionale, frasi composte e conversazioni pratiche.</p>
           <span class="badge">10 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📘</div>
           <h3>Inglese Intermedio (B1–B2)</h3>
           <p>Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📙</div>
           <h3>Inglese Avanzato (C1–C2)</h3>
           <p>Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.</p>
           <span class="badge">14 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">✈️</div>
           <h3>Inglese per Viaggi</h3>
           <p>Aeroporti, alberghi, ristoranti, emergenze, acquisti e orientamento.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🎓</div>
           <h3>Preparazione IELTS / Cambridge</h3>
           <p>Simulazioni d'esame, writing task, reading avanzato, speaking test.</p>
           <span class="badge">12 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
       </div>
 
@@ -279,21 +279,21 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
           <h3>Business English</h3>
           <p>Email aziendali, riunioni, presentazioni in inglese, negoziazioni internazionali.</p>
           <span class="badge">8 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">🤝</div>
           <h3>Inglese per Negoziazioni</h3>
           <p>Tecniche di negoziazione in inglese, gestione conflitti, contratti internazionali.</p>
           <span class="badge">6 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
         <div class="card cat-card">
           <div class="card-icon">📊</div>
           <h3>Inglese per Presentazioni</h3>
           <p>Struttura di una presentazione efficace, vocabulary, storytelling e Q&A in inglese.</p>
           <span class="badge">4 SETTIMANE</span><br>
-          <button class="btn" data-apri-auth>Iscriviti →</button>
+          <button class="btn" data-page-target="quiz">Vai alla sezione →</button>
         </div>
       </div>
 
