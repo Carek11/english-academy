@@ -167,7 +167,7 @@ const datiNavi = {
     nome: "Destroyer",
     nomeIT: "Cacciatorpediniere",
     descrizione: "Nave veloce e manovrabile per escorta e combattimento tattico.",
-    immagine: "https://images.unsplash.com/photo-1568876694728-451bbf694b39?w=1200&h=800&fit=crop",
+    immagine: "/static/img_destroyer.jpg",
     componentiZone: {
       "Hull": { zona: "center", descrizione: "Scafo principale." },
       "Bow": { zona: "left", descrizione: "Prua anteriore." },
@@ -178,7 +178,7 @@ const datiNavi = {
     nome: "Submarine",
     nomeIT: "Sottomarino",
     descrizione: "Nave militare sommersa con sensori avanzati e navigazione sottomarina.",
-    immagine: "https://images.unsplash.com/photo-1551956470-d5bc2a8f4e72?w=1200&h=800&fit=crop",
+    immagine: "/static/img_submarine.jpg",
     componentiZone: {
       "Conning tower": { zona: "top-center", descrizione: "Torre di comando." },
       "Periscope": { zona: "top-left", descrizione: "Dispositivo ottico elevabile." },
@@ -189,7 +189,7 @@ const datiNavi = {
     nome: "Frigate",
     nomeIT: "Fregata",
     descrizione: "Nave multiruolo di medie dimensioni per operazioni navali diversificate.",
-    immagine: "https://images.unsplash.com/photo-1570454968416-4e83d4ef0e20?w=1200&h=800&fit=crop",
+    immagine: "/static/img_frigate.jpg",
     componentiZone: {
       "Bridge": { zona: "center-right", descrizione: "Plancia di comando." },
       "Mast": { zona: "top-center", descrizione: "Albero con sensori." },
@@ -200,7 +200,7 @@ const datiNavi = {
     nome: "Cruiser",
     nomeIT: "Incrociatore",
     descrizione: "Nave corazzata potentemente armata per battaglia e operazioni strategiche.",
-    immagine: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop",
+    immagine: "/static/img_cruiser.jpg",
     componentiZone: {
       "Main battery": { zona: "top-center", descrizione: "Batteria principale cannoni." },
       "Gun turret": { zona: "center", descrizione: "Torretta girevole armata." },
@@ -211,7 +211,7 @@ const datiNavi = {
     nome: "Training Ship",
     nomeIT: "Nave Scuola",
     descrizione: "Nave specializzata per formazione e addestramento di marinai e ufficiali.",
-    immagine: "https://images.unsplash.com/photo-1544551763-92ab472cad5d?w=1200&h=800&fit=crop",
+    immagine: "/static/img_trainingship.jpg",
     componentiZone: {
       "Classroom deck": { zona: "center", descrizione: "Ponte aula didattico." },
       "Training rigging": { zona: "top", descrizione: "Attrezzatura velica." },
