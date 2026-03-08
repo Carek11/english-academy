@@ -1,85 +1,88 @@
 # English Academy - Applicazione Educativa
 
-Piattaforma web italiana per imparare l'inglese, con focus sulla Marina Militare e sistema esercizi di programmazione scalabile.
+Piattaforma web italiana per imparare l'inglese, con sezione Marina Militare, sistema esercizi di programmazione e AI-Powered English Learning Hub con Tutor AI.
 
 ## Architettura
 
 | File | Ruolo |
 |---|---|
 | `index.html` + `templates/index.html` | Unico template HTML (sempre sincronizzati con `cp`) |
-| `static/style.css` | CSS responsivo (1000+ righe con commenti) |
-| `static/script.js` | Logica JS ES6+ — 11 sezioni commentate in italiano |
-| `app.py` | Backend Flask — 6 sezioni con API esercizi + SMTP |
-| `exercises.db` | SQLite — esercizi pratici scalabile a 3000+ |
-| `init_db.py` | Crea il DB con 40 esercizi reali. Esegui: `python init_db.py` |
-| `generate_exercises.py` | Aggiunge N esercizi. Esegui: `python generate_exercises.py [n]` |
+| `static/style.css` | CSS responsivo con skeleton loader, AI Tutor sidebar, hub card |
+| `static/script.js` | Logica JS ES6+ — 12 sezioni commentate in italiano |
+| `app.py` | Backend Flask — 7 sezioni con API esercizi, inglese, AI Tutor, SMTP |
+| `exercises.db` | SQLite — 140 esercizi di programmazione |
+| `learning_hub.db` | SQLite — 3000 esercizi di inglese su 8 corsi |
+| `init_db.py` | Crea exercises.db. Esegui: `python init_db.py` |
+| `init_english_db.py` | Crea learning_hub.db con 3000 esercizi. Esegui: `python init_english_db.py` |
 
 ## Stack Tecnologico
 
-- **Backend**: Python 3.12 + Flask + SQLite (`sqlite3` stdlib)
+- **Backend**: Python 3.11 + Flask + SQLite (`sqlite3` stdlib) + OpenAI SDK
 - **Frontend**: HTML5, CSS3, Vanilla JS ES6+
+- **AI**: OpenAI `gpt-4o-mini` via Replit AI Integrations (nessuna API key utente necessaria)
 - **UI Extras**: Tailwind CSS CDN (prefix `tw-`, preflight disabilitato), FontAwesome 6.4
-- **Email**: SMTP configurabile via env vars, fallback localhost
+- **Email**: SMTP configurabile via env vars
 - **Server Prod**: Gunicorn su porta 5000
 
 ## Sezioni dell'App
 
 ### Home
-- Hero con CTA verso Corsi e Quiz
-- Statistiche: 12+ corsi, 3000+ esercizi, 50+ quiz, 98% soddisfazione
-- Showcase dei corsi principali + promo Marina Militare
+- Hero con CTA verso Esercizi e Quiz
+- Statistiche: 3000+ esercizi inglese, AI Tutor, Marina Militare
 
 ### Corsi (`/` → tab Corsi)
-- **Inglese Generale**: Base A1-A2, Pre-Intermedio, Intermedio B1-B2, Avanzato C1-C2, Viaggi, IELTS
-- **Business & Professionale**: Business English, Negoziazioni, Presentazioni
-- **Programmazione & Tech**: Web, PHP, Database, Python, Logica — link diretti agli esercizi filtrati
+- 3 gruppi: Inglese Generale, Business & Professionale, Programmazione & Tech
+- Card con `data-page-target="esercizi"` e `data-cat` per navigazione filtrata
 - FAQ con accordion
-- Tutte le card hanno `border-left` via `.cat-card`
+
+### Hub Inglese AI (`/` → tab Hub Inglese AI)
+- **Griglia 8 corsi**: Inglese Base, Pre-Intermedio, Intermedio, Avanzato, Business English, Viaggi, IELTS, Navale
+- **3000 esercizi** con paginazione Load More (20 per pagina), ricerca testuale debounce
+- Ogni card: badge argomento, testo esercizio, bottone "Mostra soluzione", bottone "Chiedi al Tutor"
+- **AI Tutor Sidebar**: chat laterale su sfondo scuro, spiega grammatica senza dare la risposta, multi-turn conversation con cronologia
 
 ### Esercizi (`/` → tab Esercizi)
-- **40 esercizi reali** nel DB + generatore per scalare a 3000+
-- Categorie: Web (HTML5/CSS/JS/React), PHP, Database (SQL/NoSQL), Python, Logica
-- Filtri: categoria (pulsanti colorati), difficoltà (select), ricerca full-text con debounce 350ms
-- Paginazione: 12 per pagina, bottoni Prec/Succ con info pagina
-- Card con badge colorati, testo esercizio, toggle "Mostra/Nascondi soluzione" con `<pre>` verde
-- Navigazione da "Corsi" → Esercizi con categoria pre-filtrata (via `data-cat`)
+- 140 esercizi di programmazione (Web, PHP, Database, Python, Logica)
+- Skeleton loader, filtri, ricerca, Load More infinito
 
 ### Marina Militare
-- 6 navi: Portaerei, Cacciatorpediniere, Sottomarino, Fregata, Incrociatore, Nave Scuola
-- 21 componenti tecnici unici, zero duplicati, zero tooltip
-- Immagini Unsplash via modal al click sull'icona ⚓
+- 6 navi con 21 componenti tecnici, modal con immagini Unsplash
 
 ### Quiz
-- 4 categorie di domande con scoring real-time
-- Pulsante CTA "Metti alla prova le tue conoscenze navali"
+- 4 categorie con scoring real-time
 
 ### Contatti
-- Form con validazione frontend + backend
-- Endpoint `/api/contact` SMTP
+- Form SMTP con validazione frontend + backend
 
 ## API Backend
 
 | Endpoint | Descrizione |
 |---|---|
 | `GET /` | Serve `templates/index.html` |
-| `GET /api/exercises` | Lista esercizi con filtri (categoria, sotto, difficolta, q, page, per_page) |
-| `GET /api/exercises/categories` | Categorie, sottocategorie, difficoltà e totale esercizi |
-| `GET /api/exercises/<id>` | Singolo esercizio per ID |
+| `GET /api/exercises` | Lista esercizi programmazione con filtri |
+| `GET /api/exercises/categories` | Categorie e statistiche |
+| `GET /api/exercises/<id>` | Singolo esercizio programmazione |
+| `GET /api/english` | Lista esercizi inglese (cors, argomento, livello, q, page, per_page) |
+| `GET /api/english/courses` | Corsi, argomenti e conteggi |
+| `POST /api/ai-tutor` | AI Tutor: spiega grammatica senza dare la soluzione |
 | `POST /api/contact` | Invia email di contatto |
 
-## Database Esercizi
+## Database Esercizi Inglese
 
+**File**: `learning_hub.db`  
 **Tabella**: `esercizi`  
-**Colonne**: `id, categoria, sotto, difficolta, titolo, testo, soluzione`  
-**Indici**: `idx_categoria`, `idx_difficolta`
+**Colonne**: `id, corso, argomento, livello, testo, soluzione`  
+**Indici**: `idx_corso`, `idx_argomento`, `idx_livello`
 
-Categorie disponibili: `Web | PHP | Database | Python | Logica`  
-Difficoltà: `Base | Intermedio | Avanzato`
+Corsi: `Inglese Base | Pre-Intermedio | Intermedio | Avanzato | Business English | Inglese per Viaggi | IELTS / Cambridge | Inglese Navale`
 
-Per aggiungere esercizi:
-```bash
-python generate_exercises.py 500   # aggiunge 500 esercizi
-```
+## AI Tutor
+
+**Endpoint**: `POST /api/ai-tutor`  
+**Body**: `{ esercizio: str, domanda: str, cronologia: [{role, content}] }`  
+**Modello**: `gpt-4o-mini`  
+**Comportamento**: Risponde in italiano, spiega regole grammaticali, NON dà la soluzione diretta, max 300 token  
+**Auth**: Replit AI Integrations (`AI_INTEGRATIONS_OPENAI_API_KEY`, `AI_INTEGRATIONS_OPENAI_BASE_URL`)
 
 ## Esecuzione
 
@@ -87,33 +90,23 @@ python generate_exercises.py 500   # aggiunge 500 esercizi
 # Sviluppo
 python app.py          # Port 5000
 
-# Primo avvio: crea il database
+# Primo avvio: crea i database
 python init_db.py
+python init_english_db.py
 
 # Produzione
 gunicorn --bind 0.0.0.0:5000 --reuse-port app:app
 ```
 
-## Configurazione Email (opzionale)
-
-Aggiungi env vars nel pannello Secrets:
-```
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=tua-email@gmail.com
-SMTP_PASSWORD=app-password
-CONTACT_EMAIL=info@example.com
-```
-
 ## Note Sviluppo
 
 - **Template sync**: dopo ogni modifica a `index.html` eseguire `cp index.html templates/index.html`
-- **Tailwind**: prefix `tw-`, preflight disabilitato per coesistere con `style.css` esistente
-- **JS Section 11**: logica esercizi — `statoEsercizi`, `caricaEsercizi()`, `inizializzaEsercizi()`, `toggleSoluzione()`
-- **Navigazione con filtro**: `data-page-target="esercizi" data-cat="Web"` → apre Esercizi filtrato per Web
+- **Tailwind**: prefix `tw-`, preflight disabilitato
+- **JS Section 12**: Hub Inglese — `hubStato`, `apriCorso()`, `caricaEserciziHub()`, `apriTutor()`, `inviaTutor()`
+- **AI Tutor Sidebar**: `#ai-tutor-sidebar` fixed right, slide-in con classe `.aperto`, overlay `#tutor-overlay`
 
 ---
 
-**Version**: 3.0 (Sistema Esercizi)  
+**Version**: 4.0 (AI-Powered English Learning Hub)  
 **Last Update**: 2026-03-08  
 **Status**: Production Ready

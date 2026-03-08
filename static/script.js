@@ -171,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     collegaFormContatti();
     collegaModalNave();
     inizializzaEsercizi();
+    inizializzaHubInglese();
   } catch (err) {
     console.error("Errore inizializzazione:", err);
   }
@@ -921,3 +922,299 @@ function inizializzaEsercizi() {
 
 // Logging per debug
 console.log("English Academy - App caricata con successo");
+
+
+// ============================================================
+// SEZIONE 12: HUB INGLESE AI — ESERCIZI + AI TUTOR
+// ============================================================
+
+/* ── Stato Hub Inglese ── */
+const hubStato = {
+  corsoAttivo:   "",
+  pagina:        1,
+  perPagina:     20,
+  totale:        0,
+  ricerca:       "",
+  cronologiaTutor: [],
+  esercizioTutor: null,
+};
+
+/* ── Colori per corso ── */
+const CORSO_COLORI = {
+  "Inglese Base":       { bg: "#dcfce7", text: "#16a34a", badge: "#bbf7d0" },
+  "Pre-Intermedio":     { bg: "#dbeafe", text: "#2563eb", badge: "#bfdbfe" },
+  "Intermedio":         { bg: "#ede9fe", text: "#7c3aed", badge: "#ddd6fe" },
+  "Avanzato":           { bg: "#fee2e2", text: "#dc2626", badge: "#fecaca" },
+  "Business English":   { bg: "#cffafe", text: "#0891b2", badge: "#a5f3fc" },
+  "Inglese per Viaggi": { bg: "#fef3c7", text: "#d97706", badge: "#fde68a" },
+  "IELTS / Cambridge":  { bg: "#fce7f3", text: "#be185d", badge: "#fbcfe8" },
+  "Inglese Navale":     { bg: "#dbeafe", text: "#1a3a52", badge: "#93c5fd" },
+};
+
+/* ── Apri corso (click su card) ── */
+window.apriCorso = function(corso) {
+  hubStato.corsoAttivo = corso;
+  hubStato.pagina      = 1;
+  hubStato.ricerca     = "";
+
+  const search = document.getElementById("hub-search");
+  if (search) search.value = "";
+
+  document.getElementById("hub-corsi-grid").style.display   = "none";
+  document.getElementById("hub-esercizi-view").style.display = "block";
+  document.getElementById("hub-corso-titolo").textContent    = corso;
+
+  caricaEserciziHub("reset");
+};
+
+/* ── Torna alla griglia corsi ── */
+function tornaCors() {
+  document.getElementById("hub-corsi-grid").style.display   = "block";
+  document.getElementById("hub-esercizi-view").style.display = "none";
+  hubStato.corsoAttivo = "";
+}
+
+/* ── Carica esercizi inglese dall'API ── */
+async function caricaEserciziHub(modo) {
+  const grid     = document.getElementById("hub-grid");
+  const countEl  = document.getElementById("hub-count");
+  const btnMore  = document.getElementById("hub-load-more");
+
+  if (modo === "reset") {
+    hubStato.pagina = 1;
+    grid.innerHTML = "";
+    grid.innerHTML = Array(6).fill(
+      `<div class="hub-card">
+        <div class="sk-line" style="height:12px;width:40%;border-radius:6px;"></div>
+        <div class="sk-line" style="height:16px;width:90%;border-radius:6px;"></div>
+        <div class="sk-line" style="height:12px;width:65%;border-radius:6px;"></div>
+      </div>`
+    ).join("");
+    if (btnMore) btnMore.style.display = "none";
+  }
+
+  try {
+    const params = new URLSearchParams({
+      corso:    hubStato.corsoAttivo,
+      q:        hubStato.ricerca,
+      page:     hubStato.pagina,
+      per_page: hubStato.perPagina,
+    });
+    const res  = await fetch(`/api/english?${params}`);
+    const data = await res.json();
+
+    if (modo === "reset") grid.innerHTML = "";
+    hubStato.totale = data.totale || 0;
+
+    if (countEl) {
+      const inizio = (hubStato.pagina - 1) * hubStato.perPagina + 1;
+      const fine   = Math.min(hubStato.pagina * hubStato.perPagina, hubStato.totale);
+      countEl.textContent = hubStato.totale
+        ? `Esercizi ${inizio}–${fine} di ${hubStato.totale.toLocaleString("it-IT")}`
+        : "Nessun esercizio trovato";
+    }
+
+    (data.esercizi || []).forEach((ex, i) => {
+      const card = creaHubCard(ex, i);
+      grid.appendChild(card);
+      setTimeout(() => card.classList.add("visibile"), i * 40);
+    });
+
+    if (btnMore) {
+      const mostrati = hubStato.pagina * hubStato.perPagina;
+      btnMore.style.display = (mostrati < hubStato.totale) ? "block" : "none";
+    }
+
+  } catch (err) {
+    console.error("caricaEserciziHub:", err);
+    if (modo === "reset") grid.innerHTML = `<p style="color:#ef4444;grid-column:1/-1;">Errore caricamento esercizi. Riprova.</p>`;
+  }
+}
+
+/* ── Crea card HTML per un esercizio inglese ── */
+function creaHubCard(ex, indice) {
+  const colore = CORSO_COLORI[ex.corso] || { bg: "#f1f5f9", text: "#334155", badge: "#e2e8f0" };
+  const card   = document.createElement("div");
+  card.className = "hub-card";
+  card.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+      <span class="hub-badge-corso" style="background:${colore.badge};color:${colore.text};">${ex.argomento}</span>
+      <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">${ex.livello}</span>
+    </div>
+    <p style="font-size:.95rem;font-weight:600;color:#1e293b;line-height:1.4;">${esc(ex.testo)}</p>
+    <div class="hub-soluzione-box" id="sol-${ex.id}">
+      <span style="font-size:11px;font-weight:700;color:#15803d;display:block;margin-bottom:4px;">✅ Soluzione</span>
+      ${esc(ex.soluzione)}
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn-secondary" style="font-size:12px;padding:6px 12px;"
+        onclick="toggleSoluzione(${ex.id})">👁 Mostra soluzione</button>
+      <button class="btn-primary" style="font-size:12px;padding:6px 12px;background:${colore.text};"
+        onclick="apriTutor(${ex.id}, \`${esc(ex.testo)}\`)">🤖 Chiedi al Tutor</button>
+    </div>
+  `;
+  return card;
+}
+
+function esc(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/`/g, "&#96;");
+}
+
+/* ── Toggle soluzione ── */
+window.toggleSoluzione = function(id) {
+  const box = document.getElementById(`sol-${id}`);
+  if (!box) return;
+  box.classList.toggle("aperta");
+};
+
+/* ── AI TUTOR: apri sidebar ── */
+window.apriTutor = function(id, testo) {
+  hubStato.esercizioTutor = testo;
+  hubStato.cronologiaTutor = [];
+
+  const sidebar  = document.getElementById("ai-tutor-sidebar");
+  const overlay  = document.getElementById("tutor-overlay");
+  const eBox     = document.getElementById("tutor-esercizio-box");
+  const chatEl   = document.getElementById("tutor-chat");
+
+  eBox.innerHTML = `<strong style="color:#60a5fa;font-size:11px;">ESERCIZIO</strong><br><span style="color:#e2e8f0;">${esc(testo)}</span>`;
+  eBox.style.display = "block";
+
+  chatEl.innerHTML = `
+    <div class="tutor-msg ai">
+      Ciao! Sono pronto ad aiutarti con questo esercizio. 😊<br>
+      Cosa non ti è chiaro? Puoi chiedermi la regola grammaticale, il significato di una parola o come ragionare sulla struttura della frase.
+    </div>`;
+
+  sidebar.classList.add("aperto");
+  overlay.classList.add("visibile");
+  document.getElementById("tutor-input").focus();
+};
+
+/* ── Chiudi tutor ── */
+function chiudiTutor() {
+  document.getElementById("ai-tutor-sidebar").classList.remove("aperto");
+  document.getElementById("tutor-overlay").classList.remove("visibile");
+}
+
+/* ── Invia messaggio al tutor ── */
+async function inviaTutor() {
+  const input  = document.getElementById("tutor-input");
+  const chat   = document.getElementById("tutor-chat");
+  const btn    = document.getElementById("tutor-send");
+  const testo  = input.value.trim();
+  if (!testo) return;
+
+  input.value = "";
+  input.style.height = "auto";
+
+  // Messaggio utente
+  const msgU = document.createElement("div");
+  msgU.className = "tutor-msg user";
+  msgU.textContent = testo;
+  chat.appendChild(msgU);
+
+  // Messaggio "sto pensando..."
+  const msgAI = document.createElement("div");
+  msgAI.className = "tutor-msg ai thinking";
+  msgAI.textContent = "⏳ Il tutor sta pensando...";
+  chat.appendChild(msgAI);
+  chat.scrollTop = chat.scrollHeight;
+
+  btn.disabled = true;
+  input.disabled = true;
+
+  try {
+    const res  = await fetch("/api/ai-tutor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        esercizio:  hubStato.esercizioTutor,
+        domanda:    testo,
+        cronologia: hubStato.cronologiaTutor,
+      }),
+    });
+    const data = await res.json();
+
+    if (data.risposta) {
+      msgAI.className = "tutor-msg ai";
+      msgAI.textContent = data.risposta;
+
+      // Aggiorna cronologia
+      hubStato.cronologiaTutor.push({ role: "user",      content: testo });
+      hubStato.cronologiaTutor.push({ role: "assistant", content: data.risposta });
+
+      // Tieni cronologia a max 12 messaggi
+      if (hubStato.cronologiaTutor.length > 12) {
+        hubStato.cronologiaTutor = hubStato.cronologiaTutor.slice(-12);
+      }
+    } else {
+      msgAI.className = "tutor-msg ai";
+      msgAI.textContent = "⚠️ " + (data.errore || "Errore sconosciuto.");
+    }
+  } catch (err) {
+    msgAI.className = "tutor-msg ai";
+    msgAI.textContent = "⚠️ Errore di connessione. Riprova.";
+    console.error("AI Tutor:", err);
+  } finally {
+    btn.disabled = false;
+    input.disabled = false;
+    chat.scrollTop = chat.scrollHeight;
+    input.focus();
+  }
+}
+
+/* ── Inizializza Hub Inglese (chiamata da initPage) ── */
+function inizializzaHubInglese() {
+  try {
+    const backBtn  = document.getElementById("hub-back-btn");
+    const searchEl = document.getElementById("hub-search");
+    const loadMore = document.getElementById("hub-load-more");
+    const overlay  = document.getElementById("tutor-overlay");
+    const closeBtn = document.getElementById("tutor-close");
+    const sendBtn  = document.getElementById("tutor-send");
+    const input    = document.getElementById("tutor-input");
+
+    if (backBtn)  backBtn.addEventListener("click", tornaCors);
+    if (overlay)  overlay.addEventListener("click", chiudiTutor);
+    if (closeBtn) closeBtn.addEventListener("click", chiudiTutor);
+    if (sendBtn)  sendBtn.addEventListener("click", inviaTutor);
+
+    if (input) {
+      input.addEventListener("keydown", e => {
+        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); inviaTutor(); }
+      });
+      input.addEventListener("input", function() {
+        this.style.height = "auto";
+        this.style.height = Math.min(this.scrollHeight, 100) + "px";
+      });
+    }
+
+    let debounceTimer;
+    if (searchEl) {
+      searchEl.addEventListener("input", () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          hubStato.ricerca = searchEl.value.trim();
+          caricaEserciziHub("reset");
+        }, 400);
+      });
+    }
+
+    if (loadMore) {
+      loadMore.addEventListener("click", () => {
+        hubStato.pagina++;
+        caricaEserciziHub("append");
+      });
+    }
+
+  } catch (err) {
+    console.error("inizializzaHubInglese:", err);
+  }
+}
+
