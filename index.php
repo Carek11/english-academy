@@ -36,21 +36,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
     }
   </script>
   <style>
-    /* ── Card Esercizi ── */
-    #esercizi .ex-card {
-      transition: box-shadow .2s, transform .2s, opacity .4s, translate .4s;
-      opacity: 0;
-      translate: 0 16px;
-    }
-    #esercizi .ex-card.visibile {
-      opacity: 1;
-      translate: 0 0;
-    }
-    #esercizi .ex-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.13); transform: translateY(-2px); }
-    #esercizi .soluzione-box { display: none; }
-    #esercizi .soluzione-box.aperta { display: block; }
-    #esercizi pre { white-space: pre-wrap; word-break: break-word; }
-
     /* ── Badge ── */
     .badge-web   { background:#2563eb; color:#fff; }
     .badge-php   { background:#7c3aed; color:#fff; }
@@ -118,7 +103,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   <nav>
     <button class="active" data-page="home">🏠 Home</button>
     <button data-page="corsi">📚 Corsi</button>
-    <button data-page="esercizi">🛠️ Esercizi</button>
     <button data-page="marina">⚓ Marina Militare</button>
     <button data-page="quiz">🎯 Quiz</button>
     <button data-page="contatti">✉️ Contatti</button>
@@ -130,14 +114,12 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         <h2>Benvenuto nell'English Academy</h2>
         <p>La piattaforma italiana per imparare l'inglese in modo professionale, moderno e interattivo. Dai corsi base fino all'inglese tecnico per la <strong style="color:var(--gold)">Marina Militare</strong>.</p>
         <div class="hero-btns">
-          <button class="btn-primary" data-page-target="esercizi">🛠️ Inizia ad Esercitarti</button>
-          <button class="btn-secondary" data-page-target="quiz">🎯 Fai un Quiz</button>
+          <button class="btn-primary" data-page-target="quiz">🎯 Fai un Quiz</button>
         </div>
       </div>
 
       <div class="stats-row">
         <div class="stat-box"><div class="stat-num">12+</div><div class="stat-label">Corsi Disponibili</div></div>
-        <div class="stat-box"><div class="stat-num">3000+</div><div class="stat-label">Esercizi Pratici</div></div>
         <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Quiz Interattivi</div></div>
         <div class="stat-box"><div class="stat-num">98%</div><div class="stat-label">Soddisfazione</div></div>
       </div>
@@ -296,53 +278,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
         </div>
       </div>
 
-      <!-- Categoria: Programmazione & Tech -->
-      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💻 Programmazione & Tech</h3>
-      <div class="cards-grid">
-        <div class="card cat-card" style="border-left-color:#2563eb;">
-          <div class="card-icon">🌐</div>
-          <h3>Web Development</h3>
-          <p>HTML5, CSS Grid/Flexbox, JavaScript ES6+, React Hooks. Esercizi pratici inclusi.</p>
-          <span class="badge" style="background:#2563eb;color:#fff;">TECNICO</span><br>
-          <button class="btn" data-page-target="esercizi" data-cat="Web">Vai agli esercizi →</button>
-        </div>
-        <div class="card cat-card" style="border-left-color:#7c3aed;">
-          <div class="card-icon">🐘</div>
-          <h3>PHP</h3>
-          <p>Cicli, liste, funzioni, web scraping con cURL, automazione e parsing HTML.</p>
-          <span class="badge" style="background:#7c3aed;color:#fff;">TECNICO</span><br>
-          <button class="btn" data-page-target="esercizi" data-cat="PHP">Vai agli esercizi →</button>
-        </div>
-        <div class="card cat-card" style="border-left-color:#059669;">
-          <div class="card-icon">🗄️</div>
-          <h3>Database SQL & NoSQL</h3>
-          <p>Query SQL, JOIN, aggregazioni, CTE, indici. Introduzione a MongoDB.</p>
-          <span class="badge" style="background:#059669;color:#fff;">TECNICO</span><br>
-          <button class="btn" data-page-target="esercizi" data-cat="Database">Vai agli esercizi →</button>
-        </div>
-        <div class="card cat-card" style="border-left-color:#d97706;">
-          <div class="card-icon">🐍</div>
-          <h3>Python & Algoritmi</h3>
-          <p>Strutture dati, algoritmi di ordinamento, ricerca, generatori, decoratori.</p>
-          <span class="badge" style="background:#d97706;color:#fff;">TECNICO</span><br>
-          <button class="btn" data-page-target="esercizi" data-cat="Python">Vai agli esercizi →</button>
-        </div>
-        <div class="card cat-card" style="border-left-color:#dc2626;">
-          <div class="card-icon">🧠</div>
-          <h3>Logica & Problem Solving</h3>
-          <p>FizzBuzz, palindromi, anagrammi, Fibonacci, duplicati e algoritmi classici.</p>
-          <span class="badge" style="background:#dc2626;color:#fff;">LOGICA</span><br>
-          <button class="btn" data-page-target="esercizi" data-cat="Logica">Vai agli esercizi →</button>
-        </div>
-        <div class="card card-naval cat-card">
-          <div class="card-icon">⚓</div>
-          <h3>Inglese Navale – Marina Militare</h3>
-          <p>Terminologia navale NATO, navi da guerra, sottomarini, fregate e comunicazioni.</p>
-          <span class="badge badge-blue">TECNICO – 16 SETTIMANE</span><br>
-          <button class="btn" data-page-target="marina">Vai alla sezione Marina →</button>
-        </div>
-      </div>
-
       <h3 class="section-title faq-title">Domande Frequenti</h3>
       <div class="divider"></div>
 
@@ -380,92 +315,6 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
     </section>
 
     <!-- ============================================================ -->
-    <!-- SEZIONE ESERCIZI                                             -->
-    <!-- ============================================================ -->
-    <section id="esercizi" class="page">
-
-      <div class="naval-hero">
-        <div class="naval-tag">🛠️ PRATICA ATTIVA</div>
-        <h2>Esercizi di Programmazione</h2>
-        <p>Studia, pratica e migliora con esercizi reali su Web, PHP, Database, Python e Logica. Clicca su ogni card per vedere la soluzione.</p>
-      </div>
-
-      <!-- ── Filtri e Ricerca ── -->
-      <div class="tw-bg-white tw-rounded-2xl tw-shadow-md tw-p-6 tw-mb-8" style="margin-top:24px;">
-        <div class="tw-flex tw-flex-wrap tw-gap-3 tw-mb-4">
-          <!-- Ricerca -->
-          <div class="tw-flex-1 tw-min-w-[200px]">
-            <input id="ex-search"
-                   type="text"
-                   placeholder="🔍 Cerca esercizi..."
-                   class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2 tw-text-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-400"
-                   style="font-family:inherit;">
-          </div>
-          <!-- Select difficoltà -->
-          <select id="ex-diff"
-                  class="tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm"
-                  style="font-family:inherit;">
-            <option value="">Tutti i livelli</option>
-            <option value="Base">🟢 Base</option>
-            <option value="Intermedio">🟡 Intermedio</option>
-            <option value="Avanzato">🔴 Avanzato</option>
-          </select>
-          <!-- Reset -->
-          <button id="ex-reset"
-                  class="tw-px-4 tw-py-2 tw-text-sm tw-rounded-lg tw-border tw-border-gray-300 tw-bg-gray-50 hover:tw-bg-gray-100"
-                  style="font-family:inherit;">
-            ✕ Reset
-          </button>
-        </div>
-
-        <!-- Filtri categoria -->
-        <div class="tw-flex tw-flex-wrap tw-gap-2" id="filtri-categoria">
-          <button class="filtro-cat filtro-attivo tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold" data-cat="" style="font-family:inherit;">
-            Tutti
-          </button>
-          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-web" data-cat="Web" style="font-family:inherit;">
-            🌐 Web
-          </button>
-          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-php" data-cat="PHP" style="font-family:inherit;">
-            🐘 PHP
-          </button>
-          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-db" data-cat="Database" style="font-family:inherit;">
-            🗄️ Database
-          </button>
-          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-py" data-cat="Python" style="font-family:inherit;">
-            🐍 Python
-          </button>
-          <button class="filtro-cat tw-px-3 tw-py-1 tw-rounded-full tw-text-xs tw-border tw-font-semibold badge-logic" data-cat="Logica" style="font-family:inherit;">
-            🧠 Logica
-          </button>
-        </div>
-      </div>
-
-      <!-- ── Contatore risultati ── -->
-      <p id="ex-count" class="tw-text-sm tw-text-gray-500 tw-mb-4">Caricamento esercizi...</p>
-
-      <!-- ── Griglia Esercizi ── -->
-      <div id="ex-grid" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-6"></div>
-
-      <!-- ── Load More ── -->
-      <div class="center-block">
-        <button id="btn-load-more" class="btn-primary">⬇️ Carica altri esercizi</button>
-      </div>
-
-      <!-- ── Nessun risultato (nascosto di default) ── -->
-      <div id="ex-empty" style="display:none;" class="tw-text-center tw-py-16 tw-text-gray-400">
-        <div class="tw-text-5xl tw-mb-4">🔍</div>
-        <p class="tw-text-lg">Nessun esercizio trovato</p>
-        <p class="tw-text-sm tw-mt-1">Prova a modificare i filtri o la ricerca</p>
-      </div>
-
-      <!-- ── CTA bottom ── -->
-      <div class="center-block" style="margin-top:40px;">
-        <button class="btn-primary" data-page-target="quiz">🎯 Mettiti alla prova con i Quiz →</button>
-      </div>
-
-    </section>
-
     <!-- ============================================================ -->
     <!-- SEZIONE MARINA MILITARE                                      -->
     <!-- ============================================================ -->
