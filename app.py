@@ -77,9 +77,9 @@ def get_exercises():
         offset = (page - 1) * per_page
 
         conn   = get_db(DB_PROG)
-        totale = conn.execute(f"SELECT COUNT(*) FROM esercizi {where}", vals).fetchone()[0]
+        totale = conn.execute("SELECT COUNT(*) FROM esercizi " + where, vals).fetchone()[0]
         righe  = conn.execute(
-            f"SELECT id,categoria,sotto,difficolta,titolo,testo,soluzione FROM esercizi {where} ORDER BY id LIMIT ? OFFSET ?",
+            "SELECT id,categoria,sotto,difficolta,titolo,testo,soluzione FROM esercizi " + where + " ORDER BY id LIMIT ? OFFSET ?",
             vals + [per_page, offset]
         ).fetchall()
         conn.close()
