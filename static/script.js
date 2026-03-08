@@ -274,6 +274,21 @@ function collegaNavigazione() {
     });
 
     // Pulsante speciale per quiz marino
+    document.querySelectorAll("[data-quiz-direct]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.quizDirect, 10);
+        mostraPagina("quiz");
+        setTimeout(() => {
+          if (!stato.nomeStudente) {
+            document.getElementById("step-name").classList.remove("hidden");
+            document.getElementById("step-select").classList.add("hidden");
+          } else {
+            selezionaQuiz(idx);
+          }
+        }, 100);
+      });
+    });
+
     const btnQuizNavale = document.getElementById("naval-quiz-cta");
     if (btnQuizNavale) {
       btnQuizNavale.addEventListener("click", () => {

@@ -103,6 +103,7 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
   <nav>
     <button class="active" data-page="corsi">📚 Corsi</button>
     <button data-page="marina">⚓ Marina Militare</button>
+    <button data-page="avanzato">📙 Avanzato</button>
     <button data-page="quiz">🎯 Quiz</button>
     <button data-page="contatti">✉️ Contatti</button>
     <button id="nav-auth-btn" class="nav-auth-btn" data-apri-auth-nav>👤 Iscriviti / Entra</button>
@@ -381,6 +382,94 @@ header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
 
       <div class="center-block">
         <button class="btn-primary" id="naval-quiz-cta">⚓ Metti alla prova le tue conoscenze navali →</button>
+      </div>
+    </section>
+
+    <section id="avanzato" class="page">
+      <h2 class="section-title">Inglese Avanzato (C1–C2)</h2>
+      <p class="section-sub">Grammatica complessa, idiomi, stile accademico e padronanza della lingua</p>
+      <div class="divider"></div>
+
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-6" style="color:var(--primary);">🔧 Strutture Grammaticali Avanzate</h3>
+      <div class="cards-grid">
+        <div class="card cat-card">
+          <div class="card-icon">🔄</div>
+          <h3>Inversione (Inversion)</h3>
+          <p><strong>Never had I</strong> seen such a sight.<br><strong>Not only did</strong> she win, but she also broke the record.<br><strong>Hardly had</strong> he arrived when it started raining.</p>
+          <span class="badge">C1–C2</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">📐</div>
+          <h3>Congiuntivo (Subjunctive)</h3>
+          <p>The board insists that he <strong>submit</strong> the report.<br>It is vital that she <strong>be</strong> informed.<br>If I <strong>were</strong> you, I would reconsider.</p>
+          <span class="badge">C1–C2</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">✂️</div>
+          <h3>Cleft Sentences</h3>
+          <p><strong>It was</strong> John <strong>who</strong> called.<br><strong>What</strong> I need <strong>is</strong> more time.<br><strong>It is</strong> hard work <strong>that</strong> leads to success.</p>
+          <span class="badge">C1–C2</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">📦</div>
+          <h3>Nominalizzazione</h3>
+          <p>Trasformare verbi/aggettivi in sostantivi per lo stile accademico:<br><em>discover → <strong>discovery</strong></em><br><em>contribute → <strong>contribution</strong></em><br><em>effective → <strong>effectiveness</strong></em></p>
+          <span class="badge">C1–C2</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">🗣️</div>
+          <h3>Discorso Indiretto Avanzato</h3>
+          <p>"I will finish it" → She said <strong>she would finish it</strong>.<br>"Have you met him?" → He asked <strong>if I had met him</strong>.<br>"Don't be late!" → She told me <strong>not to be late</strong>.</p>
+          <span class="badge">C1–C2</span>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">⚙️</div>
+          <h3>Passivo Avanzato</h3>
+          <p>The report <strong>is said to have been written</strong> by an expert.<br>He <strong>is believed to be</strong> the leader.<br>It <strong>is thought that</strong> the economy will recover.</p>
+          <span class="badge">C1–C2</span>
+        </div>
+      </div>
+
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">💬 Idiomi e Frasi Fisse</h3>
+      <div class="cards-grid">
+        <div class="card cat-card">
+          <div class="card-icon">🪄</div>
+          <h3>Idiomi Comuni C1</h3>
+          <p><strong>Bite the bullet</strong> — affrontare qualcosa di difficile.<br><strong>Burn bridges</strong> — rovinare una relazione per sempre.<br><strong>Cut corners</strong> — fare le cose in modo frettoloso e approssimativo.</p>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">🎯</div>
+          <h3>Collocazioni Avanzate</h3>
+          <p><strong>Reach a consensus</strong> — trovare un accordo.<br><strong>Draw a conclusion</strong> — trarre una conclusione.<br><strong>Take precedence</strong> — avere la priorità.</p>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">🔑</div>
+          <h3>Connettori Accademici</h3>
+          <p><strong>Nevertheless</strong> — nonostante ciò.<br><strong>Furthermore</strong> — inoltre, per di più.<br><strong>Consequently</strong> — di conseguenza.<br><strong>Notwithstanding</strong> — nondimeno.</p>
+        </div>
+      </div>
+
+      <h3 class="tw-text-lg tw-font-bold tw-mb-3 tw-mt-8" style="color:var(--primary);">📚 Vocabolario Accademico (AWL)</h3>
+      <div class="cards-grid">
+        <div class="card cat-card">
+          <div class="card-icon">🔬</div>
+          <h3>Analisi e Ricerca</h3>
+          <p><strong>Corroborate</strong> — confermare con prove.<br><strong>Substantiate</strong> — supportare con fatti.<br><strong>Extrapolate</strong> — estendere dati oltre i valori noti.<br><strong>Juxtapose</strong> — mettere a confronto.</p>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">⚖️</div>
+          <h3>Argomentazione</h3>
+          <p><strong>Equivocal</strong> — ambiguo, non chiaro.<br><strong>Fallacious</strong> — basato su un errore logico.<br><strong>Unequivocal</strong> — assolutamente chiaro.<br><strong>Postulate</strong> — ipotizzare come vero.</p>
+        </div>
+        <div class="card cat-card">
+          <div class="card-icon">📊</div>
+          <h3>Dati e Statistiche</h3>
+          <p><strong>Fluctuate</strong> — variare in modo irregolare.<br><strong>Correlate</strong> — essere in relazione.<br><strong>Plummet</strong> — calare drasticamente.<br><strong>Surge</strong> — aumentare bruscamente.</p>
+        </div>
+      </div>
+
+      <div class="center-block" style="margin-top:2rem;">
+        <button class="btn-primary" data-quiz-direct="3">📙 Fai il Quiz Avanzato C1–C2 →</button>
       </div>
     </section>
 
