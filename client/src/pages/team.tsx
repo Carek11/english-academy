@@ -6,7 +6,7 @@ export default function TeamPage() {
         <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm">
           LA NOSTRA STORIA
         </div>
-        <h1 className="text-5xl sm:text-6xl font-bold font-display text-academy-dark tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold font-display text-academy-dark tracking-tight">
           Come è nata English Academy
         </h1>
         <p className="text-lg text-academy-gray max-w-3xl mx-auto leading-loose">
