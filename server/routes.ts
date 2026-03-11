@@ -55,7 +55,9 @@ export async function registerRoutes(
               to: [{ email: user.email, name: user.fullName }],
               bcc: [{ email: "alainproject@gmail.com" }],
               subject: "✅ Iscrizione confermata – English Academy",
-              htmlContent: `
+              htmlContent: (() => {
+                const siteUrl = process.env.SITE_URL || `https://${process.env.REPLIT_DEV_DOMAIN}` || "https://english-academy.it.com";
+                return `
                 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;padding:32px;border-radius:12px;">
                   <div style="text-align:center;margin-bottom:24px;">
                     <h1 style="color:#1f3c88;font-size:28px;margin:0;">⚓ English Academy</h1>
@@ -71,14 +73,21 @@ export async function registerRoutes(
                       <li>⚓ Glossario Navale con 200+ termini</li>
                       <li>📊 Statistiche personali e progressi</li>
                     </ul>
+                    <div style="text-align:center;margin:28px 0;">
+                      <a href="${siteUrl}"
+                         style="display:inline-block;background:#1f3c88;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:bold;letter-spacing:0.5px;">
+                        ⚓ Accedi al tuo account →
+                      </a>
+                    </div>
                     <hr style="border:none;border-top:1px solid #eee;margin:20px 0;" />
                     <p style="color:#888;font-size:13px;">Username: <strong>${user.username}</strong><br/>Email: <strong>${user.email}</strong></p>
                   </div>
                   <p style="text-align:center;color:#aaa;font-size:12px;margin-top:20px;">
-                    © English Academy – Marina Militare · Tutti i diritti riservati
+                    © English Academy – Marina Militare · Tutti i diritti riservati<br/>
+                    <a href="${siteUrl}" style="color:#1f3c88;text-decoration:none;">${siteUrl}</a>
                   </p>
                 </div>
-              `,
+              `})(),
             }),
           });
           console.log(`✅ Email di benvenuto inviata a ${user.email}`);
