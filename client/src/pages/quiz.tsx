@@ -87,8 +87,7 @@ const topicConfig: Record<QuizType, { label: string; icon: string; color: string
 };
 
 export default function QuizPage() {
-  const [step, setStep] = useState<"select" | "quiz" | "results" | "limit">("select");
-  const [limitReason, setLimitReason] = useState<"daily" | "monthly">("daily");
+  const [step, setStep] = useState<"select" | "quiz" | "results">("select");
   const [selectedTopic, setSelectedTopic] = useState<QuizType | null>(null);
   const [currentQ, setCurrentQ]   = useState(0);
   const [score, setScore]         = useState(0);
@@ -104,14 +103,8 @@ export default function QuizPage() {
   const generateRound = (topic: QuizType) =>
     [...quizzes[topic]].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND);
 
-  // ── avvia quiz: solo check, NON scala ancora ──────────────────────────────
+  // ── avvia quiz: NON scala ancora, nessun blocco ──────────────────────────
   const handleStartQuiz = (topic: QuizType) => {
-    const check = canStartRound();
-    if (!check.ok) {
-      setLimitReason(check.reason!);
-      setStep("limit");
-      return;
-    }
     setSelectedTopic(topic);
     setRoundQuestions(generateRound(topic));
     setCurrentQ(0);
@@ -151,12 +144,6 @@ export default function QuizPage() {
   };
 
   const handleContinueQuiz = () => {
-    const check = canStartRound();
-    if (!check.ok) {
-      setLimitReason(check.reason!);
-      setStep("limit");
-      return;
-    }
     setRoundQuestions(generateRound(selectedTopic!));
     setCurrentQ(0);
     setScore(0);
@@ -176,7 +163,6 @@ export default function QuizPage() {
   if (step === "select") {
     const daily   = getDaily();
     const monthly = getMonthly();
-    const canPlay = daily.remaining >= QUESTIONS_PER_ROUND && monthly.remaining >= QUESTIONS_PER_ROUND;
 
     return (
       <div className="max-w-2xl mx-auto py-8 space-y-8">
@@ -185,10 +171,10 @@ export default function QuizPage() {
           <p className="text-academy-gray">Scegli l'argomento · 10 domande per sessione · scalate solo al completamento</p>
 
           <div className="flex justify-center gap-3 flex-wrap text-sm">
-            <span className={`px-3 py-1 rounded-full font-semibold ${daily.remaining >= QUESTIONS_PER_ROUND ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`}>
+            <span className="px-3 py-1 rounded-full font-semibold bg-green-50 text-green-700">
               📅 Oggi: {daily.remaining}/{DAILY_LIMIT}
             </span>
-            <span className={`px-3 py-1 rounded-full font-semibold ${monthly.remaining >= QUESTIONS_PER_ROUND ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700"}`}>
+            <span className="px-3 py-1 rounded-full font-semibold bg-blue-50 text-blue-700">
               📆 Questo mese: {monthly.remaining}/{MONTHLY_LIMIT}
             </span>
           </div>
@@ -201,8 +187,7 @@ export default function QuizPage() {
               <button
                 key={topic}
                 onClick={() => handleStartQuiz(topic)}
-                disabled={!canPlay}
-                className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed ${cfg.bg}`}
+                className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg ${cfg.bg}`}
               >
                 <div className="text-4xl mb-3">{cfg.icon}</div>
                 <div className={`text-lg font-bold ${cfg.color}`}>{cfg.label}</div>
@@ -211,14 +196,6 @@ export default function QuizPage() {
             );
           })}
         </div>
-
-        {!canPlay && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-center text-red-700 font-semibold text-sm">
-            {daily.remaining < QUESTIONS_PER_ROUND
-              ? "🌙 Limite giornaliero raggiunto. Reset alle 3:00 AM."
-              : "📆 Limite mensile di 1000 domande raggiunto. Torna il mese prossimo!"}
-          </div>
-        )}
       </div>
     );
   }
@@ -315,7 +292,6 @@ export default function QuizPage() {
     const percentage = Math.round((roundScore / roundQuestions.length) * 100);
     const totalPct   = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
     const cfg = topicConfig[selectedTopic!];
-    const canContinue = daily.remaining >= QUESTIONS_PER_ROUND && monthly.remaining >= QUESTIONS_PER_ROUND;
 
     return (
       <div className="max-w-2xl mx-auto text-center py-10 space-y-8">
@@ -356,11 +332,9 @@ export default function QuizPage() {
         </div>
 
         <div className="flex gap-3 justify-center flex-wrap">
-          {canContinue && (
-            <button onClick={handleContinueQuiz} className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
-              ➕ Altre 10 domande
-            </button>
-          )}
+          <button onClick={handleContinueQuiz} className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
+            ➕ Altre 10 domande
+          </button>
           <button onClick={() => handleStartQuiz(selectedTopic!)} className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
             🔄 Ricomincia
           </button>
@@ -368,33 +342,6 @@ export default function QuizPage() {
             🗂️ Cambia argomento
           </button>
         </div>
-      </div>
-    );
-  }
-
-  // ══════════════════════════════════════════════════════════════════════════
-  // SCHERMATA LIMITE
-  if (step === "limit") {
-    const now = new Date();
-    const resetTime = new Date(now);
-    if (now.getHours() >= RESET_HOUR) resetTime.setDate(resetTime.getDate() + 1);
-    resetTime.setHours(RESET_HOUR, 0, 0, 0);
-    const hoursLeft = Math.ceil((resetTime.getTime() - now.getTime()) / (1000 * 60 * 60));
-
-    return (
-      <div className="max-w-2xl mx-auto text-center py-12 space-y-6">
-        <div className="text-6xl">{limitReason === "monthly" ? "📆" : "⚓"}😴</div>
-        <h3 className="text-3xl font-bold font-display text-academy-dark">
-          {limitReason === "monthly" ? "Limite mensile raggiunto!" : "Limite giornaliero raggiunto!"}
-        </h3>
-        <p className="text-lg text-academy-gray">
-          {limitReason === "monthly"
-            ? "Hai completato le 1000 domande del mese. Torna il primo del mese prossimo!"
-            : `Hai completato le 50 domande di oggi. Reset alle 3:00 AM (circa ${hoursLeft} ore).`}
-        </p>
-        <button onClick={handleBackToSelect} className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
-          ← Torna agli argomenti
-        </button>
       </div>
     );
   }
