@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { shipTypes } from "@/lib/quizData";
 import carrierImg from "@assets/AZzOM8EviBgPFGACFMJuAA-AZzOM8EvYcyHuF9kkk6E9g_1773252252710.jpg";
 import commandCenterImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773251962760.jpg";
@@ -22,9 +23,43 @@ const shipImages: Record<string, string> = {
   "Patrol Vessel": commandCenterImg,
 };
 
+function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-85 z-[100] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div className="relative max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={onClose}
+          className="absolute -top-10 right-0 text-white text-3xl opacity-80 hover:opacity-100 leading-none"
+        >
+          ✕
+        </button>
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl"
+        />
+        <p className="text-center text-white text-sm mt-3 opacity-70">{alt}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) => void }) {
+  const [zoomedImage, setZoomedImage] = useState<{ src: string; alt: string } | null>(null);
+
   return (
     <div className="space-y-16">
+      {zoomedImage && (
+        <ImageLightbox
+          src={zoomedImage.src}
+          alt={zoomedImage.alt}
+          onClose={() => setZoomedImage(null)}
+        />
+      )}
+
       <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white p-8 rounded-xl space-y-4">
         <div className="text-sm font-semibold opacity-90">⚓ INGLESE TECNICO – MARINA MILITARE</div>
         <h2 className="text-4xl font-bold font-display">Le Navi e i Componenti Navali</h2>
@@ -42,9 +77,21 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {shipTypes.map((ship, i) => (
             <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="h-48 bg-academy-bg overflow-hidden flex items-center justify-center">
+              <div
+                className="h-48 bg-academy-bg overflow-hidden flex items-center justify-center cursor-zoom-in group relative"
+                onClick={() => shipImages[ship.name] && setZoomedImage({ src: shipImages[ship.name], alt: `${ship.name} – ${ship.nameIt}` })}
+              >
                 {shipImages[ship.name] ? (
-                  <img src={shipImages[ship.name]} alt={ship.name} className="w-full h-full object-cover" />
+                  <>
+                    <img
+                      src={shipImages[ship.name]}
+                      alt={ship.name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all flex items-center justify-center">
+                      <span className="text-white text-4xl opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg">🔍</span>
+                    </div>
+                  </>
                 ) : (
                   <span className="text-6xl">{ship.icon}</span>
                 )}
@@ -77,16 +124,24 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
       <section className="space-y-8">
         <div className="text-center space-y-2">
           <h2 className="text-4xl font-bold font-display text-academy-dark">Componenti Comuni</h2>
+          <p className="text-academy-gray text-sm">Clicca su un argomento per iniziare gli esercizi</p>
           <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {commonComponents.map((comp, i) => (
-            <div key={i} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
+            <button
+              key={i}
+              onClick={() => onNavigate("quiz")}
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-left group border-2 border-transparent hover:border-academy-gold cursor-pointer"
+            >
               <div className="text-3xl mb-3">{comp.icon}</div>
-              <h3 className="font-bold text-academy-dark mb-2">{comp.title}</h3>
-              <p className="text-academy-gray text-sm">{comp.desc}</p>
-            </div>
+              <h3 className="font-bold text-academy-dark mb-2 group-hover:text-academy-blue transition-colors">{comp.title}</h3>
+              <p className="text-academy-gray text-sm mb-3">{comp.desc}</p>
+              <span className="text-xs font-semibold text-academy-blue opacity-0 group-hover:opacity-100 transition-opacity">
+                → Vai agli esercizi
+              </span>
+            </button>
           ))}
         </div>
       </section>
