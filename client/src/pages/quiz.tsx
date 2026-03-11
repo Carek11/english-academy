@@ -7,24 +7,34 @@ import { saveQuizResult } from "@/lib/statsStorage";
  * ─────────────────────
  * Le domande di Marina Militare sono CONTENUTO ORIGINALE creato appositamente
  * per English Academy. Non sono copiate da materiali protetti da copyright.
- * 
+ *
  * Basate su standard pubblici internazionali:
  * - SOLAS (Safety of Life at Sea) - standard pubblico
  * - IMO (International Maritime Organization) - documenti pubblici
  * - Marina Militare Italiana - linee guida pubbliche
  * - Convenzioni marittime - dominio pubblico
- * 
+ *
  * Ogni domanda è generata originariamente e non costituisce violazione di copyright.
  */
 
-type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "storia" | "geografia" | "scienze" | "arte" | "astronomia" | "matematica";
+export type QuizType =
+  | "marina"
+  | "navigation"
+  | "engine"
+  | "communications"
+  | "safety"
+  | "storia"
+  | "geografia"
+  | "scienze"
+  | "arte"
+  | "astronomia"
+  | "matematica";
 
 const DAILY_LIMIT = 50;
 const MONTHLY_LIMIT = 1000;
 const RESET_HOUR = 3;
 const QUESTIONS_PER_ROUND = 10;
 
-// ─── helpers per ottenere la "data quiz" (reset alle 3 AM) ───────────────────
 const getQuizDay = (): string => {
   const now = new Date();
   if (now.getHours() < RESET_HOUR) {
@@ -40,8 +50,7 @@ const getQuizMonth = (): string => {
   return `${now.getFullYear()}-${now.getMonth()}`;
 };
 
-// ─── contatori giornalieri ───────────────────────────────────────────────────
-const getDaily = (): { used: number; remaining: number } => {
+export const getDaily = (): { used: number; remaining: number } => {
   const day = getQuizDay();
   const raw = localStorage.getItem("dailyQuizCount");
   if (!raw) return { used: 0, remaining: DAILY_LIMIT };
@@ -57,8 +66,7 @@ const recordDaily = (count: number) => {
   localStorage.setItem("dailyQuizCount", JSON.stringify({ date: day, used: used + count }));
 };
 
-// ─── contatori mensili ───────────────────────────────────────────────────────
-const getMonthly = (): { used: number; remaining: number } => {
+export const getMonthly = (): { used: number; remaining: number } => {
   const month = getQuizMonth();
   const raw = localStorage.getItem("monthlyQuizCount");
   if (!raw) return { used: 0, remaining: MONTHLY_LIMIT };
@@ -74,41 +82,39 @@ const recordMonthly = (count: number) => {
   localStorage.setItem("monthlyQuizCount", JSON.stringify({ month, used: used + count }));
 };
 
-// ─── verifica limiti prima di iniziare (solo check, non scala) ───────────────
-const canStartRound = (): { ok: boolean; reason?: "daily" | "monthly" } => {
-  if (getMonthly().remaining < QUESTIONS_PER_ROUND) return { ok: false, reason: "monthly" };
-  if (getDaily().remaining < QUESTIONS_PER_ROUND)   return { ok: false, reason: "daily" };
-  return { ok: true };
-};
-
-// ─── scala domande al completamento ─────────────────────────────────────────
-const consumeRound = () => {
+export const consumeRound = () => {
   recordDaily(QUESTIONS_PER_ROUND);
   recordMonthly(QUESTIONS_PER_ROUND);
 };
-
-// ─────────────────────────────────────────────────────────────────────────────
 
 const encouragementMessages = [
   "🌟 Ben fatto!", "⚓ Fantastico!", "💪 Ottimo lavoro!", "🎯 Eccellente!",
   "🏆 Complimenti!", "✨ Meraviglioso!", "🚀 Spettacolare!", "👏 Bravissimo!",
 ];
 
-const topicConfig: Record<QuizType, { label: string; icon: string; color: string; bg: string }> = {
-  navigation:     { label: "Navigation System",  icon: "🧭", color: "text-blue-700",   bg: "bg-blue-50 border-blue-300"   },
+export const topicConfig: Record<QuizType, { label: string; icon: string; color: string; bg: string }> = {
+  navigation:     { label: "Navigation System",  icon: "🧭", color: "text-blue-700",   bg: "bg-blue-50 border-blue-300"     },
   engine:         { label: "Engine Room",         icon: "⚙️", color: "text-orange-700", bg: "bg-orange-50 border-orange-300" },
-  communications: { label: "Communications",      icon: "📡", color: "text-green-700",  bg: "bg-green-50 border-green-300"  },
-  safety:         { label: "Safety Equipment",    icon: "🦺", color: "text-red-700",    bg: "bg-red-50 border-red-300"     },
-  marina:         { label: "Marina Generale",     icon: "⚓", color: "text-academy-blue", bg: "bg-blue-50 border-blue-300" },
+  communications: { label: "Communications",      icon: "📡", color: "text-green-700",  bg: "bg-green-50 border-green-300"   },
+  safety:         { label: "Safety Equipment",    icon: "🦺", color: "text-red-700",    bg: "bg-red-50 border-red-300"       },
+  marina:         { label: "Marina Generale",     icon: "⚓", color: "text-academy-blue", bg: "bg-blue-50 border-blue-300"  },
   storia:         { label: "Storia",              icon: "🏛️", color: "text-purple-700", bg: "bg-purple-50 border-purple-300" },
-  geografia:      { label: "Geografia",          icon: "🌍", color: "text-teal-700",   bg: "bg-teal-50 border-teal-300"   },
-  scienze:        { label: "Scienze",            icon: "🧪", color: "text-green-700",  bg: "bg-green-50 border-green-300" },
-  arte:           { label: "Arte",               icon: "🎨", color: "text-pink-700",   bg: "bg-pink-50 border-pink-300"   },
-  astronomia:     { label: "Astronomia",         icon: "🌌", color: "text-indigo-700", bg: "bg-indigo-50 border-indigo-300" },
-  matematica:     { label: "Matematica",         icon: "📐", color: "text-cyan-700",   bg: "bg-cyan-50 border-cyan-300"   },
+  geografia:      { label: "Geografia",           icon: "🌍", color: "text-teal-700",   bg: "bg-teal-50 border-teal-300"     },
+  scienze:        { label: "Scienze",             icon: "🧪", color: "text-green-700",  bg: "bg-green-50 border-green-300"   },
+  arte:           { label: "Arte",                icon: "🎨", color: "text-pink-700",   bg: "bg-pink-50 border-pink-300"     },
+  astronomia:     { label: "Astronomia",          icon: "🌌", color: "text-indigo-700", bg: "bg-indigo-50 border-indigo-300" },
+  matematica:     { label: "Matematica",          icon: "📐", color: "text-cyan-700",   bg: "bg-cyan-50 border-cyan-300"     },
 };
 
-export default function QuizPage() {
+interface QuizEngineProps {
+  topics: QuizType[];
+  pageTitle: string;
+  pageIcon: string;
+  pageSubtitle: string;
+  sourceNote: string;
+}
+
+export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNote }: QuizEngineProps) {
   const [step, setStep] = useState<"select" | "quiz" | "results">("select");
   const [selectedTopic, setSelectedTopic] = useState<QuizType | null>(null);
   const [currentQ, setCurrentQ]   = useState(0);
@@ -125,7 +131,6 @@ export default function QuizPage() {
   const generateRound = (topic: QuizType) =>
     [...quizzes[topic]].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND);
 
-  // ── avvia quiz: NON scala ancora, nessun blocco ──────────────────────────
   const handleStartQuiz = (topic: QuizType) => {
     setSelectedTopic(topic);
     setRoundQuestions(generateRound(topic));
@@ -155,7 +160,6 @@ export default function QuizPage() {
       setSelectedAnswer(null);
       return;
     }
-    // round completato → scala adesso
     const finalScore = score + (roundQuestions[currentQ].correct === selectedAnswer ? 1 : 0);
     consumeRound();
     setRoundScore(finalScore);
@@ -181,8 +185,7 @@ export default function QuizPage() {
     setSelectedTopic(null);
   };
 
-  // ══════════════════════════════════════════════════════════════════════════
-  // SCHERMATA SELEZIONE ARGOMENTO
+  // ─── SELEZIONE ARGOMENTO ───────────────────────────────────────────────────
   if (step === "select") {
     const daily   = getDaily();
     const monthly = getMonthly();
@@ -190,13 +193,10 @@ export default function QuizPage() {
     return (
       <div className="max-w-3xl mx-auto py-8 space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl font-bold font-display text-academy-dark">📚 Quiz Cultura Generale</h2>
-          <p className="text-academy-gray">Scegli l'argomento · 10 domande per sessione · scalate solo al completamento</p>
-          <p className="text-xs text-academy-gray">
-            <span className="block"><strong>Cultura Generale:</strong> Wikipedia, Khan Academy, Enciclopedia Britannica</span>
-            <span className="block mt-1"><strong>Marina Militare:</strong> SOLAS, IMO, Marina Militare Italiana, standard marittimi internazionali</span>
-          </p>
-
+          <div className="text-5xl">{pageIcon}</div>
+          <h2 className="text-3xl font-bold font-display text-academy-dark">{pageTitle}</h2>
+          <p className="text-academy-gray">{pageSubtitle}</p>
+          <p className="text-xs text-academy-gray opacity-70">{sourceNote}</p>
           <div className="flex justify-center gap-3 flex-wrap text-sm">
             <span className="px-3 py-1 rounded-full font-semibold bg-green-50 text-green-700">
               📅 Oggi: {daily.remaining}/{DAILY_LIMIT}
@@ -208,17 +208,18 @@ export default function QuizPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {(["storia", "geografia", "scienze", "arte", "astronomia", "matematica"] as QuizType[]).map((topic) => {
+          {topics.map((topic) => {
             const cfg = topicConfig[topic];
             return (
               <button
                 key={topic}
+                data-testid={`start-quiz-${topic}`}
                 onClick={() => handleStartQuiz(topic)}
                 className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg ${cfg.bg}`}
               >
                 <div className="text-4xl mb-3">{cfg.icon}</div>
                 <div className={`text-lg font-bold ${cfg.color}`}>{cfg.label}</div>
-                <div className="text-sm text-academy-gray mt-1">Domande varie · 10 per round · conta solo se finisci</div>
+                <div className="text-sm text-academy-gray mt-1">10 domande per round · conta solo se finisci</div>
               </button>
             );
           })}
@@ -227,8 +228,7 @@ export default function QuizPage() {
     );
   }
 
-  // ══════════════════════════════════════════════════════════════════════════
-  // SCHERMATA QUIZ
+  // ─── QUIZ ─────────────────────────────────────────────────────────────────
   if (step === "quiz" && selectedTopic && roundQuestions.length > 0) {
     const q = roundQuestions[currentQ];
     const cfg = topicConfig[selectedTopic];
@@ -273,6 +273,7 @@ export default function QuizPage() {
             {q.options.map((option, i) => (
               <button
                 key={i}
+                data-testid={`answer-option-${i}`}
                 onClick={() => handleAnswer(i)}
                 disabled={answered}
                 className={`p-4 rounded-lg font-semibold transition-all text-left border-2 ${
@@ -301,6 +302,7 @@ export default function QuizPage() {
         </div>
 
         <button
+          data-testid="button-next"
           onClick={handleNext}
           disabled={!answered}
           className="w-full px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -311,8 +313,7 @@ export default function QuizPage() {
     );
   }
 
-  // ══════════════════════════════════════════════════════════════════════════
-  // SCHERMATA RISULTATI
+  // ─── RISULTATI ────────────────────────────────────────────────────────────
   if (step === "results") {
     const daily   = getDaily();
     const monthly = getMonthly();
@@ -359,13 +360,13 @@ export default function QuizPage() {
         </div>
 
         <div className="flex gap-3 justify-center flex-wrap">
-          <button onClick={handleContinueQuiz} className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
+          <button data-testid="button-more-questions" onClick={handleContinueQuiz} className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
             ➕ Altre 10 domande
           </button>
-          <button onClick={() => handleStartQuiz(selectedTopic!)} className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
+          <button data-testid="button-restart" onClick={() => handleStartQuiz(selectedTopic!)} className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
             🔄 Ricomincia
           </button>
-          <button onClick={handleBackToSelect} className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors">
+          <button data-testid="button-change-topic" onClick={handleBackToSelect} className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors">
             🗂️ Cambia argomento
           </button>
         </div>

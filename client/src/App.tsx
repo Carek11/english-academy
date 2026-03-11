@@ -7,7 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import HomePage from "@/pages/home";
 import CoursesPage from "@/pages/courses";
 import MarinaPage from "@/pages/marina";
-import QuizPage from "@/pages/quiz";
+import QuizMarinaPage from "@/pages/quiz-marina";
+import QuizCulturaPage from "@/pages/quiz-cultura";
 import TeamPage from "@/pages/team";
 import ContactsPage from "@/pages/contacts";
 import AuthPage from "@/pages/auth";
@@ -16,7 +17,7 @@ import StatsPage from "@/pages/stats";
 import { glossaryTerms } from "@/lib/glossaryData";
 import { courseData } from "@/lib/quizData";
 
-type PageType = "home" | "corsi" | "marina" | "quiz" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
+type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
 
 const TRIAL_DURATION = 5 * 60 * 1000; // 5 minuti
 
@@ -178,7 +179,8 @@ function AppInner() {
     home: <HomePage onNavigate={handleNavigate} />,
     corsi: <CoursesPage onNavigate={handleNavigate} />,
     marina: <MarinaPage onNavigate={handleNavigate} />,
-    quiz: <QuizPage />,
+    "quiz-marina": <QuizMarinaPage />,
+    "quiz-cultura": <QuizCulturaPage />,
     "chi-siamo": <TeamPage />,
     contatti: <ContactsPage />,
     auth: <AuthPage onSuccess={() => { queryClient.invalidateQueries({ queryKey: ["/api/me"] }); setCurrentPage("home"); }} />,
@@ -187,14 +189,15 @@ function AppInner() {
   };
 
   const navButtons: Array<{ id: PageType; label: string; emoji: string }> = [
-    { id: "home", label: "Home", emoji: "🏠" },
-    { id: "corsi", label: "Corsi", emoji: "📚" },
-    { id: "marina", label: "Marina", emoji: "⚓" },
-    { id: "glossario", label: "Glossario", emoji: "📖" },
-    { id: "quiz", label: "Quiz", emoji: "🎯" },
-    { id: "statistiche", label: "Statistiche", emoji: "📊" },
-    { id: "chi-siamo", label: "Chi Siamo", emoji: "👥" },
-    { id: "contatti", label: "Contatti", emoji: "✉️" },
+    { id: "home",         label: "Home",           emoji: "🏠" },
+    { id: "corsi",        label: "Corsi",           emoji: "📚" },
+    { id: "marina",       label: "Marina",          emoji: "⚓" },
+    { id: "glossario",    label: "Glossario",       emoji: "📖" },
+    { id: "quiz-marina",  label: "Quiz Marina",     emoji: "🎯" },
+    { id: "quiz-cultura", label: "Quiz Cultura",    emoji: "🎓" },
+    { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
+    { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
+    { id: "contatti",     label: "Contatti",        emoji: "✉️" },
   ];
 
   return (

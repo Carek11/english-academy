@@ -17,7 +17,7 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
             🎓 Scopri i Corsi
           </button>
           <button
-            onClick={() => onNavigate("quiz")}
+            onClick={() => onNavigate("quiz-marina")}
             className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors"
           >
             🎯 Fai un Quiz

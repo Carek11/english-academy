@@ -132,7 +132,7 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
           {navyComponents.map((comp, i) => (
             <button
               key={i}
-              onClick={() => onNavigate("quiz")}
+              onClick={() => onNavigate("quiz-marina")}
               className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-center group border-2 border-transparent hover:border-academy-gold cursor-pointer"
             >
               <div className="text-5xl mb-3">{comp.icon}</div>
@@ -145,7 +145,7 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
 
       <section className="text-center">
         <button
-          onClick={() => onNavigate("quiz")}
+          onClick={() => onNavigate("quiz-marina")}
           className="px-8 py-4 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors text-lg"
         >
           ⚓ Metti alla prova le tue conoscenze navali →
