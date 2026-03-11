@@ -1,6 +1,6 @@
 export default function TeamPage() {
   return (
-    <div className="space-y-20">
+    <div className="space-y-24">
       {/* HERO SECTION */}
       <section className="text-center space-y-6">
         <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm">
@@ -71,25 +71,6 @@ export default function TeamPage() {
           <div className="bg-gradient-to-br from-green-100 to-blue-100 rounded-2xl p-12 text-center">
             <div className="text-6xl mb-4">🎯</div>
             <p className="text-lg font-semibold text-academy-dark">Imparare con un proposito richiede focus e costanza.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* STORY 4 */}
-      <section className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-12 text-center md:order-2">
-            <div className="text-6xl mb-4">🚀</div>
-            <p className="text-lg font-semibold text-academy-dark">Accessibile a tutti significa veramente a tutti.</p>
-          </div>
-          <div className="space-y-4 md:order-1">
-            <h2 className="text-3xl font-bold font-display text-academy-dark">Accessibilità vera</h2>
-            <p className="text-academy-gray leading-loose">
-              Una piattaforma dove puoi provare gratuitamente per 5 minuti. Non per scherzo — per davvero. Se non ti piace, nessun problema. Se ti piace, continua senza limiti.
-            </p>
-            <p className="text-academy-gray leading-loose">
-              Crediamo che se un corso è buono, la gente se ne accorge subito. Se non lo è, nessun paywall al mondo lo renderà migliore.
-            </p>
           </div>
         </div>
       </section>
