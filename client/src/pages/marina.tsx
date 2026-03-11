@@ -61,9 +61,9 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
       )}
 
       <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white p-12 rounded-xl space-y-6">
-        <div className="text-sm font-semibold opacity-90">⚓ INGLESE TECNICO – MARINA MILITARE</div>
-        <h2 className="text-5xl font-bold font-display">Le Navi e i Componenti Navali</h2>
-        <p className="text-lg opacity-90 leading-loose max-w-2xl">
+        <div className="text-base font-display font-semibold opacity-90 tracking-wider">⚓ INGLESE TECNICO – MARINA MILITARE</div>
+        <h2 className="text-5xl font-bold font-display leading-tight">Le Navi e i Componenti Navali</h2>
+        <p className="text-xl opacity-90 leading-relaxed max-w-3xl font-light">
           Impara la terminologia inglese delle principali imbarcazioni militari e dei loro componenti. Ogni scheda è bilingue.
         </p>
       </section>
