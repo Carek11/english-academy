@@ -143,7 +143,7 @@ function AppInner() {
       <header className="bg-gradient-to-r from-academy-blue to-academy-dark text-white py-6 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex-1 hidden sm:block" />
-          <div className="flex items-center justify-center gap-4 flex-1">
+          <div className="flex items-center justify-center gap-10 flex-1">
             <span className="text-3xl hidden sm:block leading-none">⚓</span>
             <div className="flex items-baseline gap-4">
               <h1 className="text-4xl sm:text-5xl font-bold font-display leading-tight whitespace-nowrap">English Academy</h1>
