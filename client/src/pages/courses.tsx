@@ -1,8 +1,17 @@
 import { courseData } from "@/lib/quizData";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CoursesPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+  const { toast } = useToast();
+
+  const handleCourseClick = (courseName: string) => {
+    toast({
+      title: "Corso selezionato",
+      description: `${courseName} - Contatta info@englishacademy.it per iscriverti!`,
+    });
+  };
 
   const faqs = [
     {
@@ -47,7 +56,10 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
                 ))}
               </p>
             )}
-            <button className="w-full px-4 py-2 bg-academy-blue text-white font-semibold rounded hover:bg-academy-light-blue transition-colors text-sm">
+            <button
+              onClick={() => handleCourseClick(course.title)}
+              className="w-full px-4 py-2 bg-academy-blue text-white font-semibold rounded hover:bg-academy-light-blue transition-colors text-sm"
+            >
               Scopri →
             </button>
           </div>
