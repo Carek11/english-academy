@@ -93,10 +93,48 @@ export async function registerRoutes(
       if (!name || !email || !message) {
         return res.status(400).json({ message: "Campi obbligatori mancanti" });
       }
-      console.log(`📧 Nuovo messaggio da contatti:\n- Nome: ${name}\n- Email: ${email}\n- Corso: ${course}\n- Messaggio: ${message}`);
+
+      const apiKey = process.env.BREVO_API_KEY;
+      if (!apiKey) {
+        console.warn("⚠️ BREVO_API_KEY non configurato. Messaggio loggato localmente.");
+        console.log(`📧 Messaggio ricevuto:\n- Nome: ${name}\n- Email: ${email}\n- Corso: ${course}\n- Messaggio: ${message}`);
+        return res.status(200).json({ message: "Messaggio ricevuto! Ti risponderemo entro 24 ore." });
+      }
+
+      // Invia email via Brevo
+      const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+          "api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: { name: "English Academy", email: "noreply@englishacademy.it" },
+          to: [{ email: "info@englishacademy.it" }],
+          subject: `Nuovo messaggio da ${name}`,
+          htmlContent: `
+            <h2>Nuovo messaggio da contatti</h2>
+            <p><strong>Nome:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Corso di interesse:</strong> ${course}</p>
+            <p><strong>Messaggio:</strong></p>
+            <p>${message.replace(/\n/g, "<br>")}</p>
+          `,
+          replyTo: { email: email },
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Errore Brevo:", error);
+        return res.status(500).json({ message: "Errore nell'invio dell'email" });
+      }
+
+      console.log(`✅ Email inviata via Brevo da ${email}`);
       return res.status(200).json({ message: "Messaggio ricevuto! Ti risponderemo entro 24 ore." });
     } catch (err) {
-      return res.status(500).json({ message: "Errore nell'invio del messaggio" });
+      console.error("Errore durante l'invio:", err);
+      return res.status(500).json({ message: "Errore nella spedizione del messaggio" });
     }
   });
 
