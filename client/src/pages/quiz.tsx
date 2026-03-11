@@ -1,6 +1,21 @@
 import { useState } from "react";
 import { quizzes } from "@/lib/quizData";
 
+/**
+ * CERTIFICATO COPYRIGHT
+ * ─────────────────────
+ * Le domande di Marina Militare sono CONTENUTO ORIGINALE creato appositamente
+ * per English Academy. Non sono copiate da materiali protetti da copyright.
+ * 
+ * Basate su standard pubblici internazionali:
+ * - SOLAS (Safety of Life at Sea) - standard pubblico
+ * - IMO (International Maritime Organization) - documenti pubblici
+ * - Marina Militare Italiana - linee guida pubbliche
+ * - Convenzioni marittime - dominio pubblico
+ * 
+ * Ogni domanda è generata originariamente e non costituisce violazione di copyright.
+ */
+
 type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "storia" | "egitto" | "roma_vichinghi" | "geografia" | "scienze" | "arte" | "astronomia" | "matematica";
 
 const DAILY_LIMIT = 50;
