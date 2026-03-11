@@ -44,11 +44,11 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white p-8 rounded-xl space-y-6">
-        <div className="space-y-2">
-          <div className="text-sm font-semibold opacity-90">⚓ NOVITÀ – SEZIONE MARINA MILITARE</div>
-          <h2 className="text-4xl font-bold font-display">Inglese Tecnico per la Marina</h2>
-          <p className="text-lg opacity-90">
+      <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white p-12 rounded-xl space-y-8">
+        <div className="space-y-4">
+          <div className="text-base font-display font-semibold opacity-90 tracking-wider">⚓ NOVITÀ – SEZIONE MARINA MILITARE</div>
+          <h2 className="text-5xl font-bold font-display leading-tight">Inglese Tecnico per la Marina</h2>
+          <p className="text-xl opacity-90 leading-relaxed font-light max-w-2xl">
             Una sezione dedicata interamente alla terminologia navale in inglese. Studia tipologie di navi, componenti, strumentazione di bordo e vocabolario operativo.
           </p>
         </div>
