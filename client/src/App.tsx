@@ -252,13 +252,14 @@ function AppInner() {
         <SearchModal onNavigate={handleNavigate} onClose={() => setShowSearch(false)} />
       )}
 
-      <nav className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
-        <div className="flex items-center overflow-x-auto gap-1 px-3 py-2 no-scrollbar">
+      <nav className="bg-white shadow-sm border-b border-gray-100">
+        <div className="flex flex-wrap justify-center gap-2 px-4 py-3">
           {navButtons.map((btn) => (
             <button
               key={btn.id}
+              data-testid={`nav-${btn.id}`}
               onClick={() => setCurrentPage(btn.id)}
-              className={`flex-shrink-0 px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap ${
+              className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap ${
                 currentPage === btn.id
                   ? "bg-academy-blue text-white"
                   : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
@@ -270,30 +271,29 @@ function AppInner() {
           <button
             data-testid="button-search"
             onClick={() => setShowSearch(true)}
-            className="flex-shrink-0 px-3 py-2 rounded-lg font-semibold transition-colors text-sm bg-academy-bg hover:bg-academy-light-blue hover:text-white whitespace-nowrap"
-            title="Cerca"
+            className="px-3 py-2 rounded-lg font-semibold transition-colors text-sm bg-academy-bg hover:bg-academy-light-blue hover:text-white"
           >
-            🔍
+            🔍 Cerca
           </button>
-        </div>
-        <div className="sm:hidden px-3 pb-2">
-          {!isLoading && (
-            user ? (
-              <button
-                onClick={() => logoutMutation.mutate()}
-                className="px-4 py-2 rounded-lg font-semibold text-sm bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-              >
-                Esci
-              </button>
-            ) : (
-              <button
-                onClick={() => setCurrentPage("auth")}
-                className="px-4 py-2 rounded-lg font-semibold text-sm bg-academy-blue text-white hover:bg-academy-light-blue transition-colors"
-              >
-                🔐 Accedi
-              </button>
-            )
-          )}
+          <div className="sm:hidden flex items-center">
+            {!isLoading && (
+              user ? (
+                <button
+                  onClick={() => logoutMutation.mutate()}
+                  className="px-3 py-2 rounded-lg font-semibold text-sm bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                >
+                  Esci
+                </button>
+              ) : (
+                <button
+                  onClick={() => setCurrentPage("auth")}
+                  className="px-3 py-2 rounded-lg font-semibold text-sm bg-academy-blue text-white hover:bg-academy-light-blue transition-colors"
+                >
+                  🔐 Accedi
+                </button>
+              )
+            )}
+          </div>
         </div>
       </nav>
 
@@ -318,7 +318,9 @@ function AppInner() {
       )}
 
       <main className="max-w-6xl mx-auto px-6 py-12">
-        {pages[currentPage]}
+        <div key={currentPage}>
+          {pages[currentPage]}
+        </div>
       </main>
 
       <footer className="bg-academy-dark text-white mt-20 py-8 text-center text-sm">
