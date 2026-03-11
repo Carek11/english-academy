@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { quizzes } from "@/lib/quizData";
+import { saveQuizResult } from "@/lib/statsStorage";
 
 /**
  * CERTIFICATO COPYRIGHT
@@ -161,6 +162,7 @@ export default function QuizPage() {
     setTotalCorrect((t) => t + finalScore);
     setTotalAnswered((t) => t + roundQuestions.length);
     setEncouragementMsg(encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)]);
+    if (selectedTopic) saveQuizResult(selectedTopic, finalScore, roundQuestions.length);
     setStep("results");
   };
 

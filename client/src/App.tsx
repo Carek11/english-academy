@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { queryClient, apiRequest } from "./lib/queryClient";
 import { QueryClientProvider, useQuery, useMutation } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,8 +11,12 @@ import QuizPage from "@/pages/quiz";
 import TeamPage from "@/pages/team";
 import ContactsPage from "@/pages/contacts";
 import AuthPage from "@/pages/auth";
+import GlossaryPage from "@/pages/glossary";
+import StatsPage from "@/pages/stats";
+import { glossaryTerms } from "@/lib/glossaryData";
+import { courseData } from "@/lib/quizData";
 
-type PageType = "home" | "corsi" | "marina" | "quiz" | "chi-siamo" | "contatti" | "auth";
+type PageType = "home" | "corsi" | "marina" | "quiz" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
 
 const TRIAL_DURATION = 5 * 60 * 1000; // 5 minuti
 
@@ -68,9 +72,70 @@ function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; on
   );
 }
 
+function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void; onClose: () => void }) {
+  const [q, setQ] = useState("");
+
+  const results = useMemo(() => {
+    if (q.trim().length < 2) return [];
+    const lower = q.toLowerCase();
+    const glossaryResults = glossaryTerms
+      .filter((t) => t.en.toLowerCase().includes(lower) || t.it.toLowerCase().includes(lower) || (t.description?.toLowerCase().includes(lower) ?? false))
+      .slice(0, 5)
+      .map((t) => ({ type: "glossario" as PageType, label: `${t.en} — ${t.it}`, sub: "Glossario Navale", icon: "📖" }));
+    const courseResults = courseData
+      .filter((c) => c.title.toLowerCase().includes(lower) || c.description.toLowerCase().includes(lower))
+      .slice(0, 3)
+      .map((c) => ({ type: "corsi" as PageType, label: c.title, sub: "Corsi", icon: "📚" }));
+    return [...glossaryResults, ...courseResults];
+  }, [q]);
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-[200] flex items-start justify-center pt-20 px-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-3 p-4 border-b">
+          <span className="text-2xl">🔍</span>
+          <input
+            autoFocus
+            data-testid="input-global-search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Cerca corsi, termini navali, argomenti..."
+            className="flex-1 text-base outline-none text-academy-dark placeholder-gray-400"
+          />
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl font-bold">✕</button>
+        </div>
+        {q.trim().length < 2 ? (
+          <div className="p-6 text-center text-academy-gray text-sm">Inizia a digitare per cercare...</div>
+        ) : results.length === 0 ? (
+          <div className="p-6 text-center text-academy-gray text-sm">Nessun risultato per "<strong>{q}</strong>"</div>
+        ) : (
+          <ul className="py-2 max-h-80 overflow-y-auto">
+            {results.map((r, i) => (
+              <li key={i}>
+                <button
+                  data-testid={`search-result-${i}`}
+                  onClick={() => { onNavigate(r.type); onClose(); }}
+                  className="w-full text-left px-5 py-3 hover:bg-academy-bg transition-colors flex items-center gap-3"
+                >
+                  <span className="text-xl">{r.icon}</span>
+                  <div>
+                    <p className="font-semibold text-academy-dark text-sm">{r.label}</p>
+                    <p className="text-xs text-academy-gray">{r.sub}</p>
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function AppInner() {
   const [currentPage, setCurrentPage] = useState<PageType>("home");
   const [showTrialModal, setShowTrialModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const { toast } = useToast();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -117,13 +182,17 @@ function AppInner() {
     "chi-siamo": <TeamPage />,
     contatti: <ContactsPage />,
     auth: <AuthPage onSuccess={() => { queryClient.invalidateQueries({ queryKey: ["/api/me"] }); setCurrentPage("home"); }} />,
+    glossario: <GlossaryPage />,
+    statistiche: <StatsPage />,
   };
 
   const navButtons: Array<{ id: PageType; label: string; emoji: string }> = [
     { id: "home", label: "Home", emoji: "🏠" },
     { id: "corsi", label: "Corsi", emoji: "📚" },
-    { id: "marina", label: "Marina Militare", emoji: "⚓" },
+    { id: "marina", label: "Marina", emoji: "⚓" },
+    { id: "glossario", label: "Glossario", emoji: "📖" },
     { id: "quiz", label: "Quiz", emoji: "🎯" },
+    { id: "statistiche", label: "Statistiche", emoji: "📊" },
     { id: "chi-siamo", label: "Chi Siamo", emoji: "👥" },
     { id: "contatti", label: "Contatti", emoji: "✉️" },
   ];
@@ -176,6 +245,10 @@ function AppInner() {
         </div>
       </header>
 
+      {showSearch && (
+        <SearchModal onNavigate={handleNavigate} onClose={() => setShowSearch(false)} />
+      )}
+
       <nav className="flex flex-wrap justify-center gap-2 bg-white shadow-sm px-4 py-3 sticky top-0 z-50 border-b border-gray-100">
         {navButtons.map((btn) => (
           <button
@@ -190,6 +263,14 @@ function AppInner() {
             {btn.emoji} {btn.label}
           </button>
         ))}
+        <button
+          data-testid="button-search"
+          onClick={() => setShowSearch(true)}
+          className="px-4 py-2 rounded-lg font-semibold transition-colors text-sm bg-academy-bg hover:bg-academy-light-blue hover:text-white flex items-center gap-1"
+          title="Cerca (Ctrl+K)"
+        >
+          🔍 Cerca
+        </button>
         <div className="sm:hidden ml-auto">
           {!isLoading && (
             user ? (
