@@ -1,25 +1,59 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { quizzes } from "@/lib/quizData";
 
 type QuizType = "base" | "intermedio" | "business" | "marina";
 
+const DAILY_QUESTION_LIMIT = 50;
+
+const getDailyQuestionCount = (): { used: number; remaining: number } => {
+  const today = new Date().toDateString();
+  const stored = localStorage.getItem("dailyQuizCount");
+  
+  if (!stored) {
+    localStorage.setItem("dailyQuizCount", JSON.stringify({ date: today, used: 0 }));
+    return { used: 0, remaining: DAILY_QUESTION_LIMIT };
+  }
+
+  const data = JSON.parse(stored);
+  if (data.date !== today) {
+    localStorage.setItem("dailyQuizCount", JSON.stringify({ date: today, used: 0 }));
+    return { used: 0, remaining: DAILY_QUESTION_LIMIT };
+  }
+
+  const used = data.used || 0;
+  return { used, remaining: Math.max(0, DAILY_QUESTION_LIMIT - used) };
+};
+
+const addDailyQuestions = (count: number): boolean => {
+  const daily = getDailyQuestionCount();
+  if (daily.remaining < count) return false;
+  
+  const today = new Date().toDateString();
+  localStorage.setItem("dailyQuizCount", JSON.stringify({ date: today, used: daily.used + count }));
+  return true;
+};
+
+const encouragementMessages = [
+  "🌟 Ben fatto!",
+  "⚓ Fantastico!",
+  "💪 Ottimo lavoro!",
+  "🎯 Eccellente!",
+  "🏆 Complimenti!",
+  "✨ Meraviglioso!",
+  "🚀 Spettacolare!",
+  "👏 Bravissimo!",
+];
+
 export default function QuizPage() {
-  const [step, setStep] = useState<"quiz" | "results">("quiz");
-  const [selectedQuiz, setSelectedQuiz] = useState<QuizType>("marina");
+  const [step, setStep] = useState<"quiz" | "results" | "limit">("quiz");
+  const [selectedQuiz] = useState<QuizType>("marina");
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [results, setResults] = useState<{ correct: number; total: number } | null>(null);
-  const [totalQuestionsForSession, setTotalQuestionsForSession] = useState(quizzes.marina.length);
   const [quizRound, setQuizRound] = useState(1);
-
-  const quizTypes: Array<{ id: QuizType; label: string; icon: string; desc: string }> = [
-    { id: "base", label: "🌱 Inglese Base", icon: "🌱", desc: "Principianti" },
-    { id: "intermedio", label: "📈 Intermedio", icon: "📈", desc: "Intermedio" },
-    { id: "business", label: "💼 Business", icon: "💼", desc: "Business" },
-    { id: "marina", label: "⚓ Marina Militare", icon: "⚓", desc: "10 domande casuali" },
-  ];
+  const [encouragementMsg, setEncouragementMsg] = useState("");
 
   const generateRandomQuestions = (quizType: QuizType, count: number) => {
     const sourceQuestions = quizzes[quizType];
@@ -32,28 +66,15 @@ export default function QuizPage() {
   };
 
   const currentQuiz = useMemo(() => {
-    if (!selectedQuiz) return [];
     if (quizRound === 1) {
-      return quizzes[selectedQuiz];
+      return quizzes.marina;
     } else {
-      return generateRandomQuestions(selectedQuiz, 15);
+      return generateRandomQuestions("marina", 10);
     }
-  }, [selectedQuiz, quizRound]);
-
-
-  const handleSelectQuiz = (quizType: QuizType) => {
-    setSelectedQuiz(quizType);
-    setCurrentQ(0);
-    setScore(0);
-    setAnswered(false);
-    setSelectedAnswer(null);
-    setTotalQuestionsForSession(quizzes[quizType].length);
-    setQuizRound(1);
-    setStep("quiz");
-  };
+  }, [quizRound]);
 
   const handleAnswer = (optionIndex: number) => {
-    if (!selectedQuiz || answered) return;
+    if (answered) return;
     const quiz = currentQuiz;
     const correct = quiz[currentQ].correct === optionIndex;
     if (correct) setScore(score + 1);
@@ -62,7 +83,6 @@ export default function QuizPage() {
   };
 
   const handleNext = () => {
-    if (!selectedQuiz) return;
     const quiz = currentQuiz;
     if (currentQ < quiz.length - 1) {
       setCurrentQ(currentQ + 1);
@@ -70,45 +90,41 @@ export default function QuizPage() {
       setSelectedAnswer(null);
     } else {
       const correctCount = score + (selectedAnswer === currentQuiz[currentQ].correct ? 1 : 0);
-      setResults({ correct: correctCount, total: totalQuestionsForSession + quiz.length });
+      setResults({ correct: correctCount, total: quizRound === 1 ? quizzes.marina.length : ((quizRound - 1) * 10 + quiz.length) });
+      setEncouragementMsg(encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)]);
       setStep("results");
     }
   };
 
   const handleContinueQuiz = () => {
-    if (!selectedQuiz) return;
-    const nextRoundSize = quizRound === 1 ? 15 : 15;
+    const daily = getDailyQuestionCount();
+    if (daily.remaining < 10) {
+      setStep("limit");
+      return;
+    }
+    
+    if (!addDailyQuestions(10)) {
+      setStep("limit");
+      return;
+    }
+
     setQuizRound(quizRound + 1);
     setCurrentQ(0);
     setAnswered(false);
     setSelectedAnswer(null);
-    setTotalQuestionsForSession(totalQuestionsForSession + currentQuiz.length);
+    setResults(null);
     setStep("quiz");
   };
 
   const handleRetry = () => {
-    if (!selectedQuiz) return;
     setCurrentQ(0);
     setScore(0);
     setAnswered(false);
     setSelectedAnswer(null);
     setResults(null);
-    setTotalQuestionsForSession(quizzes[selectedQuiz].length);
     setQuizRound(1);
     setStep("quiz");
   };
-
-  const handleChangeQuiz = () => {
-    setCurrentQ(0);
-    setScore(0);
-    setAnswered(false);
-    setSelectedAnswer(null);
-    setResults(null);
-    setTotalQuestionsForSession(quizzes.marina.length);
-    setQuizRound(1);
-    setStep("quiz");
-  };
-
 
   if (step === "quiz" && selectedQuiz) {
     const quiz = currentQuiz;
@@ -182,14 +198,16 @@ export default function QuizPage() {
     );
   }
 
-  if (step === "results" && results && selectedQuiz) {
+  if (step === "results" && results) {
     const percentage = Math.round((results.correct / results.total) * 100);
-    const grade =
-      percentage >= 90 ? "🌟 Eccellente!" : percentage >= 70 ? "👍 Buono!" : percentage >= 50 ? "📚 Non male!" : "💪 Continua a studiare!";
+    const daily = getDailyQuestionCount();
 
     return (
       <div className="max-w-2xl mx-auto text-center py-12 space-y-8">
         <div className="space-y-4">
+          <div className="text-6xl">⚓🌊</div>
+          <h3 className="text-3xl font-bold font-display text-academy-blue">{encouragementMsg}</h3>
+          
           <div className="inline-flex items-center justify-center w-40 h-40 rounded-full border-8 border-academy-blue bg-academy-bg">
             <div className="text-center">
               <div className="text-5xl font-bold text-academy-blue">{percentage}%</div>
@@ -206,34 +224,47 @@ export default function QuizPage() {
             <div className="px-4 py-2 bg-red-50 rounded-lg text-red-700 font-semibold">
               ✗ {results.total - results.correct} errate
             </div>
-            <div className="px-4 py-2 bg-blue-50 rounded-lg text-academy-blue font-semibold">
-              📊 {results.total} totali
-            </div>
           </div>
 
-          <div className="px-6 py-4 bg-academy-gold text-white rounded-lg font-bold text-xl">{grade}</div>
+          <div className="px-6 py-4 bg-academy-gold text-white rounded-lg font-bold text-lg">
+            Domande rimaste oggi: {daily.remaining}/50
+          </div>
         </div>
 
         <div className="flex gap-4 justify-center flex-wrap">
-          <button
-            onClick={handleContinueQuiz}
-            className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors"
-          >
-            ➕ Continua con altri esercizi
-          </button>
+          {daily.remaining >= 10 && (
+            <button
+              onClick={handleContinueQuiz}
+              className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors"
+            >
+              ➕ 10 domande in più
+            </button>
+          )}
           <button
             onClick={handleRetry}
             className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
           >
             🔄 Riprova
           </button>
-          <button
-            onClick={handleChangeQuiz}
-            className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors"
-          >
-            📚 Altro quiz
-          </button>
         </div>
+      </div>
+    );
+  }
+
+  if (step === "limit") {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-12 space-y-8">
+        <div className="text-6xl">⚓😴</div>
+        <h3 className="text-3xl font-bold font-display text-academy-dark">Limite giornaliero raggiunto!</h3>
+        <p className="text-lg text-academy-gray">
+          Hai raggiunto le 50 domande di oggi. Torna domani alle 3:00 di notte per ricaricare altri 50 esercizi! 🌙
+        </p>
+        <button
+          onClick={handleRetry}
+          className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
+        >
+          🔄 Riprova domani
+        </button>
       </div>
     );
   }
