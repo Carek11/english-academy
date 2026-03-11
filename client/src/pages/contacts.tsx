@@ -2,16 +2,6 @@ import { useState } from "react";
 
 const contactCards = [
   {
-    icon: "📍",
-    title: "Sede",
-    content: ["Via della Marina, 14", "00100 Roma (RM)", "Italia"],
-  },
-  {
-    icon: "📞",
-    title: "Telefono",
-    content: [<a key="tel" href="tel:+390612345678" className="text-academy-blue font-semibold">+39 06 1234 5678</a>, <span key="hours" className="text-xs text-academy-gray">Lun–Ven 9:00–18:00</span>],
-  },
-  {
     icon: "✉️",
     title: "Email",
     content: [<a key="e1" href="mailto:info@englishacademy.it" className="text-academy-blue font-semibold block">info@englishacademy.it</a>, <a key="e2" href="mailto:corsi@englishacademy.it" className="text-academy-blue font-semibold">corsi@englishacademy.it</a>],

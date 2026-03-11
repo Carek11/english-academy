@@ -1,5 +1,3 @@
-import { courseData } from "@/lib/quizData";
-
 export default function HomePage({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
     <div className="space-y-16">
@@ -43,33 +41,6 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
         <div className="bg-white p-6 rounded-xl shadow-md text-center">
           <div className="text-4xl font-bold text-academy-blue">98%</div>
           <div className="text-academy-gray font-semibold">Soddisfazione</div>
-        </div>
-      </section>
-
-      <section className="space-y-8">
-        <div className="text-center space-y-2">
-          <h2 className="text-4xl font-bold font-display text-academy-dark">I Nostri Corsi</h2>
-          <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {courseData.slice(0, 4).map((course, i) => (
-            <div key={i} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="text-3xl mb-3">{course.icon}</div>
-              <h3 className="font-bold text-lg mb-2 text-academy-dark">{course.title}</h3>
-              <p className="text-academy-gray text-sm mb-4">{course.description}</p>
-              <span className="inline-block px-3 py-1 bg-academy-blue text-white text-xs font-semibold rounded">
-                {course.badge}
-              </span>
-              <br />
-              <button
-                onClick={() => onNavigate("corsi")}
-                className="mt-4 px-4 py-2 bg-academy-blue text-white font-semibold rounded hover:bg-academy-light-blue transition-colors text-sm"
-              >
-                Scopri →
-              </button>
-            </div>
-          ))}
         </div>
       </section>
 
