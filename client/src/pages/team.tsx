@@ -2,7 +2,7 @@ export default function TeamPage() {
   return (
     <div className="space-y-24">
       {/* HERO SECTION */}
-      <section className="text-center space-y-6">
+      <section className="text-center space-y-8">
         <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm">
           LA NOSTRA STORIA
         </div>
