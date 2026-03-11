@@ -27,7 +27,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "php -S 0.0.0.0:5000 router.php"
+args = "npm run dev"
 waitForPort = 5000
 
 [[ports]]
@@ -37,3 +37,9 @@ externalPort = 80
 [deployment]
 deploymentTarget = "vm"
 run = ["php", "-S", "0.0.0.0:5000", "router.php"]
+
+[userenv]
+
+[userenv.shared]
+NEXT_PUBLIC_SUPABASE_URL = "https://tyriikuhauhoxryfpqre.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5cmlpa3VoYXVob3hyeWZwcXJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTA4NTQsImV4cCI6MjA4ODQ4Njg1NH0.lJoaXd03ymLQLI1wOjzqy4Dw903sN7T35I5v2yZESrY"

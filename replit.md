@@ -1,124 +1,105 @@
-# English Academy - Applicazione Educativa
+# English Academy – Piattaforma Educativa
 
-Piattaforma web italiana per imparare l'inglese. Corsi, sezione Marina Militare, sezione Avanzato con argomenti selezionabili, quiz interattivi per 8 livelli e contatti.
+Piattaforma web italiana per imparare l'inglese. Corsi A1–C2, sezione Marina Militare, sezione Avanzato, quiz interattivi per 8 categorie e form contatti. Autenticazione via Supabase Auth.
 
-## Architettura
+## Architettura (React / Next.js)
 
 | File | Ruolo |
 |---|---|
-| `index.php` | Template HTML principale — tutte le sezioni SPA |
-| `router.php` | Router PHP — blocca `/data/`, gestisce route API |
-| `static/style.css` | CSS responsivo (Tailwind prefix `tw-`, preflight off) |
-| `static/script.js` | Logica JS ES6+ — navigazione, quiz, marina, auth, avanzato |
-| `api/register.php` | API registrazione utente (bcrypt, SQLite) |
-| `api/login.php` | API login utente |
-| `api/contact.php` | API form contatti |
-| `api/_auth.php` | Middleware CSRF — `verificaToken()`, chiama `session_start()` |
-| `data/hub_inglese.db` | SQLite — tabella `utenti` per autenticazione |
+| `pages/index.js` | Pagina principale React — tutte le sezioni SPA |
+| `pages/_app.js` | Wrapper Next.js — importa CSS globale |
+| `pages/_document.js` | Document custom — Font Awesome nel Head |
+| `pages/api/login.js` | API login via Supabase Auth |
+| `pages/api/register.js` | API registrazione via Supabase Auth |
+| `pages/api/contact.js` | API form contatti |
+| `lib/supabase.js` | Client Supabase (anon key) |
+| `styles/globals.css` | CSS responsivo completo |
+| `next.config.js` | Configurazione Next.js |
+| `vercel.json` | Configurazione deploy Vercel |
 
 ## Stack Tecnologico
 
-- **Backend**: PHP 8.4 built-in server (`php -S 0.0.0.0:5000 router.php`)
-- **Database**: SQLite via PDO — `data/hub_inglese.db`
-- **Frontend**: HTML5, CSS3, Vanilla JS ES6+
-- **UI Extras**: Tailwind CSS CDN (prefix `tw-`, preflight disabilitato)
-- **Sicurezza**: CSRF token in `$_SESSION['token']`, header `X-CSRF-Token`, bcrypt password hash
+- **Framework**: Next.js 14 + React 18
+- **Database/Auth**: Supabase (PostgreSQL + Auth)
+- **Hosting target**: Vercel con dominio `english-academy.it.com`
+- **Dev locale**: `npm run dev` su porta 5000
+- **Styling**: CSS puro (Source Sans 3 + Playfair Display da Google Fonts)
+- **Icone**: Font Awesome 6.4.0 CDN
+
+## Variabili d'Ambiente
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://tyriikuhauhoxryfpqre.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
+```
 
 ## Navigazione (SPA)
 
 Nav: **Corsi · Marina Militare · Avanzato · Quiz · Contatti · Iscriviti/Entra**
 
-- Nessuna Home — l'app si apre direttamente su **Corsi**
-- Navigazione gestita con `data-page` e `data-page-target` in JS (`mostraPagina()`)
+- App si apre su **Corsi** per default
+- Navigazione React state — funzione `handleNaviga(pagina, quizIdx?)`
+- Utente salvato in `localStorage('ea_utente')`
 
 ## Sezioni dell'App
 
-### Corsi (`#corsi`) — default attivo
+### Corsi — default
 - 3 gruppi: Inglese Generale, Business & Professionale, Marina Militare
-- Card con `data-page-target="quiz"` o `"marina"` per navigazione
 - FAQ con accordion
 
-### Marina Militare (`#marina`)
-- 6 navi con componenti tecnici, modal con immagini Unsplash
-- Quiz navale CTA (`#naval-quiz-cta`) → avvia quiz indice 7
+### Marina Militare
+- 6 navi (portaerei, cacciatorpediniere, sottomarino, fregata, incrociatore, nave scuola)
+- Modal con immagini Unsplash + tabella componenti bilingue
+- 4 card componenti (Navigation, Engine Room, Communications, Safety) → pannello esercizi interattivi
+- Esercizi interattivi: Flashcard, Fill in the Blank, Matching
 
-### Inglese Avanzato (`#avanzato`)
-- **4 pannelli selezionabili** via tab `.avanzato-tab` / `.avanzato-panel`:
-  - 🔧 Grammatica — Inversione, Congiuntivo, Cleft, Nominalizzazione, Passivo Avanzato
-  - 💬 Idiomi — Idiomi C1/C2, Collocazioni, Phrasal Verbs, Connettori
-  - 📚 Vocabolario — AWL, Registro formale, Parole IELTS/C2
-  - ✍️ Scrittura — Struttura saggio, Thesis, Coesione, Email formale
-- Ogni pannello ha CTA quiz `data-quiz-direct="3"` o `"5"`
+### Inglese Avanzato
+- 4 tab: Grammatica, Idiomi, Vocabolario, Scrittura
+- Card con esempi C1–C2
 
-### Quiz (`#quiz`)
-- **8 categorie** con domande appropriate per argomento:
-  - 0: Base A1-A2 | 1: Pre-Intermedio A2-B1 | 2: Intermedio B1-B2 | 3: Avanzato C1-C2
+### Quiz
+- **8 categorie** (indici 0–7):
+  - 0: Base A1–A2 | 1: Pre-Intermedio A2–B1 | 2: Intermedio B1–B2 | 3: Avanzato C1–C2
   - 4: Viaggi | 5: IELTS/Cambridge | 6: Business English | 7: Marina Militare
-- **Flusso diretto**: niente step-name né step-select — ogni card corso ha `data-quiz-direct="N"` e avvia il quiz corretto immediatamente
-- Nav "Quiz" usa `data-quiz-direct="2"` (Intermedio come default)
-- `avviaQuizDiretto(idx)`: usa nome da `localStorage ea_utente` o "Studente" e chiama `selezionaQuiz(idx)`
-- `cambiaQuiz()`: torna a Corsi invece di mostrare step-select
-- Punteggio real-time, leaderboard sessione
+- 10 domande per quiz, feedback immediato, schermata risultati
 
-### Contatti (`#contatti`)
-- Form con validazione frontend + API PHP
+### Contatti
+- Form + API `/api/contact`
 
 ### Auth Modal
-- Tab Accedi / Iscriviti con pannello successo
-- Login: `POST /api/login` | Registrazione: `POST /api/register`
-- Nome salvato in `localStorage("ea_utente")` dopo login/registrazione
-- Nav button `#nav-auth-btn`: mostra "✅ Nome" se loggato (verde), "👤 Iscriviti / Entra" se no
+- Tab Accedi / Iscriviti usando Supabase Auth (`signInWithPassword` / `signUp`)
+- Dopo login: nome salvato in localStorage, nav button diventa verde
 
-## Database Utenti
-
-**File**: `data/hub_inglese.db`
-**Tabella**: `utenti`
-**Colonne**: `id, nome, cognome, email, password_hash, corso_interesse, creato_il`
-
-## API PHP
+## API Routes
 
 | Endpoint | Descrizione |
 |---|---|
-| `POST /api/register` | Registra utente, bcrypt hash, salva in `utenti` |
-| `POST /api/login` | Verifica credenziali, restituisce nome |
-| `POST /api/contact` | Invia email di contatto |
-
-## Note Sviluppo
-
-- **CSRF**: `api/_auth.php` chiama `session_start()` — NON richiamare in register/login
-- **Cache busting**: `Cache-Control: no-store` + versioned CSS/JS (`?v=filemtime(...)`)
-- **Protezione dati**: `/data/` → HTTP 403 nel router
-- **Tailwind prefix**: `tw-`, preflight off — non usare classi Tailwind senza prefisso
-- **`index.html.bak`**: NON ripristinare, NON usare
-- **Flask `app.py`**: esiste ma NON è in uso — il workflow usa solo PHP
-
-## Funzioni JS Principali
-
-| Funzione | Descrizione |
-|---|---|
-| `mostraPagina(id)` | Naviga tra sezioni SPA, auto-skip step-name se loggato |
-| `selezionaQuiz(idx)` | Avvia quiz per indice (0-7) |
-| `salvaUtenteLoggato(nome)` | Salva in localStorage, aggiorna nav button |
-| `aggiornaNavAuthBtn()` | Aggiorna testo/colore del pulsante auth in nav |
-| `apriModalAuth(corso)` | Apre modal Accedi/Iscriviti |
-| `inizializzaAuth()` | Collega tutti gli eventi del modal auth |
-
-## Rimozioni Permanenti (non ripristinare)
-
-- Hub Inglese AI
-- AI Tutor
-- Esercizi di Programmazione
-- Sezione Home
-- Varianti esercizi numerati
+| `POST /api/login` | Supabase signInWithPassword |
+| `POST /api/register` | Supabase signUp con metadata nome/cognome/corso |
+| `POST /api/contact` | Risponde 200 (email SMTP futuro) |
 
 ## Esecuzione
 
 ```bash
-php -S 0.0.0.0:5000 router.php
+npm run dev   # porta 5000
+npm run build # build produzione
+npm run start # avvia produzione su porta 5000
 ```
+
+## Deploy Vercel
+
+1. Push il repo su GitHub
+2. Import su Vercel → aggiungi variabili env Supabase
+3. Collega dominio `english-academy.it.com` nelle impostazioni Vercel
+
+## Note
+
+- I vecchi file PHP (`index.php`, `router.php`, `api/*.php`, `app.py`) esistono ma non vengono usati da Next.js
+- Il workflow Replit usa `npm run dev`
+- Contenuto quiz e navale hardcoded in `pages/index.js` — nessun DB necessario per il contenuto
 
 ---
 
-**Version**: 5.0 (PHP SPA — Avanzato con topic selector, 8 quiz categories)
-**Last Update**: 2026-03-08
-**Status**: Production Ready
+**Version**: 6.0 (React/Next.js + Supabase)
+**Last Update**: 2026-03-11
+**Status**: Running on Replit, ready for Vercel deploy
