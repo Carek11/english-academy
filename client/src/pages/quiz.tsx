@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { quizzes } from "@/lib/quizData";
+import { quizzes, shipQuestions } from "@/lib/quizData";
 import { saveQuizResult } from "@/lib/statsStorage";
 
 /**
@@ -128,8 +128,18 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
   const [encouragementMsg, setEncouragementMsg] = useState("");
   const [roundCount, setRoundCount] = useState(0);
 
-  const generateRound = (topic: QuizType) =>
-    [...quizzes[topic]].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND);
+  const generateRound = (topic: QuizType) => {
+    if (topic === "marina") {
+      const shipOrder = ["Aircraft Carrier", "Destroyer", "Submarine", "Frigate", "Corvette", "Patrol Vessel"];
+      const shipQs = shipOrder.map((ship) => {
+        const pool = shipQuestions[ship];
+        return pool[Math.floor(Math.random() * pool.length)];
+      });
+      const generalQs = [...quizzes.marina].sort(() => Math.random() - 0.5).slice(0, 4);
+      return [...shipQs, ...generalQs];
+    }
+    return [...quizzes[topic]].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND);
+  };
 
   const handleStartQuiz = (topic: QuizType) => {
     setSelectedTopic(topic);

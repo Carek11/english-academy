@@ -424,6 +424,57 @@ export const quizzes = {
   ],
 };
 
+export const shipQuestions: Record<string, Array<{ question: string; options: string[]; correct: number }>> = {
+  "Aircraft Carrier": [
+    { question: "⚓ PORTAEREI — Come si chiama il piano di volo di una portaerei?", options: ["flight deck", "main deck", "war deck", "top deck"], correct: 0 },
+    { question: "⚓ PORTAEREI — Cosa fa la 'catapult' su una portaerei?", options: ["frena l'aereo in atterraggio", "accelera gli aerei per il decollo", "abbassa il ponte di volo", "lancia razzi difensivi"], correct: 1 },
+    { question: "⚓ PORTAEREI — Cosa è l' 'arrestor wire'?", options: ["cavo che lega la nave all'ancora", "cavo che frena l'aereo in atterraggio sul ponte", "sistema di catapulta elettromagnetica", "cavo del sistema di ormeggio"], correct: 1 },
+    { question: "⚓ PORTAEREI — Cosa è l' 'island' di una portaerei?", options: ["la zona di parcheggio degli aerei", "la superstruttura con plancia e controllo aereo", "il hangar sottocoperta", "la prua della nave"], correct: 1 },
+    { question: "⚓ PORTAEREI — Quanti aeromobili può trasportare tipicamente una grande portaerei?", options: ["5–10", "15–25", "40–90", "oltre 200"], correct: 2 },
+    { question: "⚓ PORTAEREI — Come si dice 'portaerei' in inglese militare?", options: ["battle cruiser", "aircraft carrier", "fleet carrier", "war ship"], correct: 1 },
+  ],
+  "Destroyer": [
+    { question: "🚢 CACCIATORPEDINIERE — Cosa significa l'acronimo ASW?", options: ["Advanced Sea Weapon", "Anti-Submarine Warfare – guerra antisommergibile", "Automated Ship Watch", "Air Surface Warning"], correct: 1 },
+    { question: "🚢 CACCIATORPEDINIERE — Cosa significa AAW?", options: ["Automatic Anchor Winch", "Anti-Aircraft Warfare – guerra antiaerea", "Advanced Attack Weapon", "Aerial Assault Wing"], correct: 1 },
+    { question: "🚢 CACCIATORPEDINIERE — Cosa è il 'CIC' su un cacciatorpediniere?", options: ["motore principale", "Combat Information Center – centro operativo di combattimento", "sistema di navigazione GPS", "sala medica di bordo"], correct: 1 },
+    { question: "🚢 CACCIATORPEDINIERE — Come si traduce 'hull' in italiano?", options: ["prua", "poppa", "scafo", "chiglia"], correct: 2 },
+    { question: "🚢 CACCIATORPEDINIERE — Quale è la principale missione del cacciatorpediniere?", options: ["trasporto truppe", "scorta e difesa delle flotte maggiori", "pattugliamento costiero", "posa di mine navali"], correct: 1 },
+    { question: "🚢 CACCIATORPEDINIERE — Come si chiama la prua di una nave in inglese?", options: ["stern", "beam", "bow", "keel"], correct: 2 },
+  ],
+  "Submarine": [
+    { question: "🤿 SOTTOMARINO — Cosa sono le 'ballast tanks'?", options: ["serbatoi di carburante", "casse di zavorra per regolare la profondità", "serbatoi d'acqua potabile", "camere di decompressione"], correct: 1 },
+    { question: "🤿 SOTTOMARINO — Come si chiama la torre di comando del sottomarino?", options: ["bridge", "control tower", "conning tower", "periscope room"], correct: 2 },
+    { question: "🤿 SOTTOMARINO — A cosa servono i 'dive planes'?", options: ["decollo di droni", "controllare la profondità e l'assetto in immersione", "bilanciare il carico di siluri", "orientare i siluri"], correct: 1 },
+    { question: "🤿 SOTTOMARINO — Cosa è il 'periscope'?", options: ["sistema radar subacqueo", "strumento ottico per osservare la superficie stando in immersione", "tubo di lancio siluri", "antenna radio subacquea"], correct: 1 },
+    { question: "🤿 SOTTOMARINO — Come si chiamano i sottomarini con missili balistici nucleari?", options: ["SSN", "SSBN", "SSGN", "SSK"], correct: 1 },
+    { question: "🤿 SOTTOMARINO — Qual è il vantaggio principale di un sottomarino nucleare rispetto a uno convenzionale?", options: ["è più veloce in superficie", "autonomia quasi illimitata senza rifornimento", "ha più siluri a bordo", "può trasportare aerei"], correct: 1 },
+  ],
+  "Frigate": [
+    { question: "⚓ FREGATA — Come si chiama la piattaforma per elicotteri su una fregata?", options: ["flight deck", "helipad", "landing platform", "rotor deck"], correct: 1 },
+    { question: "⚓ FREGATA — Come si dice 'plancia di comando' in inglese navale?", options: ["deck", "control room", "bridge", "helm station"], correct: 2 },
+    { question: "⚓ FREGATA — Cosa è il 'mast' di una nave da guerra?", options: ["il timone", "il fumaiolo", "l'albero con sensori, radar e antenne", "il cannone principale"], correct: 2 },
+    { question: "⚓ FREGATA — Cosa significa 'FREMM' per la Marina Militare Italiana?", options: ["Flotta Rapida Europea Multi-Missione", "Fregata Europea Multi-Missione", "Forza di Reazione Europea Marina Militare", "Fregata Rapida Euronato Multi-Missile"], correct: 1 },
+    { question: "⚓ FREGATA — Come si chiama il fumaiolo di una nave in inglese?", options: ["stack", "funnel", "chimney", "exhaust tower"], correct: 1 },
+    { question: "⚓ FREGATA — Quante fregate FREMM opera la Marina Militare Italiana?", options: ["4", "6", "8", "10"], correct: 3 },
+  ],
+  "Corvette": [
+    { question: "🔱 CORVETTA — Quale è la principale area operativa di una corvetta?", options: ["oceano aperto", "acque costiere e mari ristretti", "Artico", "grandi profondità"], correct: 1 },
+    { question: "🔱 CORVETTA — Come si chiama il cannone principale di una corvetta in inglese?", options: ["main rifle", "primary weapon", "main gun", "battle cannon"], correct: 2 },
+    { question: "🔱 CORVETTA — Cosa sono le 'depth charges'?", options: ["siluri a ricerca autonoma", "bombe di profondità per attaccare i sottomarini", "mine galleggianti", "missili superficie-aria"], correct: 1 },
+    { question: "🔱 CORVETTA — Come si traduce 'rudder'?", options: ["elica", "ancora", "timone", "chiglia"], correct: 2 },
+    { question: "🔱 CORVETTA — Come si chiama l'elica di una nave in inglese?", options: ["turbine", "propeller", "rotor", "drive shaft"], correct: 1 },
+    { question: "🔱 CORVETTA — Quale caratteristica principale distingue la corvetta da una fregata?", options: ["ha più missili", "è più piccola e veloce, adatta alla guerra costiera", "è più grande e armata", "ha la propulsione nucleare"], correct: 1 },
+  ],
+  "Patrol Vessel": [
+    { question: "🔭 PATTUGLIATORE — Cosa significa SAR in ambito navale?", options: ["Ship And Rescue", "Search And Rescue – ricerca e soccorso", "Satellite Alert Report", "Surface Attack Response"], correct: 1 },
+    { question: "🔭 PATTUGLIATORE — Come si chiama la linea di galleggiamento di una nave?", options: ["freeboard", "waterline", "draft line", "hull line"], correct: 1 },
+    { question: "🔭 PATTUGLIATORE — Cosa è il 'draft' di una nave?", options: ["la larghezza massima", "il bordo libero dal pelo dell'acqua", "il pescaggio, profondità immersa dello scafo", "la lunghezza fuori tutto"], correct: 2 },
+    { question: "🔭 PATTUGLIATORE — Cosa è il 'freeboard'?", options: ["il peso della nave a pieno carico", "il bordo libero, altezza dallo scafo al pelo dell'acqua", "la riserva di carburante", "lo spazio disponibile in stiva"], correct: 1 },
+    { question: "🔭 PATTUGLIATORE — Come si chiamano i cavi di ormeggio in inglese?", options: ["anchor chains", "mooring lines", "tow ropes", "dock cables"], correct: 1 },
+    { question: "🔭 PATTUGLIATORE — Cosa è la ZEE (Zona Economica Esclusiva) pattugliata dai pattugliatori?", options: ["zona di 12 miglia nautiche", "zona di 200 miglia nautiche dal limite delle acque territoriali", "tutto il Mediterraneo", "acque internazionali oltre 500 miglia"], correct: 1 },
+  ],
+};
+
 export const courseData = [
   {
     icon: "🌱",
