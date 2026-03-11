@@ -294,3 +294,12 @@
     inset: -1px;
   }
 }
+
+/* Nasconde la scrollbar orizzontale della navbar mantenendo la funzionalità */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

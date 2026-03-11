@@ -252,29 +252,31 @@ function AppInner() {
         <SearchModal onNavigate={handleNavigate} onClose={() => setShowSearch(false)} />
       )}
 
-      <nav className="flex flex-wrap justify-center gap-2 bg-white shadow-sm px-4 py-3 sticky top-0 z-50 border-b border-gray-100">
-        {navButtons.map((btn) => (
+      <nav className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div className="flex items-center overflow-x-auto gap-1 px-3 py-2 no-scrollbar">
+          {navButtons.map((btn) => (
+            <button
+              key={btn.id}
+              onClick={() => setCurrentPage(btn.id)}
+              className={`flex-shrink-0 px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap ${
+                currentPage === btn.id
+                  ? "bg-academy-blue text-white"
+                  : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
+              }`}
+            >
+              {btn.emoji} {btn.label}
+            </button>
+          ))}
           <button
-            key={btn.id}
-            onClick={() => setCurrentPage(btn.id)}
-            className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-              currentPage === btn.id
-                ? "bg-academy-blue text-white"
-                : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
-            }`}
+            data-testid="button-search"
+            onClick={() => setShowSearch(true)}
+            className="flex-shrink-0 px-3 py-2 rounded-lg font-semibold transition-colors text-sm bg-academy-bg hover:bg-academy-light-blue hover:text-white whitespace-nowrap"
+            title="Cerca"
           >
-            {btn.emoji} {btn.label}
+            🔍
           </button>
-        ))}
-        <button
-          data-testid="button-search"
-          onClick={() => setShowSearch(true)}
-          className="px-4 py-2 rounded-lg font-semibold transition-colors text-sm bg-academy-bg hover:bg-academy-light-blue hover:text-white flex items-center gap-1"
-          title="Cerca (Ctrl+K)"
-        >
-          🔍 Cerca
-        </button>
-        <div className="sm:hidden ml-auto">
+        </div>
+        <div className="sm:hidden px-3 pb-2">
           {!isLoading && (
             user ? (
               <button
