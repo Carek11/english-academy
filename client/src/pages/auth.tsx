@@ -11,6 +11,8 @@ interface AuthPageProps {
 
 export default function AuthPage({ onSuccess }: AuthPageProps) {
   const [mode, setMode] = useState<AuthMode>("login");
+  const [registrationEmail, setRegistrationEmail] = useState("");
+  const [pendingVerification, setPendingVerification] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -33,17 +35,24 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
     },
     onError: async (err: any) => {
       const body = await err.response?.json?.() ?? {};
-      toast({ title: "Errore", description: body.message || "Credenziali non valide", variant: "destructive" });
+      if (body.pendingVerification) {
+        toast({
+          title: "Email non confermata",
+          description: "Controlla la tua casella di posta e clicca il link di conferma per attivare il tuo account.",
+          variant: "destructive",
+        });
+      } else {
+        toast({ title: "Errore", description: body.message || "Credenziali non valide", variant: "destructive" });
+      }
     },
   });
 
   const registerMutation = useMutation({
     mutationFn: (data: { fullName: string; username: string; email: string; password: string }) =>
       apiRequest("POST", "/api/register", data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/me"] });
-      toast({ title: "Registrazione completata!", description: "Il tuo account è stato creato." });
-      onSuccess();
+    onSuccess: (data: any) => {
+      setRegistrationEmail(registerForm.email);
+      setPendingVerification(true);
     },
     onError: async (err: any) => {
       const body = await err.response?.json?.() ?? {};
@@ -77,6 +86,45 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
     const { confirmPassword: _, ...data } = registerForm;
     registerMutation.mutate(data);
   };
+
+  // Schermata "controlla la tua email"
+  if (pendingVerification) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center py-12">
+        <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+          <div className="bg-gradient-to-r from-academy-blue to-academy-dark p-8 text-white text-center">
+            <div className="text-5xl mb-3">📧</div>
+            <h2 className="text-2xl font-bold font-display">Controlla la tua email!</h2>
+            <p className="text-sm opacity-80 mt-1">Registrazione quasi completata</p>
+          </div>
+          <div className="p-8 text-center space-y-5">
+            <div className="bg-academy-bg rounded-xl p-5">
+              <p className="text-academy-dark font-semibold text-base mb-2">
+                Abbiamo inviato un link di conferma a:
+              </p>
+              <p className="text-academy-blue font-bold text-lg">{registrationEmail}</p>
+            </div>
+            <div className="text-academy-gray text-sm space-y-2 text-left bg-gray-50 rounded-lg p-4">
+              <p className="font-semibold text-academy-dark">Come procedere:</p>
+              <p>1. Apri la tua casella di posta</p>
+              <p>2. Cerca l'email da <strong>English Academy</strong></p>
+              <p>3. Clicca il pulsante <strong>"Conferma la tua iscrizione →"</strong></p>
+              <p>4. Verrai reindirizzato al sito e il tuo account sarà attivo</p>
+            </div>
+            <p className="text-xs text-academy-gray">
+              Non hai ricevuto l'email? Controlla la cartella spam.
+            </p>
+            <button
+              onClick={() => { setPendingVerification(false); setMode("login"); }}
+              className="w-full py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors"
+            >
+              Ho già confermato → Accedi
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center py-12">
@@ -121,6 +169,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="email"
+                  data-testid="input-email"
                   placeholder="mario@email.it"
                   value={loginForm.email}
                   onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
@@ -133,6 +182,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="password"
+                  data-testid="input-password"
                   placeholder="••••••••"
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
@@ -141,6 +191,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               </div>
               <button
                 type="submit"
+                data-testid="button-login"
                 disabled={loginMutation.isPending}
                 className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-60"
               >
@@ -165,6 +216,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="text"
+                  data-testid="input-fullname"
                   placeholder="Mario Rossi"
                   value={registerForm.fullName}
                   onChange={(e) => setRegisterForm({ ...registerForm, fullName: e.target.value })}
@@ -177,6 +229,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="text"
+                  data-testid="input-username"
                   placeholder="mario_rossi"
                   value={registerForm.username}
                   onChange={(e) => setRegisterForm({ ...registerForm, username: e.target.value })}
@@ -189,6 +242,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="email"
+                  data-testid="input-register-email"
                   placeholder="mario@email.it"
                   value={registerForm.email}
                   onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
@@ -201,6 +255,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="password"
+                  data-testid="input-register-password"
                   placeholder="Minimo 6 caratteri"
                   value={registerForm.password}
                   onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
@@ -213,6 +268,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </label>
                 <input
                   type="password"
+                  data-testid="input-confirm-password"
                   placeholder="Ripeti la password"
                   value={registerForm.confirmPassword}
                   onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
@@ -221,6 +277,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               </div>
               <button
                 type="submit"
+                data-testid="button-register"
                 disabled={registerMutation.isPending}
                 className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-60"
               >

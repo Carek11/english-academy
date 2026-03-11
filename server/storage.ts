@@ -11,7 +11,9 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getUserByVerificationToken(token: string): Promise<User | undefined>;
+  createUser(user: InsertUser, verificationToken: string): Promise<User>;
+  verifyUser(id: string): Promise<User>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -30,9 +32,26 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async getUserByVerificationToken(token: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.verificationToken, token));
+    return user;
+  }
+
+  async createUser(insertUser: InsertUser, verificationToken: string): Promise<User> {
     const id = randomUUID();
-    const [user] = await db.insert(users).values({ ...insertUser, id }).returning();
+    const [user] = await db
+      .insert(users)
+      .values({ ...insertUser, id, verificationToken, verified: false })
+      .returning();
+    return user;
+  }
+
+  async verifyUser(id: string): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ verified: true, verificationToken: null })
+      .where(eq(users.id, id))
+      .returning();
     return user;
   }
 }

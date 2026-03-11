@@ -137,6 +137,8 @@ function AppInner() {
   const [currentPage, setCurrentPage] = useState<PageType>("home");
   const [showTrialModal, setShowTrialModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [verifyState, setVerifyState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [verifyMessage, setVerifyMessage] = useState("");
   const { toast } = useToast();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -145,6 +147,32 @@ function AppInner() {
     retry: false,
     staleTime: Infinity,
   });
+
+  // Gestisce il link di verifica email (?token=...)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (!token) return;
+    setVerifyState("loading");
+    // Rimuovi il token dall'URL
+    window.history.replaceState({}, "", window.location.pathname);
+    fetch(`/api/verify/${token}`)
+      .then(async (r) => {
+        const data = await r.json();
+        if (r.ok) {
+          setVerifyState("success");
+          setVerifyMessage(`Bentornato/a, ${data.fullName}! Il tuo account è stato attivato con successo.`);
+          queryClient.invalidateQueries({ queryKey: ["/api/me"] });
+        } else {
+          setVerifyState("error");
+          setVerifyMessage(data.message || "Link non valido o già utilizzato.");
+        }
+      })
+      .catch(() => {
+        setVerifyState("error");
+        setVerifyMessage("Errore durante la verifica. Riprova.");
+      });
+  }, []);
 
   useEffect(() => {
     if (isLoading) return;
@@ -202,6 +230,35 @@ function AppInner() {
 
   return (
     <>
+      {/* Banner verifica email */}
+      {verifyState === "loading" && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[300] flex items-center justify-center">
+          <div className="bg-white rounded-2xl p-8 text-center shadow-2xl">
+            <div className="text-4xl mb-4 animate-spin">⚓</div>
+            <p className="text-academy-blue font-semibold text-lg">Verifica in corso...</p>
+          </div>
+        </div>
+      )}
+      {(verifyState === "success" || verifyState === "error") && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-[300] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div className={`p-8 text-center ${verifyState === "success" ? "bg-gradient-to-r from-academy-blue to-academy-dark" : "bg-gradient-to-r from-red-700 to-red-900"} text-white`}>
+              <div className="text-5xl mb-3">{verifyState === "success" ? "✅" : "❌"}</div>
+              <h2 className="text-xl font-bold">{verifyState === "success" ? "Account Attivato!" : "Verifica fallita"}</h2>
+            </div>
+            <div className="p-8 text-center space-y-4">
+              <p className="text-academy-dark">{verifyMessage}</p>
+              <button
+                onClick={() => { setVerifyState("idle"); if (verifyState === "success") setCurrentPage("home"); }}
+                className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
+              >
+                {verifyState === "success" ? "⚓ Vai alla Home →" : "Chiudi"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showTrialModal && !user && !isLoading && (
         <TrialExpiredModal
           onRegister={() => { setShowTrialModal(false); setCurrentPage("auth"); }}

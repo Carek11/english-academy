@@ -5,6 +5,7 @@ import { insertUserSchema, loginSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import session from "express-session";
 import MemoryStore from "memorystore";
+import { randomUUID } from "crypto";
 
 declare module "express-session" {
   interface SessionData {
@@ -13,6 +14,72 @@ declare module "express-session" {
 }
 
 const MemStore = MemoryStore(session);
+
+function getSiteUrl(): string {
+  return process.env.SITE_URL || `https://${process.env.REPLIT_DEV_DOMAIN}` || "https://english-academy.it.com";
+}
+
+async function sendVerificationEmail(email: string, fullName: string, username: string, token: string) {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    console.warn(`⚠️ BREVO_API_KEY non configurata. Nessuna email inviata a ${email}`);
+    return;
+  }
+  const siteUrl = getSiteUrl();
+  const verifyLink = `${siteUrl}?token=${token}`;
+  try {
+    await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: { "api-key": apiKey, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sender: { name: "English Academy – Marina Militare", email: "alainproject@gmail.com" },
+        to: [{ email, name: fullName }],
+        bcc: [{ email: "alainproject@gmail.com" }],
+        subject: "✅ Conferma la tua iscrizione – English Academy",
+        htmlContent: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;padding:32px;border-radius:12px;">
+            <div style="text-align:center;margin-bottom:24px;">
+              <h1 style="color:#1f3c88;font-size:28px;margin:0;">⚓ English Academy</h1>
+              <p style="color:#caa54a;font-size:14px;margin:4px 0 0;">Marina Militare · English Language Training</p>
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:28px;border-left:4px solid #caa54a;">
+              <h2 style="color:#1f3c88;margin-top:0;">Benvenuto/a, ${fullName}! 🎓</h2>
+              <p style="color:#444;line-height:1.6;">Grazie per esserti iscritto/a all'<strong>English Academy – Marina Militare</strong>.</p>
+              <p style="color:#444;line-height:1.6;">Per attivare il tuo account e accedere a tutti i contenuti, clicca il pulsante qui sotto:</p>
+              <div style="text-align:center;margin:32px 0;">
+                <a href="${verifyLink}"
+                   style="display:inline-block;background:#1f3c88;color:#fff;text-decoration:none;padding:16px 36px;border-radius:8px;font-size:17px;font-weight:bold;letter-spacing:0.5px;">
+                  ✅ Conferma la tua iscrizione →
+                </a>
+              </div>
+              <p style="color:#888;font-size:13px;text-align:center;">
+                Oppure copia e incolla questo link nel browser:<br/>
+                <a href="${verifyLink}" style="color:#1f3c88;word-break:break-all;">${verifyLink}</a>
+              </p>
+              <hr style="border:none;border-top:1px solid #eee;margin:20px 0;" />
+              <p style="color:#444;line-height:1.6;font-size:13px;">Dopo la conferma avrai accesso completo a:</p>
+              <ul style="color:#444;line-height:1.8;font-size:13px;">
+                <li>📚 Tutti i corsi di inglese navale</li>
+                <li>🎯 Quiz Marina e Quiz Cultura Generale</li>
+                <li>⚓ Glossario Navale con 200+ termini</li>
+                <li>📊 Statistiche personali e progressi</li>
+              </ul>
+              <hr style="border:none;border-top:1px solid #eee;margin:20px 0;" />
+              <p style="color:#888;font-size:12px;">Username: <strong>${username}</strong><br/>Email: <strong>${email}</strong></p>
+            </div>
+            <p style="text-align:center;color:#aaa;font-size:12px;margin-top:20px;">
+              © English Academy – Marina Militare · Tutti i diritti riservati<br/>
+              Se non hai richiesto questa iscrizione, ignora questa email.
+            </p>
+          </div>
+        `,
+      }),
+    });
+    console.log(`✅ Email di verifica inviata a ${email} — link: ${verifyLink}`);
+  } catch (emailErr) {
+    console.error("⚠️ Errore invio email:", emailErr);
+  }
+}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -39,70 +106,33 @@ export async function registerRoutes(
       if (existingUsername) {
         return res.status(400).json({ message: "Username già in uso" });
       }
-      const user = await storage.createUser(data);
-      req.session.userId = user.id;
-      const { password: _, ...safeUser } = user;
-
-      // Invia email di benvenuto via Brevo
-      const apiKey = process.env.BREVO_API_KEY;
-      if (apiKey) {
-        try {
-          await fetch("https://api.brevo.com/v3/smtp/email", {
-            method: "POST",
-            headers: { "api-key": apiKey, "Content-Type": "application/json" },
-            body: JSON.stringify({
-              sender: { name: "English Academy – Marina Militare", email: "alainproject@gmail.com" },
-              to: [{ email: user.email, name: user.fullName }],
-              bcc: [{ email: "alainproject@gmail.com" }],
-              subject: "✅ Iscrizione confermata – English Academy",
-              htmlContent: (() => {
-                const siteUrl = process.env.SITE_URL || `https://${process.env.REPLIT_DEV_DOMAIN}` || "https://english-academy.it.com";
-                return `
-                <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;padding:32px;border-radius:12px;">
-                  <div style="text-align:center;margin-bottom:24px;">
-                    <h1 style="color:#1f3c88;font-size:28px;margin:0;">⚓ English Academy</h1>
-                    <p style="color:#caa54a;font-size:14px;margin:4px 0 0;">Marina Militare · English Language Training</p>
-                  </div>
-                  <div style="background:#fff;border-radius:8px;padding:28px;border-left:4px solid #caa54a;">
-                    <h2 style="color:#1f3c88;margin-top:0;">Benvenuto/a, ${user.fullName}! 🎓</h2>
-                    <p style="color:#444;line-height:1.6;">La tua iscrizione all'<strong>English Academy – Marina Militare</strong> è stata confermata con successo.</p>
-                    <p style="color:#444;line-height:1.6;">Da oggi hai accesso completo a:</p>
-                    <ul style="color:#444;line-height:1.8;">
-                      <li>📚 Tutti i corsi di inglese navale</li>
-                      <li>🎯 Quiz Marina e Quiz Cultura Generale</li>
-                      <li>⚓ Glossario Navale con 200+ termini</li>
-                      <li>📊 Statistiche personali e progressi</li>
-                    </ul>
-                    <div style="text-align:center;margin:28px 0;">
-                      <a href="${siteUrl}"
-                         style="display:inline-block;background:#1f3c88;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:bold;letter-spacing:0.5px;">
-                        ⚓ Accedi al tuo account →
-                      </a>
-                    </div>
-                    <hr style="border:none;border-top:1px solid #eee;margin:20px 0;" />
-                    <p style="color:#888;font-size:13px;">Username: <strong>${user.username}</strong><br/>Email: <strong>${user.email}</strong></p>
-                  </div>
-                  <p style="text-align:center;color:#aaa;font-size:12px;margin-top:20px;">
-                    © English Academy – Marina Militare · Tutti i diritti riservati<br/>
-                    <a href="${siteUrl}" style="color:#1f3c88;text-decoration:none;">${siteUrl}</a>
-                  </p>
-                </div>
-              `})(),
-            }),
-          });
-          console.log(`✅ Email di benvenuto inviata a ${user.email}`);
-        } catch (emailErr) {
-          console.error("⚠️ Errore invio email di benvenuto:", emailErr);
-        }
-      } else {
-        console.warn(`⚠️ BREVO_API_KEY non configurata. Nessuna email inviata a ${user.email}`);
-      }
-
-      return res.status(201).json(safeUser);
+      const verificationToken = randomUUID();
+      const user = await storage.createUser(data, verificationToken);
+      // Non fa auto-login — attende la verifica email
+      const { password: _, verificationToken: __, ...safeUser } = user;
+      await sendVerificationEmail(user.email, user.fullName, user.username, verificationToken);
+      return res.status(201).json({ ...safeUser, pendingVerification: true });
     } catch (err) {
       if (err instanceof ZodError) {
         return res.status(400).json({ message: "Dati non validi", errors: err.errors });
       }
+      return res.status(500).json({ message: "Errore interno" });
+    }
+  });
+
+  // Verifica email tramite token
+  app.get("/api/verify/:token", async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const user = await storage.getUserByVerificationToken(token);
+      if (!user) {
+        return res.status(400).json({ message: "Link di verifica non valido o già utilizzato" });
+      }
+      const verified = await storage.verifyUser(user.id);
+      req.session.userId = verified.id;
+      const { password: _, verificationToken: __, ...safeUser } = verified;
+      return res.json({ ...safeUser, justVerified: true });
+    } catch (err) {
       return res.status(500).json({ message: "Errore interno" });
     }
   });
@@ -114,8 +144,12 @@ export async function registerRoutes(
       if (!user || user.password !== data.password) {
         return res.status(401).json({ message: "Email o password non corretti" });
       }
+      // Permetti login se verified=true o verified=null (utenti esistenti prima del sistema)
+      if (user.verified === false) {
+        return res.status(403).json({ message: "Email non confermata. Controlla la tua casella di posta e clicca il link di conferma.", pendingVerification: true });
+      }
       req.session.userId = user.id;
-      const { password: _, ...safeUser } = user;
+      const { password: _, verificationToken: __, ...safeUser } = user;
       return res.json(safeUser);
     } catch (err) {
       if (err instanceof ZodError) {
@@ -139,7 +173,7 @@ export async function registerRoutes(
     if (!user) {
       return res.status(401).json({ message: "Utente non trovato" });
     }
-    const { password: _, ...safeUser } = user;
+    const { password: _, verificationToken: __, ...safeUser } = user;
     return res.json(safeUser);
   });
 
@@ -152,12 +186,10 @@ export async function registerRoutes(
 
       const apiKey = process.env.BREVO_API_KEY;
       if (!apiKey) {
-        console.warn("⚠️ BREVO_API_KEY non configurato. Messaggio loggato localmente.");
-        console.log(`📧 Messaggio ricevuto:\n- Nome: ${name}\n- Email: ${email}\n- Corso: ${course}\n- Messaggio: ${message}\n- Sarebbe inviato a: alainproject@gmail.com, info@englishacademy.it`);
+        console.warn("⚠️ BREVO_API_KEY non configurato.");
         return res.status(200).json({ message: "Messaggio ricevuto! Ti risponderemo entro 24 ore." });
       }
 
-      // Invia email via Brevo
       const response = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
@@ -165,8 +197,8 @@ export async function registerRoutes(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sender: { name: "English Academy", email: "noreply@englishacademy.it" },
-          to: [{ email: "alainproject@gmail.com" }, { email: "info@englishacademy.it" }],
+          sender: { name: "English Academy", email: "alainproject@gmail.com" },
+          to: [{ email: "alainproject@gmail.com" }],
           subject: `Nuovo messaggio da ${name}`,
           htmlContent: `
             <h2>Nuovo messaggio da contatti</h2>
