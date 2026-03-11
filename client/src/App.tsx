@@ -142,13 +142,16 @@ function AppInner() {
 
       <header className="bg-gradient-to-r from-academy-blue to-academy-dark text-white py-6 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <span className="text-3xl hidden sm:block">⚓</span>
-          <div className="text-center flex-1">
-            <h1 className="text-4xl sm:text-5xl font-bold font-display">English Academy</h1>
-            <p className="text-sm tracking-widest opacity-90">IMPARA · PRATICA · ECCELLI</p>
+          <div className="flex-1 hidden sm:block" />
+          <div className="text-center flex items-center justify-center gap-3 flex-1">
+            <span className="text-3xl hidden sm:block">⚓</span>
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-bold font-display">English Academy</h1>
+              <p className="text-sm tracking-widest opacity-90">IMPARA · PRATICA · ECCELLI</p>
+            </div>
+            <span className="text-3xl hidden sm:block">⚓</span>
           </div>
-          <div className="hidden sm:flex items-center gap-1 min-w-[140px] justify-end">
-            <span className="text-3xl">⚓</span>
+          <div className="hidden sm:flex items-center gap-1 min-w-[140px] justify-end flex-1">
             {!isLoading && (
               user ? (
                 <div className="flex flex-col items-end gap-1">
