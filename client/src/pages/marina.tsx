@@ -1,4 +1,10 @@
 import { shipTypes } from "@/lib/quizData";
+import destroyerTopImg from "@assets/AZzOxmv2TQeANEeFHEBG8A-AZzOxmv2lPvWNJdd-9JMwA_1773251962760.jpg";
+import commandCenterImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773251962760.jpg";
+import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773251962761.jpg";
+import frigateImg from "@assets/AZzOu1Ntrknm8qmEucepHQ-AZzOu1NtMmZiqfvN0q-AbQ_1773251962761.jpg";
+import submarineImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_1773251962761.jpg";
+import patrolVesselImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773251962762.jpg";
 
 const commonComponents = [
   { icon: "🧭", title: "Navigation Systems", desc: "GPS, Compass, ECDIS, Radar, AIS." },
@@ -6,6 +12,15 @@ const commonComponents = [
   { icon: "📡", title: "Communications", desc: "VHF radio, Satellite phone, Signal lamp, IFF system." },
   { icon: "🛟", title: "Safety Equipment", desc: "Life jacket, Life raft, Fire extinguisher, Emergency beacon, Damage control." },
 ];
+
+const shipImages: Record<string, string> = {
+  "Aircraft Carrier": destroyerTopImg,
+  "Destroyer": modernDestroyerImg,
+  "Frigate": frigateImg,
+  "Corvette": patrolVesselImg,
+  "Submarine": submarineImg,
+  "Patrol Vessel": commandCenterImg,
+};
 
 export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   return (
@@ -27,6 +42,13 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {shipTypes.map((ship, i) => (
             <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="h-48 bg-academy-bg overflow-hidden flex items-center justify-center">
+                {shipImages[ship.name] ? (
+                  <img src={shipImages[ship.name]} alt={ship.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-6xl">{ship.icon}</span>
+                )}
+              </div>
               <div className="p-6 bg-academy-bg border-b border-academy-gold">
                 <div className="flex items-center gap-4">
                   <span className="text-4xl">{ship.icon}</span>
