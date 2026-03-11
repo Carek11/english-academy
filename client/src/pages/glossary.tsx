@@ -17,7 +17,7 @@ export default function GlossaryPage() {
     });
   }, [search, activeCategory]);
 
-  const categories: Array<GlossaryCategory | "all"> = ["all", "navigation", "engine", "communications", "safety", "ship_parts", "ranks"];
+  const categories: Array<GlossaryCategory | "all"> = ["all", "navigation", "engine", "communications", "safety", "ship_parts", "ranks", "weapons", "manoeuvres"];
 
   return (
     <div className="space-y-10">
@@ -29,7 +29,7 @@ export default function GlossaryPage() {
           Glossario Navale
         </h1>
         <p className="text-academy-gray max-w-2xl mx-auto leading-relaxed">
-          Oltre 70 termini tecnici della Marina Militare in inglese e italiano. Cerca un termine o filtra per categoria.
+          Oltre {glossaryTerms.length} termini tecnici della Marina Militare in inglese e italiano. Cerca un termine o filtra per categoria.
         </p>
         <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
       </section>

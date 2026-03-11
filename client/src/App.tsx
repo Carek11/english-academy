@@ -192,10 +192,10 @@ function AppInner() {
     { id: "home",         label: "Home",           emoji: "🏠" },
     { id: "corsi",        label: "Corsi",           emoji: "📚" },
     { id: "marina",       label: "Marina",          emoji: "⚓" },
-    { id: "glossario",    label: "Glossario",       emoji: "📖" },
     { id: "quiz-marina",  label: "Quiz Marina",     emoji: "🎯" },
     { id: "quiz-cultura", label: "Quiz Cultura",    emoji: "🎓" },
     { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
+    { id: "glossario",    label: "Glossario",       emoji: "📖" },
     { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
     { id: "contatti",     label: "Contatti",        emoji: "✉️" },
   ];
