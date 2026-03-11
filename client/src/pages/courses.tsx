@@ -33,20 +33,23 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {courseData.map((course, i) => (
-          <div key={i} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all">
+          <div key={i} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col">
             <div className="text-3xl mb-3">{course.icon}</div>
             <h3 className="font-bold text-lg mb-2 text-academy-dark">{course.title}</h3>
-            <p className="text-academy-gray text-sm mb-4">{course.description}</p>
-            <span className="inline-block px-3 py-1 bg-academy-blue text-white text-xs font-semibold rounded">
+            <p className="text-academy-gray text-sm mb-4 flex-grow">{course.description}</p>
+            <span className="inline-block px-3 py-1 bg-academy-blue text-white text-xs font-semibold rounded mb-4">
               {course.badge}
             </span>
             {course.details.length > 0 && (
-              <p className="text-xs text-academy-gray mt-4">
+              <p className="text-xs text-academy-gray mb-4">
                 {course.details.map((d, idx) => (
                   <div key={idx}>✓ {d}</div>
                 ))}
               </p>
             )}
+            <button className="w-full px-4 py-2 bg-academy-blue text-white font-semibold rounded hover:bg-academy-light-blue transition-colors text-sm">
+              Scopri →
+            </button>
           </div>
         ))}
       </div>
