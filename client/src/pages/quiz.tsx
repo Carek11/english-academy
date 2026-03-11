@@ -177,7 +177,10 @@ export default function QuizPage() {
         <div className="text-center space-y-3">
           <h2 className="text-3xl font-bold font-display text-academy-dark">📚 Quiz Cultura Generale</h2>
           <p className="text-academy-gray">Scegli l'argomento · 10 domande per sessione · scalate solo al completamento</p>
-          <p className="text-xs text-academy-gray">Fonti: Wikipedia, Khan Academy, Enciclopedia Britannica</p>
+          <p className="text-xs text-academy-gray">
+            <span className="block"><strong>Cultura Generale:</strong> Wikipedia, Khan Academy, Enciclopedia Britannica</span>
+            <span className="block mt-1"><strong>Marina Militare:</strong> SOLAS, IMO, Marina Militare Italiana, standard marittimi internazionali</span>
+          </p>
 
           <div className="flex justify-center gap-3 flex-wrap text-sm">
             <span className="px-3 py-1 rounded-full font-semibold bg-green-50 text-green-700">
