@@ -1,5 +1,5 @@
 import { shipTypes } from "@/lib/quizData";
-import destroyerTopImg from "@assets/AZzOxmv2TQeANEeFHEBG8A-AZzOxmv2lPvWNJdd-9JMwA_1773251962760.jpg";
+import carrierImg from "@assets/AZzOM8EviBgPFGACFMJuAA-AZzOM8EvYcyHuF9kkk6E9g_1773252252710.jpg";
 import commandCenterImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773251962760.jpg";
 import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773251962761.jpg";
 import frigateImg from "@assets/AZzOu1Ntrknm8qmEucepHQ-AZzOu1NtMmZiqfvN0q-AbQ_1773251962761.jpg";
@@ -14,7 +14,7 @@ const commonComponents = [
 ];
 
 const shipImages: Record<string, string> = {
-  "Aircraft Carrier": destroyerTopImg,
+  "Aircraft Carrier": carrierImg,
   "Destroyer": modernDestroyerImg,
   "Frigate": frigateImg,
   "Corvette": patrolVesselImg,
