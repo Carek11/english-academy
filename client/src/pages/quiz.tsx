@@ -22,7 +22,12 @@ export default function QuizPage() {
 
   const handleStartQuiz = () => {
     if (studentName.trim()) {
-      setStep("select");
+      setSelectedQuiz("marina");
+      setCurrentQ(0);
+      setScore(0);
+      setAnswered(false);
+      setSelectedAnswer(null);
+      setStep("quiz");
     }
   };
 
