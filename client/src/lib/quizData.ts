@@ -179,14 +179,14 @@ export const courseData = [
     title: "Inglese Intermedio (B1–B2)",
     description: "Grammatica avanzata, reading comprehension, scrittura formale e conversazione fluente.",
     badge: "12 SETTIMANE",
-    details: [],
+    details: ["Grammatica avanzata", "Reading comprehension", "Conversazione fluente"],
   },
   {
     icon: "📙",
     title: "Inglese Avanzato (C1–C2)",
     description: "Letteratura, stile accademico, dibattiti, idiomi, pronunce regionali.",
     badge: "14 SETTIMANE",
-    details: [],
+    details: ["Letteratura e stile", "Dibattiti e argomentazione", "Idiomi e pronunce"],
   },
   {
     icon: "💼",
