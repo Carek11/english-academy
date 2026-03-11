@@ -149,7 +149,7 @@ function AppInner() {
               <h1 className="text-4xl sm:text-5xl font-bold font-display leading-tight whitespace-nowrap">English Academy</h1>
               <span className="text-3xl hidden sm:block leading-none">⚓</span>
             </div>
-            <p className="text-xs tracking-[0.28em] opacity-70 font-medium mt-1.5">IMPARA · PRATICA · ECCELLI</p>
+            <p className="text-xs tracking-[0.28em] opacity-70 font-medium mt-3">IMPARA · PRATICA · ECCELLI</p>
           </div>
           <div className="hidden sm:flex items-center gap-1 min-w-[140px] justify-end flex-1">
             {!isLoading && (
