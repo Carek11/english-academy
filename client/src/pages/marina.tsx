@@ -123,24 +123,20 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
 
       <section className="space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-4xl font-bold font-display text-academy-dark">Componenti Comuni</h2>
-          <p className="text-academy-gray text-sm">Clicca su un argomento per iniziare gli esercizi</p>
+          <h2 className="text-3xl font-bold font-display text-academy-dark">Ciao aa! Scegli il quiz:</h2>
           <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {commonComponents.map((comp, i) => (
             <button
               key={i}
               onClick={() => onNavigate("quiz")}
-              className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-left group border-2 border-transparent hover:border-academy-gold cursor-pointer"
+              className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-center group border-2 border-transparent hover:border-academy-gold cursor-pointer"
             >
-              <div className="text-3xl mb-3">{comp.icon}</div>
-              <h3 className="font-bold text-academy-dark mb-2 group-hover:text-academy-blue transition-colors">{comp.title}</h3>
-              <p className="text-academy-gray text-sm mb-3">{comp.desc}</p>
-              <span className="text-xs font-semibold text-academy-blue opacity-0 group-hover:opacity-100 transition-opacity">
-                → Vai agli esercizi
-              </span>
+              <div className="text-5xl mb-4">{comp.icon}</div>
+              <h3 className="font-bold text-academy-dark mb-1 text-lg group-hover:text-academy-blue transition-colors">{comp.title}</h3>
+              <p className="text-academy-gray text-sm">{comp.desc}</p>
             </button>
           ))}
         </div>
