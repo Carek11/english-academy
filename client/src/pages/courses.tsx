@@ -50,11 +50,11 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
               {course.badge}
             </span>
             {course.details.length > 0 && (
-              <p className="text-xs text-academy-gray mb-4">
+              <div className="text-xs text-academy-gray mb-4 space-y-1">
                 {course.details.map((d, idx) => (
                   <div key={idx}>✓ {d}</div>
                 ))}
-              </p>
+              </div>
             )}
             <button
               onClick={() => handleCourseClick(course.title)}

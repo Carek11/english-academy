@@ -1,29 +1,27 @@
+import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const quizSchema = z.object({
-  id: z.number(),
-  question: z.string(),
-  options: z.array(z.string()),
-  correct: z.number(),
-  type: z.enum(["base", "intermedio", "business", "marina"]),
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  fullName: text("full_name").notNull(),
 });
 
-export const quizResultSchema = z.object({
-  studentName: z.string(),
-  quizType: z.string(),
-  score: z.number(),
-  total: z.number(),
-  correct: z.number(),
-  timestamp: z.number(),
+export const insertUserSchema = createInsertSchema(users).pick({
+  username: true,
+  email: true,
+  password: true,
+  fullName: true,
 });
 
-export const contactMessageSchema = z.object({
-  name: z.string().min(1),
+export const loginSchema = z.object({
   email: z.string().email(),
-  course: z.string(),
-  message: z.string().min(1),
+  password: z.string().min(1),
 });
 
-export type Quiz = z.infer<typeof quizSchema>;
-export type QuizResult = z.infer<typeof quizResultSchema>;
-export type ContactMessage = z.infer<typeof contactMessageSchema>;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
+export type LoginData = z.infer<typeof loginSchema>;
