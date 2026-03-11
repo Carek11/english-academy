@@ -367,18 +367,12 @@ export const quizzes = {
     { question: "In quale secolo visse Leonardo da Vinci?", options: ["XIV", "XV-XVI", "XVII", "XVIII"], correct: 1 },
     { question: "Quale città antica fu distrutta dall'eruzione del Vesuvio?", options: ["Roma", "Napoli", "Pompei", "Ercolano"], correct: 2 },
     { question: "In quale anno iniziò la Rivoluzione Francese?", options: ["1787", "1789", "1791", "1793"], correct: 1 },
-  ],
-
-  egitto: [
     { question: "Quale faraone egiziano costruì la Grande Piramide di Giza?", options: ["Ramses II", "Khufu", "Tutankhamon", "Amenhotep"], correct: 1 },
     { question: "Qual era la religione principale dell'antico Egitto?", options: ["Politeismo", "Monoteismo", "Ateismo", "Dualismo"], correct: 0 },
     { question: "Quale dio egiziano è raffigurato con testa di ibis?", options: ["Ra", "Thot", "Anubis", "Osiride"], correct: 1 },
     { question: "Il Nilo è lungo circa:", options: ["3.000 km", "4.200 km", "5.000 km", "6.500 km"], correct: 2 },
     { question: "In quale periodo l'Egitto raggiunse il massimo splendore?", options: ["Antico Regno", "Medio Regno", "Nuovo Regno", "Periodo Tolemaico"], correct: 2 },
     { question: "Chi era Nefertiti?", options: ["Regina egiziana", "Sacerdotessa", "Divinità", "Guerriera"], correct: 0 },
-  ],
-
-  roma_vichinghi: [
     { question: "Quale civiltà costruì il Colosseo?", options: ["Grecia", "Egitto", "Roma", "Persia"], correct: 2 },
     { question: "Quali erano i tre ceti della società romana?", options: ["Nobili, Comuni, Schiavi", "Patrizi, Plebei, Schiavi", "Senatori, Cavalieri, Popolo", "Elite, Mezzani, Bassi"], correct: 1 },
     { question: "Chi fu Alessandro Magno?", options: ["Re persiano", "Re macedone", "Imperatore romano", "Faraone egiziano"], correct: 1 },

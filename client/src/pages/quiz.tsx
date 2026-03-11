@@ -16,7 +16,7 @@ import { quizzes } from "@/lib/quizData";
  * Ogni domanda è generata originariamente e non costituisce violazione di copyright.
  */
 
-type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "storia" | "egitto" | "roma_vichinghi" | "geografia" | "scienze" | "arte" | "astronomia" | "matematica";
+type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "storia" | "geografia" | "scienze" | "arte" | "astronomia" | "matematica";
 
 const DAILY_LIMIT = 50;
 const MONTHLY_LIMIT = 1000;
@@ -100,8 +100,6 @@ const topicConfig: Record<QuizType, { label: string; icon: string; color: string
   safety:         { label: "Safety Equipment",    icon: "🦺", color: "text-red-700",    bg: "bg-red-50 border-red-300"     },
   marina:         { label: "Marina Generale",     icon: "⚓", color: "text-academy-blue", bg: "bg-blue-50 border-blue-300" },
   storia:         { label: "Storia",              icon: "🏛️", color: "text-purple-700", bg: "bg-purple-50 border-purple-300" },
-  egitto:         { label: "Egitto Antico",      icon: "🐫", color: "text-yellow-700", bg: "bg-yellow-50 border-yellow-300" },
-  roma_vichinghi: { label: "Roma & Vichinghi",   icon: "⚔️", color: "text-red-800",    bg: "bg-red-50 border-red-300"     },
   geografia:      { label: "Geografia",          icon: "🌍", color: "text-teal-700",   bg: "bg-teal-50 border-teal-300"   },
   scienze:        { label: "Scienze",            icon: "🧪", color: "text-green-700",  bg: "bg-green-50 border-green-300" },
   arte:           { label: "Arte",               icon: "🎨", color: "text-pink-700",   bg: "bg-pink-50 border-pink-300"   },
@@ -208,7 +206,7 @@ export default function QuizPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {(["storia", "egitto", "roma_vichinghi", "geografia", "scienze", "arte", "astronomia", "matematica"] as QuizType[]).map((topic) => {
+          {(["storia", "geografia", "scienze", "arte", "astronomia", "matematica"] as QuizType[]).map((topic) => {
             const cfg = topicConfig[topic];
             return (
               <button
