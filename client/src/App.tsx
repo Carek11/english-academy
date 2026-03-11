@@ -147,7 +147,7 @@ function AppInner() {
             <h1 className="text-4xl sm:text-5xl font-bold font-display">English Academy</h1>
             <p className="text-sm tracking-widest opacity-90">IMPARA · PRATICA · ECCELLI</p>
           </div>
-          <div className="hidden sm:flex items-center gap-3 min-w-[140px] justify-end">
+          <div className="hidden sm:flex items-center gap-1 min-w-[140px] justify-end">
             <span className="text-3xl">⚓</span>
             {!isLoading && (
               user ? (
