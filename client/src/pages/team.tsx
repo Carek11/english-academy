@@ -105,7 +105,7 @@ export default function TeamPage() {
 
       {/* CALL TO ACTION */}
       <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white py-16 px-6 rounded-2xl text-center space-y-6">
-        <h2 className="text-4xl font-bold font-display">Il tuo viaggio con English Academy inizia ora</h2>
+        <h2 className="text-3xl font-bold font-display">Il tuo viaggio con English Academy inizia ora</h2>
         <p className="text-lg opacity-90 max-w-2xl mx-auto">
           Non è mai troppo tardi per imparare l'inglese. Che tu voglia partecipare a riunioni internazionali, leggere articoli in lingua, o servire in una nave da guerra della Marina Militare — sei nel posto giusto.
         </p>
