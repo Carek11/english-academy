@@ -7,11 +7,11 @@ import frigateImg from "@assets/AZzOu1Ntrknm8qmEucepHQ-AZzOu1NtMmZiqfvN0q-AbQ_17
 import submarineImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_1773251962761.jpg";
 import patrolVesselImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773251962762.jpg";
 
-const commonComponents = [
-  { icon: "🧭", title: "Navigation Systems", desc: "GPS, Compass, ECDIS, Radar, AIS." },
-  { icon: "⚡", title: "Engine Room", desc: "Main engine, Boiler, Generator, Bilge pump, Fuel tank." },
-  { icon: "📡", title: "Communications", desc: "VHF radio, Satellite phone, Signal lamp, IFF system." },
-  { icon: "🛟", title: "Safety Equipment", desc: "Life jacket, Life raft, Fire extinguisher, Emergency beacon, Damage control." },
+const marinaCourses = [
+  { icon: "✈️", title: "Aircraft Carrier", subtitle: "Portaerei", desc: "Impara i termini specifici della portaerei." },
+  { icon: "🚢", title: "Destroyer", subtitle: "Cacciatorpediniere", desc: "Esercizi sui cacciatorpedinieri." },
+  { icon: "⚓", title: "Frigate", subtitle: "Fregata", desc: "Quiz sulla terminologia delle fregate." },
+  { icon: "🤿", title: "Submarine", subtitle: "Sottomarino", desc: "Elementi chiave dei sottomarini." },
 ];
 
 const shipImages: Record<string, string> = {
@@ -123,20 +123,22 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
 
       <section className="space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold font-display text-academy-dark">Ciao aa! Scegli il quiz:</h2>
+          <h2 className="text-3xl font-bold font-display text-academy-dark">Esercizi per Tipo di Nave:</h2>
+          <p className="text-academy-gray text-sm">Seleziona il tipo di imbarcazione e mettiti alla prova</p>
           <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {commonComponents.map((comp, i) => (
+          {marinaCourses.map((course, i) => (
             <button
               key={i}
               onClick={() => onNavigate("quiz")}
               className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-center group border-2 border-transparent hover:border-academy-gold cursor-pointer"
             >
-              <div className="text-5xl mb-4">{comp.icon}</div>
-              <h3 className="font-bold text-academy-dark mb-1 text-lg group-hover:text-academy-blue transition-colors">{comp.title}</h3>
-              <p className="text-academy-gray text-sm">{comp.desc}</p>
+              <div className="text-5xl mb-3">{course.icon}</div>
+              <h3 className="font-bold text-academy-dark text-lg group-hover:text-academy-blue transition-colors">{course.title}</h3>
+              <p className="text-academy-gold text-xs font-semibold mb-2">{course.subtitle}</p>
+              <p className="text-academy-gray text-sm">{course.desc}</p>
             </button>
           ))}
         </div>
