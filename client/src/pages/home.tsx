@@ -3,7 +3,7 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
     <div className="space-y-16">
       <section className="text-center space-y-6 mb-12">
         <h2 className="text-4xl font-bold font-display text-academy-dark">
-          Benvenuto nell'English Academy
+          Benvenuto in English Academy
         </h2>
         <p className="text-lg text-academy-gray max-w-2xl mx-auto">
           La piattaforma italiana per imparare l'inglese in modo professionale, moderno e interattivo. Dai corsi base fino all'inglese tecnico per la{" "}
