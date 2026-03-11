@@ -6,10 +6,10 @@ export default function TeamPage() {
         <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm">
           LA NOSTRA STORIA
         </div>
-        <h1 className="text-5xl sm:text-6xl font-bold font-display text-academy-dark">
+        <h1 className="text-5xl sm:text-6xl font-bold font-display text-academy-dark tracking-tight">
           Come è nata English Academy
         </h1>
-        <p className="text-lg text-academy-gray max-w-3xl mx-auto leading-relaxed">
+        <p className="text-lg text-academy-gray max-w-3xl mx-auto leading-loose">
           Una visione semplice: far imparare l'inglese a chi vuole davvero farlo, in modo vero e pratico, senza compromessi.
         </p>
         <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
@@ -20,10 +20,10 @@ export default function TeamPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold font-display text-academy-dark">Il punto di partenza</h2>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Abbiamo visto troppi corsi online generici, piattaforme che insegnano come se stessi imparando una formula matematica. Parole senza contesto, grammatica senza vita, niente che assomigliasse a come si parla veramente.
             </p>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Così abbiamo deciso: facciamo diverso. Un luogo dove l'inglese non è solo una lingua, ma uno strumento reale per raggiungere i tuoi obiettivi.
             </p>
           </div>
@@ -43,10 +43,10 @@ export default function TeamPage() {
           </div>
           <div className="space-y-4 md:order-1">
             <h2 className="text-3xl font-bold font-display text-academy-dark">Una specialità unica</h2>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Cosa succede se l'equipaggio di una nave non capisce i comandi in inglese? Cosa succede se manca una comunicazione critica tra porti? Per la Marina Militare italiana, l'inglese non è opzionale — è essenziale.
             </p>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Per questo abbiamo creato una sezione completamente dedicata all'inglese navale: terminologia di bordo, sistemi di navigazione, comunicazioni radio d'emergenza. Rigoroso, pratico, salvavita.
             </p>
           </div>
@@ -58,13 +58,13 @@ export default function TeamPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold font-display text-academy-dark">Quiz interattivi come strumento di crescita</h2>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Non crediamo nella passività. Non basta guardare video: la lingua si impara facendo, rispondendo a domande, sbagliando, corregendo, riprovando.
             </p>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               I nostri quiz non sono banali quiz a quiz — sono esercitazioni reali su Navigation Systems, Engine Room, Communications, Safety Equipment. Cose che servono davvero sul campo.
             </p>
-            <p className="text-academy-gray leading-relaxed font-semibold text-academy-blue">
+            <p className="text-academy-gray leading-loose font-semibold text-academy-blue">
               50 domande al giorno, 1000 al mese. Non di più, non di meno. La qualità conta.
             </p>
           </div>
@@ -84,10 +84,10 @@ export default function TeamPage() {
           </div>
           <div className="space-y-4 md:order-1">
             <h2 className="text-3xl font-bold font-display text-academy-dark">Accessibilità vera</h2>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Una piattaforma dove puoi provare gratuitamente per 5 minuti. Non per scherzo — per davvero. Se non ti piace, nessun problema. Se ti piace, continua senza limiti.
             </p>
-            <p className="text-academy-gray leading-relaxed">
+            <p className="text-academy-gray leading-loose">
               Crediamo che se un corso è buono, la gente se ne accorge subito. Se non lo è, nessun paywall al mondo lo renderà migliore.
             </p>
           </div>
@@ -101,21 +101,21 @@ export default function TeamPage() {
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
             <div className="text-5xl mb-4">✅</div>
             <h3 className="text-xl font-bold text-academy-dark mb-3">Pratico, non teorico</h3>
-            <p className="text-academy-gray text-sm leading-relaxed">
+            <p className="text-academy-gray text-sm leading-loose">
               L'inglese deve servire. Se non puoi usarlo per comunicare davvero, non lo stai imparando.
             </p>
           </div>
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
             <div className="text-5xl mb-4">⚓</div>
             <h3 className="text-xl font-bold text-academy-dark mb-3">Specializzazione significa serietà</h3>
-            <p className="text-academy-gray text-sm leading-relaxed">
+            <p className="text-academy-gray text-sm leading-loose">
               Non siamo tutto per tutti. Siamo eccellenti in quello che facciamo: corsi generali e inglese navale.
             </p>
           </div>
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
             <div className="text-5xl mb-4">💡</div>
             <h3 className="text-xl font-bold text-academy-dark mb-3">Trasparenza totale</h3>
-            <p className="text-academy-gray text-sm leading-relaxed">
+            <p className="text-academy-gray text-sm leading-loose">
               Niente costi nascosti, niente panico marketing. Solo: prova gratis, poi scegli se continuare.
             </p>
           </div>
@@ -137,10 +137,10 @@ export default function TeamPage() {
       {/* VISION */}
       <section className="text-center space-y-6 max-w-3xl mx-auto">
         <h2 className="text-4xl font-bold font-display text-academy-dark">La visione</h2>
-        <p className="text-lg text-academy-gray leading-relaxed">
+        <p className="text-lg text-academy-gray leading-loose">
           In 5 anni vogliamo essere il riferimento per chi vuole imparare l'inglese in modo serio e pratico. Non il più grande, ma il migliore. Non per tutti, ma per chi conta.
         </p>
-        <p className="text-lg text-academy-gray leading-relaxed">
+        <p className="text-lg text-academy-gray leading-loose">
           Vogliamo che i nostri studenti non solo parlino inglese, ma lo usino con confidenza e precisione. Nella sala riunioni, al porto, sulla nave, in qualsiasi situazione.
         </p>
         <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
