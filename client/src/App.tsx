@@ -144,10 +144,10 @@ function AppInner() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex-1 hidden sm:block" />
           <div className="flex flex-col items-center flex-1">
-            <div className="flex items-center gap-10">
-              <span className="text-2xl sm:text-3xl leading-none">⚓</span>
-              <h1 className="text-4xl sm:text-5xl font-bold font-display leading-tight whitespace-nowrap">English Academy</h1>
-              <span className="text-2xl sm:text-3xl leading-none">⚓</span>
+            <div className="flex items-center gap-2 sm:gap-10">
+              <span className="text-xl sm:text-3xl leading-none">⚓</span>
+              <h1 className="text-3xl sm:text-5xl font-bold font-display leading-tight whitespace-nowrap">English Academy</h1>
+              <span className="text-xl sm:text-3xl leading-none">⚓</span>
             </div>
             <p className="text-xs tracking-[0.28em] opacity-70 font-medium mt-3">IMPARA · PRATICA · ECCELLI</p>
           </div>
