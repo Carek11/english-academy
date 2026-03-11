@@ -213,7 +213,7 @@ export const courseData = [
 
 export const shipTypes = [
   {
-    icon: "🛸",
+    icon: "✈️",
     name: "Aircraft Carrier",
     nameIt: "Portaerei",
     components: [
