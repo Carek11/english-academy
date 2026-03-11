@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { quizzes } from "@/lib/quizData";
 
-type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "generale";
+type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "storia" | "egitto" | "roma_vichinghi" | "geografia" | "scienze" | "arte" | "astronomia" | "matematica";
 
 const DAILY_LIMIT = 50;
 const MONTHLY_LIMIT = 1000;
@@ -84,7 +84,14 @@ const topicConfig: Record<QuizType, { label: string; icon: string; color: string
   communications: { label: "Communications",      icon: "📡", color: "text-green-700",  bg: "bg-green-50 border-green-300"  },
   safety:         { label: "Safety Equipment",    icon: "🦺", color: "text-red-700",    bg: "bg-red-50 border-red-300"     },
   marina:         { label: "Marina Generale",     icon: "⚓", color: "text-academy-blue", bg: "bg-blue-50 border-blue-300" },
-  generale:       { label: "Cultura Generale",    icon: "🧠", color: "text-purple-700", bg: "bg-purple-50 border-purple-300" },
+  storia:         { label: "Storia",              icon: "🏛️", color: "text-purple-700", bg: "bg-purple-50 border-purple-300" },
+  egitto:         { label: "Egitto Antico",      icon: "🐫", color: "text-yellow-700", bg: "bg-yellow-50 border-yellow-300" },
+  roma_vichinghi: { label: "Roma & Vichinghi",   icon: "⚔️", color: "text-red-800",    bg: "bg-red-50 border-red-300"     },
+  geografia:      { label: "Geografia",          icon: "🌍", color: "text-teal-700",   bg: "bg-teal-50 border-teal-300"   },
+  scienze:        { label: "Scienze",            icon: "🧪", color: "text-green-700",  bg: "bg-green-50 border-green-300" },
+  arte:           { label: "Arte",               icon: "🎨", color: "text-pink-700",   bg: "bg-pink-50 border-pink-300"   },
+  astronomia:     { label: "Astronomia",         icon: "🌌", color: "text-indigo-700", bg: "bg-indigo-50 border-indigo-300" },
+  matematica:     { label: "Matematica",         icon: "📐", color: "text-cyan-700",   bg: "bg-cyan-50 border-cyan-300"   },
 };
 
 export default function QuizPage() {
@@ -166,10 +173,11 @@ export default function QuizPage() {
     const monthly = getMonthly();
 
     return (
-      <div className="max-w-2xl mx-auto py-8 space-y-8">
+      <div className="max-w-3xl mx-auto py-8 space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl font-bold font-display text-academy-dark">⚓ Quiz Marina Militare</h2>
+          <h2 className="text-3xl font-bold font-display text-academy-dark">📚 Quiz Cultura Generale</h2>
           <p className="text-academy-gray">Scegli l'argomento · 10 domande per sessione · scalate solo al completamento</p>
+          <p className="text-xs text-academy-gray">Fonti: Wikipedia, Khan Academy, Enciclopedia Britannica</p>
 
           <div className="flex justify-center gap-3 flex-wrap text-sm">
             <span className="px-3 py-1 rounded-full font-semibold bg-green-50 text-green-700">
@@ -182,7 +190,7 @@ export default function QuizPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {(["navigation", "engine", "communications", "safety"] as QuizType[]).map((topic) => {
+          {(["storia", "egitto", "roma_vichinghi", "geografia", "scienze", "arte", "astronomia", "matematica"] as QuizType[]).map((topic) => {
             const cfg = topicConfig[topic];
             return (
               <button
@@ -192,7 +200,7 @@ export default function QuizPage() {
               >
                 <div className="text-4xl mb-3">{cfg.icon}</div>
                 <div className={`text-lg font-bold ${cfg.color}`}>{cfg.label}</div>
-                <div className="text-sm text-academy-gray mt-1">50 domande · 10 per round · conta solo se finisci</div>
+                <div className="text-sm text-academy-gray mt-1">Domande varie · 10 per round · conta solo se finisci</div>
               </button>
             );
           })}
