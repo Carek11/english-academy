@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { queryClient, apiRequest } from "./lib/queryClient";
 import { QueryClientProvider, useQuery, useMutation } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,15 +14,86 @@ import AuthPage from "@/pages/auth";
 
 type PageType = "home" | "corsi" | "marina" | "quiz" | "chi-siamo" | "contatti" | "auth";
 
+const TRIAL_DURATION = 5 * 60 * 1000; // 5 minuti
+
+function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 z-[100] flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="bg-gradient-to-r from-academy-blue to-academy-dark p-8 text-white text-center">
+          <div className="text-5xl mb-4">⚓</div>
+          <h2 className="text-2xl font-bold font-display">La prova gratuita è terminata</h2>
+          <p className="text-sm opacity-80 mt-2">Hai esplorato English Academy per 5 minuti</p>
+        </div>
+        <div className="p-8 text-center space-y-6">
+          <div className="space-y-2">
+            <p className="text-academy-dark font-semibold text-lg">Ti è piaciuto quello che hai visto?</p>
+            <p className="text-academy-gray text-sm">
+              Registrati gratuitamente per accedere a tutti i corsi, quiz interattivi e alla sezione Marina Militare.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 text-center text-xs">
+            <div className="bg-academy-bg rounded-lg p-3">
+              <div className="text-2xl font-bold text-academy-blue">12+</div>
+              <div className="text-academy-gray">Corsi</div>
+            </div>
+            <div className="bg-academy-bg rounded-lg p-3">
+              <div className="text-2xl font-bold text-academy-blue">50+</div>
+              <div className="text-academy-gray">Quiz</div>
+            </div>
+            <div className="bg-academy-bg rounded-lg p-3">
+              <div className="text-2xl font-bold text-academy-blue">⚓</div>
+              <div className="text-academy-gray">Marina</div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={onRegister}
+              className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors text-base"
+            >
+              🎓 Registrati Gratis →
+            </button>
+            <button
+              onClick={onClose}
+              className="w-full py-2 text-academy-gray text-sm hover:text-academy-dark transition-colors"
+            >
+              Continua a esplorare
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AppInner() {
   const [currentPage, setCurrentPage] = useState<PageType>("home");
+  const [showTrialModal, setShowTrialModal] = useState(false);
   const { toast } = useToast();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { data: user, isLoading } = useQuery<{ id: string; username: string; fullName: string; email: string } | null>({
     queryKey: ["/api/me"],
     retry: false,
     staleTime: Infinity,
   });
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (user) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setShowTrialModal(false);
+      return;
+    }
+    timerRef.current = setTimeout(() => {
+      setShowTrialModal(true);
+    }, TRIAL_DURATION);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [user, isLoading]);
 
   const logoutMutation = useMutation({
     mutationFn: () => apiRequest("POST", "/api/logout"),
@@ -34,10 +105,14 @@ function AppInner() {
     },
   });
 
+  const handleNavigate = (page: string) => {
+    setCurrentPage(page as PageType);
+  };
+
   const pages: Record<PageType, React.ReactNode> = {
-    home: <HomePage onNavigate={setCurrentPage} />,
-    corsi: <CoursesPage onNavigate={setCurrentPage} />,
-    marina: <MarinaPage onNavigate={setCurrentPage} />,
+    home: <HomePage onNavigate={handleNavigate} />,
+    corsi: <CoursesPage onNavigate={handleNavigate} />,
+    marina: <MarinaPage onNavigate={handleNavigate} />,
     quiz: <QuizPage />,
     "chi-siamo": <TeamPage />,
     contatti: <ContactsPage />,
@@ -55,6 +130,16 @@ function AppInner() {
 
   return (
     <>
+      {showTrialModal && !user && (
+        <TrialExpiredModal
+          onRegister={() => { setShowTrialModal(false); setCurrentPage("auth"); }}
+          onClose={() => {
+            setShowTrialModal(false);
+            timerRef.current = setTimeout(() => setShowTrialModal(true), TRIAL_DURATION);
+          }}
+        />
+      )}
+
       <header className="bg-gradient-to-r from-academy-blue to-academy-dark text-white py-6 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <span className="text-3xl hidden sm:block">⚓</span>
@@ -126,6 +211,12 @@ function AppInner() {
       {user && currentPage !== "auth" && (
         <div className="bg-green-50 border-b border-green-100 py-2 px-4 text-center text-sm text-green-700">
           Bentornato, <strong>{user.fullName}</strong>! 🎓
+        </div>
+      )}
+
+      {!user && !isLoading && (
+        <div className="bg-academy-blue bg-opacity-5 border-b border-academy-blue border-opacity-10 py-2 px-4 text-center text-xs text-academy-blue">
+          🎓 Stai esplorando la prova gratuita di 5 minuti · <button onClick={() => setCurrentPage("auth")} className="underline font-semibold hover:text-academy-dark">Registrati gratis</button>
         </div>
       )}
 
