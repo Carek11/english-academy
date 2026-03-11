@@ -2,7 +2,7 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
   return (
     <div className="space-y-16">
       <section className="text-center space-y-6 mb-12">
-        <h2 className="text-5xl font-bold font-display text-academy-dark">
+        <h2 className="text-4xl font-bold font-display text-academy-dark">
           Benvenuto nell'English Academy
         </h2>
         <p className="text-lg text-academy-gray max-w-2xl mx-auto">
