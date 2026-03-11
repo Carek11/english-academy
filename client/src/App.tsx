@@ -130,7 +130,7 @@ function AppInner() {
 
   return (
     <>
-      {showTrialModal && !user && (
+      {showTrialModal && !user && !isLoading && (
         <TrialExpiredModal
           onRegister={() => { setShowTrialModal(false); setCurrentPage("auth"); }}
           onClose={() => {
