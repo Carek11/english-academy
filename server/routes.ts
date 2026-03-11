@@ -97,7 +97,7 @@ export async function registerRoutes(
       const apiKey = process.env.BREVO_API_KEY;
       if (!apiKey) {
         console.warn("⚠️ BREVO_API_KEY non configurato. Messaggio loggato localmente.");
-        console.log(`📧 Messaggio ricevuto:\n- Nome: ${name}\n- Email: ${email}\n- Corso: ${course}\n- Messaggio: ${message}`);
+        console.log(`📧 Messaggio ricevuto:\n- Nome: ${name}\n- Email: ${email}\n- Corso: ${course}\n- Messaggio: ${message}\n- Sarebbe inviato a: alainproject@gmail.com, info@englishacademy.it`);
         return res.status(200).json({ message: "Messaggio ricevuto! Ti risponderemo entro 24 ore." });
       }
 
@@ -110,7 +110,7 @@ export async function registerRoutes(
         },
         body: JSON.stringify({
           sender: { name: "English Academy", email: "noreply@englishacademy.it" },
-          to: [{ email: "info@englishacademy.it" }],
+          to: [{ email: "alainproject@gmail.com" }, { email: "info@englishacademy.it" }],
           subject: `Nuovo messaggio da ${name}`,
           htmlContent: `
             <h2>Nuovo messaggio da contatti</h2>
