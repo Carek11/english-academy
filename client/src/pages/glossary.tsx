@@ -5,7 +5,10 @@ export default function GlossaryPage() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<GlossaryCategory | "all">("all");
 
+  const isSearching = search.trim() !== "" || activeCategory !== "all";
+
   const filtered = useMemo(() => {
+    if (!isSearching) return [];
     return glossaryTerms.filter((term) => {
       const matchSearch =
         search.trim() === "" ||
@@ -15,9 +18,12 @@ export default function GlossaryPage() {
       const matchCategory = activeCategory === "all" || term.category === activeCategory;
       return matchSearch && matchCategory;
     });
-  }, [search, activeCategory]);
+  }, [search, activeCategory, isSearching]);
 
-  const categories: Array<GlossaryCategory | "all"> = ["all", "navigation", "engine", "communications", "safety", "ship_parts", "ranks", "weapons", "manoeuvres"];
+  const categories: Array<GlossaryCategory | "all"> = [
+    "all", "navigation", "engine", "communications", "safety",
+    "ship_parts", "ranks", "weapons", "manoeuvres",
+  ];
 
   return (
     <div className="space-y-10">
@@ -43,7 +49,7 @@ export default function GlossaryPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cerca un termine in inglese o italiano..."
-            className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-academy-blue text-base"
+            className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-academy-blue text-base shadow-sm"
           />
           {search && (
             <button
@@ -75,7 +81,7 @@ export default function GlossaryPage() {
             <button
               key={cat}
               data-testid={`filter-${cat}`}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => setActiveCategory(activeCategory === cat ? "all" : cat)}
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors border ${
                 activeCategory === cat
                   ? "bg-academy-blue text-white border-academy-blue"
@@ -88,15 +94,29 @@ export default function GlossaryPage() {
         })}
       </div>
 
-      {filtered.length === 0 ? (
+      {!isSearching && (
+        <div className="text-center py-12 space-y-3 text-academy-gray">
+          <div className="text-5xl opacity-30">📖</div>
+          <p className="text-base">Digita un termine o scegli una categoria per visualizzare i risultati.</p>
+        </div>
+      )}
+
+      {isSearching && filtered.length === 0 && (
         <div className="text-center py-16 space-y-3">
           <div className="text-6xl">🔍</div>
-          <p className="text-academy-gray text-lg">Nessun termine trovato per "<strong>{search}</strong>"</p>
-          <button onClick={() => { setSearch(""); setActiveCategory("all"); }} className="text-academy-blue underline text-sm">
+          <p className="text-academy-gray text-lg">
+            Nessun termine trovato{search ? ` per "${search}"` : ""}.
+          </p>
+          <button
+            onClick={() => { setSearch(""); setActiveCategory("all"); }}
+            className="text-academy-blue underline text-sm"
+          >
             Azzera filtri
           </button>
         </div>
-      ) : (
+      )}
+
+      {isSearching && filtered.length > 0 && (
         <>
           <p className="text-center text-academy-gray text-sm">
             {filtered.length} {filtered.length === 1 ? "termine trovato" : "termini trovati"}
