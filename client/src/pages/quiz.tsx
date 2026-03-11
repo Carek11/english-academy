@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { quizzes } from "@/lib/quizData";
 
-type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety";
+type QuizType = "marina" | "navigation" | "engine" | "communications" | "safety" | "generale";
 
 const DAILY_LIMIT = 50;
 const MONTHLY_LIMIT = 1000;
@@ -84,6 +84,7 @@ const topicConfig: Record<QuizType, { label: string; icon: string; color: string
   communications: { label: "Communications",      icon: "📡", color: "text-green-700",  bg: "bg-green-50 border-green-300"  },
   safety:         { label: "Safety Equipment",    icon: "🦺", color: "text-red-700",    bg: "bg-red-50 border-red-300"     },
   marina:         { label: "Marina Generale",     icon: "⚓", color: "text-academy-blue", bg: "bg-blue-50 border-blue-300" },
+  generale:       { label: "Cultura Generale",    icon: "🧠", color: "text-purple-700", bg: "bg-purple-50 border-purple-300" },
 };
 
 export default function QuizPage() {
