@@ -236,7 +236,7 @@ export default function QuizPage() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center">
             <div className={`text-sm font-semibold mb-3 ${cfg.color}`}>DOMANDA {currentQ + 1}</div>
             <h3 className="text-xl font-bold text-academy-dark">{q.question}</h3>
