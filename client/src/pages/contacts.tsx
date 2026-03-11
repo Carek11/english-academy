@@ -21,15 +21,39 @@ export default function ContactsPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
-      setSubmitted(true);
-      setTimeout(() => {
+    setError("");
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      setError("Compila tutti i campi obbligatori");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
         setFormData({ name: "", email: "", course: "-- Seleziona --", message: "" });
-        setSubmitted(false);
-      }, 3000);
+        setTimeout(() => setSubmitted(false), 3000);
+      } else {
+        setError(data.message || "Errore nell'invio");
+      }
+    } catch (err) {
+      setError("Errore di connessione. Riprova tra poco.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,6 +85,12 @@ export default function ContactsPage() {
         {submitted && (
           <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 text-center font-semibold">
             ✅ Messaggio inviato! Ti risponderemo entro 24 ore.
+          </div>
+        )}
+
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-center font-semibold">
+            ❌ {error}
           </div>
         )}
 
@@ -117,9 +147,10 @@ export default function ContactsPage() {
 
           <button
             type="submit"
-            className="w-full px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
+            disabled={loading}
+            className="w-full px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Invia Messaggio ✉️
+            {loading ? "Invio in corso..." : "Invia Messaggio ✉️"}
           </button>
         </form>
       </section>

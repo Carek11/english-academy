@@ -87,5 +87,18 @@ export async function registerRoutes(
     return res.json(safeUser);
   });
 
+  app.post("/api/contact", async (req: Request, res: Response) => {
+    try {
+      const { name, email, course, message } = req.body;
+      if (!name || !email || !message) {
+        return res.status(400).json({ message: "Campi obbligatori mancanti" });
+      }
+      console.log(`📧 Nuovo messaggio da contatti:\n- Nome: ${name}\n- Email: ${email}\n- Corso: ${course}\n- Messaggio: ${message}`);
+      return res.status(200).json({ message: "Messaggio ricevuto! Ti risponderemo entro 24 ore." });
+    } catch (err) {
+      return res.status(500).json({ message: "Errore nell'invio del messaggio" });
+    }
+  });
+
   return httpServer;
 }
