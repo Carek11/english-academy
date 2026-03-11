@@ -479,6 +479,8 @@ export const shipTypes = [
       { en: "Mooring lines", it: "Cavi di ormeggio." },
     ],
   },
+  ],
+
   generale: [
     { question: "In quale anno cadde l'Impero Romano d'Occidente?", options: ["410 d.C.", "476 d.C.", "527 d.C.", "800 d.C."], correct: 1 },
     { question: "Quale faraone egiziano costruì la Grande Piramide di Giza?", options: ["Ramses II", "Khufu", "Tutankhamon", "Amenhotep"], correct: 1 },
