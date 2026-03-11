@@ -5,13 +5,7 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      borderRadius: {
-        lg: ".5625rem", /* 9px */
-        md: ".375rem", /* 6px */
-        sm: ".1875rem", /* 3px */
-      },
       colors: {
-        // Flat / base colors (regular buttons)
         background: "hsl(var(--background) / <alpha-value>)",
         foreground: "hsl(var(--foreground) / <alpha-value>)",
         border: "hsl(var(--border) / <alpha-value>)",
@@ -75,17 +69,26 @@ export default {
           foreground: "hsl(var(--sidebar-accent-foreground) / <alpha-value>)",
           border: "var(--sidebar-accent-border)"
         },
-        status: {
-          online: "rgb(34 197 94)",
-          away: "rgb(245 158 11)",
-          busy: "rgb(239 68 68)",
-          offline: "rgb(156 163 175)",
+        academy: {
+          blue: "#1f3c88",
+          "light-blue": "#4a6cf7",
+          gold: "#caa54a",
+          dark: "#0f172a",
+          gray: "#6b7280",
+          bg: "#f4f7fb",
         },
+      },
+      borderRadius: {
+        lg: ".5625rem",
+        md: ".375rem",
+        sm: ".1875rem",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
+        display: ["'Playfair Display'", "serif"],
+        body: ["'Source Sans 3'", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
