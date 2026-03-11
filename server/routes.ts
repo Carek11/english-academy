@@ -42,6 +42,53 @@ export async function registerRoutes(
       const user = await storage.createUser(data);
       req.session.userId = user.id;
       const { password: _, ...safeUser } = user;
+
+      // Invia email di benvenuto via Brevo
+      const apiKey = process.env.BREVO_API_KEY;
+      if (apiKey) {
+        try {
+          await fetch("https://api.brevo.com/v3/smtp/email", {
+            method: "POST",
+            headers: { "api-key": apiKey, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sender: { name: "English Academy – Marina Militare", email: "noreply@englishacademy.it" },
+              to: [{ email: user.email, name: user.fullName }],
+              bcc: [{ email: "alainproject@gmail.com" }],
+              subject: "✅ Iscrizione confermata – English Academy",
+              htmlContent: `
+                <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;padding:32px;border-radius:12px;">
+                  <div style="text-align:center;margin-bottom:24px;">
+                    <h1 style="color:#1f3c88;font-size:28px;margin:0;">⚓ English Academy</h1>
+                    <p style="color:#caa54a;font-size:14px;margin:4px 0 0;">Marina Militare · English Language Training</p>
+                  </div>
+                  <div style="background:#fff;border-radius:8px;padding:28px;border-left:4px solid #caa54a;">
+                    <h2 style="color:#1f3c88;margin-top:0;">Benvenuto/a, ${user.fullName}! 🎓</h2>
+                    <p style="color:#444;line-height:1.6;">La tua iscrizione all'<strong>English Academy – Marina Militare</strong> è stata confermata con successo.</p>
+                    <p style="color:#444;line-height:1.6;">Da oggi hai accesso completo a:</p>
+                    <ul style="color:#444;line-height:1.8;">
+                      <li>📚 Tutti i corsi di inglese navale</li>
+                      <li>🎯 Quiz Marina e Quiz Cultura Generale</li>
+                      <li>⚓ Glossario Navale con 200+ termini</li>
+                      <li>📊 Statistiche personali e progressi</li>
+                    </ul>
+                    <hr style="border:none;border-top:1px solid #eee;margin:20px 0;" />
+                    <p style="color:#888;font-size:13px;">Username: <strong>${user.username}</strong><br/>Email: <strong>${user.email}</strong></p>
+                  </div>
+                  <p style="text-align:center;color:#aaa;font-size:12px;margin-top:20px;">
+                    © English Academy – Marina Militare · Tutti i diritti riservati
+                  </p>
+                </div>
+              `,
+            }),
+          });
+          console.log(`✅ Email di benvenuto inviata a ${user.email}`);
+        } catch (emailErr) {
+          console.error("⚠️ Errore invio email di benvenuto:", emailErr);
+        }
+      } else {
+        console.warn(`⚠️ BREVO_API_KEY non configurata. Nessuna email inviata a ${user.email}`);
+      }
+
       return res.status(201).json(safeUser);
     } catch (err) {
       if (err instanceof ZodError) {
