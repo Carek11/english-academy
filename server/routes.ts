@@ -51,7 +51,7 @@ export async function registerRoutes(
             method: "POST",
             headers: { "api-key": apiKey, "Content-Type": "application/json" },
             body: JSON.stringify({
-              sender: { name: "English Academy – Marina Militare", email: "noreply@englishacademy.it" },
+              sender: { name: "English Academy – Marina Militare", email: "alainproject@gmail.com" },
               to: [{ email: user.email, name: user.fullName }],
               bcc: [{ email: "alainproject@gmail.com" }],
               subject: "✅ Iscrizione confermata – English Academy",
