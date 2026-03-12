@@ -346,20 +346,6 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
                   </button>
                 </div>
               </div>
-
-              <div className="p-5">
-                <ul className="space-y-2">
-                  {ship.components.map((comp, j) => (
-                    <li key={j} className="text-sm flex gap-2">
-                      <span className="text-academy-gold font-bold mt-0.5">·</span>
-                      <div>
-                        <span className="font-semibold text-academy-blue">{comp.en}</span>
-                        <span className="text-academy-gray text-xs ml-2">{comp.it}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           ))}
         </div>
