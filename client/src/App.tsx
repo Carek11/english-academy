@@ -386,6 +386,7 @@ function AppInner() {
           
           <div className="border-t border-white border-opacity-20 pt-6 mb-6">
             <p className="font-semibold mb-3 opacity-80">Fonti e Crediti</p>
+            <p className="text-xs opacity-70 mb-4">Contenuti creati personalmente con ispirazione dalle seguenti fonti:</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs opacity-70">
               <div>
                 <p className="font-semibold mb-2">Inglese Generale</p>
