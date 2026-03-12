@@ -380,30 +380,30 @@ function AppInner() {
         </div>
       </main>
 
-      <footer className="bg-academy-dark text-white mt-20 py-12 text-center text-sm">
+      <footer className="bg-academy-dark text-white mt-20 py-16 text-center">
         <div className="max-w-6xl mx-auto px-6">
-          <p className="font-semibold text-base mb-6">© 2024 English Academy – Impara l'Inglese in modo Professionale</p>
+          <p className="font-bold text-lg mb-10 tracking-tight">© 2024 English Academy – Impara l'Inglese in modo Professionale</p>
           
-          <div className="border-t border-white border-opacity-20 pt-6 mb-6">
-            <p className="font-semibold mb-3 opacity-80">Fonti e Crediti</p>
-            <p className="text-xs opacity-70 mb-4">Contenuti creati personalmente con ispirazione dalle seguenti fonti:</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs opacity-70">
-              <div>
-                <p className="font-semibold mb-2">Inglese Generale</p>
-                <p>Cambridge Dictionary, Oxford University Press, BBC Learning English, British Council</p>
+          <div className="border-t border-white border-opacity-20 pt-8 mb-8">
+            <h3 className="font-bold text-base mb-2 opacity-90 tracking-tight">Fonti e Crediti</h3>
+            <p className="text-sm opacity-75 mb-6 leading-relaxed">Contenuti creati personalmente con ispirazione dalle seguenti fonti:</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm opacity-75">
+              <div className="text-left md:text-center">
+                <p className="font-semibold mb-2 text-white opacity-90">Inglese Generale</p>
+                <p className="text-xs leading-loose">Cambridge Dictionary, Oxford University Press, BBC Learning English, British Council</p>
               </div>
-              <div>
-                <p className="font-semibold mb-2">Cultura Generale</p>
-                <p>Wikipedia, Britannica, National Geographic, Manuali di storia e geografia</p>
+              <div className="text-left md:text-center">
+                <p className="font-semibold mb-2 text-white opacity-90">Cultura Generale</p>
+                <p className="text-xs leading-loose">Wikipedia, Britannica, National Geographic, Manuali di storia e geografia</p>
               </div>
-              <div>
-                <p className="font-semibold mb-2">Terminologia Navale</p>
-                <p>Marina.difesa.it, IMO (International Maritime Organization), Manuali di navigazione</p>
+              <div className="text-left md:text-center">
+                <p className="font-semibold mb-2 text-white opacity-90">Terminologia Navale</p>
+                <p className="text-xs leading-loose">Marina.difesa.it, IMO (International Maritime Organization), Manuali di navigazione</p>
               </div>
             </div>
           </div>
           
-          <p className="opacity-60 text-xs">I contenuti sono per scopi educativi e didattici</p>
+          <p className="opacity-60 text-xs tracking-wide">I contenuti sono per scopi educativi e didattici</p>
         </div>
       </footer>
     </>
