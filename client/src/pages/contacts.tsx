@@ -65,7 +65,7 @@ export default function ContactsPage() {
         <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
         {contactCards.map((card, i) => (
           <div key={i} className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-lg transition-shadow">
             <div className="text-4xl mb-4">{card.icon}</div>
