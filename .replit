@@ -41,4 +41,6 @@ waitForPort = 5000
 [userenv]
 
 [userenv.shared]
-SITE_URL = "https://english-academy.it.com"
+
+[userenv.production]
+SITE_URL = "https://englishacademy-it.replit.app"
