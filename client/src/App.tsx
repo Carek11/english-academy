@@ -380,8 +380,30 @@ function AppInner() {
         </div>
       </main>
 
-      <footer className="bg-academy-dark text-white mt-20 py-8 text-center text-sm">
-        <p>© 2024 English Academy – Impara l'Inglese in modo Professionale</p>
+      <footer className="bg-academy-dark text-white mt-20 py-12 text-center text-sm">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="font-semibold text-base mb-6">© 2024 English Academy – Impara l'Inglese in modo Professionale</p>
+          
+          <div className="border-t border-white border-opacity-20 pt-6 mb-6">
+            <p className="font-semibold mb-3 opacity-80">Fonti e Crediti</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs opacity-70">
+              <div>
+                <p className="font-semibold mb-2">Inglese Generale</p>
+                <p>Cambridge Dictionary, Oxford University Press, BBC Learning English, British Council</p>
+              </div>
+              <div>
+                <p className="font-semibold mb-2">Cultura Generale</p>
+                <p>Wikipedia, Britannica, National Geographic, Manuali di storia e geografia</p>
+              </div>
+              <div>
+                <p className="font-semibold mb-2">Terminologia Navale</p>
+                <p>Marina.difesa.it, IMO (International Maritime Organization), Manuali di navigazione</p>
+              </div>
+            </div>
+          </div>
+          
+          <p className="opacity-60 text-xs">I contenuti sono per scopi educativi e didattici</p>
+        </div>
       </footer>
     </>
   );
