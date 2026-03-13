@@ -815,16 +815,6 @@ function SezioneQuiz({ quizIniziale }) {
   return (
     <section id="quiz" className="page active">
       <div className="quiz-wrapper">
-        <p className="quiz-greeting">Ciao, <strong>{nome}</strong>! Scegli la categoria:</p>
-        <div className="quiz-selector">
-          {categorie.map((c, i) => (
-            <button key={i} className="quiz-btn-sel" onClick={() => ricomincia(i)}>
-              <span className="qi">{c.emoji}</span>
-              {c.label.split('\n').map((l, j) => <span key={j} style={{ display: 'block', fontSize: j > 0 ? '0.8em' : undefined }}>{l}</span>)}
-            </button>
-          ))}
-        </div>
-
         {!fine ? (
           <div className="quiz-container">
             <div className="quiz-meta">
