@@ -1138,11 +1138,14 @@ const terminiGlossario = [
 
 function SezioneGlossario() {
   const [ricerca, setRicerca] = useState('')
-  const filtrati = terminiGlossario.filter(t =>
-    t.en.toLowerCase().includes(ricerca.toLowerCase()) ||
-    t.it.toLowerCase().includes(ricerca.toLowerCase())
-  )
-  const categorie = [...new Set(terminiGlossario.map(t => t.cat))].sort()
+  const [catSelezionata, setCatSelezionata] = useState('Tutti')
+  const categorie = ['Tutti', ...new Set(terminiGlossario.map(t => t.cat))].sort()
+  
+  const filtrati = terminiGlossario.filter(t => {
+    const matchRicerca = !ricerca || t.en.toLowerCase().includes(ricerca.toLowerCase()) || t.it.toLowerCase().includes(ricerca.toLowerCase())
+    const matchCat = catSelezionata === 'Tutti' || t.cat === catSelezionata
+    return matchRicerca && matchCat
+  })
 
   return (
     <section id="glossario" className="page active">
@@ -1150,87 +1153,94 @@ function SezioneGlossario() {
       <p className="section-sub">Oltre 200 termini nautici e militari</p>
       <div className="divider"></div>
 
-      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <div style={{ marginBottom: 30, display: 'flex', gap: 10 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ marginBottom: 30 }}>
           <input
             type="text"
             placeholder="🔍 Cerca termini in inglese o italiano..."
             value={ricerca}
             onChange={e => setRicerca(e.target.value)}
             style={{
-              flex: 1,
-              padding: '12px 16px',
+              width: '100%',
+              padding: '14px 18px',
               fontSize: '1em',
               border: '2px solid var(--secondary)',
-              borderRadius: 8,
-              fontFamily: 'Source Sans 3, sans-serif'
+              borderRadius: 10,
+              fontFamily: 'Source Sans 3, sans-serif',
+              boxSizing: 'border-box'
             }}
           />
-          {ricerca && (
+        </div>
+
+        <div style={{ marginBottom: 30, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {categorie.map(cat => (
             <button
-              onClick={() => setRicerca('')}
+              key={cat}
+              onClick={() => setCatSelezionata(cat)}
               style={{
-                padding: '12px 20px',
-                background: 'var(--secondary)',
-                color: 'white',
-                border: 'none',
-                borderRadius: 8,
+                padding: '8px 16px',
+                background: catSelezionata === cat ? 'var(--primary)' : 'white',
+                color: catSelezionata === cat ? 'white' : 'var(--primary)',
+                border: `2px solid var(--primary)`,
+                borderRadius: 20,
                 cursor: 'pointer',
-                fontSize: '0.95em',
-                fontWeight: 600
+                fontWeight: catSelezionata === cat ? 600 : 400,
+                transition: 'all 0.2s',
+                fontSize: '0.9em'
               }}
             >
-              Cancella
+              {cat}
             </button>
-          )}
+          ))}
         </div>
 
-        <div style={{ marginBottom: 20, fontSize: '0.95em', color: '#666' }}>
-          <strong>{filtrati.length}</strong> di <strong>{terminiGlossario.length}</strong> termini
+        <div style={{ marginBottom: 20, color: '#666', fontSize: '0.95em' }}>
+          <strong>{filtrati.length}</strong> termini {catSelezionata !== 'Tutti' && `in "${catSelezionata}"`}
         </div>
 
-        <div style={{ display: 'grid', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
           {filtrati.map((t, i) => (
             <div
               key={i}
               style={{
-                background: 'white',
-                border: '1px solid #e0e0e0',
-                borderRadius: 8,
-                padding: 16,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                transition: 'box-shadow 0.2s, transform 0.2s',
-                cursor: 'pointer'
+                background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+                border: '1px solid #e5e7eb',
+                borderRadius: 10,
+                padding: 18,
+                transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+                cursor: 'default',
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'
-                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)'
+                e.currentTarget.style.transform = 'translateY(-4px)'
+                e.currentTarget.style.borderColor = 'var(--secondary)'
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.boxShadow = 'none'
                 e.currentTarget.style.transform = 'none'
+                e.currentTarget.style.borderColor = '#e5e7eb'
               }}
             >
-              <div>
-                <div style={{ fontSize: '1.1em', fontWeight: 600, color: 'var(--primary)', marginBottom: 4 }}>
-                  {t.en}
-                </div>
-                <div style={{ fontSize: '0.95em', color: '#666', marginBottom: 6 }}>
-                  {t.it}
-                </div>
-                <div style={{ fontSize: '0.85em', background: 'var(--secondary)', color: 'white', display: 'inline-block', padding: '4px 10px', borderRadius: 4 }}>
-                  {t.cat}
-                </div>
+              <div style={{ fontSize: '1.15em', fontWeight: 700, color: 'var(--primary)', marginBottom: 8, fontFamily: 'Playfair Display, serif' }}>
+                {t.en}
+              </div>
+              <div style={{ fontSize: '0.95em', color: '#555', marginBottom: 12, fontStyle: 'italic' }}>
+                {t.it}
+              </div>
+              <div style={{ fontSize: '0.8em', background: 'var(--secondary)', color: 'white', display: 'inline-block', padding: '5px 12px', borderRadius: 12, fontWeight: 500 }}>
+                {t.cat}
               </div>
             </div>
           ))}
         </div>
 
         {filtrati.length === 0 && (
-          <div style={{ textAlign: 'center', padding: 40, color: '#999', fontSize: '1.1em' }}>
-            ❌ Nessun termine trovato per "{ricerca}"
+          <div style={{ textAlign: 'center', padding: 60, color: '#999' }}>
+            <div style={{ fontSize: '3em', marginBottom: 10 }}>🔍</div>
+            <div style={{ fontSize: '1.1em' }}>Nessun termine trovato</div>
+            <div style={{ fontSize: '0.9em', marginTop: 5, color: '#bbb' }}>Prova a cercare un'altro termine o categoria</div>
           </div>
         )}
       </div>
