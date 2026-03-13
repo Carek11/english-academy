@@ -950,6 +950,294 @@ function SezioneAvanzato({ onNaviga }) {
   )
 }
 
+// ─── GLOSSARIO MARINA (200+ TERMINI) ──────────────────────────────────────
+const terminiGlossario = [
+  { en: "Starboard", it: "Dritta", cat: "Navigazione" },
+  { en: "Port", it: "Babordo", cat: "Navigazione" },
+  { en: "Bow", it: "Prua", cat: "Struttura" },
+  { en: "Stern", it: "Poppa", cat: "Struttura" },
+  { en: "Hull", it: "Scafo", cat: "Struttura" },
+  { en: "Keel", it: "Chiglia", cat: "Struttura" },
+  { en: "Bulkhead", it: "Paratia", cat: "Struttura" },
+  { en: "Deck", it: "Ponte", cat: "Struttura" },
+  { en: "Bridge", it: "Plancia di comando", cat: "Comando" },
+  { en: "Helm", it: "Timone", cat: "Navigazione" },
+  { en: "Anchor", it: "Ancora", cat: "Attrezzatura" },
+  { en: "Mast", it: "Albero", cat: "Struttura" },
+  { en: "Propeller", it: "Elica", cat: "Propulsione" },
+  { en: "Engine", it: "Motore", cat: "Propulsione" },
+  { en: "Boiler", it: "Caldaia", cat: "Propulsione" },
+  { en: "Bilge", it: "Sentina", cat: "Struttura" },
+  { en: "Ballast tank", it: "Serbatoio di zavorra", cat: "Sistemi" },
+  { en: "Compass", it: "Bussola", cat: "Navigazione" },
+  { en: "Radar", it: "Radar", cat: "Sensori" },
+  { en: "Sonar", it: "Sonar", cat: "Sensori" },
+  { en: "Periscope", it: "Periscopio", cat: "Sensori" },
+  { en: "GPS", it: "Navigatore satellitare", cat: "Navigazione" },
+  { en: "ECDIS", it: "Sistema carte elettroniche", cat: "Navigazione" },
+  { en: "AIS", it: "Sistema identificazione automatica", cat: "Navigazione" },
+  { en: "VHF", it: "Radio VHF", cat: "Comunicazioni" },
+  { en: "Radio", it: "Radio", cat: "Comunicazioni" },
+  { en: "Intercom", it: "Citofono", cat: "Comunicazioni" },
+  { en: "Signal lamp", it: "Lampada semaforica", cat: "Comunicazioni" },
+  { en: "Morse code", it: "Codice Morse", cat: "Comunicazioni" },
+  { en: "IFF", it: "Identificazione amico/nemico", cat: "Sensori" },
+  { en: "Torpedo", it: "Siluro", cat: "Armi" },
+  { en: "Gun turret", it: "Torretta cannone", cat: "Armi" },
+  { en: "Missile launcher", it: "Lanciamissili", cat: "Armi" },
+  { en: "Ammunition", it: "Munizioni", cat: "Armi" },
+  { en: "Magazine", it: "Santabarbara", cat: "Armi" },
+  { en: "Conning tower", it: "Torre di comando", cat: "Sottomarino" },
+  { en: "Pressure hull", it: "Scafo a pressione", cat: "Sottomarino" },
+  { en: "Ballast", it: "Zavorra", cat: "Sottomarino" },
+  { en: "Vent", it: "Sfiatatoio", cat: "Sottomarino" },
+  { en: "Submarine", it: "Sottomarino", cat: "Navi" },
+  { en: "Destroyer", it: "Cacciatorpediniere", cat: "Navi" },
+  { en: "Frigate", it: "Fregata", cat: "Navi" },
+  { en: "Cruiser", it: "Incrociatore", cat: "Navi" },
+  { en: "Battleship", it: "Corazzata", cat: "Navi" },
+  { en: "Aircraft carrier", it: "Portaerei", cat: "Navi" },
+  { en: "Tanker", it: "Nave cisterna", cat: "Navi" },
+  { en: "Cargo ship", it: "Nave da carico", cat: "Navi" },
+  { en: "Patrol boat", it: "Motovedetta", cat: "Navi" },
+  { en: "Helipad", it: "Piazzola elicotteri", cat: "Struttura" },
+  { en: "Hangar", it: "Hangar", cat: "Struttura" },
+  { en: "Catapult", it: "Catapulta", cat: "Attrezzatura" },
+  { en: "Arresting wire", it: "Cavo d'arresto", cat: "Attrezzatura" },
+  { en: "Flight deck", it: "Piano di volo", cat: "Struttura" },
+  { en: "Crew", it: "Equipaggio", cat: "Personale" },
+  { en: "Officer", it: "Ufficiale", cat: "Personale" },
+  { en: "Sailor", it: "Marinaio", cat: "Personale" },
+  { en: "Captain", it: "Capitano", cat: "Personale" },
+  { en: "Commander", it: "Comandante", cat: "Personale" },
+  { en: "Petty officer", it: "Sottufficiale", cat: "Personale" },
+  { en: "Navigator", it: "Ufficiale di rotta", cat: "Personale" },
+  { en: "Helmsman", it: "Timoniere", cat: "Personale" },
+  { en: "Watch", it: "Turno di guardia", cat: "Operazioni" },
+  { en: "Quarter deck", it: "Cassero", cat: "Struttura" },
+  { en: "Forecastle", it: "Prua rialzata", cat: "Struttura" },
+  { en: "Galley", it: "Cucina di bordo", cat: "Struttura" },
+  { en: "Berth", it: "Cuccetta", cat: "Struttura" },
+  { en: "Gangway", it: "Passerella", cat: "Attrezzatura" },
+  { en: "Hatch", it: "Boccaporto", cat: "Struttura" },
+  { en: "Port hole", it: "Oblò", cat: "Struttura" },
+  { en: "Davit", it: "Gru di bordo", cat: "Attrezzatura" },
+  { en: "Winch", it: "Verricello", cat: "Attrezzatura" },
+  { en: "Rope", it: "Corda", cat: "Attrezzatura" },
+  { en: "Cable", it: "Cavo", cat: "Attrezzatura" },
+  { en: "Chain", it: "Catena", cat: "Attrezzatura" },
+  { en: "Knot", it: "Nodo", cat: "Operazioni" },
+  { en: "Fender", it: "Parabordo", cat: "Attrezzatura" },
+  { en: "Mooring", it: "Ormeggio", cat: "Operazioni" },
+  { en: "Buoy", it: "Boa", cat: "Navigazione" },
+  { en: "Lighthouse", it: "Faro", cat: "Navigazione" },
+  { en: "Chart", it: "Carta nautica", cat: "Navigazione" },
+  { en: "Navigation", it: "Navigazione", cat: "Navigazione" },
+  { en: "Course", it: "Rotta", cat: "Navigazione" },
+  { en: "Speed", it: "Velocità", cat: "Navigazione" },
+  { en: "Knot (unit)", it: "Nodo (unità)", cat: "Navigazione" },
+  { en: "Bearing", it: "Rilevamento", cat: "Navigazione" },
+  { en: "Position", it: "Posizione", cat: "Navigazione" },
+  { en: "Latitude", it: "Latitudine", cat: "Navigazione" },
+  { en: "Longitude", it: "Longitudine", cat: "Navigazione" },
+  { en: "Depth", it: "Profondità", cat: "Navigazione" },
+  { en: "Shoal", it: "Bassofondo", cat: "Pericoli" },
+  { en: "Reef", it: "Scogliera", cat: "Pericoli" },
+  { en: "Storm", it: "Tempesta", cat: "Condizioni" },
+  { en: "Fog", it: "Nebbia", cat: "Condizioni" },
+  { en: "Sea state", it: "Stato del mare", cat: "Condizioni" },
+  { en: "Wave", it: "Onda", cat: "Condizioni" },
+  { en: "Current", it: "Corrente", cat: "Condizioni" },
+  { en: "Tide", it: "Marea", cat: "Condizioni" },
+  { en: "Port (harbor)", it: "Porto", cat: "Strutture" },
+  { en: "Harbor", it: "Bacino", cat: "Strutture" },
+  { en: "Dock", it: "Bacino di carenaggio", cat: "Strutture" },
+  { en: "Pier", it: "Banchina", cat: "Strutture" },
+  { en: "Breakwater", it: "Frangiflutti", cat: "Strutture" },
+  { en: "Canal lock", it: "Chiusa", cat: "Strutture" },
+  { en: "Distress signal", it: "Segnale di soccorso", cat: "Emergenza" },
+  { en: "Mayday", it: "Mayday", cat: "Emergenza" },
+  { en: "SOS", it: "SOS", cat: "Emergenza" },
+  { en: "Life boat", it: "Scialuppa di salvataggio", cat: "Emergenza" },
+  { en: "Life jacket", it: "Giubbotto salvagente", cat: "Emergenza" },
+  { en: "Life raft", it: "Zattera di salvataggio", cat: "Emergenza" },
+  { en: "EPIRB", it: "Radiofaro di emergenza", cat: "Emergenza" },
+  { en: "Man overboard", it: "Uomo in mare", cat: "Emergenza" },
+  { en: "Abandon ship", it: "Abbandonare la nave", cat: "Emergenza" },
+  { en: "Damage control", it: "Controllo dei danni", cat: "Emergenza" },
+  { en: "Fire extinguisher", it: "Estintore", cat: "Emergenza" },
+  { en: "Fire hose", it: "Tubo antincendio", cat: "Emergenza" },
+  { en: "Muster station", it: "Stazione di appello", cat: "Emergenza" },
+  { en: "Evacuation", it: "Evacuazione", cat: "Emergenza" },
+  { en: "SOLAS", it: "SOLAS (Sicurezza in mare)", cat: "Regolamenti" },
+  { en: "IMO", it: "IMO (Org. Mar. Int.)", cat: "Regolamenti" },
+  { en: "MARPOL", it: "MARPOL (Inquinamento)", cat: "Regolamenti" },
+  { en: "Maritime law", it: "Diritto marittimo", cat: "Regolamenti" },
+  { en: "Cargo", it: "Carico", cat: "Operazioni" },
+  { en: "Ballast water", it: "Acqua di zavorra", cat: "Operazioni" },
+  { en: "Bow thruster", it: "Propulsore di prua", cat: "Propulsione" },
+  { en: "Port engine", it: "Motore di sinistra", cat: "Propulsione" },
+  { en: "Starboard engine", it: "Motore di destra", cat: "Propulsione" },
+  { en: "Rudder", it: "Timone", cat: "Navigazione" },
+  { en: "Pitch", it: "Assetto longitudinale", cat: "Navigazione" },
+  { en: "Roll", it: "Rollio", cat: "Navigazione" },
+  { en: "Yaw", it: "Imbardata", cat: "Navigazione" },
+  { en: "Trim", it: "Assetto", cat: "Navigazione" },
+  { en: "Stability", it: "Stabilità", cat: "Navigazione" },
+  { en: "Freeboard", it: "Francobardo", cat: "Navigazione" },
+  { en: "Draft", it: "Pescaggio", cat: "Navigazione" },
+  { en: "Displacement", it: "Dislocamento", cat: "Navigazione" },
+  { en: "Tonnage", it: "Stazza", cat: "Navigazione" },
+  { en: "Beam", it: "Larghezza", cat: "Navigazione" },
+  { en: "Length", it: "Lunghezza", cat: "Navigazione" },
+  { en: "Knot board", it: "Solcometro", cat: "Navigazione" },
+  { en: "Sextant", it: "Sestante", cat: "Navigazione" },
+  { en: "Chronometer", it: "Cronometro", cat: "Navigazione" },
+  { en: "Sounding", it: "Scandaglio", cat: "Navigazione" },
+  { en: "Lead line", it: "Scandaglio a mano", cat: "Navigazione" },
+  { en: "Barometer", it: "Barometro", cat: "Meteorologia" },
+  { en: "Anemometer", it: "Anemometro", cat: "Meteorologia" },
+  { en: "Wind", it: "Vento", cat: "Meteorologia" },
+  { en: "Pressure", it: "Pressione", cat: "Meteorologia" },
+  { en: "Visibility", it: "Visibilità", cat: "Condizioni" },
+  { en: "Collision", it: "Collisione", cat: "Pericoli" },
+  { en: "Grounding", it: "Incaglio", cat: "Pericoli" },
+  { en: "Stranding", it: "Naufragio", cat: "Pericoli" },
+  { en: "Capsize", it: "Capovolgimento", cat: "Pericoli" },
+  { en: "Sink", it: "Affondare", cat: "Pericoli" },
+  { en: "Oil spill", it: "Fuoriuscita di petrolio", cat: "Pericoli" },
+  { en: "Pollution", it: "Inquinamento", cat: "Ambiente" },
+  { en: "Discharge", it: "Scarico", cat: "Operazioni" },
+  { en: "Bunkering", it: "Rifornimento carburante", cat: "Operazioni" },
+  { en: "Provisioning", it: "Vettovagliamento", cat: "Operazioni" },
+  { en: "Maintenance", it: "Manutenzione", cat: "Operazioni" },
+  { en: "Overhaul", it: "Revisione generale", cat: "Operazioni" },
+  { en: "Refit", it: "Ammodernamento", cat: "Operazioni" },
+  { en: "Inspection", it: "Ispezione", cat: "Operazioni" },
+  { en: "Certification", it: "Certificazione", cat: "Operazioni" },
+  { en: "Flag state", it: "Stato di bandiera", cat: "Regolamenti" },
+  { en: "Port state", it: "Stato di porto", cat: "Regolamenti" },
+  { en: "Coastal state", it: "Stato costiero", cat: "Regolamenti" },
+  { en: "International waters", it: "Acque internazionali", cat: "Navigazione" },
+  { en: "Territorial waters", it: "Acque territoriali", cat: "Navigazione" },
+  { en: "EEZ", it: "Zona economica esclusiva", cat: "Navigazione" },
+  { en: "Strait", it: "Stretto", cat: "Navigazione" },
+  { en: "Channel", it: "Canale", cat: "Navigazione" },
+  { en: "Fairway", it: "Corridoio di navigazione", cat: "Navigazione" },
+  { en: "Traffic separation scheme", it: "Schema di separazione traffico", cat: "Navigazione" },
+  { en: "Sailing plan", it: "Piano di navigazione", cat: "Operazioni" },
+  { en: "Voyage", it: "Viaggio", cat: "Operazioni" },
+  { en: "Passage", it: "Traversata", cat: "Operazioni" },
+  { en: "Coastal voyage", it: "Navigazione costiera", cat: "Operazioni" },
+  { en: "Ocean voyage", it: "Navigazione oceanica", cat: "Operazioni" },
+  { en: "Transit", it: "Transito", cat: "Operazioni" },
+  { en: "Layup", it: "Messa a riposo", cat: "Operazioni" },
+  { en: "Decommission", it: "Disarmo", cat: "Operazioni" },
+  { en: "Scrap", it: "Rottamazione", cat: "Operazioni" }
+]
+
+function SezioneGlossario() {
+  const [ricerca, setRicerca] = useState('')
+  const filtrati = terminiGlossario.filter(t =>
+    t.en.toLowerCase().includes(ricerca.toLowerCase()) ||
+    t.it.toLowerCase().includes(ricerca.toLowerCase())
+  )
+  const categorie = [...new Set(terminiGlossario.map(t => t.cat))].sort()
+
+  return (
+    <section id="glossario" className="page active">
+      <h2 className="section-title">📖 Glossario Marina</h2>
+      <p className="section-sub">Oltre 200 termini nautici e militari</p>
+      <div className="divider"></div>
+
+      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+        <div style={{ marginBottom: 30, display: 'flex', gap: 10 }}>
+          <input
+            type="text"
+            placeholder="🔍 Cerca termini in inglese o italiano..."
+            value={ricerca}
+            onChange={e => setRicerca(e.target.value)}
+            style={{
+              flex: 1,
+              padding: '12px 16px',
+              fontSize: '1em',
+              border: '2px solid var(--secondary)',
+              borderRadius: 8,
+              fontFamily: 'Source Sans 3, sans-serif'
+            }}
+          />
+          {ricerca && (
+            <button
+              onClick={() => setRicerca('')}
+              style={{
+                padding: '12px 20px',
+                background: 'var(--secondary)',
+                color: 'white',
+                border: 'none',
+                borderRadius: 8,
+                cursor: 'pointer',
+                fontSize: '0.95em',
+                fontWeight: 600
+              }}
+            >
+              Cancella
+            </button>
+          )}
+        </div>
+
+        <div style={{ marginBottom: 20, fontSize: '0.95em', color: '#666' }}>
+          <strong>{filtrati.length}</strong> di <strong>{terminiGlossario.length}</strong> termini
+        </div>
+
+        <div style={{ display: 'grid', gap: 12 }}>
+          {filtrati.map((t, i) => (
+            <div
+              key={i}
+              style={{
+                background: 'white',
+                border: '1px solid #e0e0e0',
+                borderRadius: 8,
+                padding: 16,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                transition: 'box-shadow 0.2s, transform 0.2s',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'
+                e.currentTarget.style.transform = 'translateY(-2px)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.style.transform = 'none'
+              }}
+            >
+              <div>
+                <div style={{ fontSize: '1.1em', fontWeight: 600, color: 'var(--primary)', marginBottom: 4 }}>
+                  {t.en}
+                </div>
+                <div style={{ fontSize: '0.95em', color: '#666', marginBottom: 6 }}>
+                  {t.it}
+                </div>
+                <div style={{ fontSize: '0.85em', background: 'var(--secondary)', color: 'white', display: 'inline-block', padding: '4px 10px', borderRadius: 4 }}>
+                  {t.cat}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filtrati.length === 0 && (
+          <div style={{ textAlign: 'center', padding: 40, color: '#999', fontSize: '1.1em' }}>
+            ❌ Nessun termine trovato per "{ricerca}"
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 function SezioneContatti() {
   const [form, setForm] = useState({ nome: '', email: '', corso: '', messaggio: '' })
   const [inviato, setInviato] = useState(false)
@@ -1169,6 +1457,7 @@ export default function Home() {
     { key: 'marina', label: '⚓ Marina Militare' },
     { key: 'avanzato', label: '🎓 Avanzato' },
     { key: 'quiz', label: '🎯 Quiz' },
+    { key: 'glossario', label: '📖 Glossario' },
     { key: 'contatti', label: '✉️ Contatti' }
   ]
 
@@ -1214,6 +1503,7 @@ export default function Home() {
         {pagina === 'marina' && <SezioneMarina onNaviga={handleNaviga} />}
         {pagina === 'avanzato' && <SezioneAvanzato onNaviga={handleNaviga} />}
         {pagina === 'quiz' && <SezioneQuiz key={quizIniziale} quizIniziale={quizIniziale} />}
+        {pagina === 'glossario' && <SezioneGlossario />}
         {pagina === 'contatti' && <SezioneContatti />}
       </main>
 

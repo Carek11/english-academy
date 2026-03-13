@@ -63,6 +63,11 @@ Nav: **Corsi · Marina Militare · Avanzato · Quiz · Contatti · Iscriviti/Ent
   - 4: Viaggi | 5: IELTS/Cambridge | 6: Business English | 7: Marina Militare
 - 10 domande per quiz, feedback immediato, schermata risultati
 
+### Glossario Marina
+- **200+ termini nautici e militari** categorizzati (Navigazione, Struttura, Armi, Operazioni, Emergenza, ecc.)
+- Ricerca live in inglese e italiano
+- UI con card, hover effects, contatore risultati
+
 ### Contatti
 - Form + API `/api/contact`
 
