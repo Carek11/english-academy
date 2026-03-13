@@ -805,9 +805,26 @@ function SezioneQuiz({ quizIniziale }) {
   const percentuale = Math.round((punteggio / totaleDomande) * 100)
   const voto = percentuale >= 90 ? '🏆 Eccellente!' : percentuale >= 70 ? '👍 Buono!' : percentuale >= 50 ? '📚 Sufficiente' : '💪 Da rivedere'
 
+  const categorie = [
+    { emoji: '🌱', label: 'Base\nA1–A2' }, { emoji: '📗', label: 'Pre-Int\nA2–B1' },
+    { emoji: '📘', label: 'Inter.\nB1–B2' }, { emoji: '📙', label: 'Avanzato\nC1–C2' },
+    { emoji: '✈️', label: 'Viaggi' }, { emoji: '🎓', label: 'IELTS' },
+    { emoji: '💼', label: 'Business' }, { emoji: '⚓', label: 'Marina' }
+  ]
+
   return (
     <section id="quiz" className="page active">
       <div className="quiz-wrapper">
+        <p className="quiz-greeting">Ciao, <strong>{nome}</strong>! Scegli la categoria:</p>
+        <div className="quiz-selector">
+          {categorie.map((c, i) => (
+            <button key={i} className="quiz-btn-sel" onClick={() => ricomincia(i)}>
+              <span className="qi">{c.emoji}</span>
+              {c.label.split('\n').map((l, j) => <span key={j} style={{ display: 'block', fontSize: j > 0 ? '0.8em' : undefined }}>{l}</span>)}
+            </button>
+          ))}
+        </div>
+
         {!fine ? (
           <div className="quiz-container">
             <div className="quiz-meta">
