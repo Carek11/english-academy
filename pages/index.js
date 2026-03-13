@@ -878,6 +878,25 @@ function SezioneAvanzato({ onNaviga }) {
     { key: 'scrittura', label: '✍️ Scrittura' }
   ]
 
+  const handleTabKeyDown = useCallback((e, tabIndex) => {
+    const tabKeys = tabs.map(t => t.key)
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      const prevIdx = (tabIndex - 1 + tabs.length) % tabs.length
+      setTab(tabKeys[prevIdx])
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      const nextIdx = (tabIndex + 1) % tabs.length
+      setTab(tabKeys[nextIdx])
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      setTab(tabKeys[0])
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      setTab(tabKeys[tabs.length - 1])
+    }
+  }, [tabs])
+
   const contenuti = {
     grammatica: [
       { icon: '🔄', titolo: 'Inversione (Inversion)', corpo: <><strong>Never had I</strong> seen such a sight.<br /><strong>Not only did</strong> she win, but she also broke the record.<br /><strong>Hardly had</strong> he arrived when it started raining.<br /><strong>Little did</strong> they know what would happen.</> },
@@ -915,25 +934,47 @@ function SezioneAvanzato({ onNaviga }) {
       <p className="section-sub">Grammatica complessa, idiomi, stile accademico e padronanza della lingua</p>
       <div className="divider"></div>
 
-      <div className="avanzato-selector">
-        {tabs.map(t => (
-          <button key={t.key} className={`avanzato-tab${tab === t.key ? ' active' : ''}`} onClick={() => setTab(t.key)}>{t.label}</button>
+      <div className="avanzato-selector" role="tablist" aria-label="Sezioni Inglese Avanzato">
+        {tabs.map((t, idx) => (
+          <button 
+            key={t.key} 
+            className={`avanzato-tab${tab === t.key ? ' active' : ''}`}
+            role="tab"
+            aria-selected={tab === t.key}
+            aria-controls={`panel-${t.key}`}
+            tabIndex={tab === t.key ? 0 : -1}
+            onClick={() => setTab(t.key)}
+            onKeyDown={(e) => handleTabKeyDown(e, idx)}
+          >
+            {t.label}
+          </button>
         ))}
       </div>
 
-      <div className="avanzato-panel">
+      <div 
+        className="avanzato-panel" 
+        id={`panel-${tab}`}
+        role="tabpanel"
+        aria-labelledby={`tab-${tab}`}
+      >
         <div className="cards-grid">
           {contenuti[tab].map((c, i) => (
-            <div key={i} className="card cat-card">
-              <div className="card-icon">{c.icon}</div>
+            <article key={i} className="card cat-card">
+              <div className="card-icon" aria-hidden="true">{c.icon}</div>
               <h3>{c.titolo}</h3>
               <p style={{ lineHeight: 1.9 }}>{c.corpo}</p>
               <span className="badge">C1–C2</span>
-            </div>
+            </article>
           ))}
         </div>
         <div className="center-block">
-          <button className="btn-primary" onClick={() => onNaviga('quiz', quizMap[tab])}>🎯 Metti alla prova su {tabs.find(t2 => t2.key === tab)?.label.replace(/^[^\s]+ /, '')} →</button>
+          <button 
+            className="btn-primary" 
+            onClick={() => onNaviga('quiz', quizMap[tab])}
+            aria-label={`Quiz su ${tabs.find(t2 => t2.key === tab)?.label.replace(/^[^\s]+ /, '')}`}
+          >
+            🎯 Metti alla prova su {tabs.find(t2 => t2.key === tab)?.label.replace(/^[^\s]+ /, '')} →
+          </button>
         </div>
       </div>
     </section>
