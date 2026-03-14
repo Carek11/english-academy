@@ -1,5 +1,5 @@
 import { courseData, quizzes } from "@/lib/quizData";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 type Course = typeof courseData[0];
 type QuizQuestion = { question: string; options: string[]; correct: number };
@@ -13,6 +13,27 @@ const courseQuizKey: Record<string, keyof typeof quizzes> = {
   "Inglese per Viaggi": "viaggi",
   "Preparazione IELTS / Cambridge": "ielts",
 };
+
+const englishKeys: Array<keyof typeof quizzes> = ["base", "preintermedio", "intermedio", "avanzato", "business", "viaggi", "ielts"];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuizPool(courseKey: keyof typeof quizzes, total = 50): QuizQuestion[] {
+  const courseQuestions = (quizzes[courseKey] as QuizQuestion[]) || [];
+  const otherQuestions = englishKeys
+    .filter(k => k !== courseKey)
+    .flatMap(k => quizzes[k] as QuizQuestion[]);
+  const shuffledOthers = shuffle(otherQuestions);
+  const needed = Math.max(0, total - courseQuestions.length);
+  return shuffle([...courseQuestions, ...shuffledOthers.slice(0, needed)]);
+}
 
 function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: () => void }) {
   const [current, setCurrent] = useState(0);
@@ -104,7 +125,7 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
 function CourseModal({ course, onClose }: { course: Course; onClose: () => void }) {
   const [quizStarted, setQuizStarted] = useState(false);
   const quizKey = courseQuizKey[course.title];
-  const questions = quizKey ? (quizzes[quizKey] as QuizQuestion[]) : [];
+  const questions = useMemo(() => quizKey ? buildQuizPool(quizKey) : [], [quizKey]);
 
   return (
     <div
