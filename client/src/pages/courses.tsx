@@ -1,8 +1,98 @@
 import { courseData } from "@/lib/quizData";
 import { useState } from "react";
 
+type Course = typeof courseData[0] & { quizPage?: string };
+
+const courseQuizMap: Record<string, string> = {
+  "Inglese Base (A1–A2)": "quiz",
+  "Inglese Pre-Intermedio (A2–B1)": "quiz",
+  "Inglese Intermedio (B1–B2)": "quiz",
+  "Inglese Avanzato (C1–C2)": "quiz",
+  "Business English": "quiz",
+  "Inglese per Viaggi": "quiz",
+  "Preparazione IELTS / Cambridge": "quiz",
+};
+
+function CourseModal({ course, onClose, onNavigate }: { course: Course; onClose: () => void; onNavigate: (page: string) => void }) {
+  const quizPage = courseQuizMap[course.title];
+
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="bg-gradient-to-r from-academy-blue to-academy-dark p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-4xl">{course.icon}</span>
+              <div>
+                <h3 className="text-xl font-bold font-display">{course.title}</h3>
+                <span className="text-xs font-semibold opacity-80 bg-white bg-opacity-20 px-2 py-1 rounded mt-1 inline-block">
+                  {course.badge}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-white opacity-70 hover:opacity-100 text-2xl leading-none"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-5">
+          <p className="text-academy-gray leading-relaxed">{course.description}</p>
+
+          {course.details.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-academy-dark mb-3">Cosa imparerai:</h4>
+              <ul className="space-y-2">
+                {course.details.map((d, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-academy-gray">
+                    <span className="w-5 h-5 bg-academy-blue text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">✓</span>
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="bg-academy-bg rounded-lg p-4 text-sm text-academy-gray">
+            <div className="font-semibold text-academy-dark mb-1">📅 Durata</div>
+            <div>{course.badge} di formazione strutturata</div>
+          </div>
+
+          <div className="flex gap-3">
+            {quizPage && (
+              <button
+                onClick={() => { onClose(); onNavigate(quizPage); }}
+                className="flex-1 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
+                data-testid="button-start-quiz"
+              >
+                🎯 Inizia il Test
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-bg transition-colors"
+            >
+              Chiudi
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function CoursesPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const faqs = [
     {
@@ -25,6 +115,14 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
 
   return (
     <div className="space-y-16">
+      {selectedCourse && (
+        <CourseModal
+          course={selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+          onNavigate={onNavigate}
+        />
+      )}
+
       <section className="text-center space-y-4">
         <h2 className="text-4xl font-bold font-display text-academy-dark">Tutti i Corsi</h2>
         <p className="text-academy-gray">Scegli il percorso più adatto alle tue esigenze</p>
@@ -41,12 +139,19 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
               {course.badge}
             </span>
             {course.details.length > 0 && (
-              <div className="text-xs text-academy-gray space-y-1">
+              <div className="text-xs text-academy-gray mb-4 space-y-1">
                 {course.details.map((d, idx) => (
                   <div key={idx}>✓ {d}</div>
                 ))}
               </div>
             )}
+            <button
+              data-testid={`button-course-${i}`}
+              onClick={() => setSelectedCourse(course)}
+              className="w-full px-4 py-2 bg-academy-blue text-white font-semibold rounded hover:bg-academy-light-blue transition-colors text-sm mt-auto"
+            >
+              Scopri →
+            </button>
           </div>
         ))}
       </div>
