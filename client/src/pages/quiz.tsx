@@ -30,7 +30,7 @@ export type QuizType =
   | "astronomia"
   | "matematica";
 
-const DAILY_LIMIT = 50;
+const DAILY_LIMIT_PER_TOPIC = 50;
 const MONTHLY_LIMIT = 1000;
 const RESET_HOUR = 3;
 const QUESTIONS_PER_ROUND = 10;
@@ -50,20 +50,34 @@ const getQuizMonth = (): string => {
   return `${now.getFullYear()}-${now.getMonth()}`;
 };
 
-export const getDaily = (): { used: number; remaining: number } => {
+export const getDaily = (topic?: QuizType): { used: number; remaining: number } => {
   const day = getQuizDay();
   const raw = localStorage.getItem("dailyQuizCount");
-  if (!raw) return { used: 0, remaining: DAILY_LIMIT };
+  if (!raw) return { used: 0, remaining: DAILY_LIMIT_PER_TOPIC };
   const data = JSON.parse(raw);
-  if (data.date !== day) return { used: 0, remaining: DAILY_LIMIT };
-  const used = data.used || 0;
-  return { used, remaining: Math.max(0, DAILY_LIMIT - used) };
+  if (data.date !== day) return { used: 0, remaining: DAILY_LIMIT_PER_TOPIC };
+  
+  if (!topic) {
+    const totalUsed = Object.values(data.counts || {}).reduce((a: number, b: any) => a + (b || 0), 0);
+    return { used: totalUsed, remaining: Math.max(0, DAILY_LIMIT_PER_TOPIC - totalUsed) };
+  }
+  
+  const used = data.counts?.[topic] || 0;
+  return { used, remaining: Math.max(0, DAILY_LIMIT_PER_TOPIC - used) };
 };
 
-const recordDaily = (count: number) => {
+const recordDaily = (count: number, topic: QuizType) => {
   const day = getQuizDay();
-  const { used } = getDaily();
-  localStorage.setItem("dailyQuizCount", JSON.stringify({ date: day, used: used + count }));
+  const raw = localStorage.getItem("dailyQuizCount");
+  const data = raw ? JSON.parse(raw) : { date: day, counts: {} };
+  
+  if (data.date !== day) {
+    data.date = day;
+    data.counts = {};
+  }
+  
+  data.counts[topic] = (data.counts[topic] || 0) + count;
+  localStorage.setItem("dailyQuizCount", JSON.stringify(data));
 };
 
 export const getMonthly = (): { used: number; remaining: number } => {
@@ -82,8 +96,8 @@ const recordMonthly = (count: number) => {
   localStorage.setItem("monthlyQuizCount", JSON.stringify({ month, used: used + count }));
 };
 
-export const consumeRound = () => {
-  recordDaily(QUESTIONS_PER_ROUND);
+export const consumeRound = (topic: QuizType) => {
+  recordDaily(QUESTIONS_PER_ROUND, topic);
   recordMonthly(QUESTIONS_PER_ROUND);
 };
 
@@ -173,15 +187,15 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
       return;
     }
     const finalScore = score + (roundQuestions[currentQ].correct === selectedAnswer ? 1 : 0);
-    consumeRound();
+    if (selectedTopic) consumeRound(selectedTopic);
     setRoundScore(finalScore);
     setTotalCorrect((t) => t + finalScore);
     setTotalAnswered((t) => t + roundQuestions.length);
     setEncouragementMsg(encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)]);
     if (selectedTopic) saveQuizResult(selectedTopic, finalScore, roundQuestions.length);
     
-    // Auto-load prossime domande se disponibili
-    const daily = getDaily();
+    // Auto-load prossime domande se disponibili per questo argomento
+    const daily = selectedTopic ? getDaily(selectedTopic) : getDaily();
     if (daily.remaining > 0) {
       setStep("results");
       setShowAutoLoadMsg(true);
@@ -231,7 +245,6 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
 
   // ─── SELEZIONE ARGOMENTO ───────────────────────────────────────────────────
   if (step === "select") {
-    const daily   = getDaily();
     const monthly = getMonthly();
 
     return (
@@ -242,9 +255,6 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
           <p className="text-academy-gray">{pageSubtitle}</p>
           <p className="text-xs text-academy-gray opacity-70">{sourceNote}</p>
           <div className="flex justify-center gap-3 flex-wrap text-sm">
-            <span className="px-3 py-1 rounded-full font-semibold bg-green-50 text-green-700">
-              📅 Oggi: {daily.remaining}/{DAILY_LIMIT}
-            </span>
             <span className="px-3 py-1 rounded-full font-semibold bg-blue-50 text-blue-700">
               📆 Questo mese: {monthly.remaining}/{MONTHLY_LIMIT}
             </span>
@@ -254,16 +264,24 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {topics.map((topic) => {
             const cfg = topicConfig[topic];
+            const daily = getDaily(topic);
+            const isLimitReached = daily.remaining === 0;
             return (
               <button
                 key={topic}
                 data-testid={`start-quiz-${topic}`}
-                onClick={() => handleStartQuiz(topic)}
-                className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg ${cfg.bg}`}
+                onClick={() => !isLimitReached && handleStartQuiz(topic)}
+                disabled={isLimitReached}
+                className={`p-6 rounded-xl border-2 text-left transition-all ${isLimitReached ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'} ${cfg.bg}`}
               >
                 <div className="text-4xl mb-3">{cfg.icon}</div>
                 <div className={`text-lg font-bold ${cfg.color}`}>{cfg.label}</div>
-                <div className="text-sm text-academy-gray mt-1">10 domande per round · conta solo se finisci</div>
+                <div className="text-sm text-academy-gray mt-1">
+                  {isLimitReached 
+                    ? "❌ Limite giornaliero raggiunto"
+                    : `10 domande per round · ${daily.remaining}/50 rimaste oggi`
+                  }
+                </div>
               </button>
             );
           })}
@@ -395,7 +413,7 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
 
           <div className="flex justify-center gap-3 flex-wrap text-xs">
             <span className="px-3 py-1 bg-academy-bg rounded-full text-academy-gray font-semibold">
-              📅 Oggi rimaste: {daily.remaining}/{DAILY_LIMIT}
+              📅 Oggi rimaste per {selectedTopic}: {daily.remaining}/{DAILY_LIMIT_PER_TOPIC}
             </span>
             <span className="px-3 py-1 bg-academy-bg rounded-full text-academy-gray font-semibold">
               📆 Mese: {monthly.remaining}/{MONTHLY_LIMIT}
