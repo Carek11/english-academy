@@ -3,7 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-const AUTH_DISABLED = true; // Disabilita login/registrazione per 24h
+const AUTH_DISABLED = true; // Disabilita registrazione COMPLETAMENTE per 48h (fino a domani stesso orario + 1 giorno)
+const REGISTRATION_BLOCKED = true; // Blocca COMPLETAMENTE la registrazione
 
 type AuthMode = "login" | "register";
 
@@ -139,31 +140,54 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
           </p>
         </div>
 
-        <div className="flex border-b border-gray-200">
-          <button
-            onClick={() => setMode("login")}
-            className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-              mode === "login"
-                ? "text-academy-blue border-b-2 border-academy-blue"
-                : "text-academy-gray hover:text-academy-dark"
-            }`}
-          >
-            Accedi
-          </button>
-          <button
-            onClick={() => setMode("register")}
-            className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-              mode === "register"
-                ? "text-academy-blue border-b-2 border-academy-blue"
-                : "text-academy-gray hover:text-academy-dark"
-            }`}
-          >
-            Registrati
-          </button>
-        </div>
+        {!REGISTRATION_BLOCKED && (
+          <div className="flex border-b border-gray-200">
+            <button
+              onClick={() => setMode("login")}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                mode === "login"
+                  ? "text-academy-blue border-b-2 border-academy-blue"
+                  : "text-academy-gray hover:text-academy-dark"
+              }`}
+            >
+              Accedi
+            </button>
+            <button
+              onClick={() => setMode("register")}
+              className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                mode === "register"
+                  ? "text-academy-blue border-b-2 border-academy-blue"
+                  : "text-academy-gray hover:text-academy-dark"
+              }`}
+            >
+              Registrati
+            </button>
+          </div>
+        )}
+        
+        {REGISTRATION_BLOCKED && (
+          <div className="bg-orange-50 border-b-2 border-orange-300 p-4 text-center">
+            <p className="text-sm font-semibold text-orange-700">🛑 Registrazione bloccata per 48h</p>
+          </div>
+        )}
 
         <div className="p-8">
-          {mode === "login" ? (
+          {REGISTRATION_BLOCKED && (
+            <div className="text-center space-y-4 py-8">
+              <div className="text-5xl">🛑</div>
+              <h3 className="text-xl font-bold text-academy-dark">Registrazione bloccata</h3>
+              <p className="text-academy-gray text-sm">La registrazione è temporaneamente bloccata per 48 ore.</p>
+              <p className="text-academy-gray text-xs">Puoi continuare a esplorare il sito oppure torna più tardi per registrarti.</p>
+              <button
+                onClick={() => window.location.href = '/'}
+                className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors mt-4"
+              >
+                Torna alla Home
+              </button>
+            </div>
+          )}
+          
+          {!REGISTRATION_BLOCKED && mode === "login" && (
             <form onSubmit={handleLogin} className="space-y-5">
               <div>
                 <label className="block text-xs font-semibold text-academy-dark mb-1 uppercase tracking-wide">
@@ -215,7 +239,9 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 </button>
               </p>
             </form>
-          ) : (
+          )}
+          
+          {!REGISTRATION_BLOCKED && mode === "register" && (
             <form onSubmit={handleRegister} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-academy-dark mb-1 uppercase tracking-wide">
