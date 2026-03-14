@@ -57,10 +57,10 @@ function CourseModal({ course, onClose, onNavigate }: { course: Course; onClose:
 
           <div className="flex gap-3">
             <button
-              onClick={() => { onClose(); onNavigate("auth"); }}
-              className="flex-1 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
+              onClick={onClose}
+              className="flex-1 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors"
             >
-              🎓 Iscriviti ora
+              ✅ Accesso Libero - Inizia Subito!
             </button>
             <button
               onClick={onClose}
