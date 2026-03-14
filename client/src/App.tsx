@@ -371,19 +371,7 @@ function AppInner() {
         </div>
       )}
 
-      {!user && !isLoading && (
-        <div className="animate-slow-fade border-b border-academy-blue border-opacity-[0.07] py-1.5 px-4 text-center" style={{ background: "rgba(31,60,136,0.03)" }}>
-          <span className="text-[11px] text-academy-blue text-opacity-60 tracking-wide">
-            🎓 Prova gratuita attiva &nbsp;·&nbsp;{" "}
-            <button
-              onClick={() => setCurrentPage("auth")}
-              className="opacity-60 hover:opacity-100 transition-opacity duration-300 underline underline-offset-2"
-            >
-              Accedi per continuare senza limiti
-            </button>
-          </span>
-        </div>
-      )}
+      {/* ✅ BANNER REMOVED - ACCESSO COMPLETAMENTE LIBERO */}
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div key={currentPage}>
