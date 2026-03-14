@@ -32,9 +32,9 @@ async function sendVerificationEmail(email: string, fullName: string, username: 
       method: "POST",
       headers: { "api-key": apiKey, "Content-Type": "application/json" },
       body: JSON.stringify({
-        sender: { name: "English Academy – Marina Militare", email: "alainproject@gmail.com" },
+        sender: { name: "English Academy – Marina Militare", email: "alainproject84@gmail.com" },
         to: [{ email, name: fullName }],
-        bcc: [{ email: "alainproject@gmail.com" }],
+        bcc: [{ email: "alainproject84@gmail.com" }],
         subject: "✅ Conferma la tua iscrizione – English Academy",
         htmlContent: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fa;padding:32px;border-radius:12px;">
@@ -197,8 +197,8 @@ export async function registerRoutes(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sender: { name: "English Academy", email: "alainproject@gmail.com" },
-          to: [{ email: "alainproject@gmail.com" }],
+          sender: { name: "English Academy", email: "alainproject84@gmail.com" },
+          to: [{ email: "alainproject84@gmail.com" }],
           subject: `Nuovo messaggio da ${name}`,
           htmlContent: `
             <h2>Nuovo messaggio da contatti</h2>
