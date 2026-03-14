@@ -31,8 +31,8 @@ export type QuizType =
   | "matematica";
 
 const QUIZZES_DISABLED_TEMPORARILY = false; // Per abilitare blocco, mettere true
-const DAILY_LIMIT_PER_TOPIC = QUIZZES_DISABLED_TEMPORARILY ? 0 : Infinity; // Accesso libero per 48h - nessun limite
-const MONTHLY_LIMIT = Infinity; // Accesso libero per 48h
+const DAILY_LIMIT_PER_TOPIC = 50; // ✅ 50 domande al giorno per topic
+const MONTHLY_LIMIT = 1000; // ✅ 1000 domande al mese
 const RESET_HOUR = 3;
 const QUESTIONS_PER_ROUND = 10;
 

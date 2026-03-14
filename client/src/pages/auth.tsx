@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-const AUTH_DISABLED = true; // Disabilita registrazione COMPLETAMENTE per 48h (fino a domani stesso orario + 1 giorno)
-const REGISTRATION_BLOCKED = true; // Blocca COMPLETAMENTE la registrazione
+const AUTH_DISABLED = false; // ✅ Registrazione LIBERA
+const REGISTRATION_BLOCKED = false; // ✅ Registrazione LIBERA
 
 type AuthMode = "login" | "register";
 
