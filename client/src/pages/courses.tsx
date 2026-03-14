@@ -4,13 +4,13 @@ import { useState } from "react";
 type Course = typeof courseData[0] & { quizPage?: string };
 
 const courseQuizMap: Record<string, string> = {
-  "Inglese Base (A1–A2)": "quiz",
-  "Inglese Pre-Intermedio (A2–B1)": "quiz",
-  "Inglese Intermedio (B1–B2)": "quiz",
-  "Inglese Avanzato (C1–C2)": "quiz",
-  "Business English": "quiz",
-  "Inglese per Viaggi": "quiz",
-  "Preparazione IELTS / Cambridge": "quiz",
+  "Inglese Base (A1–A2)": "quiz-cultura",
+  "Inglese Pre-Intermedio (A2–B1)": "quiz-cultura",
+  "Inglese Intermedio (B1–B2)": "quiz-cultura",
+  "Inglese Avanzato (C1–C2)": "quiz-cultura",
+  "Business English": "quiz-cultura",
+  "Inglese per Viaggi": "quiz-cultura",
+  "Preparazione IELTS / Cambridge": "quiz-cultura",
 };
 
 function CourseModal({ course, onClose, onNavigate }: { course: Course; onClose: () => void; onNavigate: (page: string) => void }) {
