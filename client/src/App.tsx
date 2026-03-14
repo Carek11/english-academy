@@ -20,6 +20,7 @@ import { courseData } from "@/lib/quizData";
 type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
 
 const TRIAL_DURATION = Infinity; // Trial disabilitato - navigazione completamente libera
+const MODAL_DISABLED = true; // Banner registrazione disabilitato per 48h - non mostare MAI il modal
 
 function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; onClose: () => void }) {
   return (
@@ -263,7 +264,7 @@ function AppInner() {
         </div>
       )}
 
-      {showTrialModal && !user && !isLoading && (
+      {!MODAL_DISABLED && showTrialModal && !user && !isLoading && (
         <TrialExpiredModal
           onRegister={() => { setShowTrialModal(false); setCurrentPage("auth"); }}
           onClose={() => {
