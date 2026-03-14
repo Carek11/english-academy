@@ -1,9 +1,44 @@
 import { courseData, quizzes } from "@/lib/quizData";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 type Course = typeof courseData[0];
 type QuizQuestion = { question: string; options: string[]; correct: number };
 
+const DAILY_LIMIT = 50;
+
+// --- Sistema limite giornaliero (reset ogni giorno alle 3:00 AM) ---
+function getResetTimestamp(): number {
+  const now = new Date();
+  const reset = new Date(now);
+  reset.setHours(3, 0, 0, 0);
+  if (now < reset) reset.setDate(reset.getDate() - 1); // prima delle 3:00 → reset era ieri
+  return reset.getTime();
+}
+
+function loadDailyUsage(): number {
+  try {
+    const raw = localStorage.getItem("englishQuizDaily");
+    if (!raw) return 0;
+    const data = JSON.parse(raw) as { count: number; resetAt: number };
+    if (data.resetAt < getResetTimestamp()) return 0; // nuovo giorno → azzera
+    return data.count;
+  } catch { return 0; }
+}
+
+function saveDailyUsage(count: number) {
+  localStorage.setItem("englishQuizDaily", JSON.stringify({ count, resetAt: getResetTimestamp() }));
+}
+
+function getNextReset(): string {
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(3, 0, 0, 0);
+  if (now >= next) next.setDate(next.getDate() + 1);
+  return next.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }) + " di " +
+    next.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" });
+}
+
+// --- Pool domande per corso ---
 const courseQuizKey: Record<string, keyof typeof quizzes> = {
   "Inglese Base (A1–A2)": "base",
   "Inglese Pre-Intermedio (A2–B1)": "preintermedio",
@@ -12,6 +47,16 @@ const courseQuizKey: Record<string, keyof typeof quizzes> = {
   "Business English": "business",
   "Inglese per Viaggi": "viaggi",
   "Preparazione IELTS / Cambridge": "ielts",
+};
+
+const relatedKeys: Record<string, Array<keyof typeof quizzes>> = {
+  "base":          ["base", "preintermedio"],
+  "preintermedio": ["preintermedio", "base", "intermedio"],
+  "intermedio":    ["intermedio", "preintermedio", "avanzato"],
+  "avanzato":      ["avanzato", "intermedio", "ielts"],
+  "business":      ["business", "intermedio", "avanzato"],
+  "viaggi":        ["viaggi", "base", "preintermedio"],
+  "ielts":         ["ielts", "avanzato", "intermedio"],
 };
 
 function shuffle<T>(arr: T[]): T[] {
@@ -23,35 +68,26 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-// Categorie affini per ogni corso — solo argomenti pertinenti
-const relatedKeys: Record<string, Array<keyof typeof quizzes>> = {
-  "base":          ["base", "preintermedio"],
-  "preintermedio": ["preintermedio", "base", "intermedio"],
-  "intermedio":    ["intermedio", "preintermedio", "avanzato"],
-  "avanzato":      ["avanzato", "intermedio", "ielts"],
-  "business":      ["business", "intermedio", "avanzato"],
-  "viaggi":        ["viaggi", "base", "preintermedio"],
-  "ielts":         ["ielts", "avanzato", "intermedio"],
-};
-
 function buildQuizPool(courseKey: keyof typeof quizzes, total = 50): QuizQuestion[] {
   const keys = relatedKeys[courseKey as string] ?? [courseKey];
-  // Prima le domande specifiche del corso, poi quelle delle categorie affini
   const primary = shuffle(quizzes[keys[0]] as QuizQuestion[]);
-  const secondary = keys.slice(1).flatMap(k => quizzes[k] as QuizQuestion[]);
-  const shuffledSecondary = shuffle(secondary);
-  const combined = [...primary, ...shuffledSecondary];
-  // Rimuovi duplicati (stesso testo domanda) e prendi i primi 50
+  const secondary = shuffle(keys.slice(1).flatMap(k => quizzes[k] as QuizQuestion[]));
+  const combined = [...primary, ...secondary];
   const seen = new Set<string>();
-  const unique = combined.filter(q => {
-    if (seen.has(q.question)) return false;
-    seen.add(q.question);
-    return true;
-  });
+  const unique = combined.filter(q => { if (seen.has(q.question)) return false; seen.add(q.question); return true; });
   return unique.slice(0, total);
 }
 
-function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: () => void }) {
+// --- Componente Quiz ---
+function CourseQuiz({
+  questions, courseKey, usedToday, onBack, onReload
+}: {
+  questions: QuizQuestion[];
+  courseKey: keyof typeof quizzes;
+  usedToday: number;
+  onBack: () => void;
+  onReload: (newUsed: number) => void;
+}) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -67,6 +103,8 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
 
   function handleNext() {
     if (current + 1 >= questions.length) {
+      const newUsed = usedToday + questions.length;
+      saveDailyUsage(newUsed);
       setFinished(true);
     } else {
       setCurrent(c => c + 1);
@@ -74,8 +112,16 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
     }
   }
 
+  function handleReload() {
+    const newUsed = usedToday + questions.length;
+    saveDailyUsage(newUsed);
+    onReload(newUsed);
+  }
+
   if (finished) {
     const pct = Math.round((score / questions.length) * 100);
+    const newUsed = usedToday + questions.length;
+    const remaining = Math.max(0, DAILY_LIMIT - newUsed);
     return (
       <div className="p-6 text-center space-y-4">
         <div className="text-5xl">{pct >= 70 ? "🏆" : pct >= 40 ? "👍" : "📚"}</div>
@@ -85,10 +131,28 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div className="bg-academy-gold h-3 rounded-full transition-all" style={{ width: `${pct}%` }} />
         </div>
-        <button
-          onClick={onBack}
-          className="mt-4 px-6 py-2 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-bg transition-colors"
-        >
+
+        {remaining > 0 ? (
+          <div className="space-y-3 pt-2">
+            <p className="text-sm text-academy-gray">
+              Domande rimanenti oggi: <span className="font-bold text-academy-blue">{remaining}</span>
+            </p>
+            <button
+              onClick={handleReload}
+              className="w-full py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors"
+            >
+              🔄 Rifai con 50 nuove domande
+            </button>
+          </div>
+        ) : (
+          <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 text-sm text-amber-800">
+            <p className="font-bold mb-1">⏰ Limite giornaliero raggiunto</p>
+            <p>Hai completato le 50 domande di oggi. Torna domani alle <strong>03:00</strong> per un nuovo set!</p>
+            <p className="mt-1 text-xs text-amber-600">Prossimo reset: {getNextReset()}</p>
+          </div>
+        )}
+
+        <button onClick={onBack} className="w-full px-6 py-2 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-bg transition-colors">
           ← Torna al corso
         </button>
       </div>
@@ -102,21 +166,16 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
         <span className="text-xs text-academy-blue font-semibold">Punteggio: {score}</span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-        <div className="bg-academy-blue h-2 rounded-full transition-all" style={{ width: `${((current) / questions.length) * 100}%` }} />
+        <div className="bg-academy-blue h-2 rounded-full transition-all" style={{ width: `${(current / questions.length) * 100}%` }} />
       </div>
       <p className="font-semibold text-academy-dark text-base leading-snug">{q.question}</p>
       <div className="space-y-2">
         {q.options.map((opt, idx) => {
           let cls = "w-full text-left px-4 py-3 rounded-lg border-2 font-medium text-sm transition-all ";
-          if (selected === null) {
-            cls += "border-gray-200 hover:border-academy-blue hover:bg-academy-bg";
-          } else if (idx === q.correct) {
-            cls += "border-green-500 bg-green-50 text-green-800";
-          } else if (idx === selected) {
-            cls += "border-red-400 bg-red-50 text-red-700";
-          } else {
-            cls += "border-gray-200 opacity-60";
-          }
+          if (selected === null) cls += "border-gray-200 hover:border-academy-blue hover:bg-academy-bg";
+          else if (idx === q.correct) cls += "border-green-500 bg-green-50 text-green-800";
+          else if (idx === selected) cls += "border-red-400 bg-red-50 text-red-700";
+          else cls += "border-gray-200 opacity-60";
           return (
             <button key={idx} onClick={() => handleAnswer(idx)} className={cls}>
               <span className="font-bold mr-2">{["A", "B", "C", "D"][idx]}.</span> {opt}
@@ -127,10 +186,7 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
         })}
       </div>
       {selected !== null && (
-        <button
-          onClick={handleNext}
-          className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors"
-        >
+        <button onClick={handleNext} className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
           {current + 1 >= questions.length ? "Vedi risultati →" : "Prossima →"}
         </button>
       )}
@@ -138,29 +194,35 @@ function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: 
   );
 }
 
+// --- Modal del corso ---
 function CourseModal({ course, onClose }: { course: Course; onClose: () => void }) {
-  const [quizStarted, setQuizStarted] = useState(false);
   const quizKey = courseQuizKey[course.title];
-  const questions = useMemo(() => quizKey ? buildQuizPool(quizKey) : [], [quizKey]);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [usedToday, setUsedToday] = useState(() => loadDailyUsage());
+  const [questions, setQuestions] = useState<QuizQuestion[]>(() => quizKey ? buildQuizPool(quizKey) : []);
+
+  const remaining = Math.max(0, DAILY_LIMIT - usedToday);
+
+  const handleReload = useCallback((newUsed: number) => {
+    setUsedToday(newUsed);
+    if (quizKey) setQuestions(buildQuizPool(quizKey));
+    setCurrent_hack(c => c + 1); // forza re-mount del quiz
+    setQuizStarted(true);
+  }, [quizKey]);
+
+  // trick per re-mountare CourseQuiz con nuove domande
+  const [quizKey2, setCurrent_hack] = useState(0);
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="bg-gradient-to-r from-academy-blue to-academy-dark p-6 text-white sticky top-0 z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <span className="text-4xl">{course.icon}</span>
               <div>
                 <h3 className="text-xl font-bold font-display">{course.title}</h3>
-                <span className="text-xs font-semibold opacity-80 bg-white bg-opacity-20 px-2 py-1 rounded mt-1 inline-block">
-                  {course.badge}
-                </span>
+                <span className="text-xs font-semibold opacity-80 bg-white bg-opacity-20 px-2 py-1 rounded mt-1 inline-block">{course.badge}</span>
               </div>
             </div>
             <button onClick={onClose} className="text-white opacity-70 hover:opacity-100 text-2xl leading-none">✕</button>
@@ -187,30 +249,56 @@ function CourseModal({ course, onClose }: { course: Course; onClose: () => void 
               <div className="font-semibold text-academy-dark mb-1">📅 Durata</div>
               <div>{course.badge} di formazione strutturata</div>
             </div>
+
             {questions.length > 0 && (
-              <button
-                onClick={() => setQuizStarted(true)}
-                className="w-full py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors text-base"
-                data-testid="button-start-quiz"
-              >
-                🎯 Inizia il Quiz — {course.title}
-              </button>
+              <>
+                {remaining > 0 ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs text-academy-gray">
+                      <span>Domande disponibili oggi</span>
+                      <span className="font-bold text-academy-blue">{remaining}/{DAILY_LIMIT}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="bg-academy-gold h-2 rounded-full" style={{ width: `${(remaining / DAILY_LIMIT) * 100}%` }} />
+                    </div>
+                    <button
+                      onClick={() => setQuizStarted(true)}
+                      className="w-full py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors text-base"
+                      data-testid="button-start-quiz"
+                    >
+                      🎯 Inizia il Quiz — {course.title}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 text-sm text-amber-800">
+                    <p className="font-bold mb-1">⏰ Limite giornaliero raggiunto</p>
+                    <p>Hai completato le 50 domande di oggi. Torna alle <strong>03:00</strong> per un nuovo set!</p>
+                    <p className="mt-1 text-xs text-amber-600">Prossimo reset: {getNextReset()}</p>
+                  </div>
+                )}
+              </>
             )}
-            <button
-              onClick={onClose}
-              className="w-full px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-bg transition-colors"
-            >
+
+            <button onClick={onClose} className="w-full px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-bg transition-colors">
               Chiudi
             </button>
           </div>
         ) : (
-          <CourseQuiz questions={questions} onBack={() => setQuizStarted(false)} />
+          <CourseQuiz
+            key={quizKey2}
+            questions={questions}
+            courseKey={quizKey!}
+            usedToday={usedToday}
+            onBack={() => setQuizStarted(false)}
+            onReload={handleReload}
+          />
         )}
       </div>
     </div>
   );
 }
 
+// --- Pagina Corsi ---
 export default function CoursesPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -224,9 +312,7 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
 
   return (
     <div className="space-y-16">
-      {selectedCourse && (
-        <CourseModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
-      )}
+      {selectedCourse && <CourseModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />}
 
       <section className="text-center space-y-4">
         <h2 className="text-4xl font-bold font-display text-academy-dark">Tutti i Corsi</h2>
@@ -240,14 +326,10 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
             <div className="text-3xl mb-3">{course.icon}</div>
             <h3 className="font-bold text-lg mb-2 text-academy-dark">{course.title}</h3>
             <p className="text-academy-gray text-sm mb-4 flex-grow">{course.description}</p>
-            <span className="inline-block px-3 py-1 bg-academy-blue text-white text-xs font-semibold rounded mb-4">
-              {course.badge}
-            </span>
+            <span className="inline-block px-3 py-1 bg-academy-blue text-white text-xs font-semibold rounded mb-4">{course.badge}</span>
             {course.details.length > 0 && (
               <div className="text-xs text-academy-gray mb-4 space-y-1">
-                {course.details.map((d, idx) => (
-                  <div key={idx}>✓ {d}</div>
-                ))}
+                {course.details.map((d, idx) => <div key={idx}>✓ {d}</div>)}
               </div>
             )}
             <button
@@ -277,9 +359,7 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
                 <span className={`text-academy-blue transition-transform ${openAccordion === i ? "rotate-180" : ""}`}>▼</span>
               </button>
               {openAccordion === i && (
-                <div className="px-6 py-4 bg-academy-bg text-academy-gray border-t border-academy-gray border-opacity-30">
-                  {faq.a}
-                </div>
+                <div className="px-6 py-4 bg-academy-bg text-academy-gray border-t border-academy-gray border-opacity-30">{faq.a}</div>
               )}
             </div>
           ))}
