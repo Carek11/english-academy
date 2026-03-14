@@ -186,6 +186,11 @@ function AppInner() {
       setShowTrialModal(false);
       return;
     }
+    // ✅ Se MODAL_DISABLED, non mostrare MAI il modal
+    if (MODAL_DISABLED) {
+      setShowTrialModal(false);
+      return;
+    }
     timerRef.current = setTimeout(() => {
       setShowTrialModal(true);
     }, TRIAL_DURATION);
