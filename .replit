@@ -1,4 +1,4 @@
-modules = ["web", "nodejs-20", "python-3.11", "php-8.4"]
+modules = ["nodejs-20", "php-8.4", "python-3.11", "web"]
 [agent]
 expertMode = true
 integrations = ["python_openai_ai_integrations:1.0.0"]
@@ -29,6 +29,14 @@ outputType = "webview"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
 
 [[ports]]
 localPort = 5000
