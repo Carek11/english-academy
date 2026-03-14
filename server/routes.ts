@@ -85,13 +85,18 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  app.set("trust proxy", 1);
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "english-academy-secret-2024",
       resave: false,
       saveUninitialized: false,
       store: new MemStore({ checkPeriod: 86400000 }),
-      cookie: { secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 },
+      cookie: {
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      },
     })
   );
 
