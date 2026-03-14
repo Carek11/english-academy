@@ -19,7 +19,7 @@ import { courseData } from "@/lib/quizData";
 
 type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
 
-const TRIAL_DURATION = 5 * 60 * 1000; // 5 minuti
+const TRIAL_DURATION = Infinity; // Trial disabilitato - navigazione completamente libera
 
 function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; onClose: () => void }) {
   return (
