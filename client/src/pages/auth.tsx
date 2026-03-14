@@ -53,9 +53,10 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
   const registerMutation = useMutation({
     mutationFn: (data: { fullName: string; username: string; email: string; password: string }) =>
       apiRequest("POST", "/api/register", data),
-    onSuccess: (data: any) => {
-      setRegistrationEmail(registerForm.email);
-      setPendingVerification(true);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/me"] });
+      toast({ title: "Benvenuto!", description: "Account creato e accesso effettuato con successo." });
+      onSuccess();
     },
     onError: async (err: any) => {
       const body = await err.response?.json?.() ?? {};

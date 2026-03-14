@@ -108,10 +108,13 @@ export async function registerRoutes(
       }
       const verificationToken = randomUUID();
       const user = await storage.createUser(data, verificationToken);
-      // Non fa auto-login — attende la verifica email
-      const { password: _, verificationToken: __, ...safeUser } = user;
-      await sendVerificationEmail(user.email, user.fullName, user.username, verificationToken);
-      return res.status(201).json({ ...safeUser, pendingVerification: true });
+      // Auto-login immediato dopo la registrazione — nessuna verifica email richiesta
+      const verified = await storage.verifyUser(user.id);
+      req.session.userId = verified.id;
+      const { password: _, verificationToken: __, ...safeUser } = verified;
+      // Invia email di benvenuto in background (non bloccante)
+      sendVerificationEmail(user.email, user.fullName, user.username, verificationToken).catch(() => {});
+      return res.status(201).json(safeUser);
     } catch (err) {
       if (err instanceof ZodError) {
         return res.status(400).json({ message: "Dati non validi", errors: err.errors });
@@ -144,10 +147,7 @@ export async function registerRoutes(
       if (!user || user.password !== data.password) {
         return res.status(401).json({ message: "Email o password non corretti" });
       }
-      // Permetti login se verified=true o verified=null (utenti esistenti prima del sistema)
-      if (user.verified === false) {
-        return res.status(403).json({ message: "Email non confermata. Controlla la tua casella di posta e clicca il link di conferma.", pendingVerification: true });
-      }
+      // ✅ Login libero — nessun blocco per verifica email
       req.session.userId = user.id;
       const { password: _, verificationToken: __, ...safeUser } = user;
       return res.json(safeUser);
