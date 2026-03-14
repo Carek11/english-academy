@@ -56,10 +56,14 @@ function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; on
           <div className="space-y-3">
             <button
               onClick={onRegister}
-              className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors text-base"
+              disabled={true}
+              className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg opacity-60 cursor-not-allowed text-base disabled:opacity-60"
             >
-              🎓 Registrati Gratis →
+              ⏸ Temporaneamente disabilitato
             </button>
+            <p className="text-center text-sm text-orange-600 font-semibold bg-orange-50 p-2 rounded">
+              Registrazione disabilitata per 24h. Torna presto!
+            </p>
             <button
               onClick={onClose}
               className="w-full py-2 text-academy-gray text-sm hover:text-academy-dark transition-colors"
