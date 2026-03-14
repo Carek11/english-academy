@@ -115,7 +115,7 @@ interface QuizEngineProps {
 }
 
 export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNote }: QuizEngineProps) {
-  const [step, setStep] = useState<"select" | "quiz" | "results">("select");
+  const [step, setStep] = useState<"select" | "quiz" | "results" | "loading">("select");
   const [selectedTopic, setSelectedTopic] = useState<QuizType | null>(null);
   const [currentQ, setCurrentQ]   = useState(0);
   const [score, setScore]         = useState(0);
@@ -127,6 +127,8 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
   const [totalAnswered, setTotalAnswered]   = useState(0);
   const [encouragementMsg, setEncouragementMsg] = useState("");
   const [roundCount, setRoundCount] = useState(0);
+  const [autoLoadTimeout, setAutoLoadTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [showAutoLoadMsg, setShowAutoLoadMsg] = useState(false);
 
   const generateRound = (topic: QuizType) => {
     if (topic === "marina") {
@@ -177,7 +179,39 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
     setTotalAnswered((t) => t + roundQuestions.length);
     setEncouragementMsg(encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)]);
     if (selectedTopic) saveQuizResult(selectedTopic, finalScore, roundQuestions.length);
-    setStep("results");
+    
+    // Auto-load prossime domande se disponibili
+    const daily = getDaily();
+    if (daily.remaining > 0) {
+      setStep("results");
+      setShowAutoLoadMsg(true);
+      const timeout = setTimeout(() => {
+        handleAutoLoadNextRound();
+      }, 3000);
+      setAutoLoadTimeout(timeout);
+    } else {
+      setStep("results");
+      setShowAutoLoadMsg(false);
+    }
+  };
+
+  const handleAutoLoadNextRound = () => {
+    setShowAutoLoadMsg(false);
+    setRoundQuestions(generateRound(selectedTopic!));
+    setCurrentQ(0);
+    setScore(0);
+    setAnswered(false);
+    setSelectedAnswer(null);
+    setRoundCount((r) => r + 1);
+    setStep("quiz");
+  };
+
+  const handleStopAutoLoad = () => {
+    if (autoLoadTimeout) {
+      clearTimeout(autoLoadTimeout);
+      setAutoLoadTimeout(null);
+    }
+    setShowAutoLoadMsg(false);
   };
 
   const handleContinueQuiz = () => {
@@ -369,17 +403,32 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
           </div>
         </div>
 
-        <div className="flex gap-3 justify-center flex-wrap">
-          <button data-testid="button-more-questions" onClick={handleContinueQuiz} className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
-            ➕ Altre 10 domande
-          </button>
-          <button data-testid="button-restart" onClick={() => handleStartQuiz(selectedTopic!)} className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
-            🔄 Ricomincia
-          </button>
-          <button data-testid="button-change-topic" onClick={handleBackToSelect} className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors">
-            🗂️ Cambia argomento
-          </button>
-        </div>
+        {showAutoLoadMsg && (
+          <div className="p-4 rounded-lg bg-blue-50 border-2 border-academy-blue text-center">
+            <div className="text-sm font-semibold text-academy-blue mb-3">⏳ Auto-caricamento nuove domande in 3 secondi...</div>
+            <button
+              data-testid="button-stop-auto-load"
+              onClick={handleStopAutoLoad}
+              className="px-4 py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-100 transition-colors text-sm border border-red-300"
+            >
+              ⏹ Ferma auto-load
+            </button>
+          </div>
+        )}
+
+        {!showAutoLoadMsg && (
+          <div className="flex gap-3 justify-center flex-wrap">
+            <button data-testid="button-more-questions" onClick={handleContinueQuiz} className="px-6 py-3 bg-academy-gold text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
+              ➕ Altre 10 domande
+            </button>
+            <button data-testid="button-restart" onClick={() => handleStartQuiz(selectedTopic!)} className="px-6 py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors">
+              🔄 Ricomincia
+            </button>
+            <button data-testid="button-change-topic" onClick={handleBackToSelect} className="px-6 py-3 border-2 border-academy-blue text-academy-blue font-semibold rounded-lg hover:bg-academy-blue hover:text-white transition-colors">
+              🗂️ Cambia argomento
+            </button>
+          </div>
+        )}
       </div>
     );
   }
