@@ -1139,7 +1139,16 @@ const terminiGlossario = [
 function SezioneGlossario() {
   const [ricerca, setRicerca] = useState('')
   const [catSelezionata, setCatSelezionata] = useState('Tutti')
+  const [loading, setLoading] = useState(false)
   const categorie = ['Tutti', ...new Set(terminiGlossario.map(t => t.cat))].sort()
+  
+  const handleRicerca = (val) => {
+    setRicerca(val)
+    if (val.length > 0) {
+      setLoading(true)
+      setTimeout(() => setLoading(false), 400)
+    }
+  }
   
   const filtrati = terminiGlossario.filter(t => {
     const matchRicerca = !ricerca || t.en.toLowerCase().includes(ricerca.toLowerCase()) || t.it.toLowerCase().includes(ricerca.toLowerCase())
@@ -1159,7 +1168,7 @@ function SezioneGlossario() {
             type="text"
             placeholder="🔍 Cerca termini in inglese o italiano..."
             value={ricerca}
-            onChange={e => setRicerca(e.target.value)}
+            onChange={e => handleRicerca(e.target.value)}
             style={{
               width: '100%',
               padding: '14px 18px',
@@ -1198,43 +1207,65 @@ function SezioneGlossario() {
           <strong>{filtrati.length}</strong> termini {catSelezionata !== 'Tutti' && `in "${catSelezionata}"`}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
-          {filtrati.map((t, i) => (
-            <div
-              key={i}
-              style={{
-                background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
-                border: '1px solid #e5e7eb',
-                borderRadius: 10,
-                padding: 18,
-                transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
-                cursor: 'default',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)'
-                e.currentTarget.style.transform = 'translateY(-4px)'
-                e.currentTarget.style.borderColor = 'var(--secondary)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.boxShadow = 'none'
-                e.currentTarget.style.transform = 'none'
-                e.currentTarget.style.borderColor = '#e5e7eb'
-              }}
-            >
-              <div style={{ fontSize: '1.15em', fontWeight: 700, color: 'var(--primary)', marginBottom: 8, fontFamily: 'Playfair Display, serif' }}>
-                {t.en}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, opacity: loading ? 0.5 : 1, transition: 'opacity 0.3s' }}>
+          {loading ? (
+            Array(6).fill(0).map((_, i) => (
+              <div key={i} style={{ background: '#f0f0f0', borderRadius: 10, padding: 18, animation: 'pulse 1.5s infinite' }}>
+                <div style={{ height: 20, background: '#e0e0e0', borderRadius: 4, marginBottom: 12, animation: 'pulse 1.5s infinite' }}></div>
+                <div style={{ height: 16, background: '#e0e0e0', borderRadius: 4, marginBottom: 12, width: '80%', animation: 'pulse 1.5s infinite' }}></div>
+                <div style={{ height: 24, background: '#d0d0d0', borderRadius: 4, width: '60%', animation: 'pulse 1.5s infinite' }}></div>
               </div>
-              <div style={{ fontSize: '0.95em', color: '#555', marginBottom: 12, fontStyle: 'italic' }}>
-                {t.it}
+            ))
+          ) : (
+            filtrati.map((t, i) => (
+              <div
+                key={i}
+                style={{
+                  background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 10,
+                  padding: 18,
+                  transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+                  cursor: 'default',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  animation: 'fadeIn 0.5s ease-in'
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)'
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.borderColor = 'var(--secondary)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.boxShadow = 'none'
+                  e.currentTarget.style.transform = 'none'
+                  e.currentTarget.style.borderColor = '#e5e7eb'
+                }}
+              >
+                <div style={{ fontSize: '1.15em', fontWeight: 700, color: 'var(--primary)', marginBottom: 8, fontFamily: 'Playfair Display, serif' }}>
+                  {t.en}
+                </div>
+                <div style={{ fontSize: '0.95em', color: '#555', marginBottom: 12, fontStyle: 'italic' }}>
+                  {t.it}
+                </div>
+                <div style={{ fontSize: '0.8em', background: 'var(--secondary)', color: 'white', display: 'inline-block', padding: '5px 12px', borderRadius: 12, fontWeight: 500 }}>
+                  {t.cat}
+                </div>
               </div>
-              <div style={{ fontSize: '0.8em', background: 'var(--secondary)', color: 'white', display: 'inline-block', padding: '5px 12px', borderRadius: 12, fontWeight: 500 }}>
-                {t.cat}
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
+
+        <style>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
 
         {filtrati.length === 0 && (
           <div style={{ textAlign: 'center', padding: 60, color: '#999' }}>
