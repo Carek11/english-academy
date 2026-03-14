@@ -269,7 +269,8 @@ function AppInner() {
         </div>
       )}
 
-      {!MODAL_DISABLED && showTrialModal && !user && !isLoading && (
+      {/* ✅ MODAL DISABLED - NON MOSTRARE MAI IL MODAL REGISTRAZIONE */}
+      {MODAL_DISABLED === false && showTrialModal && !user && !isLoading && (
         <TrialExpiredModal
           onRegister={() => { setShowTrialModal(false); setCurrentPage("auth"); }}
           onClose={() => {
