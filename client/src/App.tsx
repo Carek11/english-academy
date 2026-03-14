@@ -292,26 +292,6 @@ function AppInner() {
             <p className="text-xs tracking-[0.28em] opacity-70 font-medium mt-3">IMPARA · PRATICA · ECCELLI</p>
           </div>
           <div className="hidden sm:flex items-center gap-1 min-w-[140px] justify-end flex-1">
-            {!isLoading && (
-              user ? (
-                <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs opacity-80">👤 {user.fullName}</span>
-                  <button
-                    onClick={() => logoutMutation.mutate()}
-                    className="text-xs px-3 py-1 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg font-semibold transition-colors"
-                  >
-                    Esci
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setCurrentPage("auth")}
-                  className="px-4 py-2 bg-white text-academy-blue font-semibold rounded-lg hover:bg-academy-gold hover:text-white transition-colors text-sm"
-                >
-                  🔐 Accedi
-                </button>
-              )
-            )}
           </div>
         </div>
       </header>
@@ -344,34 +324,10 @@ function AppInner() {
             🔍 Cerca
           </button>
           <div className="sm:hidden flex items-center">
-            {!isLoading && (
-              user ? (
-                <button
-                  onClick={() => logoutMutation.mutate()}
-                  className="px-3 py-2 rounded-lg font-semibold text-sm bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-                >
-                  Esci
-                </button>
-              ) : (
-                <button
-                  onClick={() => setCurrentPage("auth")}
-                  className="px-3 py-2 rounded-lg font-semibold text-sm bg-academy-blue text-white hover:bg-academy-light-blue transition-colors"
-                >
-                  🔐 Accedi
-                </button>
-              )
-            )}
           </div>
         </div>
       </nav>
 
-      {user && currentPage !== "auth" && (
-        <div className="bg-green-50 border-b border-green-100 py-2 px-4 text-center text-sm text-green-700">
-          Bentornato, <strong>{user.fullName}</strong>! 🎓
-        </div>
-      )}
-
-      {/* ✅ BANNER REMOVED - ACCESSO COMPLETAMENTE LIBERO */}
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div key={currentPage}>
