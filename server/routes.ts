@@ -32,7 +32,7 @@ async function sendVerificationEmail(email: string, fullName: string, username: 
       method: "POST",
       headers: { "api-key": apiKey, "Content-Type": "application/json" },
       body: JSON.stringify({
-        sender: { name: "English Academy – Marina Militare", email: "alainproject84@gmail.com" },
+        sender: { name: "English Academy – Marina Militare", email: "info@english-academy.it.com" },
         to: [{ email, name: fullName }],
         bcc: [{ email: "alainproject84@gmail.com" }],
         subject: "✅ Conferma la tua iscrizione – English Academy",
@@ -197,7 +197,7 @@ export async function registerRoutes(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sender: { name: "English Academy", email: "alainproject84@gmail.com" },
+          sender: { name: "English Academy", email: "info@english-academy.it.com" },
           to: [{ email: "alainproject84@gmail.com" }],
           subject: `Nuovo messaggio da ${name}`,
           htmlContent: `
