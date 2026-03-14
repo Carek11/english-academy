@@ -19,8 +19,8 @@ import { courseData } from "@/lib/quizData";
 
 type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
 
-const TRIAL_DURATION = 5 * 60 * 1000; // 5 minuti trial prima di mostrare modal registrazione
-const MODAL_DISABLED = false; // ✅ Banner registrazione ABILITATO
+const TRIAL_DURATION = Infinity; // ✅ Accesso completamente libero, nessun limite temporale
+const MODAL_DISABLED = true; // ✅ NON mostrare MAI il modal registrazione finché non riattivato
 
 function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; onClose: () => void }) {
   return (
