@@ -13,7 +13,7 @@ English Academy è una piattaforma italiana per l'apprendimento dell'inglese, co
 ### Regole sulle domande quiz
 1. **Nessun duplicato** — prima di aggiungere domande, estrarre tutte quelle esistenti e verificare duplicati esatti E concettuali
 2. **Nessuna copia** — ogni domanda è scritta originalmente, mai copiata da siti/libri/fonti esterne
-3. **Nessuna ricerca in banche esterne** — vietato cercare argomenti attinenti in banche domande non ufficiali o protette da copyright; tutte le domande nascono esclusivamente dall'elaborazione interna dell'agente
+3. **VIETATO** — non cercare MAI in banche dati non ufficiali o protette da copyright; tutte le domande sono create esclusivamente dall'agente, senza consultare fonti esterne di alcun tipo
 4. **Tutto personalizzato** — ogni domanda ha scenario, contesto e formulazione propria e unica, inventata dall'agente
 5. **Verifica obbligatoria** — lanciare il controllo automatico (node script) prima di salvare nuove domande
 6. **Verifica con script:**
