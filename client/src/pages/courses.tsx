@@ -14,8 +14,6 @@ const courseQuizKey: Record<string, keyof typeof quizzes> = {
   "Preparazione IELTS / Cambridge": "ielts",
 };
 
-const englishKeys: Array<keyof typeof quizzes> = ["base", "preintermedio", "intermedio", "avanzato", "business", "viaggi", "ielts"];
-
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -25,14 +23,32 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+// Categorie affini per ogni corso — solo argomenti pertinenti
+const relatedKeys: Record<string, Array<keyof typeof quizzes>> = {
+  "base":          ["base", "preintermedio"],
+  "preintermedio": ["preintermedio", "base", "intermedio"],
+  "intermedio":    ["intermedio", "preintermedio", "avanzato"],
+  "avanzato":      ["avanzato", "intermedio", "ielts"],
+  "business":      ["business", "intermedio", "avanzato"],
+  "viaggi":        ["viaggi", "base", "preintermedio"],
+  "ielts":         ["ielts", "avanzato", "intermedio"],
+};
+
 function buildQuizPool(courseKey: keyof typeof quizzes, total = 50): QuizQuestion[] {
-  const courseQuestions = (quizzes[courseKey] as QuizQuestion[]) || [];
-  const otherQuestions = englishKeys
-    .filter(k => k !== courseKey)
-    .flatMap(k => quizzes[k] as QuizQuestion[]);
-  const shuffledOthers = shuffle(otherQuestions);
-  const needed = Math.max(0, total - courseQuestions.length);
-  return shuffle([...courseQuestions, ...shuffledOthers.slice(0, needed)]);
+  const keys = relatedKeys[courseKey as string] ?? [courseKey];
+  // Prima le domande specifiche del corso, poi quelle delle categorie affini
+  const primary = shuffle(quizzes[keys[0]] as QuizQuestion[]);
+  const secondary = keys.slice(1).flatMap(k => quizzes[k] as QuizQuestion[]);
+  const shuffledSecondary = shuffle(secondary);
+  const combined = [...primary, ...shuffledSecondary];
+  // Rimuovi duplicati (stesso testo domanda) e prendi i primi 50
+  const seen = new Set<string>();
+  const unique = combined.filter(q => {
+    if (seen.has(q.question)) return false;
+    seen.add(q.question);
+    return true;
+  });
+  return unique.slice(0, total);
 }
 
 function CourseQuiz({ questions, onBack }: { questions: QuizQuestion[]; onBack: () => void }) {
