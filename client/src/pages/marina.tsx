@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { shipTypes } from "@/lib/quizData";
+import { shipTypes, shipQuestions } from "@/lib/quizData";
 import carrierImg from "@assets/AZzOM8EviBgPFGACFMJuAA-AZzOM8EvYcyHuF9kkk6E9g_1773252252710.jpg";
 import commandCenterImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773251962760.jpg";
 import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773251962761.jpg";
@@ -150,7 +150,6 @@ interface ShipDetailModalProps {
 }
 
 function ShipQuizModal({ shipName, onClose, onBack }: { shipName: string; onClose: () => void; onBack: () => void }) {
-  const { shipQuestions } = require("@/lib/quizData");
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
