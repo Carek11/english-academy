@@ -149,7 +149,76 @@ interface ShipDetailModalProps {
   onClose: () => void;
 }
 
+function ShipQuizModal({ shipName, onClose, onBack }: { shipName: string; onClose: () => void; onBack: () => void }) {
+  const { shipQuestions } = require("@/lib/quizData");
+  const [currentQ, setCurrentQ] = useState(0);
+  const [score, setScore] = useState(0);
+  const [answered, setAnswered] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [round, setRound] = useState(1);
+
+  const questions = shipQuestions[shipName] || [];
+  if (questions.length === 0) return null;
+
+  const q = questions[currentQ % questions.length];
+  const handleAnswer = (idx: number) => {
+    if (answered) return;
+    setSelectedAnswer(idx);
+    setAnswered(true);
+    if (questions[currentQ % questions.length].correct === idx) setScore(s => s + 1);
+  };
+
+  const handleNext = () => {
+    if (currentQ < 9) {
+      setCurrentQ(currentQ + 1);
+      setAnswered(false);
+      setSelectedAnswer(null);
+    } else {
+      setRound(r => r + 1);
+      setCurrentQ(0);
+      setScore(0);
+      setAnswered(false);
+      setSelectedAnswer(null);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 z-[160] flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl my-8 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-academy-blue p-4 text-white flex justify-between items-center">
+          <h3 className="font-bold">🎯 Quiz: {shipName}</h3>
+          <button onClick={onClose} className="text-2xl">✕</button>
+        </div>
+        <div className="p-6 space-y-6">
+          <div className="flex justify-between text-sm font-semibold">
+            <span>Domanda {currentQ + 1}/10</span>
+            <span className="text-academy-blue">⭐ {score}/10</span>
+          </div>
+          <h4 className="text-lg font-bold text-academy-dark">{q.question}</h4>
+          <div className="space-y-2">
+            {q.options.map((opt, i) => (
+              <button key={i} onClick={() => handleAnswer(i)} disabled={answered} className={`w-full p-3 text-left rounded-lg font-semibold transition-all border-2 ${answered ? (i === q.correct ? "bg-green-100 border-green-400" : i === selectedAnswer ? "bg-red-100 border-red-400" : "bg-gray-50 border-transparent") : "bg-academy-bg border-transparent hover:border-academy-blue"}`}>
+                {String.fromCharCode(65 + i)}. {opt}
+              </button>
+            ))}
+          </div>
+          {answered && <div className={`p-3 text-center rounded-lg font-semibold ${selectedAnswer === q.correct ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`}>
+            {selectedAnswer === q.correct ? "✓ Corretto!" : `✗ Sbagliato! Risposta: ${String.fromCharCode(65 + q.correct)}`}
+          </div>}
+          <div className="flex gap-3">
+            <button onClick={onBack} className="flex-1 py-2 border-2 border-academy-blue text-academy-blue rounded-lg font-semibold hover:bg-academy-blue hover:text-white transition-colors">← Indietro</button>
+            <button onClick={handleNext} disabled={!answered} className="flex-1 py-2 bg-academy-blue text-white rounded-lg font-semibold hover:bg-academy-light-blue transition-colors disabled:opacity-50">{currentQ < 9 ? "Prossima →" : "Nuovo Round →"}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ShipDetailModal({ ship, detail, image, onClose }: ShipDetailModalProps) {
+  const [showQuiz, setShowQuiz] = useState(false);
+  
+  if (showQuiz) return <ShipQuizModal shipName={ship.name} onClose={onClose} onBack={() => setShowQuiz(false)} />;
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-70 z-[150] flex items-start justify-center p-4 overflow-y-auto"
@@ -236,6 +305,11 @@ function ShipDetailModal({ ship, detail, image, onClose }: ShipDetailModalProps)
             <div className="text-academy-blue font-bold text-sm mb-1">💡 Lo sapevi?</div>
             <p className="text-academy-dark text-sm leading-relaxed">{detail.funFact}</p>
           </div>
+
+          {/* Quiz Button */}
+          <button onClick={() => setShowQuiz(true)} className="w-full py-3 bg-academy-gold text-white font-bold rounded-lg hover:bg-opacity-90 transition-colors text-base">
+            🎯 Fai il Quiz su {ship.name} →
+          </button>
         </div>
       </div>
     </div>
