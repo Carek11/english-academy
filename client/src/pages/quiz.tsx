@@ -30,8 +30,9 @@ export type QuizType =
   | "astronomia"
   | "matematica";
 
-const DAILY_LIMIT_PER_TOPIC = 50;
-const MONTHLY_LIMIT = 1000;
+const QUIZZES_DISABLED_TEMPORARILY = false; // Per abilitare blocco, mettere true
+const DAILY_LIMIT_PER_TOPIC = QUIZZES_DISABLED_TEMPORARILY ? 0 : Infinity; // Accesso libero per 48h - nessun limite
+const MONTHLY_LIMIT = Infinity; // Accesso libero per 48h
 const RESET_HOUR = 3;
 const QUESTIONS_PER_ROUND = 10;
 
