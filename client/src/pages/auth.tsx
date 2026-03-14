@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
+const AUTH_DISABLED = true; // Disabilita login/registrazione per 24h
+
 type AuthMode = "login" | "register";
 
 interface AuthPageProps {
@@ -192,11 +194,16 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               <button
                 type="submit"
                 data-testid="button-login"
-                disabled={loginMutation.isPending}
-                className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-60"
+                disabled={loginMutation.isPending || AUTH_DISABLED}
+                className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {loginMutation.isPending ? "Accesso in corso..." : "Accedi →"}
+                {AUTH_DISABLED ? "⏸ Temporaneamente disabilitato" : loginMutation.isPending ? "Accesso in corso..." : "Accedi →"}
               </button>
+              {AUTH_DISABLED && (
+                <p className="text-center text-sm text-orange-600 font-semibold bg-orange-50 p-2 rounded">
+                  Accesso e registrazione disabilitati per 24h. Torna presto!
+                </p>
+              )}
               <p className="text-center text-sm text-academy-gray">
                 Non hai un account?{" "}
                 <button
@@ -278,11 +285,16 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               <button
                 type="submit"
                 data-testid="button-register"
-                disabled={registerMutation.isPending}
-                className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-60"
+                disabled={registerMutation.isPending || AUTH_DISABLED}
+                className="w-full py-3 bg-academy-blue text-white font-semibold rounded-lg hover:bg-academy-light-blue transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {registerMutation.isPending ? "Registrazione..." : "Crea Account →"}
+                {AUTH_DISABLED ? "⏸ Temporaneamente disabilitato" : registerMutation.isPending ? "Registrazione..." : "Crea Account →"}
               </button>
+              {AUTH_DISABLED && (
+                <p className="text-center text-sm text-orange-600 font-semibold bg-orange-50 p-2 rounded">
+                  Accesso e registrazione disabilitati per 24h. Torna presto!
+                </p>
+              )}
               <p className="text-center text-sm text-academy-gray">
                 Hai già un account?{" "}
                 <button
