@@ -10,6 +10,8 @@ export const users = pgTable("users", {
   fullName: text("full_name").notNull(),
   verificationToken: text("verification_token"),
   verified: boolean("verified").default(false),
+  googleId: text("google_id").unique(),
+  avatarUrl: text("avatar_url"),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({

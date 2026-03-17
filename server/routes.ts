@@ -6,6 +6,8 @@ import { ZodError } from "zod";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import { randomUUID } from "crypto";
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 declare module "express-session" {
   interface SessionData {
@@ -99,6 +101,64 @@ export async function registerRoutes(
       },
     })
   );
+
+  // ─── Google OAuth ───────────────────────────────────────────────────
+  const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+  const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+  if (GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET) {
+    const callbackURL = process.env.NODE_ENV === "production"
+      ? "https://englishacademy-it.replit.app/auth/google/callback"
+      : `https://${process.env.REPLIT_DEV_DOMAIN}/auth/google/callback`;
+
+    passport.use(new GoogleStrategy(
+      { clientID: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET, callbackURL },
+      async (_accessToken, _refreshToken, profile, done) => {
+        try {
+          const googleId = profile.id;
+          const email = profile.emails?.[0]?.value ?? "";
+          const fullName = profile.displayName ?? "Utente Google";
+          const avatarUrl = profile.photos?.[0]?.value ?? undefined;
+          let user = await storage.getUserByGoogleId(googleId);
+          if (!user && email) {
+            user = await storage.getUserByEmail(email);
+          }
+          if (!user) {
+            user = await storage.createUserFromGoogle({ googleId, email, fullName, avatarUrl });
+          }
+          return done(null, user);
+        } catch (err) {
+          return done(err as Error);
+        }
+      }
+    ));
+
+    passport.serializeUser((user: any, done) => done(null, user.id));
+    passport.deserializeUser(async (id: string, done) => {
+      const user = await storage.getUser(id);
+      done(null, user ?? false);
+    });
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    app.get("/auth/google",
+      passport.authenticate("google", { scope: ["profile", "email"] })
+    );
+
+    app.get("/auth/google/callback",
+      passport.authenticate("google", { failureRedirect: "/?authError=1" }),
+      (req: Request, res: Response) => {
+        if (req.user) {
+          req.session.userId = (req.user as any).id;
+        }
+        res.redirect("/?googleLogin=1");
+      }
+    );
+  } else {
+    console.warn("⚠️ GOOGLE_CLIENT_ID o GOOGLE_CLIENT_SECRET mancanti — Google OAuth disabilitato");
+  }
+  // ────────────────────────────────────────────────────────────────────
 
   app.post("/api/register", async (req: Request, res: Response) => {
     try {

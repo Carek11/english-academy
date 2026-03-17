@@ -156,6 +156,18 @@ function AppInner() {
   // Gestisce il link di verifica email (?token=...)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (params.get("googleLogin") === "1") {
+      window.history.replaceState({}, "", window.location.pathname);
+      queryClient.invalidateQueries({ queryKey: ["/api/me"] });
+    }
+    if (params.get("authError") === "1") {
+      window.history.replaceState({}, "", window.location.pathname);
+      setCurrentPage("auth");
+    }
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
     if (!token) return;
     setVerifyState("loading");
