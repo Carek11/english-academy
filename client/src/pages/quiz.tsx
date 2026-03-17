@@ -1,6 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { quizzes, shipQuestions } from "@/lib/quizData";
 import { saveQuizResult } from "@/lib/statsStorage";
+
+// Algoritmo Fisher-Yates: shuffle corretto e imparziale
+function fisherYates<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 /**
  * CERTIFICATO COPYRIGHT
@@ -145,6 +155,9 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
   const [autoLoadTimeout, setAutoLoadTimeout] = useState<NodeJS.Timeout | null>(null);
   const [showAutoLoadMsg, setShowAutoLoadMsg] = useState(false);
 
+  // Tracker domande già viste per argomento nella sessione corrente
+  const seenIndices = useRef<Record<string, Set<number>>>({});
+
   const generateRound = (topic: QuizType) => {
     if (topic === "marina") {
       const shipOrder = ["Aircraft Carrier", "Destroyer", "Submarine", "Frigate", "Corvette", "Patrol Vessel"];
@@ -152,10 +165,29 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
         const pool = shipQuestions[ship];
         return pool[Math.floor(Math.random() * pool.length)];
       });
-      const generalQs = [...quizzes.marina].sort(() => Math.random() - 0.5).slice(0, 4);
-      return [...shipQs, ...generalQs];
+      const shuffled = fisherYates([...quizzes.marina]);
+      return [...shipQs, ...shuffled.slice(0, 4)];
     }
-    return [...quizzes[topic]].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND);
+
+    const pool = quizzes[topic];
+    if (!seenIndices.current[topic]) seenIndices.current[topic] = new Set();
+    const seen = seenIndices.current[topic];
+
+    // Se abbiamo visto già tutte, azzeriamo il tracker (ricomincia il ciclo)
+    if (seen.size >= pool.length) seen.clear();
+
+    // Indici non ancora visti in questa sessione
+    const unseen = pool
+      .map((_, i) => i)
+      .filter(i => !seen.has(i));
+
+    // Prendo QUESTIONS_PER_ROUND domande dagli indici non visti (shuffle Fisher-Yates)
+    const picked = fisherYates(unseen).slice(0, QUESTIONS_PER_ROUND);
+
+    // Segno come visti
+    picked.forEach(i => seen.add(i));
+
+    return picked.map(i => pool[i]);
   };
 
   const handleStartQuiz = (topic: QuizType) => {
