@@ -19,6 +19,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const [rememberMe, setRememberMe] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({
     fullName: "",
@@ -29,7 +30,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
   });
 
   const loginMutation = useMutation({
-    mutationFn: (data: { email: string; password: string }) =>
+    mutationFn: (data: { email: string; password: string; rememberMe: boolean }) =>
       apiRequest("POST", "/api/login", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/me"] });
@@ -70,7 +71,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
       toast({ title: "Campi mancanti", description: "Inserisci email e password", variant: "destructive" });
       return;
     }
-    loginMutation.mutate(loginForm);
+    loginMutation.mutate({ ...loginForm, rememberMe });
   };
 
   const handleRegister = (e: React.FormEvent) => {
@@ -200,6 +201,8 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="mario@email.it"
                   value={loginForm.email}
                   onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                  autoComplete="email"
+                  name="email"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
               </div>
@@ -213,8 +216,23 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="••••••••"
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                  autoComplete="current-password"
+                  name="password"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  data-testid="checkbox-ricordami"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-academy-blue accent-academy-blue cursor-pointer"
+                />
+                <label htmlFor="remember-me" className="text-sm text-academy-gray cursor-pointer select-none">
+                  Ricordami per 30 giorni
+                </label>
               </div>
               <button
                 type="submit"
@@ -254,6 +272,8 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="Mario Rossi"
                   value={registerForm.fullName}
                   onChange={(e) => setRegisterForm({ ...registerForm, fullName: e.target.value })}
+                  autoComplete="name"
+                  name="name"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
               </div>
@@ -267,6 +287,8 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="mario_rossi"
                   value={registerForm.username}
                   onChange={(e) => setRegisterForm({ ...registerForm, username: e.target.value })}
+                  autoComplete="username"
+                  name="username"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
               </div>
@@ -280,6 +302,8 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="mario@email.it"
                   value={registerForm.email}
                   onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
+                  autoComplete="email"
+                  name="email"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
               </div>
@@ -293,6 +317,8 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="Minimo 6 caratteri"
                   value={registerForm.password}
                   onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                  autoComplete="new-password"
+                  name="password"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
               </div>
@@ -306,6 +332,8 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                   placeholder="Ripeti la password"
                   value={registerForm.confirmPassword}
                   onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
+                  autoComplete="new-password"
+                  name="confirm-password"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-academy-blue focus:border-transparent transition text-sm"
                 />
               </div>

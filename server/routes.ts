@@ -148,12 +148,18 @@ export async function registerRoutes(
   app.post("/api/login", async (req: Request, res: Response) => {
     try {
       const data = loginSchema.parse(req.body);
+      const rememberMe = req.body.rememberMe === true;
       const user = await storage.getUserByEmail(data.email);
       if (!user || user.password !== data.password) {
         return res.status(401).json({ message: "Email o password non corretti" });
       }
       // ✅ Login libero — nessun blocco per verifica email
       req.session.userId = user.id;
+      if (rememberMe) {
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 giorni
+      } else {
+        req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000; // 7 giorni
+      }
       const { password: _, verificationToken: __, ...safeUser } = user;
       return res.json(safeUser);
     } catch (err) {
