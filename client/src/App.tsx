@@ -291,7 +291,27 @@ function AppInner() {
             </div>
             <p className="text-xs tracking-[0.28em] opacity-70 font-medium mt-3">IMPARA · PRATICA · ECCELLI</p>
           </div>
-          <div className="hidden sm:flex items-center gap-1 min-w-[140px] justify-end flex-1">
+          <div className="hidden sm:flex items-center gap-2 min-w-[160px] justify-end flex-1">
+            {!isLoading && user ? (
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-semibold opacity-90 truncate max-w-[100px]">👤 {user.fullName.split(" ")[0]}</span>
+                <button
+                  data-testid="button-logout"
+                  onClick={() => logoutMutation.mutate()}
+                  className="px-3 py-1.5 text-xs font-semibold bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-colors border border-white border-opacity-30"
+                >
+                  Esci
+                </button>
+              </div>
+            ) : !isLoading ? (
+              <button
+                data-testid="button-accedi"
+                onClick={() => setCurrentPage("auth")}
+                className="px-4 py-2 text-sm font-bold bg-academy-gold hover:bg-opacity-90 text-white rounded-lg transition-colors shadow"
+              >
+                🔐 Accedi
+              </button>
+            ) : null}
           </div>
         </div>
       </header>
@@ -324,6 +344,23 @@ function AppInner() {
             🔍 Cerca
           </button>
           <div className="sm:hidden flex items-center">
+            {!isLoading && user ? (
+              <button
+                data-testid="button-logout-mobile"
+                onClick={() => logoutMutation.mutate()}
+                className="px-3 py-2 rounded-lg font-semibold text-sm bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+              >
+                👤 {user.fullName.split(" ")[0]} · Esci
+              </button>
+            ) : !isLoading ? (
+              <button
+                data-testid="button-accedi-mobile"
+                onClick={() => setCurrentPage("auth")}
+                className="px-3 py-2 rounded-lg font-bold text-sm bg-academy-gold text-white hover:bg-opacity-90 transition-colors"
+              >
+                🔐 Accedi
+              </button>
+            ) : null}
           </div>
         </div>
       </nav>
