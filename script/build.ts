@@ -46,18 +46,29 @@ async function buildAll() {
   ];
   const externals = allDeps.filter((dep) => !allowlist.includes(dep));
 
-  await esbuild({
-    entryPoints: ["server/index.ts"],
-    platform: "node",
+  const sharedConfig = {
+    platform: "node" as const,
     bundle: true,
-    format: "cjs",
-    outfile: "dist/index.cjs",
+    format: "cjs" as const,
     define: {
       "process.env.NODE_ENV": '"production"',
     },
     minify: true,
     external: externals,
-    logLevel: "info",
+    logLevel: "info" as const,
+  };
+
+  await esbuild({
+    entryPoints: ["server/index.ts"],
+    outfile: "dist/index.cjs",
+    ...sharedConfig,
+  });
+
+  console.log("building vercel handler...");
+  await esbuild({
+    entryPoints: ["server/handler.ts"],
+    outfile: "dist/vercel.cjs",
+    ...sharedConfig,
   });
 }
 

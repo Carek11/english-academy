@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { insertUserSchema, loginSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import session from "express-session";
-import MemoryStore from "memorystore";
+import ConnectPgSimple from "connect-pg-simple";
 import { randomUUID } from "crypto";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
@@ -15,7 +15,7 @@ declare module "express-session" {
   }
 }
 
-const MemStore = MemoryStore(session);
+const PgStore = ConnectPgSimple(session);
 
 function getSiteUrl(): string {
   return process.env.SITE_URL || `https://${process.env.REPLIT_DEV_DOMAIN}` || "https://english-academy.it.com";
@@ -93,7 +93,10 @@ export async function registerRoutes(
       secret: process.env.SESSION_SECRET || "english-academy-secret-2024",
       resave: false,
       saveUninitialized: false,
-      store: new MemStore({ checkPeriod: 86400000 }),
+      store: new PgStore({
+        conString: process.env.DATABASE_URL,
+        createTableIfMissing: true,
+      }),
       cookie: {
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
@@ -107,9 +110,8 @@ export async function registerRoutes(
   const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
   if (GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET) {
-    const callbackURL = process.env.NODE_ENV === "production"
-      ? "https://englishacademy-it.replit.app/auth/google/callback"
-      : `https://${process.env.REPLIT_DEV_DOMAIN}/auth/google/callback`;
+    const siteUrl = getSiteUrl();
+    const callbackURL = process.env.GOOGLE_CALLBACK_URL || `${siteUrl}/auth/google/callback`;
 
     passport.use(new GoogleStrategy(
       { clientID: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET, callbackURL },
