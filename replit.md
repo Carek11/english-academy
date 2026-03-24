@@ -204,13 +204,26 @@ academy-bg: (sfondo chiaro)
 
 ## Deploy
 
+### Replit (primario)
 - **Piattaforma:** Replit Autoscale
 - **Build:** `npm run build` (Vite + TypeScript)
 - **Run:** `npm run start` → `NODE_ENV=production node dist/index.cjs`
 - **URL live:** `https://englishacademy-it.replit.app`
 - **Dominio custom:** `english-academy.it.com`
-- **NON usare Vercel** — incompatibile con l'architettura Express (non serverless)
 - Workflow dev: `npm run dev` → Express su porta 5000, Vite HMR integrato
+
+### Vercel (secondario, GitHub sync)
+- **Repo:** `Carek11/english-academy` (branch: `main`)
+- **Progetto:** `prj_pSSgWpBcSRzqaj2tXtqVjkvoDg0N` / team `team_xb5tvmvL8UenLi2Hh8FxjuP0`
+- **URL prod:** `english-academy-carek11s-projects.vercel.app`
+- **Build command:** `node scripts/vercel-build.mjs` (Vercel Build Output API v3)
+- **Architettura Vercel:** esbuild compila `server/vercel-entry.ts` → Lambda CJS bundle
+  - `api/index.ts` NON esiste in repo (Vercel CLI lo sovrascriveva) — sorgente in `server/vercel-entry.ts`
+  - `connect-pg-simple` è external e viene copiato in `node_modules/` della funzione
+  - `package.json` con `"type":"commonjs"` nella dir funzione per evitare conflitto ESM
+  - Footer esbuild: `module.exports = module.exports.default` per esporre handler direttamente
+- **DB su Vercel:** richiede PostgreSQL esterno (Neon/Supabase). DATABASE_URL attuale punta a Replit interno (`helium/...`), non raggiungibile da Vercel Lambda
+- **⚠️ Session:** usa MemoryStore su Vercel (non persistente tra invocazioni Lambda)
 
 ---
 

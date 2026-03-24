@@ -88,15 +88,17 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   app.set("trust proxy", 1);
+
+  const sessionStore = process.env.VERCEL
+    ? undefined
+    : new PgStore({ conString: process.env.DATABASE_URL, createTableIfMissing: true });
+
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "english-academy-secret-2024",
       resave: false,
       saveUninitialized: false,
-      store: new PgStore({
-        conString: process.env.DATABASE_URL,
-        createTableIfMissing: true,
-      }),
+      ...(sessionStore ? { store: sessionStore } : {}),
       cookie: {
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
@@ -193,7 +195,7 @@ export async function registerRoutes(
   // Verifica email tramite token
   app.get("/api/verify/:token", async (req: Request, res: Response) => {
     try {
-      const { token } = req.params;
+      const token = req.params.token as string;
       const user = await storage.getUserByVerificationToken(token);
       if (!user) {
         return res.status(400).json({ message: "Link di verifica non valido o già utilizzato" });

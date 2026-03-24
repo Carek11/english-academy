@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { shipTypes, shipQuestions } from "@/lib/quizData";
-import carrierImg from "@assets/AZzOM8EviBgPFGACFMJuAA-AZzOM8EvYcyHuF9kkk6E9g_1773252252710.jpg";
-import commandCenterImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773251962760.jpg";
-import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773251962761.jpg";
-import frigateImg from "@assets/AZzOu1Ntrknm8qmEucepHQ-AZzOu1NtMmZiqfvN0q-AbQ_1773251962761.jpg";
-import submarineImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_1773251962761.jpg";
-import patrolVesselImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773251962762.jpg";
+const carrierImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean%2C_2012.jpg/800px-USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean%2C_2012.jpg";
+const commandCenterImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/P408_ITS_Rimini.jpg/800px-P408_ITS_Rimini.jpg";
+const modernDestroyerImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/ITS_Andrea_Doria_%28D_553%29_in_2013.jpg/800px-ITS_Andrea_Doria_%28D_553%29_in_2013.jpg";
+const frigateImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/ITS_Carabiniere_%28F_583%29_in_2019.jpg/800px-ITS_Carabiniere_%28F_583%29_in_2019.jpg";
+const submarineImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/ITS_Salvatore_Todaro_%28S_526%29_in_2017.jpg/800px-ITS_Salvatore_Todaro_%28S_526%29_in_2017.jpg";
+const patrolVesselImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/P408_ITS_Rimini.jpg/800px-P408_ITS_Rimini.jpg";
 
 const navyComponents = [
   { icon: "🧭", title: "Navigation Systems", desc: "GPS, Compass, ECDIS, Radar, AIS." },

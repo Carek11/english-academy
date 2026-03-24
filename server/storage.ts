@@ -4,7 +4,13 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import pg from "pg";
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  connectionTimeoutMillis: 5000,
+});
+pool.on("error", (err) => {
+  console.error("[pg pool] idle client error:", err.message);
+});
 const db = drizzle(pool);
 
 export interface IStorage {

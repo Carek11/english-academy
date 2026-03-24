@@ -1,20 +1,6 @@
 {
   "version": 2,
   "framework": null,
-  "buildCommand": "npm run build",
-  "builds": [
-    {
-      "src": "dist/vercel.cjs",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["dist/public/**"]
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/dist/vercel.cjs"
-    }
-  ]
+  "installCommand": "npm install --include=dev",
+  "buildCommand": "node scripts/vercel-build.mjs"
 }
