@@ -174,15 +174,17 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
     }
   };
 
-  // Auto-chiudi tooltip dopo che la traduzione è completata
+  // Chiudi tooltip quando il mouse si muove
   useEffect(() => {
-    if (hoveredWord && !isTranslatingWord && wordTranslation && wordTranslation !== "⏳...") {
-      const timer = setTimeout(() => {
-        setHoveredWord(null);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [hoveredWord, isTranslatingWord, wordTranslation]);
+    if (!hoveredWord) return;
+
+    const handleMouseMove = () => {
+      setHoveredWord(null);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
+  }, [hoveredWord]);
 
   const handleWordClick = async (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
