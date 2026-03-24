@@ -88,6 +88,34 @@ function TrialExpiredModal({ onRegister, onClose }: { onRegister: () => void; on
 
 function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void; onClose: () => void }) {
   const [q, setQ] = useState("");
+  const [dictResults, setDictResults] = useState<any[]>([]);
+  const [dictLoading, setDictLoading] = useState(false);
+
+  useEffect(() => {
+    if (q.trim().length < 2) {
+      setDictResults([]);
+      return;
+    }
+
+    const fetchDict = async () => {
+      setDictLoading(true);
+      try {
+        const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${q.toLowerCase().trim()}`);
+        if (res.ok) {
+          const data = await res.json();
+          setDictResults(data);
+        } else {
+          setDictResults([]);
+        }
+      } catch (err) {
+        setDictResults([]);
+      }
+      setDictLoading(false);
+    };
+
+    const timer = setTimeout(fetchDict, 300);
+    return () => clearTimeout(timer);
+  }, [q]);
 
   const results = useMemo(() => {
     if (q.trim().length < 2) return [];
@@ -120,26 +148,55 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
         </div>
         {q.trim().length < 2 ? (
           <div className="p-6 text-center text-academy-gray text-sm">Inizia a digitare per cercare...</div>
-        ) : results.length === 0 ? (
-          <div className="p-6 text-center text-academy-gray text-sm">Nessun risultato per "<strong>{q}</strong>"</div>
         ) : (
-          <ul className="py-2 max-h-80 overflow-y-auto">
-            {results.map((r, i) => (
-              <li key={i}>
-                <button
-                  data-testid={`search-result-${i}`}
-                  onClick={() => { onNavigate(r.type); onClose(); }}
-                  className="w-full text-left px-5 py-3 hover:bg-academy-bg transition-colors flex items-center gap-3"
-                >
-                  <span className="text-xl">{r.icon}</span>
-                  <div>
-                    <p className="font-semibold text-academy-dark text-sm">{r.label}</p>
-                    <p className="text-xs text-academy-gray">{r.sub}</p>
+          <div className="max-h-80 overflow-y-auto">
+            {dictLoading && (
+              <div className="p-4 text-center text-sm text-academy-gray">
+                ⏳ Ricerca nel vocabolario...
+              </div>
+            )}
+            {!dictLoading && dictResults.length > 0 && (
+              <div className="border-b border-gray-200 p-4 bg-academy-bg">
+                <p className="text-xs font-bold text-academy-dark mb-3">📚 VOCABOLARIO INGLESE</p>
+                {dictResults.map((word) => (
+                  <div key={word.word} className="mb-3 pb-3 border-b border-gray-300 last:border-b-0">
+                    <p className="font-bold text-academy-dark text-sm">{word.word}</p>
+                    {word.phonetic && <p className="text-xs text-academy-gray italic">{word.phonetic}</p>}
+                    {word.meanings && word.meanings[0]?.definitions && (
+                      <p className="text-xs text-academy-dark mt-1">
+                        {word.meanings[0].definitions[0]?.definition || "Nessuna definizione disponibile"}
+                      </p>
+                    )}
                   </div>
-                </button>
-              </li>
-            ))}
-          </ul>
+                ))}
+              </div>
+            )}
+            {results.length === 0 && dictResults.length === 0 && (
+              <div className="p-6 text-center text-academy-gray text-sm">Nessun risultato per "<strong>{q}</strong>"</div>
+            )}
+            {results.length > 0 && (
+              <>
+                <p className="text-xs font-bold text-academy-dark bg-gray-50 px-5 py-2">🎓 ACADEMY</p>
+                <ul className="py-2">
+                  {results.map((r, i) => (
+                    <li key={i}>
+                      <button
+                        data-testid={`search-result-${i}`}
+                        onClick={() => { onNavigate(r.type); onClose(); }}
+                        className="w-full text-left px-5 py-3 hover:bg-academy-bg transition-colors flex items-center gap-3"
+                      >
+                        <span className="text-xl">{r.icon}</span>
+                        <div>
+                          <p className="font-semibold text-academy-dark text-sm">{r.label}</p>
+                          <p className="text-xs text-academy-gray">{r.sub}</p>
+                        </div>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
         )}
       </div>
     </div>
