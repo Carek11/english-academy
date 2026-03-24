@@ -74,6 +74,7 @@ export default function PremiumPage() {
   }
 
   return (
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-50">
     <div className="space-y-12 max-w-4xl mx-auto py-12">
       <section className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-academy-dark">💎 Premium</h1>
@@ -131,6 +132,7 @@ export default function PremiumPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

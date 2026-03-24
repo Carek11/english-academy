@@ -541,7 +541,7 @@ function AppInner() {
     },
     { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
     { id: "glossario",    label: "Glossario",       emoji: "📖" },
-    { id: "premium",      label: "💎 Premium",      emoji: "💎" },
+    { id: "premium",      label: "💎",             emoji: "💎" },
     { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
     { id: "contatti",     label: "Contatti",        emoji: "✉️" },
   ];
