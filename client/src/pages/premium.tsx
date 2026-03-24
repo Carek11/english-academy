@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
+import { useQuery } from "@tanstack/react-query";
 
 export default function PremiumPage() {
   const [isPremium, setIsPremium] = useState(false);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [location] = useLocation();
+  const [, setLocation] = useLocation();
+
+  // Verifica se utente è loggato
+  const { data: user } = useQuery({
+    queryKey: ["/api/me"],
+    queryFn: async () => {
+      const res = await fetch("/api/me");
+      if (!res.ok) return null;
+      return await res.json();
+    },
+  });
 
   // Carica stato premium
   useEffect(() => {
@@ -81,7 +92,15 @@ export default function PremiumPage() {
     };
   }, [isPremium, loading]);
 
-  if (loading) {
+  // Se non loggato, mostra alert e reindirizza
+  useEffect(() => {
+    if (!loading && !user) {
+      alert("❌ Devi essere registrato e loggato per accedere a Premium!");
+      setLocation("/auth");
+    }
+  }, [user, loading, setLocation]);
+
+  if (loading || !user) {
     return <div className="text-center py-20">Caricamento...</div>;
   }
 
