@@ -97,6 +97,9 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const [navyWikiLoading, setNavyWikiLoading] = useState(false);
   const [selectedWikiArticle, setSelectedWikiArticle] = useState<any>(null);
   const [wikiContent, setWikiContent] = useState<string>("");
+  const [translatedWikiContent, setTranslatedWikiContent] = useState<string>("");
+  const [isTranslatingWiki, setIsTranslatingWiki] = useState(false);
+  const [isWikiTranslated, setIsWikiTranslated] = useState(false);
 
   useEffect(() => {
     if (q.trim().length < 2) {
@@ -157,6 +160,8 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const handleWikiArticleClick = async (title: string) => {
     setSelectedWikiArticle(title);
     setWikiContent("Caricamento...");
+    setTranslatedWikiContent("");
+    setIsWikiTranslated(false);
     try {
       const res = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
@@ -168,6 +173,29 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
     } catch (err) {
       setWikiContent("Errore nel caricamento dell'articolo");
     }
+  };
+
+  const handleWikiTranslate = async () => {
+    if (isWikiTranslated) {
+      setIsWikiTranslated(false);
+      return;
+    }
+
+    setIsTranslatingWiki(true);
+    try {
+      const textToTranslate = wikiContent.slice(0, 3000);
+      const res = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textToTranslate)}&langpair=en|it`
+      );
+      const data = await res.json();
+      if (data.responseStatus === 200) {
+        setTranslatedWikiContent(data.responseData.translatedText);
+        setIsWikiTranslated(true);
+      }
+    } catch (err) {
+      console.error("Errore traduzione", err);
+    }
+    setIsTranslatingWiki(false);
   };
 
   const results = useMemo(() => {
@@ -280,14 +308,23 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
               <h2 className="text-xl font-bold text-academy-dark truncate">{selectedWikiArticle}</h2>
-              <button onClick={() => setSelectedWikiArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0 ml-4">
-                ✕
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleWikiTranslate}
+                  disabled={isTranslatingWiki}
+                  className="px-3 py-1.5 bg-academy-blue text-white text-sm font-semibold rounded hover:bg-academy-light-blue disabled:opacity-50 transition-colors"
+                >
+                  {isTranslatingWiki ? "⏳ Traduzione..." : isWikiTranslated ? "🇬🇧 Inglese" : "🇮🇹 Italiano"}
+                </button>
+                <button onClick={() => setSelectedWikiArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0">
+                  ✕
+                </button>
+              </div>
             </div>
             <div className="overflow-y-auto flex-1 p-6">
-              <div className="text-academy-dark whitespace-pre-wrap leading-relaxed text-sm line-clamp-none">
-                {wikiContent.slice(0, 2000)}
-                {wikiContent.length > 2000 ? "..." : ""}
+              <div className="text-academy-dark whitespace-pre-wrap leading-relaxed text-sm">
+                {isWikiTranslated ? translatedWikiContent : wikiContent.slice(0, 2000)}
+                {!isWikiTranslated && wikiContent.length > 2000 ? "..." : ""}
               </div>
             </div>
           </div>

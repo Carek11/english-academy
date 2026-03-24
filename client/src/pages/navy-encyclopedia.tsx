@@ -6,6 +6,9 @@ export default function NavyEncyclopediaPage() {
   const [localResults, setLocalResults] = useState<any[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<any>(null);
   const [articleContent, setArticleContent] = useState<string>("");
+  const [translatedContent, setTranslatedContent] = useState<string>("");
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [isTranslated, setIsTranslated] = useState(false);
 
   const { isLoading } = useQuery({
     queryKey: ["navy-wiki", search],
@@ -34,6 +37,8 @@ export default function NavyEncyclopediaPage() {
   const handleArticleClick = async (title: string) => {
     setSelectedArticle(title);
     setArticleContent("Caricamento...");
+    setTranslatedContent("");
+    setIsTranslated(false);
     try {
       const res = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
@@ -45,6 +50,29 @@ export default function NavyEncyclopediaPage() {
     } catch (err) {
       setArticleContent("Errore nel caricamento dell'articolo");
     }
+  };
+
+  const handleTranslate = async () => {
+    if (isTranslated) {
+      setIsTranslated(false);
+      return;
+    }
+
+    setIsTranslating(true);
+    try {
+      const textToTranslate = articleContent.slice(0, 3000);
+      const res = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textToTranslate)}&langpair=en|it`
+      );
+      const data = await res.json();
+      if (data.responseStatus === 200) {
+        setTranslatedContent(data.responseData.translatedText);
+        setIsTranslated(true);
+      }
+    } catch (err) {
+      console.error("Errore traduzione", err);
+    }
+    setIsTranslating(false);
   };
 
   return (
@@ -112,13 +140,22 @@ export default function NavyEncyclopediaPage() {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
               <h2 className="text-2xl font-bold text-academy-dark">{selectedArticle}</h2>
-              <button onClick={() => setSelectedArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold">
-                ✕
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleTranslate}
+                  disabled={isTranslating}
+                  className="px-3 py-1.5 bg-academy-blue text-white text-sm font-semibold rounded hover:bg-academy-light-blue disabled:opacity-50 transition-colors"
+                >
+                  {isTranslating ? "⏳ Traduzione..." : isTranslated ? "🇬🇧 Inglese" : "🇮🇹 Italiano"}
+                </button>
+                <button onClick={() => setSelectedArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold">
+                  ✕
+                </button>
+              </div>
             </div>
             <div className="overflow-y-auto flex-1 p-6">
-              <div className="prose prose-sm max-w-none text-academy-dark whitespace-pre-wrap leading-relaxed">
-                {articleContent}
+              <div className="text-academy-dark whitespace-pre-wrap leading-relaxed">
+                {isTranslated ? translatedContent : articleContent}
               </div>
             </div>
           </div>
