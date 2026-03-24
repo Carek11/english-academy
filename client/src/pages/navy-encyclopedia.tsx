@@ -11,6 +11,7 @@ export default function NavyEncyclopediaPage() {
   const [wordTranslation, setWordTranslation] = useState<string>("");
   const [isTranslatingWord, setIsTranslatingWord] = useState(false);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [wordTranslations, setWordTranslations] = useState<Record<string, string>>({});
 
   const { isLoading } = useQuery({
     queryKey: ["navy-wiki", search],
@@ -39,6 +40,7 @@ export default function NavyEncyclopediaPage() {
   const handleArticleClick = async (title: string) => {
     setSelectedArticle(title);
     setArticleContent("Caricamento...");
+    setWordTranslations({});
     try {
       const res = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
@@ -46,7 +48,20 @@ export default function NavyEncyclopediaPage() {
       const data = await res.json();
       const pages = data.query?.pages || {};
       const page = Object.values(pages)[0] as any;
-      setArticleContent(page?.extract || "Contenuto non disponibile");
+      const content = page?.extract || "Contenuto non disponibile";
+      setArticleContent(content);
+      
+      // Pre-traduce tutte le parole in background
+      const translations: Record<string, string> = {};
+      content.split(/\s+/).forEach((word) => {
+        const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+        const normalized = cleaned.toLowerCase().trim();
+        if (normalized && !translations[normalized]) {
+          const translation = getInstantTranslation(cleaned);
+          translations[normalized] = translation;
+        }
+      });
+      setWordTranslations(translations);
     } catch (err) {
       setArticleContent("Errore nel caricamento dell'articolo");
     }
@@ -72,8 +87,10 @@ export default function NavyEncyclopediaPage() {
 
       setHoveredWord(word);
       
-      // Traduzione istantanea dal cache locale
-      const translation = getInstantTranslation(word);
+      // Usa la traduzione pre-calcolata
+      const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+      const normalized = cleaned.toLowerCase().trim();
+      const translation = wordTranslations[normalized] || getInstantTranslation(cleaned);
       setWordTranslation(translation);
       setIsTranslatingWord(false);
 
@@ -185,23 +202,29 @@ export default function NavyEncyclopediaPage() {
               </button>
             </div>
             <div className="overflow-y-auto flex-1 p-6" onClick={handleWordClick}>
-              <p className="text-xs text-academy-gray mb-4">💡 Parole già tradotte in blu - Clicca per dettagli</p>
+              <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per la traduzione</p>
               <div className="text-academy-dark leading-relaxed">
-                {preTranslateText(articleContent).map((item, i) => (
-                  <span 
-                    key={i} 
-                    className={`word-unit px-1 rounded transition-colors inline-block ${
-                      item.isTranslated 
-                        ? "text-academy-blue font-semibold hover:bg-academy-light-blue hover:text-white cursor-pointer" 
-                        : "hover:bg-gray-200 cursor-pointer"
-                    }`}
-                    role="button"
-                    tabIndex={0}
-                    title={item.isTranslated ? `${item.word} = ${item.translation}` : ""}
-                  >
-                    {item.word}{" "}
-                  </span>
-                ))}
+                {articleContent.split(/\s+/).map((word, i) => {
+                  const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+                  const normalized = cleaned.toLowerCase().trim();
+                  const isTranslated = !!wordTranslations[normalized] && wordTranslations[normalized] !== cleaned;
+                  
+                  return (
+                    <span 
+                      key={i} 
+                      className={`word-unit px-1 rounded transition-colors inline-block ${
+                        isTranslated 
+                          ? "text-academy-blue font-semibold hover:bg-academy-light-blue hover:text-white cursor-pointer" 
+                          : "hover:bg-gray-200 cursor-pointer"
+                      }`}
+                      role="button"
+                      tabIndex={0}
+                      title={isTranslated ? `${cleaned} = ${wordTranslations[normalized]}` : ""}
+                    >
+                      {word}{" "}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
