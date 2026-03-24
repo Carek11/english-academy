@@ -110,6 +110,15 @@ const commonWords: Record<string, string> = {
   "rudder": "timone", "propeller": "elica", "anchor": "ancora", "buoy": "boa",
   "lighthouse": "faro", "reef": "scogliera", "tide": "marea", "current": "corrente",
   "wave": "onda", "storm": "tempesta", "fog": "nebbia", "visibility": "visibilità",
+  "vessel": "nave", "vessels": "navi", "ships": "navi", "boats": "barche", "submarine": "sottomarino",
+  "submarines": "sottomarini", "destroyer": "cacciatorpediniere", "frigate": "fregata",
+  "frigates": "fregate", "aircraft": "aereo", "aircraft carrier": "portaerei", "tanker": "cisterna",
+  "freighter": "carico", "container": "contenitore", "containers": "contenitori", "ports": "porti",
+  "harbor": "porto", "dock": "banchina", "pier": "molo", "channel": "canale", "strait": "stretto",
+  "navigation": "navigazione", "maritime": "marittimo", "marine": "marino", "navy": "marina",
+  "coast": "costa", "coastal": "costiero", "offshore": "largo", "onshore": "costa",
+  "speed": "velocità", "knots": "nodi", "depth": "profondità", "buoys": "boe",
+  "lights": "luci", "signal": "segnale", "flags": "bandiere", "flag": "bandiera",
 };
 
 // Inizializza cache dalle glossary terms
