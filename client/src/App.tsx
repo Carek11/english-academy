@@ -541,7 +541,7 @@ function AppInner() {
     },
     { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
     { id: "glossario",    label: "Glossario",       emoji: "📖" },
-    { id: "premium",      label: "💎",             emoji: "💎" },
+    { id: "premium",      label: "Premium",        emoji: "💎", highlight: true },
     { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
     { id: "contatti",     label: "Contatti",        emoji: "✉️" },
   ];
@@ -673,9 +673,13 @@ function AppInner() {
                 data-testid={`nav-${item.id}`}
                 onClick={() => setCurrentPage(item.id as PageType)}
                 className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap ${
-                  currentPage === item.id
-                    ? "bg-academy-blue text-white"
-                    : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
+                  (item as any).highlight
+                    ? currentPage === item.id
+                      ? "bg-gradient-to-r from-sky-400 to-sky-500 text-white shadow-lg"
+                      : "bg-gradient-to-r from-sky-300 to-sky-400 text-white hover:shadow-lg"
+                    : currentPage === item.id
+                      ? "bg-academy-blue text-white"
+                      : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
                 }`}
               >
                 {item.emoji} {item.label}
