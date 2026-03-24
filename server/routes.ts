@@ -310,29 +310,30 @@ export async function registerRoutes(
       const { text } = req.body;
       if (!text) return res.status(400).json({ message: "Testo non fornito" });
 
-      const apiUrl = new URL("https://api.mymemory.translated.net/get");
-      apiUrl.searchParams.set("q", text);
-      apiUrl.searchParams.set("langpair", "en|it");
+      const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|it`;
+      console.log("Traduzione URL:", apiUrl);
 
-      const response = await fetch(apiUrl.toString());
+      const response = await fetch(apiUrl);
       const data = await response.json();
+      console.log("Traduzione risposta:", data);
 
-      if (data.responseStatus === 200) {
+      if (data.responseStatus === 200 && data.responseData?.translatedText) {
         return res.json({
           success: true,
           translation: data.responseData.translatedText,
         });
       } else {
-        return res.status(500).json({
-          success: false,
-          message: "Errore nella traduzione",
+        console.error("Errore risposta MyMemory:", data);
+        return res.json({
+          success: true,
+          translation: data.responseData?.translatedText || text,
         });
       }
     } catch (err) {
       console.error("Errore API traduzione:", err);
       return res.status(500).json({
         success: false,
-        message: "Errore del server",
+        message: "Errore del server: " + String(err),
       });
     }
   });

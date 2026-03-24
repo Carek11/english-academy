@@ -58,25 +58,33 @@ export default function NavyEncyclopediaPage() {
       return;
     }
 
+    if (!articleContent || articleContent === "Caricamento..." || articleContent.includes("Errore")) {
+      alert("Articolo non completamente caricato. Riprova tra qualche secondo.");
+      return;
+    }
+
     setIsTranslating(true);
     try {
       const textToTranslate = articleContent.slice(0, 2000);
+      console.log("Tradotto testo di ", textToTranslate.length, " caratteri");
+      
       const res = await fetch("/api/translate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: textToTranslate }),
       });
       const data = await res.json();
+      console.log("Risposta traduzione:", data);
       
       if (data.success && data.translation) {
         setTranslatedContent(data.translation);
         setIsTranslated(true);
       } else {
-        alert("Traduzione non disponibile");
+        alert("Traduzione non disponibile: " + (data.message || "sconosciuto"));
       }
     } catch (err) {
       console.error("Errore traduzione:", err);
-      alert("Errore nella traduzione");
+      alert("Errore nella traduzione: " + String(err));
     }
     setIsTranslating(false);
   };
