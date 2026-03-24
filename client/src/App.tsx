@@ -17,6 +17,7 @@ import ContactsPage from "@/pages/contacts";
 import AuthPage from "@/pages/auth";
 import GlossaryPage from "@/pages/glossary";
 import StatsPage from "@/pages/stats";
+import NavyEncyclopediaPage from "@/pages/navy-encyclopedia";
 import { glossaryTerms } from "@/lib/glossaryData";
 import { courseData } from "@/lib/quizData";
 
@@ -25,7 +26,7 @@ if (import.meta.env.PROD) {
   fetch("/api/_health").catch(() => logger.warn("Health check failed"));
 }
 
-type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
+type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche" | "navy-encyclopedia";
 
 const TRIAL_DURATION = Infinity; // ✅ Accesso completamente libero, nessun limite temporale
 const MODAL_DISABLED = true; // ✅ NON mostrare MAI il modal registrazione finché non riattivato
@@ -362,6 +363,7 @@ function AppInner() {
     auth: <AuthPage onSuccess={() => { queryClient.invalidateQueries({ queryKey: ["/api/me"] }); setCurrentPage("home"); }} />,
     glossario: <GlossaryPage />,
     statistiche: <StatsPage />,
+    "navy-encyclopedia": <NavyEncyclopediaPage />,
   };
 
   const navItems = [
@@ -381,6 +383,7 @@ function AppInner() {
       emoji: "⚓",
       submenu: [
         { id: "marina", label: "Navi Militari", emoji: "⚓" },
+        { id: "navy-encyclopedia", label: "Enciclopedia Navale", emoji: "📚" },
         { id: "quiz-marina", label: "Quiz Marina", emoji: "🎯" },
       ]
     },
@@ -481,7 +484,7 @@ function AppInner() {
                   data-testid={`nav-${item.id}`}
                   onClick={() => setOpenDropdown(openDropdown === item.id ? null : item.id)}
                   className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-1 ${
-                    currentPage === "corsi" || currentPage === "quiz-cultura" || currentPage === "marina" || currentPage === "quiz-marina"
+                    currentPage === "corsi" || currentPage === "quiz-cultura" || currentPage === "marina" || currentPage === "quiz-marina" || currentPage === "navy-encyclopedia"
                       ? "bg-academy-blue text-white"
                       : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
                   }`}
