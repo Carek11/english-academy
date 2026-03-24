@@ -18,6 +18,7 @@ import AuthPage from "@/pages/auth";
 import GlossaryPage from "@/pages/glossary";
 import StatsPage from "@/pages/stats";
 import NavyEncyclopediaPage from "@/pages/navy-encyclopedia";
+import PremiumPage from "@/pages/premium";
 import { glossaryTerms } from "@/lib/glossaryData";
 import { getInstantTranslation } from "@/lib/instantTranslator";
 import { courseData } from "@/lib/quizData";
@@ -28,7 +29,7 @@ if (import.meta.env.PROD) {
   fetch("/api/_health").catch(() => logger.warn("Health check failed"));
 }
 
-type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche" | "navy-encyclopedia";
+type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche" | "navy-encyclopedia" | "premium";
 
 const TRIAL_DURATION = Infinity; // ✅ Accesso completamente libero, nessun limite temporale
 const MODAL_DISABLED = true; // ✅ NON mostrare MAI il modal registrazione finché non riattivato
@@ -514,6 +515,7 @@ function AppInner() {
     glossario: <GlossaryPage />,
     statistiche: <StatsPage />,
     "navy-encyclopedia": <NavyEncyclopediaPage />,
+    premium: <PremiumPage />,
   };
 
   const navItems = [
@@ -539,6 +541,7 @@ function AppInner() {
     },
     { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
     { id: "glossario",    label: "Glossario",       emoji: "📖" },
+    { id: "premium",      label: "💎 Premium",      emoji: "💎" },
     { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
     { id: "contatti",     label: "Contatti",        emoji: "✉️" },
   ];

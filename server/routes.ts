@@ -360,5 +360,145 @@ export async function registerRoutes(
     }
   });
 
+  // ========== PAYPAL ENDPOINTS ==========
+  const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || "";
+  const PAYPAL_SECRET = process.env.PAYPAL_SECRET || "";
+  const PAYPAL_API_URL = "https://api-m.paypal.com"; // Usa sandbox se in dev
+
+  async function getPaypalAccessToken(): Promise<string> {
+    const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`).toString("base64");
+    const res = await fetch(`${PAYPAL_API_URL}/v1/oauth2/token`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Basic ${auth}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: "grant_type=client_credentials",
+    });
+    const data = (await res.json()) as { access_token: string };
+    return data.access_token;
+  }
+
+  // Crea ordine PayPal
+  app.post("/api/paypal/create-order", async (req: Request, res: Response) => {
+    if (!req.user?.id) return res.status(401).json({ error: "Non autenticato" });
+
+    try {
+      const token = await getPaypalAccessToken();
+      const order = await fetch(`${PAYPAL_API_URL}/v2/checkout/orders`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          intent: "CAPTURE",
+          purchase_units: [
+            {
+              amount: {
+                currency_code: "EUR",
+                value: "4.99", // €4.99 per mese
+              },
+              description: "English Academy Premium - 1 mese",
+            },
+          ],
+          application_context: {
+            brand_name: "English Academy",
+            locale: "it-IT",
+            user_action: "PAY_NOW",
+            return_url: `${getSiteUrl()}/premium?success=true`,
+            cancel_url: `${getSiteUrl()}/premium?success=false`,
+          },
+        }),
+      });
+
+      const orderData = (await order.json()) as { id: string };
+      return res.json({ orderId: orderData.id });
+    } catch (err) {
+      console.error("Errore PayPal create:", err);
+      return res.status(500).json({ error: "Errore creazione ordine" });
+    }
+  });
+
+  // Cattura pagamento PayPal
+  app.post("/api/paypal/capture-order", async (req: Request, res: Response) => {
+    if (!req.user?.id) return res.status(401).json({ error: "Non autenticato" });
+
+    const { orderId } = req.body;
+    if (!orderId) return res.status(400).json({ error: "orderId mancante" });
+
+    try {
+      const token = await getPaypalAccessToken();
+      const capture = await fetch(`${PAYPAL_API_URL}/v2/checkout/orders/${orderId}/capture`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const captureData = (await capture.json()) as { 
+        status: string; 
+        id: string;
+        purchase_units: Array<{ payments: { captures: Array<{ status: string }> } }>
+      };
+
+      if (captureData.status === "COMPLETED") {
+        // Salva subscription nel DB
+        const expiresAt = new Date();
+        expiresAt.setMonth(expiresAt.getMonth() + 1); // Premium per 1 mese
+
+        const subscription = await storage.createSubscription({
+          userId: req.user.id,
+          paypalOrderId: orderId,
+          status: "COMPLETED",
+          amount: "4.99",
+          expiresAt,
+        });
+
+        // Aggiorna user come premium
+        await storage.setUserPremium(req.user.id, expiresAt);
+
+        return res.json({ 
+          success: true, 
+          message: "Pagamento completato!",
+          expiresAt 
+        });
+      }
+
+      return res.status(400).json({ error: "Pagamento non completato" });
+    } catch (err) {
+      console.error("Errore PayPal capture:", err);
+      return res.status(500).json({ error: "Errore cattura pagamento" });
+    }
+  });
+
+  // Verifica stato premium
+  app.get("/api/user/premium", async (req: Request, res: Response) => {
+    if (!req.user?.id) return res.status(401).json({ error: "Non autenticato" });
+
+    try {
+      const user = await storage.getUser(req.user.id);
+      if (!user) return res.status(404).json({ error: "Utente non trovato" });
+
+      // Se premium è scaduto, aggiorna
+      if (user.isPremium && user.premiumExpiresAt && new Date(user.premiumExpiresAt) < new Date()) {
+        const updatedUser = await storage.setUserPremium(user.id, new Date()); // Scaduto
+        return res.json({
+          isPremium: false,
+          expiresAt: null,
+        });
+      }
+
+      return res.json({
+        isPremium: user.isPremium || false,
+        expiresAt: user.premiumExpiresAt,
+      });
+    } catch (err) {
+      console.error("Errore verifica premium:", err);
+      return res.status(500).json({ error: "Errore" });
+    }
+  });
+
   return httpServer;
 }

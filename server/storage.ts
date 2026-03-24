@@ -1,4 +1,4 @@
-import { type User, type InsertUser, users } from "@shared/schema";
+import { type User, type InsertUser, type Subscription, type InsertSubscription, users, subscriptions } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
@@ -22,6 +22,10 @@ export interface IStorage {
   createUser(user: InsertUser, verificationToken: string): Promise<User>;
   createUserFromGoogle(data: { googleId: string; email: string; fullName: string; avatarUrl?: string }): Promise<User>;
   verifyUser(id: string): Promise<User>;
+  createSubscription(subscription: InsertSubscription): Promise<Subscription>;
+  getSubscriptionByPaypalOrderId(paypalOrderId: string): Promise<Subscription | undefined>;
+  updateSubscriptionStatus(id: string, status: string): Promise<Subscription>;
+  setUserPremium(userId: string, expiresAt: Date): Promise<User>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -84,6 +88,41 @@ export class DatabaseStorage implements IStorage {
       .update(users)
       .set({ verified: true, verificationToken: null })
       .where(eq(users.id, id))
+      .returning();
+    return user;
+  }
+
+  async createSubscription(subscription: InsertSubscription): Promise<Subscription> {
+    const id = randomUUID();
+    const [sub] = await db
+      .insert(subscriptions)
+      .values({ ...subscription, id })
+      .returning();
+    return sub;
+  }
+
+  async getSubscriptionByPaypalOrderId(paypalOrderId: string): Promise<Subscription | undefined> {
+    const [sub] = await db
+      .select()
+      .from(subscriptions)
+      .where(eq(subscriptions.paypalOrderId, paypalOrderId));
+    return sub;
+  }
+
+  async updateSubscriptionStatus(id: string, status: string): Promise<Subscription> {
+    const [sub] = await db
+      .update(subscriptions)
+      .set({ status })
+      .where(eq(subscriptions.id, id))
+      .returning();
+    return sub;
+  }
+
+  async setUserPremium(userId: string, expiresAt: Date): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ isPremium: true, premiumExpiresAt: expiresAt })
+      .where(eq(users.id, userId))
       .returning();
     return user;
   }
