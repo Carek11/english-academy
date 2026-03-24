@@ -97,9 +97,10 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const [navyWikiLoading, setNavyWikiLoading] = useState(false);
   const [selectedWikiArticle, setSelectedWikiArticle] = useState<any>(null);
   const [wikiContent, setWikiContent] = useState<string>("");
-  const [translatedWikiContent, setTranslatedWikiContent] = useState<string>("");
-  const [isTranslatingWiki, setIsTranslatingWiki] = useState(false);
-  const [isWikiTranslated, setIsWikiTranslated] = useState(false);
+  const [hoveredWord, setHoveredWord] = useState<string | null>(null);
+  const [wordTranslation, setWordTranslation] = useState<string>("");
+  const [isTranslatingWord, setIsTranslatingWord] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (q.trim().length < 2) {
@@ -175,41 +176,31 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
     }
   };
 
-  const handleWikiTranslate = async () => {
-    if (isWikiTranslated) {
-      setIsWikiTranslated(false);
-      return;
-    }
+  const handleWordClick = async (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.className.includes("word-unit")) {
+      const word = target.textContent?.trim();
+      if (!word) return;
 
-    if (!wikiContent || wikiContent === "Caricamento..." || wikiContent.includes("Errore")) {
-      alert("Articolo non completamente caricato. Riprova tra qualche secondo.");
-      return;
-    }
+      setHoveredWord(word);
+      setIsTranslatingWord(true);
+      setTooltipPos({ x: e.clientX, y: e.clientY });
 
-    setIsTranslatingWiki(true);
-    try {
-      const textToTranslate = wikiContent.slice(0, 2000);
-      console.log("Tradotto testo di ", textToTranslate.length, " caratteri");
-      
-      const res = await fetch("/api/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: textToTranslate }),
-      });
-      const data = await res.json();
-      console.log("Risposta traduzione:", data);
-      
-      if (data.success && data.translation) {
-        setTranslatedWikiContent(data.translation);
-        setIsWikiTranslated(true);
-      } else {
-        alert("Traduzione non disponibile: " + (data.message || "sconosciuto"));
+      try {
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: word }),
+        });
+        const data = await res.json();
+        if (data.success && data.translation) {
+          setWordTranslation(data.translation);
+        }
+      } catch (err) {
+        console.error("Errore traduzione parola:", err);
       }
-    } catch (err) {
-      console.error("Errore traduzione:", err);
-      alert("Errore nella traduzione: " + String(err));
+      setIsTranslatingWord(false);
     }
-    setIsTranslatingWiki(false);
   };
 
   const results = useMemo(() => {
@@ -317,28 +308,43 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
         )}
       </div>
 
+      {hoveredWord && (
+        <div
+          className="fixed bg-academy-dark text-white px-3 py-2 rounded text-sm z-[300] shadow-lg"
+          style={{
+            left: `${tooltipPos.x}px`,
+            top: `${tooltipPos.y + 25}px`,
+          }}
+        >
+          <p className="font-bold">{hoveredWord}</p>
+          <p>{isTranslatingWord ? "⏳..." : wordTranslation}</p>
+          <button
+            onClick={() => setHoveredWord(null)}
+            className="text-xs mt-1 opacity-70 hover:opacity-100"
+          >
+            ✕ Chiudi
+          </button>
+        </div>
+      )}
+
       {selectedWikiArticle && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[201] flex items-center justify-center p-4" onClick={() => setSelectedWikiArticle(null)}>
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
               <h2 className="text-xl font-bold text-academy-dark truncate">{selectedWikiArticle}</h2>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handleWikiTranslate}
-                  disabled={isTranslatingWiki}
-                  className="px-3 py-1.5 bg-academy-blue text-white text-sm font-semibold rounded hover:bg-academy-light-blue disabled:opacity-50 transition-colors"
-                >
-                  {isTranslatingWiki ? "⏳ Traduzione..." : isWikiTranslated ? "🇬🇧 Inglese" : "🇮🇹 Italiano"}
-                </button>
-                <button onClick={() => setSelectedWikiArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0">
-                  ✕
-                </button>
-              </div>
+              <button onClick={() => setSelectedWikiArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0">
+                ✕
+              </button>
             </div>
             <div className="overflow-y-auto flex-1 p-6">
-              <div className="text-academy-dark whitespace-pre-wrap leading-relaxed text-sm">
-                {isWikiTranslated ? translatedWikiContent : wikiContent.slice(0, 2000)}
-                {!isWikiTranslated && wikiContent.length > 2000 ? "..." : ""}
+              <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per tradurla in italiano</p>
+              <div className="text-academy-dark leading-relaxed text-sm" onClick={handleWordClick}>
+                {wikiContent.slice(0, 2000).split(/\s+/).map((word, i) => (
+                  <span key={i} className="word-unit hover:bg-academy-light-blue hover:text-white cursor-pointer px-1 rounded transition-colors">
+                    {word}{" "}
+                  </span>
+                ))}
+                {wikiContent.length > 2000 ? "..." : ""}
               </div>
             </div>
           </div>

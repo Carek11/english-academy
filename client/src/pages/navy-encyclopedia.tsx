@@ -6,9 +6,10 @@ export default function NavyEncyclopediaPage() {
   const [localResults, setLocalResults] = useState<any[]>([]);
   const [selectedArticle, setSelectedArticle] = useState<any>(null);
   const [articleContent, setArticleContent] = useState<string>("");
-  const [translatedContent, setTranslatedContent] = useState<string>("");
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [isTranslated, setIsTranslated] = useState(false);
+  const [hoveredWord, setHoveredWord] = useState<string | null>(null);
+  const [wordTranslation, setWordTranslation] = useState<string>("");
+  const [isTranslatingWord, setIsTranslatingWord] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   const { isLoading } = useQuery({
     queryKey: ["navy-wiki", search],
@@ -52,41 +53,31 @@ export default function NavyEncyclopediaPage() {
     }
   };
 
-  const handleTranslate = async () => {
-    if (isTranslated) {
-      setIsTranslated(false);
-      return;
-    }
+  const handleWordClick = async (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.className.includes("word-unit")) {
+      const word = target.textContent?.trim();
+      if (!word) return;
 
-    if (!articleContent || articleContent === "Caricamento..." || articleContent.includes("Errore")) {
-      alert("Articolo non completamente caricato. Riprova tra qualche secondo.");
-      return;
-    }
+      setHoveredWord(word);
+      setIsTranslatingWord(true);
+      setTooltipPos({ x: e.clientX, y: e.clientY });
 
-    setIsTranslating(true);
-    try {
-      const textToTranslate = articleContent.slice(0, 2000);
-      console.log("Tradotto testo di ", textToTranslate.length, " caratteri");
-      
-      const res = await fetch("/api/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: textToTranslate }),
-      });
-      const data = await res.json();
-      console.log("Risposta traduzione:", data);
-      
-      if (data.success && data.translation) {
-        setTranslatedContent(data.translation);
-        setIsTranslated(true);
-      } else {
-        alert("Traduzione non disponibile: " + (data.message || "sconosciuto"));
+      try {
+        const res = await fetch("/api/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: word }),
+        });
+        const data = await res.json();
+        if (data.success && data.translation) {
+          setWordTranslation(data.translation);
+        }
+      } catch (err) {
+        console.error("Errore traduzione parola:", err);
       }
-    } catch (err) {
-      console.error("Errore traduzione:", err);
-      alert("Errore nella traduzione: " + String(err));
+      setIsTranslatingWord(false);
     }
-    setIsTranslating(false);
   };
 
   return (
@@ -149,27 +140,42 @@ export default function NavyEncyclopediaPage() {
         </div>
       )}
 
+      {hoveredWord && (
+        <div
+          className="fixed bg-academy-dark text-white px-3 py-2 rounded text-sm z-[300] shadow-lg"
+          style={{
+            left: `${tooltipPos.x}px`,
+            top: `${tooltipPos.y + 25}px`,
+          }}
+        >
+          <p className="font-bold">{hoveredWord}</p>
+          <p>{isTranslatingWord ? "⏳..." : wordTranslation}</p>
+          <button
+            onClick={() => setHoveredWord(null)}
+            className="text-xs mt-1 opacity-70 hover:opacity-100"
+          >
+            ✕ Chiudi
+          </button>
+        </div>
+      )}
+
       {selectedArticle && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[200] flex items-center justify-center p-4" onClick={() => setSelectedArticle(null)}>
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
               <h2 className="text-2xl font-bold text-academy-dark">{selectedArticle}</h2>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handleTranslate}
-                  disabled={isTranslating}
-                  className="px-3 py-1.5 bg-academy-blue text-white text-sm font-semibold rounded hover:bg-academy-light-blue disabled:opacity-50 transition-colors"
-                >
-                  {isTranslating ? "⏳ Traduzione..." : isTranslated ? "🇬🇧 Inglese" : "🇮🇹 Italiano"}
-                </button>
-                <button onClick={() => setSelectedArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold">
-                  ✕
-                </button>
-              </div>
+              <button onClick={() => setSelectedArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold">
+                ✕
+              </button>
             </div>
             <div className="overflow-y-auto flex-1 p-6">
-              <div className="text-academy-dark whitespace-pre-wrap leading-relaxed">
-                {isTranslated ? translatedContent : articleContent}
+              <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per tradurla in italiano</p>
+              <div className="text-academy-dark leading-relaxed" onClick={handleWordClick}>
+                {articleContent.split(/\s+/).map((word, i) => (
+                  <span key={i} className="word-unit hover:bg-academy-light-blue hover:text-white cursor-pointer px-1 rounded transition-colors">
+                    {word}{" "}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

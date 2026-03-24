@@ -307,15 +307,16 @@ export async function registerRoutes(
   // ─── Traduzione endpoint ───────────────────────────────────────────────────
   app.post("/api/translate", async (req, res) => {
     try {
-      const { text } = req.body;
+      let { text } = req.body;
       if (!text) return res.status(400).json({ message: "Testo non fornito" });
 
+      // MyMemory API limit: max 500 chars
+      text = text.slice(0, 500);
+
       const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|it`;
-      console.log("Traduzione URL:", apiUrl);
 
       const response = await fetch(apiUrl);
       const data = await response.json();
-      console.log("Traduzione risposta:", data);
 
       if (data.responseStatus === 200 && data.responseData?.translatedText) {
         return res.json({
@@ -323,7 +324,6 @@ export async function registerRoutes(
           translation: data.responseData.translatedText,
         });
       } else {
-        console.error("Errore risposta MyMemory:", data);
         return res.json({
           success: true,
           translation: data.responseData?.translatedText || text,
@@ -331,9 +331,9 @@ export async function registerRoutes(
       }
     } catch (err) {
       console.error("Errore API traduzione:", err);
-      return res.status(500).json({
+      return res.json({
         success: false,
-        message: "Errore del server: " + String(err),
+        translation: "",
       });
     }
   });
