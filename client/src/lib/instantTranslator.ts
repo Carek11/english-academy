@@ -137,10 +137,11 @@ export function initTranslationCache() {
 // Traduci istantaneamente usando il cache locale
 export function getInstantTranslation(word: string): string {
   const normalized = word.toLowerCase().trim();
+  
+  // Assicurati che il cache sia inizializzato
+  if (Object.keys(translationCache).length === 0) {
+    initTranslationCache();
+  }
+  
   return translationCache[normalized] || word;
-}
-
-// Inizializza al caricamento
-if (typeof window !== "undefined") {
-  initTranslationCache();
 }
