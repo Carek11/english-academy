@@ -403,19 +403,23 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
                 className="h-48 bg-academy-bg overflow-hidden flex items-center justify-center cursor-zoom-in group relative"
                 onClick={() => shipImages[ship.name] && setZoomedImage({ src: shipImages[ship.name], alt: `${ship.name} – ${ship.nameIt}` })}
               >
-                {shipImages[ship.name] ? (
+                {/* Icona sempre di base */}
+                <div className="absolute inset-0 flex items-center justify-center bg-academy-bg">
+                  <div className="text-academy-blue opacity-40"><ShipIcon name={ship.name} size="lg" /></div>
+                </div>
+                
+                {/* Immagine se disponibile */}
+                {shipImages[ship.name] && (
                   <>
                     <img
                       src={shipImages[ship.name]}
                       alt={ship.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 relative z-10"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all flex items-center justify-center z-20">
                       <span className="text-white text-4xl opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg">🔍</span>
                     </div>
                   </>
-                ) : (
-                  <div className="flex items-center justify-center h-full"><ShipIcon name={ship.name} size="lg" /></div>
                 )}
               </div>
 
