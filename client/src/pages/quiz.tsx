@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { quizzes, shipQuestions } from "@/lib/quizData";
 import { saveQuizResult } from "@/lib/statsStorage";
+import { loadUserProgress, recordQuizCompletion, saveUserProgress } from "@/lib/gamification";
 
 // Algoritmo Fisher-Yates: shuffle corretto e imparziale
 function fisherYates<T>(arr: T[]): T[] {
@@ -225,6 +226,11 @@ export function QuizEngine({ topics, pageTitle, pageIcon, pageSubtitle, sourceNo
     setTotalAnswered((t) => t + roundQuestions.length);
     setEncouragementMsg(encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)]);
     if (selectedTopic) saveQuizResult(selectedTopic, finalScore, roundQuestions.length);
+    
+    // Gamification: track quiz completion
+    let progress = loadUserProgress();
+    progress = recordQuizCompletion(progress, 10 + Math.floor(finalScore / 2));
+    saveUserProgress(progress);
     
     // Mostra risultati, poi carica silenziosamente il prossimo round
     setStep("results");

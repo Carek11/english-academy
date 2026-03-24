@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { getStats, getTotalStats, clearStats, type UserStats } from "@/lib/statsStorage";
+import GamificationWidget from "@/components/GamificationWidget";
+import { loadUserProgress } from "@/lib/gamification";
 
 const topicLabels: Record<string, { label: string; icon: string }> = {
   marina:         { label: "Marina Generale", icon: "⚓" },
@@ -30,6 +32,7 @@ function AccuracyBar({ value }: { value: number }) {
 export default function StatsPage() {
   const [stats, setStats] = useState<UserStats>({});
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [progress, setProgress] = useState(loadUserProgress());
 
   useEffect(() => {
     setStats(getStats());
@@ -58,6 +61,12 @@ export default function StatsPage() {
         </p>
         <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
       </section>
+
+      {/* Gamification Section */}
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold text-academy-dark mb-4 text-center">🏆 Gamification</h2>
+        <GamificationWidget progress={progress} />
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
         <div className="bg-white rounded-xl shadow-md p-5 text-center" data-testid="stat-rounds">

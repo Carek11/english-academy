@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getInstantTranslation, preTranslateText } from "@/lib/instantTranslator";
+import { loadUserProgress, recordWordTranslation, saveUserProgress } from "@/lib/gamification";
 
 export default function NavyEncyclopediaPage() {
   const [search, setSearch] = useState("");
@@ -62,6 +63,16 @@ export default function NavyEncyclopediaPage() {
         }
       });
       setWordTranslations(translations);
+      
+      // Gamification: track words translated
+      const translatedCount = Object.keys(translations).filter(
+        (key) => translations[key] && translations[key] !== key
+      ).length;
+      if (translatedCount > 0) {
+        let progress = loadUserProgress();
+        progress = recordWordTranslation(progress, translatedCount);
+        saveUserProgress(progress);
+      }
     } catch (err) {
       setArticleContent("Errore nel caricamento dell'articolo");
     }

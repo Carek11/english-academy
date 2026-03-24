@@ -21,6 +21,7 @@ import NavyEncyclopediaPage from "@/pages/navy-encyclopedia";
 import { glossaryTerms } from "@/lib/glossaryData";
 import { getInstantTranslation } from "@/lib/instantTranslator";
 import { courseData } from "@/lib/quizData";
+import { loadUserProgress, recordWordTranslation, saveUserProgress } from "@/lib/gamification";
 
 // Health check on app load
 if (import.meta.env.PROD) {
@@ -185,6 +186,16 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
         }
       });
       setWordTranslations(translations);
+      
+      // Gamification: track words translated
+      const translatedCount = Object.keys(translations).filter(
+        (key) => translations[key] && translations[key] !== key
+      ).length;
+      if (translatedCount > 0) {
+        let progress = loadUserProgress();
+        progress = recordWordTranslation(progress, translatedCount);
+        saveUserProgress(progress);
+      }
     } catch (err) {
       setWikiContent("Errore nel caricamento dell'articolo");
     }

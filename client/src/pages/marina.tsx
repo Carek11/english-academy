@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { shipTypes, shipQuestions } from "@/lib/quizData";
 import { Plane, Ship, Waves, Anchor, Target, Eye } from "lucide-react"; // v2
+import { loadUserProgress, recordQuizCompletion, saveUserProgress } from "@/lib/gamification";
 import carrierImg from "@assets/AZzOM8EviBgPFGACFMJuAA-AZzOM8EvYcyHuF9kkk6E9g_1773252252710.jpg";
 import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773252252709.jpg";
 import submarineImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_1773252252709.jpg";
@@ -429,6 +430,11 @@ function ShipQuizModal({ shipName, onClose, onBack }: { shipName: string; onClos
       setAnswered(false);
       setSelectedAnswer(null);
     } else {
+      // Round completed: track gamification
+      let progress = loadUserProgress();
+      progress = recordQuizCompletion(progress, 10 + Math.floor(score / 2));
+      saveUserProgress(progress);
+      
       setRound(r => r + 1);
       setCurrentQ(0);
       setScore(0);
