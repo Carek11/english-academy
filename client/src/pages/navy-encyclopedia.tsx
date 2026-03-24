@@ -38,8 +38,6 @@ export default function NavyEncyclopediaPage() {
   const handleArticleClick = async (title: string) => {
     setSelectedArticle(title);
     setArticleContent("Caricamento...");
-    setTranslatedContent("");
-    setIsTranslated(false);
     try {
       const res = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`

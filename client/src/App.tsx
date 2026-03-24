@@ -161,8 +161,6 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const handleWikiArticleClick = async (title: string) => {
     setSelectedWikiArticle(title);
     setWikiContent("Caricamento...");
-    setTranslatedWikiContent("");
-    setIsWikiTranslated(false);
     try {
       const res = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
