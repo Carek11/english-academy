@@ -32,7 +32,7 @@ export default function NavyEncyclopediaPage() {
   return (
     <div className="space-y-10">
       <section className="text-center space-y-4">
-        <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm">
+        <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm mb-8">
           ⚓ ENCICLOPEDIA NAVALE
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold font-display text-academy-dark">
