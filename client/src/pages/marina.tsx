@@ -224,11 +224,11 @@ function ShipDetailModal({ ship, detail, image, onClose }: ShipDetailModalProps)
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header con immagine */}
-        <div className="relative h-64 bg-academy-dark overflow-hidden">
+        <div className="relative h-64 bg-academy-dark overflow-hidden sticky top-0 z-10 flex-shrink-0">
           {image ? (
             <img src={image} alt={ship.name} className="w-full h-full object-cover opacity-80" />
           ) : (
@@ -253,7 +253,7 @@ function ShipDetailModal({ ship, detail, image, onClose }: ShipDetailModalProps)
           </div>
         </div>
 
-        <div className="p-6 space-y-7">
+        <div className="p-6 space-y-7 overflow-y-auto flex-1">
           {/* Descrizione */}
           <p className="text-academy-dark leading-relaxed text-base">{detail.description}</p>
 
