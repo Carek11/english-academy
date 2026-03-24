@@ -102,6 +102,7 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const [wordTranslation, setWordTranslation] = useState<string>("");
   const [isTranslatingWord, setIsTranslatingWord] = useState(false);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [wordTranslations, setWordTranslations] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (q.trim().length < 2) {
@@ -162,6 +163,7 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const handleWikiArticleClick = async (title: string) => {
     setSelectedWikiArticle(title);
     setWikiContent("Caricamento...");
+    setWordTranslations({});
     try {
       const res = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
@@ -169,7 +171,20 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
       const data = await res.json();
       const pages = data.query?.pages || {};
       const page = Object.values(pages)[0] as any;
-      setWikiContent(page?.extract || "Contenuto non disponibile");
+      const content = page?.extract || "Contenuto non disponibile";
+      setWikiContent(content);
+      
+      // Pre-traduce tutte le parole in background
+      const translations: Record<string, string> = {};
+      content.split(/\s+/).forEach((word) => {
+        const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+        const normalized = cleaned.toLowerCase().trim();
+        if (normalized && !translations[normalized]) {
+          const translation = getInstantTranslation(cleaned);
+          translations[normalized] = translation;
+        }
+      });
+      setWordTranslations(translations);
     } catch (err) {
       setWikiContent("Errore nel caricamento dell'articolo");
     }
@@ -195,8 +210,10 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
 
       setHoveredWord(word);
       
-      // Traduzione istantanea dal cache locale
-      const translation = getInstantTranslation(word);
+      // Usa la traduzione pre-calcolata
+      const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+      const normalized = cleaned.toLowerCase().trim();
+      const translation = wordTranslations[normalized] || getInstantTranslation(cleaned);
       setWordTranslation(translation);
       setIsTranslatingWord(false);
 
@@ -353,18 +370,29 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
               </button>
             </div>
             <div className="overflow-y-auto flex-1 p-6" onClick={handleWordClick}>
-              <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per tradurla in italiano</p>
+              <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per la traduzione</p>
               <div className="text-academy-dark leading-relaxed text-sm">
-                {wikiContent.slice(0, 2000).split(/\s+/).map((word, i) => (
-                  <span 
-                    key={i} 
-                    className="word-unit hover:bg-academy-light-blue hover:text-white cursor-pointer px-1 rounded transition-colors inline-block"
-                    role="button"
-                    tabIndex={0}
-                  >
-                    {word}{" "}
-                  </span>
-                ))}
+                {wikiContent.slice(0, 2000).split(/\s+/).map((word, i) => {
+                  const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+                  const normalized = cleaned.toLowerCase().trim();
+                  const isTranslated = !!wordTranslations[normalized] && wordTranslations[normalized] !== cleaned;
+                  
+                  return (
+                    <span 
+                      key={i} 
+                      className={`word-unit px-1 rounded transition-colors inline-block ${
+                        isTranslated 
+                          ? "text-academy-blue font-semibold hover:bg-academy-light-blue hover:text-white cursor-pointer" 
+                          : "hover:bg-gray-200 cursor-pointer"
+                      }`}
+                      role="button"
+                      tabIndex={0}
+                      title={isTranslated ? `${cleaned} = ${wordTranslations[normalized]}` : ""}
+                    >
+                      {word}{" "}
+                    </span>
+                  );
+                })}
                 {wikiContent.length > 2000 ? "..." : ""}
               </div>
             </div>
