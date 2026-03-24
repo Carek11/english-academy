@@ -7,6 +7,18 @@ import submarineImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_
 import frigateImg from "@assets/AZzOxmv2TQeANEeFHEBG8A-AZzOxmv2lPvWNJdd-9JMwA_1773252252708.jpg";
 import corvettteImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773252252710.jpg";
 import patrolVesselImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773252252708.jpg";
+import cavourImg from "../assets/images/cavour.png";
+import friuliImg from "../assets/images/friuli.png";
+import todoroImg from "../assets/images/todaro.png";
+import amerigVespucciImg from "../assets/images/amerigo-vespucci.png";
+import bergaminiImg from "../assets/images/bergamini.png";
+import carabiniereImg from "../assets/images/carabiniere.png";
+import carloMagnoImg from "../assets/images/carlo-magno.png";
+import orizzonteImg from "../assets/images/orizzonte.png";
+import garibaldi_Img from "../assets/images/garibaldi.png";
+import chioggiaImg from "../assets/images/chioggia.png";
+import minervaImg from "../assets/images/minerva.png";
+import danieleManinImg from "../assets/images/daniele-manin.png";
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   "Aircraft Carrier": Plane,
@@ -37,6 +49,18 @@ const shipImages: Record<string, string> = {
   "Corvette": corvettteImg,
   "Submarine": submarineImg,
   "Patrol Vessel": patrolVesselImg,
+  "Cavour": cavourImg,
+  "Friuli": friuliImg,
+  "Todaro": todoroImg,
+  "Amerigo Vespucci": amerigVespucciImg,
+  "Bergamini": bergaminiImg,
+  "Carabiniere": carabiniereImg,
+  "Carlo Magno": carloMagnoImg,
+  "Orizzonte": orizzonteImg,
+  "Garibaldi": garibaldi_Img,
+  "Chioggia": chioggiaImg,
+  "Minerva": minervaImg,
+  "Daniele Manin": danieleManinImg,
 };
 
 interface ShipDetail {
