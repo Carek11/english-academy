@@ -36,10 +36,10 @@ export default function NavyEncyclopediaPage() {
           ⚓ ENCICLOPEDIA NAVALE
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold font-display text-academy-dark">
-          Enciclopedia Navale Wikipedia
+          Enciclopedia Navale
         </h1>
         <p className="text-academy-gray max-w-2xl mx-auto leading-relaxed">
-          Ricerca articoli da Wikipedia su navi, termini nautici, storia navale e marina militare internazionale.
+          Ricerca articoli su navi, termini nautici, storia navale e marina militare internazionale.
         </p>
         <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
       </section>
@@ -90,11 +90,6 @@ export default function NavyEncyclopediaPage() {
               <p className="text-academy-gray text-sm mt-2 line-clamp-3">
                 {article.snippet.replace(/<[^>]+>/g, "")}
               </p>
-              <div className="flex items-center gap-2 mt-3">
-                <span className="text-xs bg-academy-bg text-academy-dark px-2 py-1 rounded">
-                  Wikipedia
-                </span>
-              </div>
             </div>
           ))}
         </div>
