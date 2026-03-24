@@ -174,6 +174,16 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
     }
   };
 
+  // Auto-chiudi tooltip dopo che la traduzione è completata
+  useEffect(() => {
+    if (hoveredWord && !isTranslatingWord && wordTranslation && wordTranslation !== "⏳...") {
+      const timer = setTimeout(() => {
+        setHoveredWord(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [hoveredWord, isTranslatingWord, wordTranslation]);
+
   const handleWordClick = async (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.className.includes("word-unit")) {
