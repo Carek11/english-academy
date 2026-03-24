@@ -689,7 +689,7 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
 
         {/* Navi Italiane */}
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold font-display text-academy-blue border-b-2 border-academy-gold pb-2">🇮🇹 Navi Italiane della Marina Militare</h3>
+          <h3 className="text-2xl font-bold font-display text-academy-blue border-b-2 border-academy-gold pb-2">Navi Italiane della Marina Militare</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {shipTypes.filter(s => s.category === "Italian").map((ship, i) => (
             <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
