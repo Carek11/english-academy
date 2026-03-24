@@ -304,5 +304,38 @@ export async function registerRoutes(
     }
   });
 
+  // ─── Traduzione endpoint ───────────────────────────────────────────────────
+  app.post("/api/translate", async (req, res) => {
+    try {
+      const { text } = req.body;
+      if (!text) return res.status(400).json({ message: "Testo non fornito" });
+
+      const apiUrl = new URL("https://api.mymemory.translated.net/get");
+      apiUrl.searchParams.set("q", text);
+      apiUrl.searchParams.set("langpair", "en|it");
+
+      const response = await fetch(apiUrl.toString());
+      const data = await response.json();
+
+      if (data.responseStatus === 200) {
+        return res.json({
+          success: true,
+          translation: data.responseData.translatedText,
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          message: "Errore nella traduzione",
+        });
+      }
+    } catch (err) {
+      console.error("Errore API traduzione:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Errore del server",
+      });
+    }
+  });
+
   return httpServer;
 }

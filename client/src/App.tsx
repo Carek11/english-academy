@@ -183,17 +183,23 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
 
     setIsTranslatingWiki(true);
     try {
-      const textToTranslate = wikiContent.slice(0, 3000);
-      const res = await fetch(
-        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textToTranslate)}&langpair=en|it`
-      );
+      const textToTranslate = wikiContent.slice(0, 2000);
+      const res = await fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: textToTranslate }),
+      });
       const data = await res.json();
-      if (data.responseStatus === 200) {
-        setTranslatedWikiContent(data.responseData.translatedText);
+      
+      if (data.success && data.translation) {
+        setTranslatedWikiContent(data.translation);
         setIsWikiTranslated(true);
+      } else {
+        alert("Traduzione non disponibile");
       }
     } catch (err) {
-      console.error("Errore traduzione", err);
+      console.error("Errore traduzione:", err);
+      alert("Errore nella traduzione");
     }
     setIsTranslatingWiki(false);
   };
