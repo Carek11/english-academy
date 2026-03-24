@@ -1,11 +1,27 @@
 import { useState } from "react";
 import { shipTypes, shipQuestions } from "@/lib/quizData";
+import { Plane, Ship, Waves, Anchor, Target, Eye } from "lucide-react";
 const carrierImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean%2C_2012.jpg/800px-USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean%2C_2012.jpg";
 const commandCenterImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/P408_ITS_Rimini.jpg/800px-P408_ITS_Rimini.jpg";
 const modernDestroyerImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/ITS_Andrea_Doria_%28D_553%29_in_2013.jpg/800px-ITS_Andrea_Doria_%28D_553%29_in_2013.jpg";
 const frigateImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/ITS_Carabiniere_%28F_583%29_in_2019.jpg/800px-ITS_Carabiniere_%28F_583%29_in_2019.jpg";
 const submarineImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/ITS_Salvatore_Todaro_%28S_526%29_in_2017.jpg/800px-ITS_Salvatore_Todaro_%28S_526%29_in_2017.jpg";
 const patrolVesselImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/P408_ITS_Rimini.jpg/800px-P408_ITS_Rimini.jpg";
+
+const getShipIcon = (shipName: string, size: "sm" | "md" | "lg" = "md", color: string = "text-academy-blue") => {
+  const sizeMap = { sm: "w-6 h-6", md: "w-8 h-8", lg: "w-10 h-10" };
+  const iconMap: Record<string, React.ComponentType<{ className: string }>> = {
+    "Aircraft Carrier": Plane,
+    "Destroyer": Ship,
+    "Submarine": Waves,
+    "Frigate": Anchor,
+    "Corvette": Target,
+    "Patrol Vessel": Eye,
+  };
+  
+  const Icon = iconMap[shipName];
+  return Icon ? <Icon className={`${sizeMap[size]} ${color}`} /> : null;
+};
 
 const navyComponents = [
   { icon: "🧭", title: "Navigation Systems", desc: "GPS, Compass, ECDIS, Radar, AIS." },
@@ -243,7 +259,7 @@ function ShipDetailModal({ ship, detail, image, onClose }: ShipDetailModalProps)
           </button>
           <div className="absolute bottom-0 left-0 p-6">
             <div className="flex items-center gap-3 mb-1">
-              <span className="text-4xl">{ship.icon}</span>
+              <div className="text-white">{getShipIcon(ship.name, "lg", "text-white")}</div>
               <div>
                 <h2 className="text-2xl font-bold text-white font-display">{ship.name}</h2>
                 <p className="text-academy-gold font-semibold text-sm">{ship.nameIt}</p>
@@ -399,13 +415,13 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
                     </div>
                   </>
                 ) : (
-                  <span className="text-6xl">{ship.icon}</span>
+                  <div className="flex items-center justify-center h-full">{getShipIcon(ship.name, "lg")}</div>
                 )}
               </div>
 
               <div className="p-5 bg-academy-bg border-b border-academy-gold">
                 <div className="flex items-center gap-3">
-                  <span className="text-3xl">{ship.icon}</span>
+                  <div className="flex-shrink-0">{getShipIcon(ship.name, "md")}</div>
                   <div className="flex-1">
                     <h3 className="font-bold text-lg text-academy-dark">{ship.name}</h3>
                     <span className="text-academy-gold font-semibold text-sm">{ship.nameIt}</span>
