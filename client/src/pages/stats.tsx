@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { getStats, getTotalStats, clearStats, type UserStats } from "@/lib/statsStorage";
 import GamificationWidget from "@/components/GamificationWidget";
 import { loadUserProgress } from "@/lib/gamification";
-import { startTestBot, stopTestBot } from "@/lib/testBot";
 
 const topicLabels: Record<string, { label: string; icon: string }> = {
   marina:         { label: "Marina Generale", icon: "⚓" },
@@ -34,22 +33,10 @@ export default function StatsPage() {
   const [stats, setStats] = useState<UserStats>({});
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [progress, setProgress] = useState(loadUserProgress());
-  const [botRunning, setBotRunning] = useState(false);
-  const isLocalhost = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
   useEffect(() => {
     setStats(getStats());
   }, []);
-
-  const handleBotStart = () => {
-    startTestBot({ interval: 3000, verbose: true });
-    setBotRunning(true);
-  };
-
-  const handleBotStop = () => {
-    stopTestBot();
-    setBotRunning(false);
-  };
 
   const totals = getTotalStats();
   const topicsPlayed = Object.keys(stats);
