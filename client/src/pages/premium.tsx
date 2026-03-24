@@ -28,46 +28,57 @@ export default function PremiumPage() {
     fetchPremium();
   }, []);
 
-  // Carica PayPal SDK
+  // Carica PayPal SDK solo se non premium
   useEffect(() => {
+    if (isPremium || loading) return;
+
+    const container = document.getElementById("paypal-button-container");
+    if (!container) return;
+
     const script = document.createElement("script");
     script.src = `https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb"}`;
     script.async = true;
-    document.body.appendChild(script);
 
     script.onload = () => {
-      if ((window as any).paypal) {
-        (window as any).paypal
-          .Buttons({
-            createOrder: async () => {
-              const res = await fetch("/api/paypal/create-order", { method: "POST" });
-              const data = (await res.json()) as { orderId: string };
-              return data.orderId;
-            },
-            onApprove: async (data: any) => {
-              const res = await fetch("/api/paypal/capture-order", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ orderId: data.orderID }),
-              });
+      setTimeout(() => {
+        const containerExists = document.getElementById("paypal-button-container");
+        if (containerExists && (window as any).paypal) {
+          (window as any).paypal
+            .Buttons({
+              createOrder: async () => {
+                const res = await fetch("/api/paypal/create-order", { method: "POST" });
+                const data = (await res.json()) as { orderId: string };
+                return data.orderId;
+              },
+              onApprove: async (data: any) => {
+                const res = await fetch("/api/paypal/capture-order", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ orderId: data.orderID }),
+                });
 
-              if (res.ok) {
-                const result = (await res.json()) as { success: boolean; expiresAt: string };
-                setIsPremium(true);
-                setExpiresAt(result.expiresAt);
-                window.location.reload();
-              }
-            },
-            onError: () => alert("Errore durante il pagamento"),
-          })
-          .render("#paypal-button-container");
-      }
+                if (res.ok) {
+                  const result = (await res.json()) as { success: boolean; expiresAt: string };
+                  setIsPremium(true);
+                  setExpiresAt(result.expiresAt);
+                  window.location.reload();
+                }
+              },
+              onError: () => alert("Errore durante il pagamento"),
+            })
+            .render("#paypal-button-container");
+        }
+      }, 100);
     };
+
+    document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
-  }, []);
+  }, [isPremium, loading]);
 
   if (loading) {
     return <div className="text-center py-20">Caricamento...</div>;
