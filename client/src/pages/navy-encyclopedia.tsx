@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { getInstantTranslation } from "@/lib/instantTranslator";
 
 export default function NavyEncyclopediaPage() {
   const [search, setSearch] = useState("");
@@ -63,15 +64,18 @@ export default function NavyEncyclopediaPage() {
     return () => document.removeEventListener("mousemove", handleMouseMove);
   }, [hoveredWord]);
 
-  const handleWordClick = async (e: React.MouseEvent) => {
+  const handleWordClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.className.includes("word-unit")) {
       const word = target.textContent?.trim();
       if (!word || word.length === 0) return;
 
       setHoveredWord(word);
-      setWordTranslation("⏳...");
-      setIsTranslatingWord(true);
+      
+      // Traduzione istantanea dal cache locale
+      const translation = getInstantTranslation(word);
+      setWordTranslation(translation);
+      setIsTranslatingWord(false);
 
       // Position tooltip, keeping it within viewport
       let x = e.clientX;
@@ -80,24 +84,6 @@ export default function NavyEncyclopediaPage() {
         x = window.innerWidth - 220;
       }
       setTooltipPos({ x, y });
-
-      try {
-        const res = await fetch("/api/translate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: word }),
-        });
-        const data = await res.json();
-        if (data.success && data.translation) {
-          setWordTranslation(data.translation);
-        } else {
-          setWordTranslation(word);
-        }
-      } catch (err) {
-        console.error("Errore traduzione parola:", err);
-        setWordTranslation(word);
-      }
-      setIsTranslatingWord(false);
     }
   };
 
