@@ -8,11 +8,6 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { logger } from "@/lib/logger";
 import { CONFIG } from "@/lib/config";
 import HomePage from "@/pages/home";
-
-// Health check on app load
-if (import.meta.env.PROD) {
-  fetch("/api/_health").catch(() => logger.warn("Health check failed"));
-}
 import CoursesPage from "@/pages/courses";
 import MarinaPage from "@/pages/marina";
 import QuizMarinaPage from "@/pages/quiz-marina";
@@ -24,6 +19,11 @@ import GlossaryPage from "@/pages/glossary";
 import StatsPage from "@/pages/stats";
 import { glossaryTerms } from "@/lib/glossaryData";
 import { courseData } from "@/lib/quizData";
+
+// Health check on app load
+if (import.meta.env.PROD) {
+  fetch("/api/_health").catch(() => logger.warn("Health check failed"));
+}
 
 type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche";
 
@@ -152,6 +152,7 @@ function AppInner() {
   const [showSearch, setShowSearch] = useState(false);
   const [verifyState, setVerifyState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [verifyMessage, setVerifyMessage] = useState("");
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { toast } = useToast();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -246,12 +247,26 @@ function AppInner() {
     statistiche: <StatsPage />,
   };
 
-  const navButtons: Array<{ id: PageType; label: string; emoji: string }> = [
-    { id: "home",         label: "Home",           emoji: "🏠" },
-    { id: "corsi",        label: "Corsi",           emoji: "📚" },
-    { id: "marina",       label: "Marina",          emoji: "⚓" },
-    { id: "quiz-marina",  label: "Quiz Marina",     emoji: "🎯" },
-    { id: "quiz-cultura", label: "Quiz Cultura",    emoji: "🎓" },
+  const navItems = [
+    { id: "home", label: "Home", emoji: "🏠" },
+    { 
+      id: "corsi-dropdown", 
+      label: "Corsi", 
+      emoji: "📚",
+      submenu: [
+        { id: "corsi", label: "Corsi d'Inglese", emoji: "📚" },
+        { id: "quiz-cultura", label: "Quiz Cultura", emoji: "🎓" },
+      ]
+    },
+    { 
+      id: "marina-dropdown", 
+      label: "Marina", 
+      emoji: "⚓",
+      submenu: [
+        { id: "marina", label: "Navi Militari", emoji: "⚓" },
+        { id: "quiz-marina", label: "Quiz Marina", emoji: "🎯" },
+      ]
+    },
     { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
     { id: "glossario",    label: "Glossario",       emoji: "📖" },
     { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
@@ -341,20 +356,58 @@ function AppInner() {
       )}
 
       <nav className="bg-white shadow-sm border-b border-gray-100">
-        <div className="flex flex-wrap justify-center gap-2 px-4 py-3">
-          {navButtons.map((btn) => (
-            <button
-              key={btn.id}
-              data-testid={`nav-${btn.id}`}
-              onClick={() => setCurrentPage(btn.id)}
-              className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap ${
-                currentPage === btn.id
-                  ? "bg-academy-blue text-white"
-                  : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
-              }`}
-            >
-              {btn.emoji} {btn.label}
-            </button>
+        <div className="flex flex-wrap justify-center gap-2 px-4 py-3 relative">
+          {navItems.map((item) => (
+            item.submenu ? (
+              <div key={item.id} className="relative">
+                <button
+                  data-testid={`nav-${item.id}`}
+                  onClick={() => setOpenDropdown(openDropdown === item.id ? null : item.id)}
+                  className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-1 ${
+                    currentPage === "corsi" || currentPage === "quiz-cultura" || currentPage === "marina" || currentPage === "quiz-marina"
+                      ? "bg-academy-blue text-white"
+                      : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
+                  }`}
+                >
+                  {item.emoji} {item.label}
+                  <span className={`text-xs transition-transform ${openDropdown === item.id ? "rotate-180" : ""}`}>▼</span>
+                </button>
+                {openDropdown === item.id && (
+                  <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    {item.submenu.map((sub) => (
+                      <button
+                        key={sub.id}
+                        data-testid={`nav-${sub.id}`}
+                        onClick={() => {
+                          setCurrentPage(sub.id as PageType);
+                          setOpenDropdown(null);
+                        }}
+                        className={`block w-full text-left px-4 py-2.5 text-sm font-semibold transition-colors whitespace-nowrap ${
+                          currentPage === sub.id
+                            ? "bg-academy-blue text-white"
+                            : "hover:bg-academy-light-blue hover:text-white"
+                        }`}
+                      >
+                        {sub.emoji} {sub.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                key={item.id}
+                data-testid={`nav-${item.id}`}
+                onClick={() => setCurrentPage(item.id as PageType)}
+                className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap ${
+                  currentPage === item.id
+                    ? "bg-academy-blue text-white"
+                    : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
+                }`}
+              >
+                {item.emoji} {item.label}
+              </button>
+            )
           ))}
           <button
             data-testid="button-search"
