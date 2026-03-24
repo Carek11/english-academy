@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { shipTypes, shipQuestions } from "@/lib/quizData";
 import { Plane, Ship, Waves, Anchor, Target, Eye } from "lucide-react"; // v2
-const carrierImg = "https://images.unsplash.com/photo-1581092161562-40038e57c893?w=800&h=300&fit=crop";
-const commandCenterImg = "https://images.unsplash.com/photo-1579033100235-ba66c3fb3f1d?w=800&h=300&fit=crop";
-const modernDestroyerImg = "https://images.unsplash.com/photo-1613146481882-ff04a51cf89b?w=800&h=300&fit=crop";
-const frigateImg = "https://images.unsplash.com/photo-1549880338-2a98e3bd37c9?w=800&h=300&fit=crop";
-const submarineImg = "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=300&fit=crop";
-const patrolVesselImg = "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=300&fit=crop";
+import carrierImg from "@assets/AZzOxmv2TQeANEeFHEBG8A-AZzOxmv2lPvWNJdd-9JMwA_1773252252708.jpg";
+import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773252252709.jpg";
+import submarineImg from "@assets/AZzOu1Ntrknm8qmEucepHQ-AZzOu1NtMmZiqfvN0q-AbQ_1773252252709.jpg";
+import frigateImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_1773252252709.jpg";
+import corvettteImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773252252708.jpg";
+import patrolVesselImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773252252710.jpg";
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   "Aircraft Carrier": Plane,
@@ -34,9 +34,9 @@ const shipImages: Record<string, string> = {
   "Aircraft Carrier": carrierImg,
   "Destroyer": modernDestroyerImg,
   "Frigate": frigateImg,
-  "Corvette": patrolVesselImg,
+  "Corvette": corvettteImg,
   "Submarine": submarineImg,
-  "Patrol Vessel": commandCenterImg,
+  "Patrol Vessel": patrolVesselImg,
 };
 
 interface ShipDetail {
