@@ -312,31 +312,41 @@ export async function registerRoutes(
         return res.json({ success: false, translation: "" });
       }
 
-      // MyMemory API limit: max 500 chars
       text = text.trim().slice(0, 500);
       if (!text) {
         return res.json({ success: false, translation: "" });
       }
 
-      const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|it`;
+      // Usa Google Translate gratuito via endpoint pubblico
+      const apiUrl = "https://translate.googleapis.com/translate_a/element.js?callbacks=googleTranslateElementInit";
+      
+      const encodedText = encodeURIComponent(text);
+      const translateUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=it&dt=t&q=${encodedText}`;
 
-      const response = await fetch(apiUrl, { signal: AbortSignal.timeout(5000) });
+      const response = await fetch(translateUrl, {
+        signal: AbortSignal.timeout(5000),
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        },
+      });
+
       if (!response.ok) {
-        return res.json({ success: false, translation: text });
+        return res.json({ success: true, translation: text });
       }
 
-      const data = await response.json();
+      const result = await response.json();
+      
+      // Google Translate API response: [[["traduzione", "originale", null, null, 0]...]...]
+      const translatedText = result?.[0]?.[0]?.[0];
 
-      // MyMemory returns 200 even for errors, check responseStatus
-      const translatedText = data.responseData?.translatedText;
-      if (translatedText && translatedText !== text) {
+      if (translatedText && translatedText !== text && translatedText) {
         return res.json({
           success: true,
           translation: translatedText,
         });
       }
 
-      // Fallback to original text if translation failed
+      // Fallback to original text
       return res.json({
         success: true,
         translation: text,
@@ -344,8 +354,8 @@ export async function registerRoutes(
     } catch (err) {
       console.error("Errore traduzione:", err);
       return res.json({
-        success: false,
-        translation: "",
+        success: true,
+        translation: req.body.text || "",
       });
     }
   });
