@@ -389,15 +389,18 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
         </p>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-12">
         <div className="text-center space-y-2">
           <h2 className="text-4xl font-bold font-display text-academy-dark">Tipologie di Navi</h2>
           <p className="text-academy-gray text-sm">Clicca su una nave per scoprire descrizione, funzioni e vocabolario tecnico</p>
           <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {shipTypes.map((ship, i) => (
+        {/* Navi Generiche */}
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold font-display text-academy-blue border-b-2 border-academy-gold pb-2">🌍 Navi Generiche</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {shipTypes.filter(s => s.category === "Generic").map((ship, i) => (
             <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <div
                 className="h-48 bg-academy-bg overflow-hidden flex items-center justify-center cursor-zoom-in group relative"
@@ -441,7 +444,59 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
               </div>
             </div>
           ))}
-        </div>
+            </div>
+          </div>
+
+        {/* Navi Italiane */}
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold font-display text-academy-blue border-b-2 border-academy-gold pb-2">🇮🇹 Navi Italiane della Marina Militare</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {shipTypes.filter(s => s.category === "Italian").map((ship, i) => (
+            <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div
+                className="h-48 bg-academy-bg overflow-hidden flex items-center justify-center cursor-zoom-in group relative"
+                onClick={() => shipImages[ship.name] && setZoomedImage({ src: shipImages[ship.name], alt: `${ship.name} – ${ship.nameIt}` })}
+              >
+                {/* Icona sempre di base */}
+                <div className="absolute inset-0 flex items-center justify-center bg-academy-bg">
+                  <div className="text-academy-blue opacity-40"><ShipIcon name={ship.name} size="lg" /></div>
+                </div>
+                
+                {/* Immagine se disponibile */}
+                {shipImages[ship.name] && (
+                  <>
+                    <img
+                      src={shipImages[ship.name]}
+                      alt={ship.name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 relative z-10"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all flex items-center justify-center z-20">
+                      <span className="text-white text-4xl opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg">🔍</span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div className="p-5 bg-academy-bg border-b border-academy-gold">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0"><ShipIcon name={ship.name} size="md" /></div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg text-academy-dark">{ship.name}</h3>
+                    <span className="text-academy-gold font-semibold text-sm">{ship.nameIt}</span>
+                  </div>
+                  <button
+                    data-testid={`button-ship-detail-${i}`}
+                    onClick={() => setSelectedShip(ship)}
+                    className="flex-shrink-0 px-4 py-2 bg-academy-blue text-white text-xs font-bold rounded-lg hover:bg-academy-light-blue transition-colors"
+                  >
+                    Scopri di più →
+                  </button>
+                </div>
+              </div>
+            </div>
+            ))}
+            </div>
+          </div>
       </section>
 
       <section className="space-y-8">

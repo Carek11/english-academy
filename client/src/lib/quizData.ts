@@ -760,6 +760,7 @@ export const shipTypes = [
     icon: "✈️",
     name: "Aircraft Carrier",
     nameIt: "Portaerei",
+    category: "Generic",
     components: [
       { en: "Flight deck", it: "Piano di volo." },
       { en: "Catapult", it: "Sistema che accelera gli aerei per il decollo." },
@@ -771,6 +772,7 @@ export const shipTypes = [
     icon: "🚢",
     name: "Destroyer",
     nameIt: "Cacciatorpediniere",
+    category: "Generic",
     components: [
       { en: "Hull", it: "Scafo." },
       { en: "Bow", it: "Prua." },
@@ -782,6 +784,7 @@ export const shipTypes = [
     icon: "🤿",
     name: "Submarine",
     nameIt: "Sottomarino",
+    category: "Generic",
     components: [
       { en: "Conning tower", it: "Torre di comando." },
       { en: "Ballast tanks", it: "Casse di zavorra." },
@@ -793,6 +796,7 @@ export const shipTypes = [
     icon: "⚓",
     name: "Frigate",
     nameIt: "Fregata",
+    category: "Generic",
     components: [
       { en: "Bridge", it: "Plancia di comando." },
       { en: "Mast", it: "Albero con sensori e radar." },
@@ -804,6 +808,7 @@ export const shipTypes = [
     icon: "🔱",
     name: "Corvette",
     nameIt: "Corvetta",
+    category: "Generic",
     components: [
       { en: "Main gun", it: "Cannone principale." },
       { en: "Depth charges", it: "Bombe di profondità." },
@@ -815,6 +820,7 @@ export const shipTypes = [
     icon: "🔭",
     name: "Patrol Vessel",
     nameIt: "Pattugliatore",
+    category: "Generic",
     components: [
       { en: "Waterline", it: "Linea di galleggiamento." },
       { en: "Draft", it: "Pescaggio." },
@@ -826,6 +832,7 @@ export const shipTypes = [
     icon: "✈️",
     name: "Cavour",
     nameIt: "Cavour",
+    category: "Italian",
     components: [
       { en: "Flight deck", it: "Ponte di volo per aerei." },
       { en: "Hangar bay", it: "Hangar sottocoperta per stivaggio aeromobili." },
@@ -837,6 +844,7 @@ export const shipTypes = [
     icon: "⚓",
     name: "Friuli",
     nameIt: "Friuli (Fregata FREMM)",
+    category: "Italian",
     components: [
       { en: "57mm gun", it: "Cannone da 57 mm OTO Melara." },
       { en: "Vertical Launch System (VLS)", it: "Sistema di lancio verticale missilistic." },
@@ -848,6 +856,7 @@ export const shipTypes = [
     icon: "🤿",
     name: "Todaro",
     nameIt: "Todaro (Sottomarino)",
+    category: "Italian",
     components: [
       { en: "Torpedo tube", it: "Tubo lanciasiluri da 533 mm." },
       { en: "Conning tower", it: "Torre di comando." },
@@ -859,6 +868,7 @@ export const shipTypes = [
     icon: "⛵",
     name: "Amerigo Vespucci",
     nameIt: "Amerigo Vespucci (Nave Scuola)",
+    category: "Italian",
     components: [
       { en: "Square sails", it: "Vele quadre tradizionali." },
       { en: "Main mast", it: "Albero maestro." },
@@ -870,6 +880,7 @@ export const shipTypes = [
     icon: "⚓",
     name: "Bergamini",
     nameIt: "Bergamini (Fregata FREMM)",
+    category: "Italian",
     components: [
       { en: "57mm gun", it: "Cannone da 57 mm OTO Melara." },
       { en: "Vertical Launch System (VLS)", it: "Sistema di lancio verticale missilistic." },
@@ -881,6 +892,7 @@ export const shipTypes = [
     icon: "⚓",
     name: "Carabiniere",
     nameIt: "Carabiniere (Fregata FREMM)",
+    category: "Italian",
     components: [
       { en: "57mm gun", it: "Cannone da 57 mm OTO Melara." },
       { en: "Vertical Launch System (VLS)", it: "Sistema di lancio verticale missilistic." },
@@ -892,6 +904,7 @@ export const shipTypes = [
     icon: "⚓",
     name: "Carlo Magno",
     nameIt: "Carlo Magno (Fregata FREMM)",
+    category: "Italian",
     components: [
       { en: "57mm gun", it: "Cannone da 57 mm OTO Melara." },
       { en: "Vertical Launch System (VLS)", it: "Sistema di lancio verticale missilistic." },
@@ -903,6 +916,7 @@ export const shipTypes = [
     icon: "🚢",
     name: "Orizzonte",
     nameIt: "Orizzonte (Cacciatorpediniere)",
+    category: "Italian",
     components: [
       { en: "Aster 15 & 30 missiles", it: "Missili anti-aerei ad altissima quota." },
       { en: "Harpoon anti-ship", it: "Siluri anti-nave superficie-superficie." },
@@ -914,6 +928,7 @@ export const shipTypes = [
     icon: "🚢",
     name: "Garibaldi",
     nameIt: "Garibaldi (Cacciatorpediniere)",
+    category: "Italian",
     components: [
       { en: "Aster 15 & 30 missiles", it: "Missili anti-aerei ad altissima quota." },
       { en: "Harpoon anti-ship", it: "Siluri anti-nave superficie-superficie." },
@@ -925,6 +940,7 @@ export const shipTypes = [
     icon: "🚢",
     name: "Chioggia",
     nameIt: "Chioggia (Cacciatorpediniere)",
+    category: "Italian",
     components: [
       { en: "Aster 15 & 30 missiles", it: "Missili anti-aerei ad altissima quota." },
       { en: "Harpoon anti-ship", it: "Siluri anti-nave superficie-superficie." },
@@ -936,6 +952,7 @@ export const shipTypes = [
     icon: "🔱",
     name: "Minerva",
     nameIt: "Minerva (Corvetta)",
+    category: "Italian",
     components: [
       { en: "76mm OTO Melara gun", it: "Cannone da 76 mm OTO Melara." },
       { en: "Depth charges", it: "Bombe di profondità anti-sottomarino." },
@@ -947,6 +964,7 @@ export const shipTypes = [
     icon: "🔱",
     name: "Daniele Manin",
     nameIt: "Daniele Manin (Corvetta)",
+    category: "Italian",
     components: [
       { en: "76mm OTO Melara gun", it: "Cannone da 76 mm OTO Melara." },
       { en: "Depth charges", it: "Bombe di profondità anti-sottomarino." },
