@@ -87,60 +87,116 @@ export default function PremiumPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-50">
-    <div className="space-y-12 max-w-4xl mx-auto py-12">
-      <section className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-academy-dark">💎 Premium</h1>
-        <p className="text-academy-gray">Sblocca tutte le funzioni</p>
+    <div className="space-y-12 max-w-4xl mx-auto py-12 px-4">
+      <section className="text-center space-y-6">
+        <div className="inline-block px-6 py-3 bg-sky-200 rounded-full text-sky-900 font-bold text-sm tracking-wider">
+          🚀 SBLOCCA IL MASSIMO POTENZIALE
+        </div>
+        <h1 className="text-5xl font-bold text-academy-dark">
+          Diventa <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600">Premium</span>
+        </h1>
+        <p className="text-xl text-academy-gray max-w-2xl mx-auto leading-relaxed">
+          Accesso illimitato a tutti i corsi, quiz avanzati e statistiche dettagliate. 
+          Prendi il controllo del tuo apprendimento con una soluzione completa.
+        </p>
       </section>
 
       {isPremium ? (
-        <div className="bg-green-50 border-2 border-green-300 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-green-700 mb-2">✅ Sei Premium!</h2>
-          <p className="text-green-600 mb-4">
-            Grazie per il supporto. Scade il{" "}
-            {expiresAt
-              ? new Date(expiresAt).toLocaleDateString("it-IT")
-              : "data sconosciuta"}
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400 rounded-2xl p-12 text-center shadow-lg">
+          <div className="text-6xl mb-4">✨</div>
+          <h2 className="text-3xl font-bold text-green-700 mb-3">Benvenuto nel Club Premium!</h2>
+          <p className="text-lg text-green-600 mb-6">
+            Grazie per il supporto. Stai accedendo a tutti i vantaggi esclusivi.
           </p>
-          <a href="/" className="text-green-700 hover:underline font-semibold">
-            Torna alla home
+          <p className="text-sm text-green-600 mb-6">
+            📅 Valido fino al <span className="font-bold text-green-700">
+              {expiresAt ? new Date(expiresAt).toLocaleDateString("it-IT") : "data sconosciuta"}
+            </span>
+          </p>
+          <a href="/" className="inline-block px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
+            ⚓ Torna alla Home →
           </a>
         </div>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Vantaggi */}
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h3 className="font-bold text-academy-dark mb-3">📚 Quiz Illimitati</h3>
-              <p className="text-academy-gray">Niente limiti giornalieri o mensili</p>
+            <div className="bg-white border-2 border-blue-100 rounded-xl p-7 hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">📚</div>
+              <h3 className="text-xl font-bold text-academy-dark mb-2">Quiz Illimitati</h3>
+              <p className="text-academy-gray">Pratica quanto vuoi senza limiti giornalieri o mensili. Migliora il tuo inglese al tuo ritmo.</p>
             </div>
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h3 className="font-bold text-academy-dark mb-3">🎯 Statistiche Avanzate</h3>
-              <p className="text-academy-gray">Analizza i tuoi progressi in dettaglio</p>
+            <div className="bg-white border-2 border-green-100 rounded-xl p-7 hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">📊</div>
+              <h3 className="text-xl font-bold text-academy-dark mb-2">Analytics Avanzate</h3>
+              <p className="text-academy-gray">Segui i tuoi progressi dettagli con grafici, statistiche e insights su aree da migliorare.</p>
             </div>
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
-              <h3 className="font-bold text-academy-dark mb-3">🚀 Niente Ads</h3>
-              <p className="text-academy-gray">Esperienza senza pubblicità</p>
+            <div className="bg-white border-2 border-purple-100 rounded-xl p-7 hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">🎯</div>
+              <h3 className="text-xl font-bold text-academy-dark mb-2">Niente Ads</h3>
+              <p className="text-academy-gray">Concentrati sull'apprendimento senza distrazioni. Esperienza pulita e professionale.</p>
             </div>
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
-              <h3 className="font-bold text-academy-dark mb-3">⚡ Accesso Offline</h3>
-              <p className="text-academy-gray">Usa l'app anche senza internet</p>
+            <div className="bg-white border-2 border-orange-100 rounded-xl p-7 hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">⚡</div>
+              <h3 className="text-xl font-bold text-academy-dark mb-2">Accesso Offline</h3>
+              <p className="text-academy-gray">Scarica i contenuti e studia ovunque, anche senza connessione internet.</p>
             </div>
           </div>
 
-          {/* Prezzo */}
-          <div className="bg-gradient-to-r from-academy-blue to-blue-600 rounded-lg p-8 text-white text-center">
-            <h2 className="text-3xl font-bold mb-2">€4.99/mese</h2>
-            <p className="mb-6 opacity-90">Primo mese, poi rinnovo automatico</p>
-            <div id="paypal-button-container"></div>
-          </div>
-
-          {/* Info */}
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-sm text-academy-gray">
-            <p className="mb-2">
-              💳 Pagamento sicuro gestito da PayPal. Nessun dato bancario salvato sui nostri server.
+          {/* Prezzo - Sezione Principale */}
+          <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-10 text-white text-center shadow-xl">
+            <h2 className="text-sm font-bold tracking-widest opacity-90 mb-3">PIANO ANNUALE</h2>
+            <div className="flex items-baseline justify-center gap-2 mb-2">
+              <span className="text-5xl font-bold">€4.99</span>
+              <span className="text-xl opacity-90">/mese</span>
+            </div>
+            <p className="text-sm opacity-90 mb-8">
+              Primo mese al prezzo pieno, rinnovo automatico. Cancella quando vuoi.
             </p>
-            <p>Potrai cancellare l'abbonamento in qualsiasi momento.</p>
+            <div id="paypal-button-container" className="mb-6"></div>
+            <p className="text-xs opacity-75">💳 Pagamento 100% sicuro con PayPal</p>
+          </div>
+
+          {/* Garanzia */}
+          <div className="bg-sky-50 border-l-4 border-sky-500 rounded-lg p-8">
+            <h3 className="font-bold text-academy-dark mb-3 flex items-center gap-2">
+              <span className="text-2xl">🛡️</span> Garanzia di Soddisfazione
+            </h3>
+            <ul className="space-y-2 text-academy-gray">
+              <li className="flex gap-2">
+                <span>✓</span>
+                <span>Accesso immediato a tutti i contenuti Premium</span>
+              </li>
+              <li className="flex gap-2">
+                <span>✓</span>
+                <span>Nessun vincolo: cancella l'abbonamento in qualsiasi momento</span>
+              </li>
+              <li className="flex gap-2">
+                <span>✓</span>
+                <span>Pagamento sicuro e protetto da PayPal</span>
+              </li>
+              <li className="flex gap-2">
+                <span>✓</span>
+                <span>Nessun dato bancario salvato sui nostri server</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* FAQ */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-academy-dark text-center mb-6">❓ Domande Frequenti</h3>
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h4 className="font-bold text-academy-dark mb-2">Posso cancellare quando voglio?</h4>
+              <p className="text-academy-gray">Sì, cancella il tuo abbonamento in qualsiasi momento dal tuo account. Nessuna penalità.</p>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h4 className="font-bold text-academy-dark mb-2">Come funziona il rinnovo?</h4>
+              <p className="text-academy-gray">L'abbonamento si rinnova automaticamente ogni mese. Riceverai una notifica 3 giorni prima del rinnovo.</p>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h4 className="font-bold text-academy-dark mb-2">Quali metodi di pagamento accettate?</h4>
+              <p className="text-academy-gray">Accettiamo PayPal, il metodo più sicuro e affidabile per i tuoi acquisti online.</p>
+            </div>
           </div>
         </div>
       )}
