@@ -5,8 +5,8 @@ import carrierImg from "@assets/AZzOxmv2TQeANEeFHEBG8A-AZzOxmv2lPvWNJdd-9JMwA_17
 import modernDestroyerImg from "@assets/AZzOvPA5obxU0XB_4Mf13A-AZzOvPA59Ews23LsaByuug_1773252252709.jpg";
 import submarineImg from "@assets/AZzOu1Ntrknm8qmEucepHQ-AZzOu1NtMmZiqfvN0q-AbQ_1773252252709.jpg";
 import frigateImg from "@assets/AZzOumFl0Cnnri88QRRAYw-AZzOumFl-NhYJXndlK7FNQ_1773252252709.jpg";
-import corvettteImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773252252708.jpg";
-import patrolVesselImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773252252710.jpg";
+import corvettteImg from "@assets/AZzOuOH7FhqB7jf_xqD1mw-AZzOuOH74M8KZbKDfo7jNw_1773252252710.jpg";
+import patrolVesselImg from "@assets/AZzOvtLASvPkD6yJZigI4g-AZzOvtLAugwaYz9bVtHHPA_1773252252708.jpg";
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   "Aircraft Carrier": Plane,
