@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { shipTypes, shipQuestions } from "@/lib/quizData";
 import { Plane, Ship, Waves, Anchor, Target, Eye } from "lucide-react"; // v2
-const carrierImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean%2C_2012.jpg/800px-USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean%2C_2012.jpg";
-const commandCenterImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/P408_ITS_Rimini.jpg/800px-P408_ITS_Rimini.jpg";
-const modernDestroyerImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/ITS_Andrea_Doria_%28D_553%29_in_2013.jpg/800px-ITS_Andrea_Doria_%28D_553%29_in_2013.jpg";
-const frigateImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/ITS_Carabiniere_%28F_583%29_in_2019.jpg/800px-ITS_Carabiniere_%28F_583%29_in_2019.jpg";
-const submarineImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/ITS_Salvatore_Todaro_%28S_526%29_in_2017.jpg/800px-ITS_Salvatore_Todaro_%28S_526%29_in_2017.jpg";
-const patrolVesselImg = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/P408_ITS_Rimini.jpg/800px-P408_ITS_Rimini.jpg";
+const carrierImg = "https://images.unsplash.com/photo-1581092161562-40038e57c893?w=800&h=300&fit=crop";
+const commandCenterImg = "https://images.unsplash.com/photo-1579033100235-ba66c3fb3f1d?w=800&h=300&fit=crop";
+const modernDestroyerImg = "https://images.unsplash.com/photo-1613146481882-ff04a51cf89b?w=800&h=300&fit=crop";
+const frigateImg = "https://images.unsplash.com/photo-1549880338-2a98e3bd37c9?w=800&h=300&fit=crop";
+const submarineImg = "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=300&fit=crop";
+const patrolVesselImg = "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=300&fit=crop";
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   "Aircraft Carrier": Plane,
