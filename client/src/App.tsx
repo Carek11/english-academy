@@ -95,6 +95,8 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const [wikiLoading, setWikiLoading] = useState(false);
   const [navyWikiResults, setNavyWikiResults] = useState<any[]>([]);
   const [navyWikiLoading, setNavyWikiLoading] = useState(false);
+  const [selectedWikiArticle, setSelectedWikiArticle] = useState<any>(null);
+  const [wikiContent, setWikiContent] = useState<string>("");
 
   useEffect(() => {
     if (q.trim().length < 2) {
@@ -152,6 +154,22 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
     return () => clearTimeout(timer);
   }, [q]);
 
+  const handleWikiArticleClick = async (title: string) => {
+    setSelectedWikiArticle(title);
+    setWikiContent("Caricamento...");
+    try {
+      const res = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
+      );
+      const data = await res.json();
+      const pages = data.query?.pages || {};
+      const page = Object.values(pages)[0] as any;
+      setWikiContent(page?.extract || "Contenuto non disponibile");
+    } catch (err) {
+      setWikiContent("Errore nel caricamento dell'articolo");
+    }
+  };
+
   const results = useMemo(() => {
     if (q.trim().length < 2) return [];
     const lower = q.toLowerCase();
@@ -194,12 +212,10 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
               <div className="border-b border-gray-200 p-4 bg-blue-50">
                 <p className="text-xs font-bold text-academy-dark mb-3">📖 ENCICLOPEDIA GENERICA</p>
                 {wikiResults.map((article) => (
-                  <div key={article.pageid} className="mb-2 pb-2 border-b border-gray-300 last:border-b-0">
-                    <a href={`https://en.wikipedia.org/wiki/${article.title.replace(/ /g, "_")}`} target="_blank" rel="noopener noreferrer" className="font-bold text-academy-blue hover:text-academy-light-blue text-sm">
-                      {article.title} ↗
-                    </a>
+                  <button key={article.pageid} onClick={() => handleWikiArticleClick(article.title)} className="mb-2 pb-2 border-b border-gray-300 last:border-b-0 w-full text-left hover:bg-blue-100 p-1 rounded transition-colors">
+                    <p className="font-bold text-academy-blue hover:text-academy-light-blue text-sm">{article.title}</p>
                     <p className="text-xs text-academy-gray mt-1 line-clamp-2">{article.snippet.replace(/<[^>]+>/g, "")}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
             )}
@@ -207,12 +223,10 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
               <div className="border-b border-gray-200 p-4 bg-blue-50">
                 <p className="text-xs font-bold text-academy-dark mb-3">⚓ ENCICLOPEDIA NAVALE</p>
                 {navyWikiResults.map((article) => (
-                  <div key={article.pageid} className="mb-2 pb-2 border-b border-gray-300 last:border-b-0">
-                    <a href={`https://en.wikipedia.org/wiki/${article.title.replace(/ /g, "_")}`} target="_blank" rel="noopener noreferrer" className="font-bold text-academy-blue hover:text-academy-light-blue text-sm">
-                      {article.title} ↗
-                    </a>
+                  <button key={article.pageid} onClick={() => handleWikiArticleClick(article.title)} className="mb-2 pb-2 border-b border-gray-300 last:border-b-0 w-full text-left hover:bg-blue-100 p-1 rounded transition-colors">
+                    <p className="font-bold text-academy-blue hover:text-academy-light-blue text-sm">{article.title}</p>
                     <p className="text-xs text-academy-gray mt-1 line-clamp-2">{article.snippet.replace(/<[^>]+>/g, "")}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
             )}
@@ -260,6 +274,25 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
           </div>
         )}
       </div>
+
+      {selectedWikiArticle && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[201] flex items-center justify-center p-4" onClick={() => setSelectedWikiArticle(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
+              <h2 className="text-xl font-bold text-academy-dark truncate">{selectedWikiArticle}</h2>
+              <button onClick={() => setSelectedWikiArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0 ml-4">
+                ✕
+              </button>
+            </div>
+            <div className="overflow-y-auto flex-1 p-6">
+              <div className="text-academy-dark whitespace-pre-wrap leading-relaxed text-sm line-clamp-none">
+                {wikiContent.slice(0, 2000)}
+                {wikiContent.length > 2000 ? "..." : ""}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

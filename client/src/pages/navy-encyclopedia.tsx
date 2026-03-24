@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 export default function NavyEncyclopediaPage() {
   const [search, setSearch] = useState("");
   const [localResults, setLocalResults] = useState<any[]>([]);
+  const [selectedArticle, setSelectedArticle] = useState<any>(null);
+  const [articleContent, setArticleContent] = useState<string>("");
 
   const { isLoading } = useQuery({
     queryKey: ["navy-wiki", search],
@@ -28,6 +30,22 @@ export default function NavyEncyclopediaPage() {
     enabled: search.trim().length >= 2,
     staleTime: 5 * 60 * 1000,
   });
+
+  const handleArticleClick = async (title: string) => {
+    setSelectedArticle(title);
+    setArticleContent("Caricamento...");
+    try {
+      const res = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=extracts&explaintext=true&format=json&origin=*`
+      );
+      const data = await res.json();
+      const pages = data.query?.pages || {};
+      const page = Object.values(pages)[0] as any;
+      setArticleContent(page?.extract || "Contenuto non disponibile");
+    } catch (err) {
+      setArticleContent("Errore nel caricamento dell'articolo");
+    }
+  };
 
   return (
     <div className="space-y-12">
@@ -73,25 +91,37 @@ export default function NavyEncyclopediaPage() {
       ) : (
         <div className="grid gap-6 max-w-3xl mx-auto">
           {localResults.map((article) => (
-            <div
+            <button
               key={article.pageid}
-              className="bg-white rounded-lg p-5 border-l-4 border-academy-blue hover:shadow-lg transition-shadow"
+              onClick={() => handleArticleClick(article.title)}
+              className="bg-white rounded-lg p-5 border-l-4 border-academy-blue hover:shadow-lg transition-shadow text-left hover:bg-blue-50"
             >
-              <a
-                href={`https://en.wikipedia.org/wiki/${article.title.replace(/ /g, "_")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-              >
-                <h3 className="font-bold text-academy-dark text-lg group-hover:text-academy-blue transition-colors">
-                  {article.title} ↗
-                </h3>
-              </a>
+              <h3 className="font-bold text-academy-dark text-lg hover:text-academy-blue transition-colors">
+                {article.title}
+              </h3>
               <p className="text-academy-gray text-sm mt-2 line-clamp-3">
                 {article.snippet.replace(/<[^>]+>/g, "")}
               </p>
-            </div>
+            </button>
           ))}
+        </div>
+      )}
+
+      {selectedArticle && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[200] flex items-center justify-center p-4" onClick={() => setSelectedArticle(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
+              <h2 className="text-2xl font-bold text-academy-dark">{selectedArticle}</h2>
+              <button onClick={() => setSelectedArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold">
+                ✕
+              </button>
+            </div>
+            <div className="overflow-y-auto flex-1 p-6">
+              <div className="prose prose-sm max-w-none text-academy-dark whitespace-pre-wrap leading-relaxed">
+                {articleContent}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
