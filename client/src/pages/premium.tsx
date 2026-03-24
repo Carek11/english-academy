@@ -45,6 +45,7 @@ export default function PremiumPage() {
         if (containerExists && (window as any).paypal) {
           (window as any).paypal
             .Buttons({
+              fundingSource: (window as any).paypal.FUNDING.PAYPAL,
               createOrder: async () => {
                 const res = await fetch("/api/paypal/create-order", { method: "POST" });
                 const data = (await res.json()) as { orderId: string };
