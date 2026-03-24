@@ -178,11 +178,19 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
     const target = e.target as HTMLElement;
     if (target.className.includes("word-unit")) {
       const word = target.textContent?.trim();
-      if (!word) return;
+      if (!word || word.length === 0) return;
 
       setHoveredWord(word);
+      setWordTranslation("⏳...");
       setIsTranslatingWord(true);
-      setTooltipPos({ x: e.clientX, y: e.clientY });
+
+      // Position tooltip, keeping it within viewport
+      let x = e.clientX;
+      let y = e.clientY + 25;
+      if (window.innerWidth && x + 200 > window.innerWidth) {
+        x = window.innerWidth - 220;
+      }
+      setTooltipPos({ x, y });
 
       try {
         const res = await fetch("/api/translate", {
@@ -193,9 +201,12 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
         const data = await res.json();
         if (data.success && data.translation) {
           setWordTranslation(data.translation);
+        } else {
+          setWordTranslation(word);
         }
       } catch (err) {
         console.error("Errore traduzione parola:", err);
+        setWordTranslation(word);
       }
       setIsTranslatingWord(false);
     }
@@ -308,17 +319,20 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
 
       {hoveredWord && (
         <div
-          className="fixed bg-academy-dark text-white px-3 py-2 rounded text-sm z-[300] shadow-lg"
+          className="fixed bg-academy-dark text-white px-3 py-2 rounded shadow-lg z-[9999] max-w-xs"
           style={{
             left: `${tooltipPos.x}px`,
-            top: `${tooltipPos.y + 25}px`,
+            top: `${tooltipPos.y}px`,
+            pointerEvents: "auto",
           }}
         >
-          <p className="font-bold">{hoveredWord}</p>
-          <p>{isTranslatingWord ? "⏳..." : wordTranslation}</p>
+          <p className="text-xs font-semibold text-academy-gold mb-1">{hoveredWord}</p>
+          <p className="text-sm font-light text-white">
+            {isTranslatingWord ? "⏳ Traduzione..." : wordTranslation || hoveredWord}
+          </p>
           <button
             onClick={() => setHoveredWord(null)}
-            className="text-xs mt-1 opacity-70 hover:opacity-100"
+            className="text-xs mt-2 opacity-60 hover:opacity-100 transition-opacity w-full text-center"
           >
             ✕ Chiudi
           </button>
@@ -326,19 +340,30 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
       )}
 
       {selectedWikiArticle && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[201] flex items-center justify-center p-4" onClick={() => setSelectedWikiArticle(null)}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[201] flex items-center justify-center p-4" onClick={() => {
+          setSelectedWikiArticle(null);
+          setHoveredWord(null);
+        }}>
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b bg-academy-bg">
               <h2 className="text-xl font-bold text-academy-dark truncate">{selectedWikiArticle}</h2>
-              <button onClick={() => setSelectedWikiArticle(null)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0">
+              <button onClick={() => {
+                setSelectedWikiArticle(null);
+                setHoveredWord(null);
+              }} className="text-gray-400 hover:text-gray-600 text-2xl font-bold flex-shrink-0">
                 ✕
               </button>
             </div>
-            <div className="overflow-y-auto flex-1 p-6">
+            <div className="overflow-y-auto flex-1 p-6" onClick={handleWordClick}>
               <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per tradurla in italiano</p>
-              <div className="text-academy-dark leading-relaxed text-sm" onClick={handleWordClick}>
+              <div className="text-academy-dark leading-relaxed text-sm">
                 {wikiContent.slice(0, 2000).split(/\s+/).map((word, i) => (
-                  <span key={i} className="word-unit hover:bg-academy-light-blue hover:text-white cursor-pointer px-1 rounded transition-colors">
+                  <span 
+                    key={i} 
+                    className="word-unit hover:bg-academy-light-blue hover:text-white cursor-pointer px-1 rounded transition-colors inline-block"
+                    role="button"
+                    tabIndex={0}
+                  >
                     {word}{" "}
                   </span>
                 ))}

@@ -308,29 +308,41 @@ export async function registerRoutes(
   app.post("/api/translate", async (req, res) => {
     try {
       let { text } = req.body;
-      if (!text) return res.status(400).json({ message: "Testo non fornito" });
+      if (!text || typeof text !== "string") {
+        return res.json({ success: false, translation: "" });
+      }
 
       // MyMemory API limit: max 500 chars
-      text = text.slice(0, 500);
+      text = text.trim().slice(0, 500);
+      if (!text) {
+        return res.json({ success: false, translation: "" });
+      }
 
       const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|it`;
 
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, { signal: AbortSignal.timeout(5000) });
+      if (!response.ok) {
+        return res.json({ success: false, translation: text });
+      }
+
       const data = await response.json();
 
-      if (data.responseStatus === 200 && data.responseData?.translatedText) {
+      // MyMemory returns 200 even for errors, check responseStatus
+      const translatedText = data.responseData?.translatedText;
+      if (translatedText && translatedText !== text) {
         return res.json({
           success: true,
-          translation: data.responseData.translatedText,
-        });
-      } else {
-        return res.json({
-          success: true,
-          translation: data.responseData?.translatedText || text,
+          translation: translatedText,
         });
       }
+
+      // Fallback to original text if translation failed
+      return res.json({
+        success: true,
+        translation: text,
+      });
     } catch (err) {
-      console.error("Errore API traduzione:", err);
+      console.error("Errore traduzione:", err);
       return res.json({
         success: false,
         translation: "",
