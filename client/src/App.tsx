@@ -90,10 +90,16 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
   const [q, setQ] = useState("");
   const [dictResults, setDictResults] = useState<any[]>([]);
   const [dictLoading, setDictLoading] = useState(false);
+  const [wikiResults, setWikiResults] = useState<any[]>([]);
+  const [wikiLoading, setWikiLoading] = useState(false);
+  const [navyWikiResults, setNavyWikiResults] = useState<any[]>([]);
+  const [navyWikiLoading, setNavyWikiLoading] = useState(false);
 
   useEffect(() => {
     if (q.trim().length < 2) {
       setDictResults([]);
+      setWikiResults([]);
+      setNavyWikiResults([]);
       return;
     }
 
@@ -113,7 +119,35 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
       setDictLoading(false);
     };
 
-    const timer = setTimeout(fetchDict, 300);
+    const fetchWiki = async () => {
+      setWikiLoading(true);
+      try {
+        const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q.trim())}&format=json&origin=*&srlimit=2`);
+        const data = await res.json();
+        setWikiResults(data.query?.search || []);
+      } catch (err) {
+        setWikiResults([]);
+      }
+      setWikiLoading(false);
+    };
+
+    const fetchNavyWiki = async () => {
+      setNavyWikiLoading(true);
+      try {
+        const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q.trim() + " naval")}&format=json&origin=*&srlimit=2`);
+        const data = await res.json();
+        setNavyWikiResults(data.query?.search || []);
+      } catch (err) {
+        setNavyWikiResults([]);
+      }
+      setNavyWikiLoading(false);
+    };
+
+    const timer = setTimeout(() => {
+      fetchDict();
+      fetchWiki();
+      fetchNavyWiki();
+    }, 300);
     return () => clearTimeout(timer);
   }, [q]);
 
@@ -150,9 +184,35 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
           <div className="p-6 text-center text-academy-gray text-sm">Inizia a digitare per cercare...</div>
         ) : (
           <div className="max-h-80 overflow-y-auto">
-            {dictLoading && (
+            {(dictLoading || wikiLoading || navyWikiLoading) && (
               <div className="p-4 text-center text-sm text-academy-gray">
-                ⏳ Ricerca nel vocabolario...
+                ⏳ Ricerca in corso...
+              </div>
+            )}
+            {!wikiLoading && wikiResults.length > 0 && (
+              <div className="border-b border-gray-200 p-4 bg-blue-50">
+                <p className="text-xs font-bold text-academy-dark mb-3">📖 ENCICLOPEDIA GENERICA</p>
+                {wikiResults.map((article) => (
+                  <div key={article.pageid} className="mb-2 pb-2 border-b border-gray-300 last:border-b-0">
+                    <a href={`https://en.wikipedia.org/wiki/${article.title.replace(/ /g, "_")}`} target="_blank" rel="noopener noreferrer" className="font-bold text-academy-blue hover:text-academy-light-blue text-sm">
+                      {article.title} ↗
+                    </a>
+                    <p className="text-xs text-academy-gray mt-1 line-clamp-2">{article.snippet.replace(/<[^>]+>/g, "")}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {!navyWikiLoading && navyWikiResults.length > 0 && (
+              <div className="border-b border-gray-200 p-4 bg-blue-50">
+                <p className="text-xs font-bold text-academy-dark mb-3">⚓ ENCICLOPEDIA NAVALE</p>
+                {navyWikiResults.map((article) => (
+                  <div key={article.pageid} className="mb-2 pb-2 border-b border-gray-300 last:border-b-0">
+                    <a href={`https://en.wikipedia.org/wiki/${article.title.replace(/ /g, "_")}`} target="_blank" rel="noopener noreferrer" className="font-bold text-academy-blue hover:text-academy-light-blue text-sm">
+                      {article.title} ↗
+                    </a>
+                    <p className="text-xs text-academy-gray mt-1 line-clamp-2">{article.snippet.replace(/<[^>]+>/g, "")}</p>
+                  </div>
+                ))}
               </div>
             )}
             {!dictLoading && dictResults.length > 0 && (
@@ -171,7 +231,7 @@ function SearchModal({ onNavigate, onClose }: { onNavigate: (p: string) => void;
                 ))}
               </div>
             )}
-            {results.length === 0 && dictResults.length === 0 && (
+            {results.length === 0 && dictResults.length === 0 && wikiResults.length === 0 && navyWikiResults.length === 0 && (
               <div className="p-6 text-center text-academy-gray text-sm">Nessun risultato per "<strong>{q}</strong>"</div>
             )}
             {results.length > 0 && (
