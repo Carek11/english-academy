@@ -8,6 +8,7 @@ import ConnectPgSimple from "connect-pg-simple";
 import { randomUUID } from "crypto";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { registerHealthCheck } from "./health";
 
 declare module "express-session" {
   interface SessionData {
@@ -88,6 +89,8 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   app.set("trust proxy", 1);
+
+  registerHealthCheck(app);
 
   const sessionStore = process.env.VERCEL
     ? undefined

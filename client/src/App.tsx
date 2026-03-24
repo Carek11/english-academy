@@ -4,7 +4,15 @@ import { QueryClientProvider, useQuery, useMutation } from "@tanstack/react-quer
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { logger } from "@/lib/logger";
+import { CONFIG } from "@/lib/config";
 import HomePage from "@/pages/home";
+
+// Health check on app load
+if (import.meta.env.PROD) {
+  fetch("/api/_health").catch(() => logger.warn("Health check failed"));
+}
 import CoursesPage from "@/pages/courses";
 import MarinaPage from "@/pages/marina";
 import QuizMarinaPage from "@/pages/quiz-marina";
@@ -416,12 +424,14 @@ function AppInner() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <AppInner />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <AppInner />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -1,0 +1,15 @@
+export const CONFIG = {
+  API_TIMEOUT: 30000,
+  MAX_RETRIES: 3,
+  CACHE_DURATION: 5 * 60 * 1000,
+  MAX_QUIZ_ATTEMPTS: 100,
+  LOG_LEVEL: import.meta.env.DEV ? "debug" : "error",
+  VERSION: "1.0.0",
+};
+
+export const VALIDATION = {
+  MIN_QUESTION_LENGTH: 10,
+  MAX_QUESTION_LENGTH: 500,
+  MAX_OPTIONS: 4,
+  MIN_OPTIONS: 2,
+};
