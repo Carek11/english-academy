@@ -26,9 +26,9 @@ export default function GlossaryPage() {
   ];
 
   return (
-    <div className="space-y-10">
-      <section className="text-center space-y-4">
-        <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm">
+    <div className="space-y-12">
+      <section className="text-center space-y-6">
+        <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm mb-4">
           ⚓ MARINA MILITARE
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold font-display text-academy-dark">
@@ -37,10 +37,10 @@ export default function GlossaryPage() {
         <p className="text-academy-gray max-w-2xl mx-auto leading-relaxed">
           Oltre {glossaryTerms.length} termini tecnici della Marina Militare in inglese e italiano. Cerca un termine o filtra per categoria.
         </p>
-        <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
+        <div className="h-1 w-20 bg-academy-gold mx-auto rounded mt-2"></div>
       </section>
 
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <div className="relative">
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
           <input
@@ -95,7 +95,7 @@ export default function GlossaryPage() {
       </div>
 
       {!isSearching && (
-        <div className="text-center py-12 space-y-3 text-academy-gray">
+        <div className="text-center py-16 space-y-3 text-academy-gray">
           <div className="text-5xl opacity-30">📖</div>
           <p className="text-base">Digita un termine o scegli una categoria per visualizzare i risultati.</p>
         </div>
@@ -121,7 +121,7 @@ export default function GlossaryPage() {
           <p className="text-center text-academy-gray text-sm">
             {filtered.length} {filtered.length === 1 ? "termine trovato" : "termini trovati"}
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((term, i) => {
               const cfg = categoryConfig[term.category];
               return (

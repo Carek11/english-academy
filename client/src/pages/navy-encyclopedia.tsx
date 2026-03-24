@@ -30,9 +30,9 @@ export default function NavyEncyclopediaPage() {
   });
 
   return (
-    <div className="space-y-10">
-      <section className="text-center space-y-4">
-        <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm mb-8">
+    <div className="space-y-12">
+      <section className="text-center space-y-6">
+        <div className="inline-block px-4 py-2 bg-academy-blue bg-opacity-10 rounded-full text-academy-blue font-semibold text-sm mb-4">
           ⚓ ENCICLOPEDIA NAVALE
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold font-display text-academy-dark">
@@ -41,7 +41,7 @@ export default function NavyEncyclopediaPage() {
         <p className="text-academy-gray max-w-2xl mx-auto leading-relaxed">
           Ricerca articoli su navi, termini nautici, storia navale e marina militare internazionale.
         </p>
-        <div className="h-1 w-20 bg-academy-gold mx-auto rounded"></div>
+        <div className="h-1 w-20 bg-academy-gold mx-auto rounded mt-2"></div>
       </section>
 
       <div className="max-w-3xl mx-auto">
@@ -59,19 +59,19 @@ export default function NavyEncyclopediaPage() {
       </div>
 
       {search.trim().length < 2 ? (
-        <div className="text-center py-12">
+        <div className="text-center py-16">
           <p className="text-academy-gray text-lg">Inizia a digitare per cercare articoli navali...</p>
         </div>
       ) : isLoading ? (
-        <div className="text-center py-12">
+        <div className="text-center py-16">
           <p className="text-academy-gray">⏳ Ricerca in corso...</p>
         </div>
       ) : localResults.length === 0 ? (
-        <div className="text-center py-12">
+        <div className="text-center py-16">
           <p className="text-academy-gray text-lg">Nessun risultato per "<strong>{search}</strong>"</p>
         </div>
       ) : (
-        <div className="grid gap-4 max-w-3xl mx-auto">
+        <div className="grid gap-6 max-w-3xl mx-auto">
           {localResults.map((article) => (
             <div
               key={article.pageid}
