@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getInstantTranslation } from "@/lib/instantTranslator";
+import { getInstantTranslation, preTranslateText } from "@/lib/instantTranslator";
 
 export default function NavyEncyclopediaPage() {
   const [search, setSearch] = useState("");
@@ -185,16 +185,21 @@ export default function NavyEncyclopediaPage() {
               </button>
             </div>
             <div className="overflow-y-auto flex-1 p-6" onClick={handleWordClick}>
-              <p className="text-xs text-academy-gray mb-4">💡 Clicca su una parola per tradurla in italiano</p>
+              <p className="text-xs text-academy-gray mb-4">💡 Parole già tradotte in blu - Clicca per dettagli</p>
               <div className="text-academy-dark leading-relaxed">
-                {articleContent.split(/\s+/).map((word, i) => (
+                {preTranslateText(articleContent).map((item, i) => (
                   <span 
                     key={i} 
-                    className="word-unit hover:bg-academy-light-blue hover:text-white cursor-pointer px-1 rounded transition-colors inline-block"
+                    className={`word-unit px-1 rounded transition-colors inline-block ${
+                      item.isTranslated 
+                        ? "text-academy-blue font-semibold hover:bg-academy-light-blue hover:text-white cursor-pointer" 
+                        : "hover:bg-gray-200 cursor-pointer"
+                    }`}
                     role="button"
                     tabIndex={0}
+                    title={item.isTranslated ? `${item.word} = ${item.translation}` : ""}
                   >
-                    {word}{" "}
+                    {item.word}{" "}
                   </span>
                 ))}
               </div>

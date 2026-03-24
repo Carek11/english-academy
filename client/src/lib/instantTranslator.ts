@@ -145,3 +145,22 @@ export function getInstantTranslation(word: string): string {
   
   return translationCache[normalized] || word;
 }
+
+// Pre-traduce il testo: restituisce array di {word, translation} per ogni parola
+export function preTranslateText(text: string): Array<{ word: string; translation: string; isTranslated: boolean }> {
+  if (Object.keys(translationCache).length === 0) {
+    initTranslationCache();
+  }
+  
+  return text.split(/\s+/).map((word) => {
+    const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+    const normalized = cleaned.toLowerCase().trim();
+    const translation = translationCache[normalized];
+    
+    return {
+      word,
+      translation: translation || cleaned,
+      isTranslated: !!translation,
+    };
+  });
+}
