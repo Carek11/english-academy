@@ -248,17 +248,14 @@ export default function PremiumPage() {
 
           {/* Prezzo - Sezione Principale */}
           <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-12 text-white text-center shadow-xl">
-            <h2 className="text-xs font-black tracking-widest opacity-95 mb-6 uppercase letter-spacing-2">Piano Premium</h2>
+            <h2 className="text-xs font-black tracking-widest opacity-95 mb-2 uppercase letter-spacing-2">Piano Premium</h2>
+            <p className="text-sm opacity-90 mb-6 max-w-sm mx-auto">
+              7 giorni gratuiti, poi €7.99 al mese. Cancella quando vuoi.
+            </p>
             <div className="mb-10">
               <div className="text-6xl font-black leading-tight">€7.99</div>
               <div className="text-xl font-semibold opacity-90 mt-2">al mese</div>
             </div>
-            <p className="text-base leading-relaxed opacity-90 mb-4 max-w-sm mx-auto font-medium">
-              Attiva la modalità Premium per 7 giorni gratuiti con rinnovo a soli €7.99 al mese.
-            </p>
-            <p className="text-sm opacity-85 mb-12 max-w-sm mx-auto">
-              Cancella quando vuoi. Nessun vincolo.
-            </p>
             
             {paypalError ? (
               <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
