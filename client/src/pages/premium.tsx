@@ -254,7 +254,7 @@ export default function PremiumPage() {
                 
                 {!paypalLoaded && (
                   <div className="text-center">
-                    <p className="text-white font-semibold mb-4">Paga ora</p>
+                    <p className="text-white font-bold text-lg mb-4">Paga ora</p>
                     <button
                       onClick={() => {
                         if (!user) {
