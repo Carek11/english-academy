@@ -272,9 +272,8 @@ export default function PremiumPage() {
                       className="w-full px-10 py-5 bg-yellow-500 hover:bg-yellow-600 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
                       data-testid="button-paypal-payment"
                     >
-                      <div className="flex items-center justify-center gap-3">
+                      <div className="flex items-center justify-center">
                         <img src={paypalLogo} alt="PayPal" className="h-10 object-contain" style={{ mixBlendMode: "darken" }} />
-                        <span className="text-white text-lg">Paga ora</span>
                       </div>
                     </button>
                   </div>
