@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function ProfilePage() {
@@ -8,10 +8,24 @@ export default function ProfilePage() {
   const [, setLocation] = useLocation();
   const [cancelLoading, setCancelLoading] = useState(false);
   const [statsDropdownOpen, setStatsDropdownOpen] = useState(false);
+  const statsDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setStatsDropdownOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (statsDropdownRef.current && !statsDropdownRef.current.contains(event.target as Node)) {
+        setStatsDropdownOpen(false);
+      }
+    };
+
+    if (statsDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [statsDropdownOpen]);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ["/api/me"],
@@ -141,7 +155,7 @@ export default function ProfilePage() {
         )}
 
         {/* Statistiche Dropdown */}
-        <div className="bg-white border-2 border-gray-100 rounded-2xl p-8 shadow-md">
+        <div ref={statsDropdownRef} className="bg-white border-2 border-gray-100 rounded-2xl p-8 shadow-md">
           <button
             onClick={() => setStatsDropdownOpen(!statsDropdownOpen)}
             className="w-full flex items-center justify-between text-left"

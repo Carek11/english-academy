@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { glossaryTerms, categoryConfig, type GlossaryCategory } from "@/lib/glossaryData";
 
@@ -6,11 +6,25 @@ export default function GlossaryPage() {
   const [location] = useLocation();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<GlossaryCategory | "all">("all");
+  const searchDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setSearch("");
     setActiveCategory("all");
   }, [location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchDropdownRef.current && !searchDropdownRef.current.contains(event.target as Node)) {
+        setSearch("");
+      }
+    };
+
+    if (search.trim() !== "") {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [search]);
 
   const isSearching = search.trim() !== "" || activeCategory !== "all";
 
@@ -48,7 +62,7 @@ export default function GlossaryPage() {
       </section>
 
       <div className="max-w-3xl mx-auto">
-        <div className="relative">
+        <div ref={searchDropdownRef} className="relative">
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
           <input
             data-testid="input-glossary-search"
