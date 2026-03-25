@@ -255,10 +255,10 @@ export default function PremiumPage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-14">
 
             {/* Vantaggi */}
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-white border border-blue-100 rounded-xl p-6 hover:shadow-md transition-shadow">
                 <div className="text-3xl mb-3">📚</div>
                 <h3 className="text-lg font-bold text-academy-dark mb-1">Quiz Illimitati</h3>
