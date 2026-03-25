@@ -207,7 +207,7 @@ export default function PremiumPage() {
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
             <p className="text-academy-gray mb-6 max-w-xl mx-auto text-base leading-relaxed">
-              Appena diventerai premium ti verra spedito un ebook professionale molto utile!
+              Appena diventerai premium ti verrà spedito un ebook professionale di inglese molto utile!
             </p>
             <a 
               href="/ebook-english-naval.pdf" 
@@ -309,7 +309,7 @@ export default function PremiumPage() {
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
             <p className="text-academy-gray mb-6 max-w-xl mx-auto text-base leading-relaxed">
-              Appena diventerai premium ti verra spedito un ebook professionale molto utile!
+              Appena diventerai premium ti verrà spedito un ebook professionale di inglese molto utile!
             </p>
           </div>
 
