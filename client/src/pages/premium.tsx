@@ -202,17 +202,19 @@ export default function PremiumPage() {
       <div className="max-w-4xl mx-auto py-12 px-4">
 
         {/* Hero */}
-        <section className="text-center space-y-4 mb-10">
-          <div className="inline-block px-6 py-2 bg-sky-100 rounded-full text-sky-800 font-semibold text-sm tracking-wide">
+        <section className="text-center space-y-6 mb-14">
+          <div className="inline-block px-6 py-3 bg-sky-100 rounded-full text-sky-800 font-semibold text-sm tracking-wide">
             🚀 SBLOCCA IL MASSIMO POTENZIALE
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-academy-dark">
-            Diventa <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">Premium</span>
-          </h1>
-          <p className="text-lg text-academy-gray leading-relaxed max-w-2xl mx-auto">
-            Accesso illimitato a tutti i corsi, quiz avanzati e statistiche dettagliate.
-            Prendi il controllo del tuo apprendimento con una soluzione completa.
-          </p>
+          <div className="space-y-3">
+            <h1 className="text-4xl md:text-5xl font-bold text-academy-dark">
+              Diventa <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">Premium</span>
+            </h1>
+            <p className="text-lg text-academy-gray leading-relaxed max-w-2xl mx-auto">
+              Accesso illimitato a tutti i corsi, quiz avanzati e statistiche dettagliate.
+              Prendi il controllo del tuo apprendimento con una soluzione completa.
+            </p>
+          </div>
         </section>
 
         {isPremium ? (
