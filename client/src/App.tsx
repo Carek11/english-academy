@@ -541,12 +541,19 @@ function AppInner() {
         { id: "quiz-marina", label: "Quiz Marina", emoji: "🎯" },
       ]
     },
-    { id: "statistiche",  label: "Statistiche",     emoji: "📊" },
-    { id: "glossario",    label: "Glossario",       emoji: "📖" },
+    {
+      id: "risorse-dropdown",
+      label: "Risorse",
+      emoji: "ℹ️",
+      submenu: [
+        { id: "statistiche", label: "Statistiche", emoji: "📊" },
+        { id: "glossario", label: "Glossario", emoji: "📖" },
+        { id: "chi-siamo", label: "Chi Siamo", emoji: "👥" },
+        { id: "contatti", label: "Contatti", emoji: "✉️" },
+      ]
+    },
     { id: "premium",      label: "Premium",        emoji: "💎", highlight: true },
     { id: "profilo",      label: "Profilo",        emoji: "👤" },
-    { id: "chi-siamo",    label: "Chi Siamo",       emoji: "👥" },
-    { id: "contatti",     label: "Contatti",        emoji: "✉️" },
   ];
 
   return (
