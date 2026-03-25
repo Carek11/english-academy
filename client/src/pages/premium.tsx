@@ -3,12 +3,41 @@ import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 import paypalLogo from "@assets/image_1774397561915.png";
+import { ChevronDown } from "lucide-react";
+
+const faqs = [
+  {
+    q: "Posso cancellare quando voglio?",
+    a: "Sì, puoi cancellare il tuo abbonamento in qualsiasi momento direttamente dal tuo profilo. Nessuna penalità, nessuna burocrazia.",
+  },
+  {
+    q: "Come funziona il periodo gratuito di 7 giorni?",
+    a: "Hai 7 giorni completi per esplorare tutti i contenuti Premium senza alcun costo. Se non sei soddisfatto, cancella prima della scadenza e non ti verrà addebitato nulla.",
+  },
+  {
+    q: "Come funziona il rinnovo mensile?",
+    a: "L'abbonamento si rinnova automaticamente ogni mese tramite PayPal. Riceverai una notifica via email 3 giorni prima di ogni rinnovo.",
+  },
+  {
+    q: "Quali metodi di pagamento accettate?",
+    a: "Accettiamo pagamenti tramite PayPal, che supporta carte di credito, debito e il saldo del tuo conto PayPal. Tutti i pagamenti sono cifrati e sicuri.",
+  },
+  {
+    q: "I miei dati bancari sono al sicuro?",
+    a: "Assolutamente sì. Non salviamo mai i tuoi dati bancari sui nostri server. Ogni transazione è gestita interamente da PayPal, che garantisce i massimi standard di sicurezza.",
+  },
+  {
+    q: "Quando ricevo l'eBook in omaggio?",
+    a: "L'eBook viene inviato automaticamente via email all'attivazione del piano Premium. Controlla anche la cartella spam se non lo trovi entro pochi minuti.",
+  },
+];
 
 export default function PremiumPage() {
   const [isPremium, setIsPremium] = useState(false);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [paypalLoaded, setPaypalLoaded] = useState(false);
   const [paypalError, setPaypalError] = useState<string | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [, setLocation] = useLocation();
 
   // Verifica se utente è loggato
@@ -332,21 +361,33 @@ export default function PremiumPage() {
             </div>
 
             {/* FAQ */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-10 border border-blue-100 shadow-sm space-y-5">
-              <h3 className="text-xl font-bold text-academy-dark text-center">❓ Domande Frequenti</h3>
-              <div className="space-y-3">
-                <div className="bg-white rounded-lg p-5 border-l-4 border-blue-500 hover:shadow-sm transition-shadow">
-                  <h4 className="font-bold text-academy-dark mb-1">Posso cancellare quando voglio?</h4>
-                  <p className="text-academy-gray text-sm">Sì, cancella il tuo abbonamento in qualsiasi momento dal tuo account. Nessuna penalità.</p>
-                </div>
-                <div className="bg-white rounded-lg p-5 border-l-4 border-blue-500 hover:shadow-sm transition-shadow">
-                  <h4 className="font-bold text-academy-dark mb-1">Come funziona il rinnovo?</h4>
-                  <p className="text-academy-gray text-sm">L'abbonamento si rinnova automaticamente ogni mese. Riceverai una notifica 3 giorni prima del rinnovo.</p>
-                </div>
-                <div className="bg-white rounded-lg p-5 border-l-4 border-blue-500 hover:shadow-sm transition-shadow">
-                  <h4 className="font-bold text-academy-dark mb-1">Quali metodi di pagamento accettate?</h4>
-                  <p className="text-academy-gray text-sm">Accettiamo PayPal, il metodo più sicuro e affidabile per i tuoi acquisti online.</p>
-                </div>
+            <div className="space-y-4">
+              <div className="text-center space-y-1">
+                <h3 className="text-2xl font-bold text-academy-dark">Domande Frequenti</h3>
+                <p className="text-academy-gray text-sm">Tutto quello che devi sapere prima di iscriverti</p>
+              </div>
+              <div className="divide-y divide-gray-100 rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                {faqs.map((faq, i) => (
+                  <div key={i}>
+                    <button
+                      className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-sky-50 transition-colors"
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      data-testid={`faq-toggle-${i}`}
+                    >
+                      <span className="font-semibold text-academy-dark text-sm md:text-base">{faq.q}</span>
+                      <ChevronDown
+                        className={`w-5 h-5 text-sky-500 flex-shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
+                    >
+                      <p className="px-6 pb-5 text-academy-gray text-sm leading-relaxed border-t border-gray-50 pt-3">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
