@@ -367,6 +367,5 @@ export default function PremiumPage() {
         </div>
       </div>
     </div>
-    </div>
   );
 }
