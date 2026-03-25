@@ -268,11 +268,12 @@ export default function PremiumPage() {
                         })
                         .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                     }}
-                    className="w-full px-10 py-6 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 rounded-xl hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold text-lg"
+                    className="w-full px-10 py-5 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 rounded-lg hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
                     data-testid="button-paypal-payment"
                   >
-                    <div className="flex items-center justify-center">
-                      <img src={paypalLogo} alt="PayPal" className="h-12 object-contain" style={{ mixBlendMode: "darken" }} />
+                    <div className="flex items-center justify-center gap-2">
+                      <img src={paypalLogo} alt="PayPal" className="h-8 object-contain" style={{ mixBlendMode: "darken" }} />
+                      <span className="text-white text-lg">Paga ora</span>
                     </div>
                   </button>
                 )}
