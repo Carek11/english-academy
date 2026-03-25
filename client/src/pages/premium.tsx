@@ -199,10 +199,10 @@ export default function PremiumPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
-      <div className="max-w-4xl mx-auto py-16 px-4 space-y-12">
+      <div className="max-w-4xl mx-auto py-12 px-4">
 
         {/* Hero */}
-        <section className="text-center space-y-5">
+        <section className="text-center space-y-4 mb-10">
           <div className="inline-block px-6 py-2 bg-sky-100 rounded-full text-sky-800 font-semibold text-sm tracking-wide">
             🚀 SBLOCCA IL MASSIMO POTENZIALE
           </div>
@@ -253,10 +253,10 @@ export default function PremiumPage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-12">
+          <div className="space-y-8">
 
             {/* Vantaggi */}
-            <div className="grid md:grid-cols-2 gap-5">
+            <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-white border border-blue-100 rounded-xl p-6 hover:shadow-md transition-shadow">
                 <div className="text-3xl mb-3">📚</div>
                 <h3 className="text-lg font-bold text-academy-dark mb-1">Quiz Illimitati</h3>
@@ -361,8 +361,8 @@ export default function PremiumPage() {
             </div>
 
             {/* FAQ */}
-            <div>
-              <div className="text-center space-y-1 mb-8">
+            <div className="pt-4 border-t border-gray-100">
+              <div className="text-center space-y-1 mb-6">
                 <h3 className="text-2xl font-bold text-academy-dark">Domande Frequenti</h3>
                 <p className="text-academy-gray text-sm">Tutto quello che devi sapere prima di iscriverti</p>
               </div>
@@ -393,6 +393,8 @@ export default function PremiumPage() {
 
           </div>
         )}
+
+        <div className="pb-8" />
       </div>
     </div>
   );
