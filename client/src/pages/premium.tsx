@@ -228,7 +228,7 @@ export default function PremiumPage() {
           </div>
 
           {/* Prezzo - Sezione Principale */}
-          <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-12 text-white text-center shadow-xl">
+          <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-12 text-white text-center shadow-xl flex flex-col items-center justify-center">
             <h2 className="text-xs font-black tracking-widest opacity-95 mb-6 uppercase letter-spacing-2">Piano Premium</h2>
             <div className="flex items-baseline justify-center gap-3 mb-8">
               <span className="text-7xl font-black leading-none">€4.99</span>
