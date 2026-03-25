@@ -250,34 +250,34 @@ export default function PremiumPage() {
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="text-center">
-                  <p className="text-white font-semibold mb-4">Paga ora</p>
-                  <div id="paypal-button-container" className="mb-8 min-h-12"></div>
-                </div>
+                <div id="paypal-button-container" className="mb-8 min-h-12"></div>
                 
                 {!paypalLoaded && (
-                  <button
-                    onClick={() => {
-                      if (!user) {
-                        alert("❌ Devi essere registrato e loggato per pagare!");
-                        return;
-                      }
-                      // Trigger pagamento manuale se PayPal SDK non è caricato
-                      fetch("/api/paypal/create-order", { method: "POST" })
-                        .then(res => res.json())
-                        .then(data => {
-                          window.open(`https://www.sandbox.paypal.com/checkoutnow?token=${data.orderId}`, "_blank");
-                        })
-                        .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
-                    }}
-                    className="w-full px-10 py-5 bg-yellow-500 hover:bg-yellow-600 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
-                    data-testid="button-paypal-payment"
-                  >
-                    <div className="flex items-center justify-center gap-3">
-                      <img src={paypalLogo} alt="PayPal" className="h-10 object-contain" style={{ mixBlendMode: "darken" }} />
-                      <span className="text-white text-lg">Paga ora</span>
-                    </div>
-                  </button>
+                  <div className="text-center">
+                    <p className="text-white font-semibold mb-4">Paga ora</p>
+                    <button
+                      onClick={() => {
+                        if (!user) {
+                          alert("❌ Devi essere registrato e loggato per pagare!");
+                          return;
+                        }
+                        // Trigger pagamento manuale se PayPal SDK non è caricato
+                        fetch("/api/paypal/create-order", { method: "POST" })
+                          .then(res => res.json())
+                          .then(data => {
+                            window.open(`https://www.sandbox.paypal.com/checkoutnow?token=${data.orderId}`, "_blank");
+                          })
+                          .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
+                      }}
+                      className="w-full px-10 py-5 bg-yellow-500 hover:bg-yellow-600 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
+                      data-testid="button-paypal-payment"
+                    >
+                      <div className="flex items-center justify-center gap-3">
+                        <img src={paypalLogo} alt="PayPal" className="h-10 object-contain" style={{ mixBlendMode: "darken" }} />
+                        <span className="text-white text-lg">Paga ora</span>
+                      </div>
+                    </button>
+                  </div>
                 )}
               </div>
             )}
