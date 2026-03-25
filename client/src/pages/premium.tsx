@@ -292,7 +292,7 @@ export default function PremiumPage() {
             </div>
 
             {/* Prezzo */}
-            <div className="bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl p-10 text-white text-center shadow-xl mt-16">
+            <div className="bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl p-10 text-white text-center shadow-xl mt-32">
               <p className="text-xs font-bold tracking-widest uppercase opacity-80 mb-2">Piano Premium</p>
               <div className="inline-block bg-white/20 px-5 py-2 rounded-full text-sm font-semibold mb-6">
                 🎁 7 giorni gratuiti, poi €7.99/mese — cancella quando vuoi
