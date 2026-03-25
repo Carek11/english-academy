@@ -171,7 +171,7 @@ export default function PremiumPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-50">
     <div className="space-y-16 max-w-4xl mx-auto py-16 px-4">
-      <section className="text-center space-y-8 pb-8">
+      <section className="text-center space-y-12 pb-8">
         <div className="inline-block px-8 py-4 bg-sky-200 rounded-full text-sky-900 font-bold text-sm tracking-wider">
           🚀 SBLOCCA IL MASSIMO POTENZIALE
         </div>
