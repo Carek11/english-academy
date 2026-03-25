@@ -252,8 +252,9 @@ export default function PremiumPage() {
             <p className="text-base font-bold opacity-100 mb-8 max-w-sm mx-auto bg-white bg-opacity-20 px-6 py-3 rounded-lg">
               🎁 7 giorni gratuiti, poi €7.99 al mese. Cancella quando vuoi.
             </p>
-            <div className="mb-10">
-              <div className="text-5xl font-black leading-tight">€7.99<span className="text-2xl font-semibold opacity-90 align-top">/mese</span></div>
+            <div className="mb-10 flex items-baseline justify-center gap-2">
+              <div className="text-6xl font-black leading-tight">€7.99</div>
+              <div className="text-lg font-semibold opacity-85">/mese</div>
             </div>
             
             {paypalError ? (
