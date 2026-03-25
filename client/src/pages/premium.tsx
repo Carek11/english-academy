@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 export default function PremiumPage() {
   const [isPremium, setIsPremium] = useState(false);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
+  const [paypalError, setPaypalError] = useState<string | null>(null);
   const [, setLocation] = useLocation();
 
   // Verifica se utente è loggato
@@ -42,26 +44,75 @@ export default function PremiumPage() {
   useEffect(() => {
     if (isPremium || !user) return;
 
+    // Check se lo script PayPal esiste già
+    if ((window as any).paypal) {
+      setPaypalLoaded(true);
+      renderPaypalButton();
+      return;
+    }
+
+    // Verifica se lo script è già nel DOM
+    if (document.querySelector('script[src*="paypal.com/sdk"]')) {
+      return;
+    }
+
     const container = document.getElementById("paypal-button-container");
-    if (!container) return;
+    if (!container) {
+      setPaypalError("Contenitore PayPal non trovato");
+      return;
+    }
 
     const script = document.createElement("script");
-    script.src = `https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb"}`;
+    const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb";
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
     script.async = true;
 
     script.onload = () => {
-      setTimeout(() => {
-        const containerExists = document.getElementById("paypal-button-container");
-        if (containerExists && (window as any).paypal) {
-          (window as any).paypal
-            .Buttons({
-              fundingSource: (window as any).paypal.FUNDING.PAYPAL,
-              createOrder: async () => {
-                const res = await fetch("/api/paypal/create-order", { method: "POST" });
-                const data = (await res.json()) as { orderId: string };
-                return data.orderId;
-              },
-              onApprove: async (data: any) => {
+      // Aspetta che PayPal sia disponibile
+      let retries = 0;
+      const checkPaypal = () => {
+        if ((window as any).paypal && (window as any).paypal.Buttons) {
+          setPaypalLoaded(true);
+          renderPaypalButton();
+        } else if (retries < 5) {
+          retries++;
+          setTimeout(checkPaypal, 200);
+        } else {
+          setPaypalError("PayPal SDK non è stato caricato correttamente");
+        }
+      };
+      checkPaypal();
+    };
+
+    script.onerror = () => {
+      setPaypalError("Errore nel caricamento di PayPal. Ricarica la pagina.");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup non rimuove lo script per evitare duplicate, ma lo resettiamo
+      setPaypalLoaded(false);
+    };
+  }, [isPremium, user]);
+
+  const renderPaypalButton = () => {
+    const container = document.getElementById("paypal-button-container");
+    if (!container || !container.innerHTML) return; // Solo se il container è vuoto
+
+    if ((window as any).paypal && (window as any).paypal.Buttons) {
+      try {
+        (window as any).paypal
+          .Buttons({
+            fundingSource: (window as any).paypal.FUNDING.PAYPAL,
+            createOrder: async () => {
+              const res = await fetch("/api/paypal/create-order", { method: "POST" });
+              if (!res.ok) throw new Error("Errore nella creazione dell'ordine");
+              const data = (await res.json()) as { orderId: string };
+              return data.orderId;
+            },
+            onApprove: async (data: any) => {
+              try {
                 const res = await fetch("/api/paypal/capture-order", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -72,24 +123,24 @@ export default function PremiumPage() {
                   const result = (await res.json()) as { success: boolean; expiresAt: string };
                   setIsPremium(true);
                   setExpiresAt(result.expiresAt);
-                  window.location.reload();
+                  setTimeout(() => window.location.reload(), 1000);
+                } else {
+                  alert("❌ Errore nel salvataggio del pagamento");
                 }
-              },
-              onError: () => alert("Errore durante il pagamento"),
-            })
-            .render("#paypal-button-container");
-        }
-      }, 100);
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
+              } catch (err) {
+                console.error("Errore capture:", err);
+                alert("❌ Errore durante il completamento del pagamento");
+              }
+            },
+            onError: () => alert("❌ Errore durante il pagamento. Riprova."),
+          })
+          .render("#paypal-button-container");
+      } catch (err) {
+        console.error("Errore rendering PayPal:", err);
+        setPaypalError("Errore nel rendering del bottone PayPal");
       }
-    };
-  }, [isPremium, user]);
+    }
+  };
 
   // Se non loggato, mostra alert e reindirizza
   useEffect(() => {
@@ -175,7 +226,27 @@ export default function PremiumPage() {
             <p className="text-sm opacity-90 mb-8">
               Primo mese al prezzo pieno, rinnovo automatico. Cancella quando vuoi.
             </p>
-            <div id="paypal-button-container" className="mb-6"></div>
+            
+            {paypalError ? (
+              <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
+                <p className="font-bold">⚠️ {paypalError}</p>
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="mt-3 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                  data-testid="button-reload-premium"
+                >
+                  🔄 Ricarica Pagina
+                </button>
+              </div>
+            ) : (
+              <>
+                <div id="paypal-button-container" className="mb-6"></div>
+                {!paypalLoaded && (
+                  <div className="text-sm opacity-75 mb-4">⏳ Caricamento PayPal...</div>
+                )}
+              </>
+            )}
+            
             <p className="text-xs opacity-75">💳 Pagamento 100% sicuro con PayPal</p>
           </div>
 
