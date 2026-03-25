@@ -249,12 +249,35 @@ export default function PremiumPage() {
                 </button>
               </div>
             ) : (
-              <>
-                <div id="paypal-button-container" className="mb-6"></div>
+              <div className="space-y-4">
+                <div id="paypal-button-container" className="mb-6 min-h-12"></div>
+                
                 {!paypalLoaded && (
-                  <div className="text-sm opacity-75 mb-4">⏳ Caricamento PayPal...</div>
+                  <button
+                    onClick={() => {
+                      if (!user) {
+                        alert("❌ Devi essere registrato e loggato per pagare!");
+                        return;
+                      }
+                      // Trigger pagamento manuale se PayPal SDK non è caricato
+                      fetch("/api/paypal/create-order", { method: "POST" })
+                        .then(res => res.json())
+                        .then(data => {
+                          window.open(`https://www.sandbox.paypal.com/checkoutnow?token=${data.orderId}`, "_blank");
+                        })
+                        .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
+                    }}
+                    className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors"
+                    data-testid="button-paypal-payment"
+                  >
+                    💳 Pagamento PayPal
+                  </button>
                 )}
-              </>
+                
+                {!paypalLoaded && (
+                  <div className="text-sm opacity-75 text-center">⏳ Caricamento PayPal...</div>
+                )}
+              </div>
             )}
             
             <p className="text-xs opacity-75">💳 Pagamento 100% sicuro con PayPal</p>
