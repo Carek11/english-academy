@@ -207,7 +207,7 @@ export default function PremiumPage() {
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
             <p className="text-academy-gray mb-6 max-w-xl mx-auto text-base leading-relaxed">
-              eBook in omaggio se diventi premium di <span className="font-semibold">Iolanda Amodio</span>, professoressa di inglese madrelingua. Accedi alle risorse complete del sito e leggi la guida professionale sull'inglese tecnico navale.
+              Appena diventerai premium riceverai in omaggio l'eBook della professoressa madrelingua inglese <span className="font-semibold">Iolanda Amodio</span>, che insegna presso la Marina Militare di Taranto. Un materiale didattico davvero utile sull'inglese tecnico navale, realizzato da un'esperta del settore con anni di esperienza.
             </p>
             <a 
               href="/ebook-english-naval.pdf" 
