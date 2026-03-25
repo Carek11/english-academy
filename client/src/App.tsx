@@ -18,6 +18,7 @@ import AuthPage from "@/pages/auth";
 import GlossaryPage from "@/pages/glossary";
 import StatsPage from "@/pages/stats";
 import NavyEncyclopediaPage from "@/pages/navy-encyclopedia";
+import NavyExercisesPage from "@/pages/navy-exercises";
 import PremiumPage from "@/pages/premium";
 import ProfilePage from "@/pages/profile";
 import { glossaryTerms } from "@/lib/glossaryData";
@@ -548,6 +549,7 @@ function AppInner() {
     glossario: <GlossaryPage />,
     statistiche: <StatsPage />,
     "navy-encyclopedia": <NavyEncyclopediaPage />,
+    "esercizi-marina": <NavyExercisesPage />,
     premium: <PremiumPage />,
     profilo: <ProfilePage />,
   };
@@ -570,6 +572,7 @@ function AppInner() {
       submenu: [
         { id: "marina", label: "Navi Militari", emoji: "⚓" },
         { id: "navy-encyclopedia", label: "Enciclopedia Navale", emoji: "📚" },
+        { id: "esercizi-marina", label: "Esercitazioni", emoji: "✏️" },
         { id: "quiz-marina", label: "Quiz Marina", emoji: "🎯" },
       ]
     },
@@ -677,7 +680,7 @@ function AppInner() {
                   data-testid={`nav-${item.id}`}
                   onClick={() => setOpenDropdown(openDropdown === item.id ? null : item.id)}
                   className={`px-3 py-2 rounded-lg font-semibold transition-colors text-sm whitespace-nowrap flex items-center gap-1 ${
-                    currentPage === "corsi" || currentPage === "quiz-cultura" || currentPage === "marina" || currentPage === "quiz-marina" || currentPage === "navy-encyclopedia"
+                    currentPage === "corsi" || currentPage === "quiz-cultura" || currentPage === "marina" || currentPage === "quiz-marina" || currentPage === "navy-encyclopedia" || currentPage === "esercizi-marina"
                       ? "bg-academy-blue text-white"
                       : "bg-academy-bg hover:bg-academy-light-blue hover:text-white"
                   }`}
