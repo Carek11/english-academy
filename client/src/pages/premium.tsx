@@ -197,9 +197,32 @@ export default function PremiumPage() {
                 {expiresAt ? new Date(expiresAt).toLocaleDateString("it-IT") : "data sconosciuta"}
               </span>
             </p>
-            <a href="/" className="inline-block px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
-              ⚓ Torna alla Home →
-            </a>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <a href="/" className="inline-block px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
+                ⚓ Torna alla Home →
+              </a>
+              <button
+                onClick={async () => {
+                  if (confirm("Sei sicuro di voler cancellare il tuo abbonamento premium?")) {
+                    try {
+                      const res = await fetch("/api/user/cancel-premium", { method: "POST" });
+                      if (res.ok) {
+                        alert("✅ Abbonamento cancellato con successo!");
+                        window.location.reload();
+                      } else {
+                        alert("❌ Errore nella cancellazione. Riprova.");
+                      }
+                    } catch (err) {
+                      alert("❌ Errore nella cancellazione. Riprova.");
+                    }
+                  }
+                }}
+                className="inline-block px-8 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors"
+                data-testid="button-cancel-premium"
+              >
+                ❌ Cancella Abbonamento
+              </button>
+            </div>
           </div>
 
           {/* Ebook Bonus - Solo per Premium */}

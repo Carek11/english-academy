@@ -500,5 +500,23 @@ export async function registerRoutes(
     }
   });
 
+  // Cancella abbonamento premium
+  app.post("/api/user/cancel-premium", async (req: Request, res: Response) => {
+    if (!req.user?.id) return res.status(401).json({ error: "Non autenticato" });
+
+    try {
+      const user = await storage.getUser(req.user.id);
+      if (!user) return res.status(404).json({ error: "Utente non trovato" });
+
+      // Imposta premium a false
+      await storage.setUserPremium(user.id, new Date());
+      
+      return res.json({ success: true, message: "Abbonamento cancellato" });
+    } catch (err) {
+      console.error("Errore cancellazione premium:", err);
+      return res.status(500).json({ error: "Errore nella cancellazione" });
+    }
+  });
+
   return httpServer;
 }
