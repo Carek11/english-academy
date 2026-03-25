@@ -255,7 +255,7 @@ export default function PremiumPage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-14">
+          <div className="space-y-14 max-w-3xl mx-auto">
 
             {/* Vantaggi */}
             <div className="grid md:grid-cols-2 gap-6">
