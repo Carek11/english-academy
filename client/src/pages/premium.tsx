@@ -98,7 +98,7 @@ export default function PremiumPage() {
 
   const renderPaypalButton = () => {
     const container = document.getElementById("paypal-button-container");
-    if (!container || !container.innerHTML) return; // Solo se il container è vuoto
+    if (!container) return;
 
     if ((window as any).paypal && (window as any).paypal.Buttons) {
       try {
