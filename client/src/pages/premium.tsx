@@ -230,7 +230,7 @@ export default function PremiumPage() {
           <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-12 text-white text-center shadow-xl">
             <h2 className="text-xs font-black tracking-widest opacity-95 mb-6 uppercase letter-spacing-2">Piano Premium</h2>
             <div className="mb-10">
-              <div className="text-6xl font-black leading-tight">€4.99</div>
+              <div className="text-6xl font-black leading-tight">€7.99</div>
               <div className="text-xl font-semibold opacity-90 mt-2">al mese</div>
             </div>
             <p className="text-base leading-relaxed opacity-90 mb-12 max-w-sm mx-auto font-medium">
