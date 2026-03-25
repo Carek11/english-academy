@@ -40,60 +40,60 @@ export default function PremiumPage() {
     }
   }, [user]);
 
-  const renderPaypalButton = useCallback(() => {
-    const container = document.getElementById("paypal-button-container");
-    if (!container) return;
-
-    if ((window as any).paypal && (window as any).paypal.Buttons) {
-      try {
-        (window as any).paypal
-          .Buttons({
-            fundingSource: (window as any).paypal.FUNDING.PAYPAL,
-            createOrder: async () => {
-              // Verifica se l'utente è loggato SOLO al click su PayPal
-              if (!user) {
-                alert("❌ Devi essere registrato e loggato per pagare!");
-                throw new Error("Non autenticato");
-              }
-              const res = await fetch("/api/paypal/create-order", { method: "POST" });
-              if (!res.ok) throw new Error("Errore nella creazione dell'ordine");
-              const data = (await res.json()) as { orderId: string };
-              return data.orderId;
-            },
-            onApprove: async (data: any) => {
-              try {
-                const res = await fetch("/api/paypal/capture-order", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ orderId: data.orderID }),
-                });
-
-                if (res.ok) {
-                  const result = (await res.json()) as { success: boolean; expiresAt: string };
-                  setIsPremium(true);
-                  setExpiresAt(result.expiresAt);
-                  setTimeout(() => window.location.reload(), 1000);
-                } else {
-                  alert("❌ Errore nel salvataggio del pagamento");
-                }
-              } catch (err) {
-                console.error("Errore capture:", err);
-                alert("❌ Errore durante il completamento del pagamento");
-              }
-            },
-            onError: () => alert("❌ Errore durante il pagamento. Riprova."),
-          })
-          .render("#paypal-button-container");
-      } catch (err) {
-        console.error("Errore rendering PayPal:", err);
-        setPaypalError("Errore nel rendering del bottone PayPal");
-      }
-    }
-  }, [user]);
-
   // Carica PayPal SDK solo se non premium
   useEffect(() => {
     if (isPremium || !user) return;
+
+    const renderPaypalButton = () => {
+      const container = document.getElementById("paypal-button-container");
+      if (!container) return;
+
+      if ((window as any).paypal && (window as any).paypal.Buttons) {
+        try {
+          (window as any).paypal
+            .Buttons({
+              fundingSource: (window as any).paypal.FUNDING.PAYPAL,
+              createOrder: async () => {
+                // Verifica se l'utente è loggato SOLO al click su PayPal
+                if (!user) {
+                  alert("❌ Devi essere registrato e loggato per pagare!");
+                  throw new Error("Non autenticato");
+                }
+                const res = await fetch("/api/paypal/create-order", { method: "POST" });
+                if (!res.ok) throw new Error("Errore nella creazione dell'ordine");
+                const data = (await res.json()) as { orderId: string };
+                return data.orderId;
+              },
+              onApprove: async (data: any) => {
+                try {
+                  const res = await fetch("/api/paypal/capture-order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ orderId: data.orderID }),
+                  });
+
+                  if (res.ok) {
+                    const result = (await res.json()) as { success: boolean; expiresAt: string };
+                    setIsPremium(true);
+                    setExpiresAt(result.expiresAt);
+                    setTimeout(() => window.location.reload(), 1000);
+                  } else {
+                    alert("❌ Errore nel salvataggio del pagamento");
+                  }
+                } catch (err) {
+                  console.error("Errore capture:", err);
+                  alert("❌ Errore durante il completamento del pagamento");
+                }
+              },
+              onError: () => alert("❌ Errore durante il pagamento. Riprova."),
+            })
+            .render("#paypal-button-container");
+        } catch (err) {
+          console.error("Errore rendering PayPal:", err);
+          setPaypalError("Errore nel rendering del bottone PayPal");
+        }
+      }
+    };
 
     // Check se lo script PayPal esiste già
     if ((window as any).paypal && (window as any).paypal.Buttons) {
@@ -165,7 +165,7 @@ export default function PremiumPage() {
     return () => {
       // Nulla - lascia lo script in memoria
     };
-  }, [isPremium, user, renderPaypalButton]);
+  }, [isPremium, user]);
 
   if (userLoading) {
     return <div className="text-center py-20">Caricamento...</div>;
