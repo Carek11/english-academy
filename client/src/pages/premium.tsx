@@ -222,7 +222,7 @@ export default function PremiumPage() {
           </div>
         </div>
       ) : (
-        <div className="space-y-10">
+        <div className="space-y-16">
           {/* Vantaggi */}
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white border-2 border-blue-100 rounded-xl p-7 hover:shadow-lg transition-shadow">
