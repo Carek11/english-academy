@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
+import paypalLogo from "@assets/image_1774397561915.png";
 
 export default function PremiumPage() {
   const [isPremium, setIsPremium] = useState(false);
@@ -267,13 +268,13 @@ export default function PremiumPage() {
                         })
                         .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                     }}
-                    className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 text-white font-bold rounded-md hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl active:shadow-md"
+                    className="w-full px-8 py-5 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 rounded-lg hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold text-lg"
                     data-testid="button-paypal-payment"
                   >
-                    <span className="flex items-center justify-center gap-3">
-                      <span className="text-lg font-black">PayPal</span>
-                      <span className="text-2xl">→</span>
-                    </span>
+                    <div className="flex items-center justify-center gap-3">
+                      <img src={paypalLogo} alt="PayPal" className="h-8 object-contain" />
+                      <span className="text-white">Paga Ora</span>
+                    </div>
                   </button>
                 )}
                 
