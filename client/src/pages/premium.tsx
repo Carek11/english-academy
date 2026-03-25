@@ -273,7 +273,7 @@ export default function PremiumPage() {
                       data-testid="button-paypal-payment"
                     >
                       <div className="flex items-center justify-center">
-                        <img src={paypalLogo} alt="PayPal" className="h-10 object-contain" style={{ mixBlendMode: "darken" }} />
+                        <img src={paypalLogo} alt="PayPal" className="h-16 object-contain" style={{ mixBlendMode: "darken" }} />
                       </div>
                     </button>
                   </div>
