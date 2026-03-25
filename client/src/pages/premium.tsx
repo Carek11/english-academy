@@ -228,13 +228,13 @@ export default function PremiumPage() {
           </div>
 
           {/* Prezzo - Sezione Principale */}
-          <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-10 text-white text-center shadow-xl">
-            <h2 className="text-sm font-bold tracking-widest opacity-90 mb-3">PIANO ANNUALE</h2>
-            <div className="flex items-baseline justify-center gap-2 mb-2">
-              <span className="text-5xl font-bold">€4.99</span>
-              <span className="text-xl opacity-90">/mese</span>
+          <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-12 text-white text-center shadow-xl">
+            <h2 className="text-xs font-black tracking-widest opacity-95 mb-6 uppercase letter-spacing-2">Piano Premium</h2>
+            <div className="flex items-baseline justify-center gap-3 mb-8">
+              <span className="text-7xl font-black leading-none">€4.99</span>
+              <span className="text-2xl font-semibold opacity-90 mb-2">/mese</span>
             </div>
-            <p className="text-sm opacity-90 mb-8">
+            <p className="text-base leading-relaxed opacity-90 mb-12 max-w-sm mx-auto font-medium">
               Primo mese al prezzo pieno, rinnovo automatico. Cancella quando vuoi.
             </p>
             
@@ -250,8 +250,8 @@ export default function PremiumPage() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-4">
-                <div id="paypal-button-container" className="mb-6 min-h-12"></div>
+              <div className="space-y-6">
+                <div id="paypal-button-container" className="mb-8 min-h-12"></div>
                 
                 {!paypalLoaded && (
                   <button
@@ -268,18 +268,18 @@ export default function PremiumPage() {
                         })
                         .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                     }}
-                    className="w-full px-8 py-5 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 rounded-lg hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold text-lg"
+                    className="w-full px-10 py-6 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 rounded-xl hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold text-lg"
                     data-testid="button-paypal-payment"
                   >
                     <div className="flex items-center justify-center">
-                      <img src={paypalLogo} alt="PayPal" className="h-10 object-contain" style={{ mixBlendMode: "darken" }} />
+                      <img src={paypalLogo} alt="PayPal" className="h-12 object-contain" style={{ mixBlendMode: "darken" }} />
                     </div>
                   </button>
                 )}
               </div>
             )}
             
-            <p className="text-xs opacity-75 mt-6 pt-6 border-t border-white border-opacity-20">💳 Pagamento 100% sicuro con PayPal</p>
+            <p className="text-sm font-medium opacity-85 mt-10 pt-10 border-t border-white border-opacity-30">💳 Pagamento 100% sicuro con PayPal</p>
           </div>
 
           {/* Garanzia */}
