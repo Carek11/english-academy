@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
@@ -40,63 +40,7 @@ export default function PremiumPage() {
     }
   }, [user]);
 
-  // Carica PayPal SDK solo se non premium
-  useEffect(() => {
-    if (isPremium || !user) return;
-
-    // Check se lo script PayPal esiste già
-    if ((window as any).paypal) {
-      setPaypalLoaded(true);
-      renderPaypalButton();
-      return;
-    }
-
-    // Verifica se lo script è già nel DOM
-    if (document.querySelector('script[src*="paypal.com/sdk"]')) {
-      return;
-    }
-
-    const container = document.getElementById("paypal-button-container");
-    if (!container) {
-      setPaypalError("Contenitore PayPal non trovato");
-      return;
-    }
-
-    const script = document.createElement("script");
-    const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb";
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-    script.async = true;
-
-    script.onload = () => {
-      // Aspetta che PayPal sia disponibile
-      let retries = 0;
-      const checkPaypal = () => {
-        if ((window as any).paypal && (window as any).paypal.Buttons) {
-          setPaypalLoaded(true);
-          renderPaypalButton();
-        } else if (retries < 5) {
-          retries++;
-          setTimeout(checkPaypal, 200);
-        } else {
-          setPaypalError("PayPal SDK non è stato caricato correttamente");
-        }
-      };
-      checkPaypal();
-    };
-
-    script.onerror = () => {
-      setPaypalError("Errore nel caricamento di PayPal. Ricarica la pagina.");
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup non rimuove lo script per evitare duplicate, ma lo resettiamo
-      setPaypalLoaded(false);
-    };
-  }, [isPremium, user]);
-
-  const renderPaypalButton = () => {
+  const renderPaypalButton = useCallback(() => {
     const container = document.getElementById("paypal-button-container");
     if (!container) return;
 
@@ -145,7 +89,83 @@ export default function PremiumPage() {
         setPaypalError("Errore nel rendering del bottone PayPal");
       }
     }
-  };
+  }, [user]);
+
+  // Carica PayPal SDK solo se non premium
+  useEffect(() => {
+    if (isPremium || !user) return;
+
+    // Check se lo script PayPal esiste già
+    if ((window as any).paypal && (window as any).paypal.Buttons) {
+      setPaypalLoaded(true);
+      renderPaypalButton();
+      return;
+    }
+
+    // Verifica se lo script è già nel DOM
+    const existingScript = document.querySelector('script[src*="paypal.com/sdk"]');
+    if (existingScript) {
+      // Se lo script esiste, attendi che PayPal carichi
+      let retries = 0;
+      const checkPaypal = () => {
+        if ((window as any).paypal && (window as any).paypal.Buttons) {
+          setPaypalLoaded(true);
+          renderPaypalButton();
+        } else if (retries < 10) {
+          retries++;
+          setTimeout(checkPaypal, 200);
+        } else {
+          setPaypalError("PayPal SDK non è stato caricato correttamente");
+        }
+      };
+      checkPaypal();
+      return;
+    }
+
+    const container = document.getElementById("paypal-button-container");
+    if (!container) {
+      setPaypalError("Contenitore PayPal non trovato");
+      return;
+    }
+
+    const script = document.createElement("script");
+    const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+    
+    if (!clientId) {
+      setPaypalError("❌ Client ID PayPal non configurato. Contatta l'amministratore.");
+      return;
+    }
+
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+    script.async = true;
+
+    script.onload = () => {
+      // Aspetta che PayPal sia disponibile
+      let retries = 0;
+      const checkPaypal = () => {
+        if ((window as any).paypal && (window as any).paypal.Buttons) {
+          setPaypalLoaded(true);
+          renderPaypalButton();
+        } else if (retries < 10) {
+          retries++;
+          setTimeout(checkPaypal, 200);
+        } else {
+          setPaypalError("PayPal SDK non è stato caricato correttamente");
+        }
+      };
+      checkPaypal();
+    };
+
+    script.onerror = () => {
+      setPaypalError("❌ Errore nel caricamento di PayPal. Ricarica la pagina.");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      // Nulla - lascia lo script in memoria
+    };
+  }, [isPremium, user, renderPaypalButton]);
 
   if (userLoading) {
     return <div className="text-center py-20">Caricamento...</div>;
