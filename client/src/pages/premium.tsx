@@ -267,7 +267,7 @@ export default function PremiumPage() {
                         })
                         .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                     }}
-                    className="w-full px-10 py-5 bg-yellow-400 hover:bg-yellow-500 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
+                    className="w-full px-10 py-5 bg-amber-500 hover:bg-amber-600 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
                     data-testid="button-paypal-payment"
                   >
                     <div className="flex items-center justify-center gap-2">
