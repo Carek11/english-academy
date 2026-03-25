@@ -37,8 +37,8 @@ const commonWords: Record<string, string> = {
   "man": "uomo", "woman": "donna", "person": "persona", "people": "persone", "child": "bambino",
   "children": "bambini", "hand": "mano", "eye": "occhio", "head": "testa", "heart": "cuore",
   "life": "vita", "world": "mondo", "place": "luogo", "thing": "cosa", "way": "modo",
-  "work": "lavoro", "power": "potenza", "money": "soldi", "part": "parte", "case": "caso",
-  "fact": "fatto", "point": "punto", "government": "governo", "company": "azienda",
+  "power": "potenza", "money": "soldi", "part": "parte", "case": "caso",
+  "fact": "fatto", "government": "governo", "company": "azienda",
   "number": "numero", "group": "gruppo", "problem": "problema", "result": "risultato",
   "system": "sistema", "effort": "sforzo", "cost": "costo", "control": "controllo", "trade": "commercio",
   "age": "età", "name": "nome", "line": "linea", "son": "figlio", "information": "informazioni",
@@ -83,10 +83,6 @@ const commonWords: Record<string, string> = {
   "through": "attraverso", "across": "attraverso", "along": "lungo", "around": "intorno",
   "near": "vicino", "far": "lontano", "inside": "dentro", "outside": "fuori", "behind": "dietro",
   "beside": "accanto", "into": "dentro", "out": "fuori", "off": "via", "up": "su", "down": "giù",
-
-  // Coniugazioni comuni
-  "am": "sono", "being": "essendo", "been": "stato", "was": "ero", "were": "eravate",
-  "having": "avendo", "has": "ha", "doing": "facendo", "done": "fatto", "does": "fa",
 
   // Numeri e articoli
   "a": "un", "an": "un", "the": "il", "one": "uno", "two": "due", "three": "tre",
