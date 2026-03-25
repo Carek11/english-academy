@@ -77,25 +77,25 @@ export default function TeamPage() {
 
       {/* CORE VALUES */}
       <section className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold font-display text-academy-dark text-center mb-12">Quello in cui crediamo</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div className="text-5xl mb-4">✅</div>
-            <h3 className="text-lg font-bold text-academy-dark mb-3">Pratico, non teorico</h3>
+        <h2 className="text-3xl font-bold font-display text-academy-dark text-center mb-16">Quello in cui crediamo</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <div className="text-5xl mb-6">✅</div>
+            <h3 className="text-lg font-bold text-academy-dark mb-4">Pratico, non teorico</h3>
             <p className="text-academy-gray text-sm leading-loose">
               L'inglese deve servire. Se non puoi usarlo per comunicare davvero, non lo stai imparando.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div className="text-5xl mb-4">⚓</div>
-            <h3 className="text-lg font-bold text-academy-dark mb-3">Specializzazione significa serietà</h3>
+          <div className="bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <div className="text-5xl mb-6">⚓</div>
+            <h3 className="text-lg font-bold text-academy-dark mb-4">Specializzazione significa serietà</h3>
             <p className="text-academy-gray text-sm leading-loose">
               Non siamo tutto per tutti. Siamo eccellenti in quello che facciamo: corsi generali e inglese navale.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div className="text-5xl mb-4">💡</div>
-            <h3 className="text-lg font-bold text-academy-dark mb-3">Trasparenza totale</h3>
+          <div className="bg-white p-10 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <div className="text-5xl mb-6">💡</div>
+            <h3 className="text-lg font-bold text-academy-dark mb-4">Trasparenza totale</h3>
             <p className="text-academy-gray text-sm leading-loose">
               Niente costi nascosti, niente panico marketing. Solo: prova gratis, poi scegli se continuare.
             </p>
