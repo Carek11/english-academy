@@ -25,6 +25,24 @@ import { getInstantTranslation } from "@/lib/instantTranslator";
 import { courseData } from "@/lib/quizData";
 import { loadUserProgress, recordWordTranslation, saveUserProgress } from "@/lib/gamification";
 
+// Cache busting - clear cache on new deployment
+const APP_VERSION = "1.0.0";
+const CACHE_KEY = "app_version";
+if (typeof window !== "undefined") {
+  const cachedVersion = localStorage.getItem(CACHE_KEY);
+  if (cachedVersion !== APP_VERSION) {
+    localStorage.clear();
+    sessionStorage.clear();
+    // Clear all caches
+    if ("caches" in window) {
+      caches.keys().then((names) => {
+        names.forEach((name) => caches.delete(name));
+      });
+    }
+    localStorage.setItem(CACHE_KEY, APP_VERSION);
+  }
+}
+
 // Health check on app load
 if (import.meta.env.PROD) {
   fetch("/api/_health").catch(() => logger.warn("Health check failed"));
@@ -425,6 +443,7 @@ function AppInner() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { toast } = useToast();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const { data: user, isLoading } = useQuery<{ id: string; username: string; fullName: string; email: string } | null>({
     queryKey: ["/api/me"],
@@ -489,6 +508,19 @@ function AppInner() {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [user, isLoading]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+
+    if (openDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [openDropdown]);
 
   const logoutMutation = useMutation({
     mutationFn: () => apiRequest("POST", "/api/logout"),
@@ -637,7 +669,7 @@ function AppInner() {
         <SearchModal onNavigate={handleNavigate} onClose={() => setShowSearch(false)} />
       )}
 
-      <nav className="bg-white shadow-sm border-b border-gray-100">
+      <nav ref={navRef} className="bg-white shadow-sm border-b border-gray-100">
         <div className="flex flex-wrap justify-center gap-2 px-4 py-3 relative">
           {navItems.map((item) => (
             item.submenu ? (
