@@ -53,7 +53,6 @@ export default function PremiumPage() {
         try {
           (window as any).paypal
             .Buttons({
-              fundingSource: (window as any).paypal.FUNDING.PAYPAL,
               createOrder: async () => {
                 // Verifica se l'utente è loggato SOLO al click su PayPal
                 if (!user) {
