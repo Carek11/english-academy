@@ -304,6 +304,15 @@ export default function PremiumPage() {
             <p className="text-sm font-medium opacity-85 mt-10 pt-10 border-t border-white border-opacity-30">💳 Pagamento 100% sicuro con PayPal</p>
           </div>
 
+          {/* Ebook Bonus - Teaser */}
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
+            <div className="text-6xl mb-4">📚</div>
+            <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
+            <p className="text-academy-gray mb-6 max-w-xl mx-auto text-base leading-relaxed">
+              Appena diventerai premium ti verra spedito un ebook professionale molto utile!
+            </p>
+          </div>
+
           {/* Garanzia */}
           <div className="bg-sky-50 border-l-4 border-sky-500 rounded-lg p-8">
             <h3 className="font-bold text-academy-dark mb-3 flex items-center gap-2">
