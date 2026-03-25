@@ -2,13 +2,10 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
   return (
     <div className="space-y-20">
       <section className="text-center space-y-8 mb-16 pt-8">
-        <div className="space-y-3">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-academy-dark leading-tight">
-            Come un <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Pro</span>
+        <div className="space-y-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-display text-academy-dark leading-tight">
+            Impara l'Inglese come un <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Professionista</span>
           </h2>
-          <p className="text-sm sm:text-base text-academy-gray font-medium">
-            (professionista)
-          </p>
           <div className="h-1 w-24 bg-academy-gold mx-auto rounded"></div>
         </div>
         <p className="text-lg text-academy-gray max-w-3xl mx-auto leading-relaxed">
