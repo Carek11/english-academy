@@ -206,11 +206,8 @@ export default function PremiumPage() {
           <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
-            <p className="text-academy-gray mb-2 max-w-xl mx-auto font-semibold">
-              Guida Completa all'Inglese Tecnico Navale
-            </p>
-            <p className="text-academy-gray mb-6 max-w-xl mx-auto text-sm leading-relaxed">
-              Oltre ad accedere a tutte le risorse interattive del sito, potrai leggere la guida professionale "English for Naval Professionals" - un manuale completo redatto da <span className="font-semibold">Iolanda Amodio</span>, insegnante di inglese presso la Marina Militare, con esperienza decennale nell'insegnamento della lingua tecnica navale.
+            <p className="text-academy-gray mb-6 max-w-xl mx-auto text-base leading-relaxed">
+              eBook in omaggio se diventi premium di <span className="font-semibold">Iolanda Amodio</span>, professoressa di inglese madrelingua. Accedi alle risorse complete del sito e leggi la guida professionale sull'inglese tecnico navale.
             </p>
             <a 
               href="/ebook-english-naval.pdf" 
