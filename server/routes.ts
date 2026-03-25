@@ -518,5 +518,33 @@ export async function registerRoutes(
     }
   });
 
+  // Traduzione - integrazione con MyMemory API (open source)
+  app.post("/api/translate", async (req: Request, res: Response) => {
+    const { text, langFrom = "en", langTo = "it" } = req.body;
+
+    if (!text || typeof text !== "string") {
+      return res.status(400).json({ error: "Testo richiesto" });
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langFrom}|${langTo}`
+      );
+      
+      if (!response.ok) throw new Error("MyMemory API error");
+      
+      const data = (await response.json()) as { responseData?: { translatedText?: string }; responseStatus?: number };
+      
+      if (data.responseStatus === 200 && data.responseData?.translatedText) {
+        return res.json({ translation: data.responseData.translatedText });
+      }
+      
+      return res.status(400).json({ error: "Traduzione non disponibile" });
+    } catch (err) {
+      console.error("Errore traduzione:", err);
+      return res.status(500).json({ error: "Errore nel servizio di traduzione" });
+    }
+  });
+
   return httpServer;
 }

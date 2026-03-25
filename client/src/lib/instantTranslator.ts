@@ -129,7 +129,7 @@ export function initTranslationCache() {
   });
 }
 
-// Traduci istantaneamente usando il cache locale
+// Traduci istantaneamente - prova API esterna, fallback locale
 export function getInstantTranslation(word: string): string {
   const normalized = word.toLowerCase().trim();
   
@@ -139,6 +139,33 @@ export function getInstantTranslation(word: string): string {
   }
   
   return translationCache[normalized] || word;
+}
+
+// Traduci tramite API (MyMemory) con fallback locale
+export async function getAccurateTranslation(text: string, langFrom = "en", langTo = "it"): Promise<string> {
+  try {
+    const response = await fetch("/api/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, langFrom, langTo }),
+    });
+    
+    if (response.ok) {
+      const data = (await response.json()) as { translation: string };
+      return data.translation;
+    }
+  } catch (err) {
+    console.warn("Traduzione API non disponibile, uso fallback locale:", err);
+  }
+  
+  // Fallback: traduzione locale word-by-word
+  return text
+    .split(/\s+/)
+    .map((word) => {
+      const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
+      return translationCache[cleaned.toLowerCase()] || word;
+    })
+    .join(" ");
 }
 
 // Pre-traduce il testo: restituisce array di {word, translation} per ogni parola
