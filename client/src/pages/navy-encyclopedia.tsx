@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getInstantTranslation, getAccurateTranslation, preTranslateText } from "@/lib/instantTranslator";
 import { loadUserProgress, recordWordTranslation, saveUserProgress } from "@/lib/gamification";
 
+// Cache globale per traduzioni API - persiste durante la sessione
+const translationApiCache: Record<string, string> = {};
+
 export default function NavyEncyclopediaPage() {
   const [search, setSearch] = useState("");
   const [localResults, setLocalResults] = useState<any[]>([]);
@@ -52,17 +55,41 @@ export default function NavyEncyclopediaPage() {
       const content = page?.extract || "Contenuto non disponibile";
       setArticleContent(content);
       
-      // Pre-traduce tutte le parole in background
+      // Pre-traduce tutte le parole - istantanea dal locale
       const translations: Record<string, string> = {};
+      const uniqueWords = new Set<string>();
+      
       content.split(/\s+/).forEach((word) => {
         const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
         const normalized = cleaned.toLowerCase().trim();
         if (normalized && !translations[normalized]) {
           const translation = getInstantTranslation(cleaned);
           translations[normalized] = translation;
+          uniqueWords.add(cleaned);
         }
       });
       setWordTranslations(translations);
+      
+      // Pre-carica traduzioni API in background per parole NON nel locale
+      const missingWords = Array.from(uniqueWords).filter(
+        (word) => translationApiCache[word.toLowerCase()] === undefined && 
+                  getInstantTranslation(word) === word
+      );
+      
+      if (missingWords.length > 0) {
+        missingWords.forEach((word) => {
+          if (!translationApiCache[word.toLowerCase()]) {
+            getAccurateTranslation(word).then((accurate) => {
+              translationApiCache[word.toLowerCase()] = accurate;
+              // Aggiorna il display se la parola è ancora visibile
+              setWordTranslations((prev) => ({
+                ...prev,
+                [word.toLowerCase()]: accurate,
+              }));
+            }).catch(() => {});
+          }
+        });
+      }
       
       // Gamification: track words translated
       const translatedCount = Object.keys(translations).filter(
@@ -100,11 +127,17 @@ export default function NavyEncyclopediaPage() {
       
       // Pulisci la parola
       const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
-      const normalized = cleaned.toLowerCase().trim();
+      const lowerCleaned = cleaned.toLowerCase();
       
       // Mostra traduzione istantanea dal cache locale
-      const instantTranslation = getInstantTranslation(cleaned);
-      setWordTranslation(instantTranslation);
+      let translation = getInstantTranslation(cleaned);
+      
+      // Se disponibile nel cache API, usa quello (più veloce che locale)
+      if (translationApiCache[lowerCleaned]) {
+        translation = translationApiCache[lowerCleaned];
+      }
+      
+      setWordTranslation(translation);
       setIsTranslatingWord(false);
 
       // Position tooltip, keeping it within viewport
@@ -115,12 +148,14 @@ export default function NavyEncyclopediaPage() {
       }
       setTooltipPos({ x, y });
 
-      // Carica traduzione precisa in background (non blocca UI)
-      if (instantTranslation === cleaned) {
-        // Se non trovato nel locale, prova API
+      // Se non trovato nel cache API e diverso da locale, carica in background
+      if (!translationApiCache[lowerCleaned] && translation === cleaned) {
         setIsTranslatingWord(true);
         getAccurateTranslation(cleaned).then((accurateTranslation) => {
+          translationApiCache[lowerCleaned] = accurateTranslation;
           setWordTranslation(accurateTranslation);
+          setIsTranslatingWord(false);
+        }).catch(() => {
           setIsTranslatingWord(false);
         });
       }
