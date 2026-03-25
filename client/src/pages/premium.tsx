@@ -6,11 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 export default function PremiumPage() {
   const [isPremium, setIsPremium] = useState(false);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const [, setLocation] = useLocation();
 
   // Verifica se utente è loggato
-  const { data: user } = useQuery({
+  const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ["/api/me"],
     queryFn: async () => {
       const res = await fetch("/api/me");
@@ -31,17 +30,17 @@ export default function PremiumPage() {
         }
       } catch (err) {
         console.error("Errore verifica premium:", err);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchPremium();
-  }, []);
+    if (user) {
+      fetchPremium();
+    }
+  }, [user]);
 
   // Carica PayPal SDK solo se non premium
   useEffect(() => {
-    if (isPremium || loading) return;
+    if (isPremium || !user) return;
 
     const container = document.getElementById("paypal-button-container");
     if (!container) return;
@@ -90,18 +89,22 @@ export default function PremiumPage() {
         document.body.removeChild(script);
       }
     };
-  }, [isPremium, loading]);
+  }, [isPremium, user]);
 
   // Se non loggato, mostra alert e reindirizza
   useEffect(() => {
-    if (!loading && !user) {
+    if (!userLoading && !user) {
       alert("❌ Devi essere registrato e loggato per accedere a Premium!");
       setLocation("/auth");
     }
-  }, [user, loading, setLocation]);
+  }, [user, userLoading, setLocation]);
 
-  if (loading || !user) {
+  if (userLoading) {
     return <div className="text-center py-20">Caricamento...</div>;
+  }
+
+  if (!user) {
+    return null;
   }
 
   return (
