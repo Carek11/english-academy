@@ -276,10 +276,6 @@ export default function PremiumPage() {
                     </div>
                   </button>
                 )}
-                
-                {!paypalLoaded && (
-                  <div className="text-sm opacity-75 text-center">⏳ Caricamento PayPal...</div>
-                )}
               </div>
             )}
             
