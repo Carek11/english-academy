@@ -272,7 +272,7 @@ export default function PremiumPage() {
                     data-testid="button-paypal-payment"
                   >
                     <div className="flex items-center justify-center gap-3">
-                      <img src={paypalLogo} alt="PayPal" className="h-8 object-contain" />
+                      <img src={paypalLogo} alt="PayPal" className="h-8 object-contain mix-blend-mode: darken" style={{ mixBlendMode: "darken" }} />
                       <span className="text-white">Paga Ora</span>
                     </div>
                   </button>
