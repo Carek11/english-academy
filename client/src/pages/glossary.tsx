@@ -1,9 +1,16 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useLocation } from "wouter";
 import { glossaryTerms, categoryConfig, type GlossaryCategory } from "@/lib/glossaryData";
 
 export default function GlossaryPage() {
+  const [location] = useLocation();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<GlossaryCategory | "all">("all");
+
+  useEffect(() => {
+    setSearch("");
+    setActiveCategory("all");
+  }, [location]);
 
   const isSearching = search.trim() !== "" || activeCategory !== "all";
 

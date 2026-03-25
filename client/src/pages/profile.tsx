@@ -1,12 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function ProfilePage() {
+  const [location] = useLocation();
   const [, setLocation] = useLocation();
   const [cancelLoading, setCancelLoading] = useState(false);
   const [statsDropdownOpen, setStatsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setStatsDropdownOpen(false);
+  }, [location]);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ["/api/me"],
