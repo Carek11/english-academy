@@ -106,6 +106,11 @@ export default function PremiumPage() {
           .Buttons({
             fundingSource: (window as any).paypal.FUNDING.PAYPAL,
             createOrder: async () => {
+              // Verifica se l'utente è loggato SOLO al click su PayPal
+              if (!user) {
+                alert("❌ Devi essere registrato e loggato per pagare!");
+                throw new Error("Non autenticato");
+              }
               const res = await fetch("/api/paypal/create-order", { method: "POST" });
               if (!res.ok) throw new Error("Errore nella creazione dell'ordine");
               const data = (await res.json()) as { orderId: string };
@@ -142,20 +147,8 @@ export default function PremiumPage() {
     }
   };
 
-  // Se non loggato, mostra alert e reindirizza
-  useEffect(() => {
-    if (!userLoading && !user) {
-      alert("❌ Devi essere registrato e loggato per accedere a Premium!");
-      setLocation("/auth");
-    }
-  }, [user, userLoading, setLocation]);
-
   if (userLoading) {
     return <div className="text-center py-20">Caricamento...</div>;
-  }
-
-  if (!user) {
-    return null;
   }
 
   return (
