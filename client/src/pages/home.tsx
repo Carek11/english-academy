@@ -48,19 +48,19 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white p-16 rounded-2xl space-y-10 my-8">
-        <div className="space-y-6">
-          <div className="text-sm font-display font-semibold opacity-90 tracking-widest uppercase">⚓ Esclusivo – Marina Militare</div>
-          <h2 className="text-5xl font-bold font-display leading-tight">
+      <section className="bg-gradient-to-r from-academy-blue to-academy-dark text-white p-12 md:p-16 rounded-3xl space-y-8 mt-16">
+        <div className="space-y-5">
+          <div className="text-xs md:text-sm font-display font-semibold opacity-85 tracking-widest uppercase">⚓ Esclusivo – Marina Militare</div>
+          <h2 className="text-3xl md:text-5xl font-bold font-display leading-tight">
             Inglese Tecnico per i Professionisti del Mare
           </h2>
-          <p className="text-xl opacity-95 leading-relaxed font-light max-w-2xl">
-            Una sezione specializzata con terminologia navale autentica. Navi, componenti, strumentazione e vocabolario operativo della Marina Militare. Ideale per chi lavora in ambito militare e marittimo.
+          <p className="text-base md:text-lg opacity-90 leading-relaxed max-w-2xl">
+            Terminologia navale autentica. Navi, componenti, strumentazione e vocabolario operativo della Marina Militare. Ideale per chi lavora in ambito militare e marittimo.
           </p>
         </div>
         <button
           onClick={() => onNavigate("marina")}
-          className="px-8 py-4 bg-white text-academy-blue font-semibold rounded-lg hover:bg-academy-gold hover:text-white transition-colors text-lg shadow-lg"
+          className="inline-block px-8 py-3 md:py-4 bg-white text-academy-blue font-semibold rounded-lg hover:bg-academy-gold hover:text-white transition-colors text-base md:text-lg shadow-lg"
         >
           ⚓ Scopri l'Inglese Navale →
         </button>
