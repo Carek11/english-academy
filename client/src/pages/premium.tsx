@@ -267,10 +267,13 @@ export default function PremiumPage() {
                         })
                         .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                     }}
-                    className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors"
+                    className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-md hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl active:shadow-md"
                     data-testid="button-paypal-payment"
                   >
-                    💳 Pagamento PayPal
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="text-lg">𝐏𝐚𝐲𝐏𝐚𝐥</span>
+                      <span className="text-xl">▶</span>
+                    </span>
                   </button>
                 )}
                 
