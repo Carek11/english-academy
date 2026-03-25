@@ -203,6 +203,9 @@ export default function PremiumPage() {
           </div>
 
           {/* Ebook Bonus - Solo per Premium */}
+          <div className="text-center mb-6">
+            <p className="text-lg font-semibold text-academy-dark">📧 Ti verrà spedito per email!</p>
+          </div>
           <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
@@ -305,6 +308,9 @@ export default function PremiumPage() {
           </div>
 
           {/* Ebook Bonus - Teaser */}
+          <div className="text-center mb-6">
+            <p className="text-lg font-semibold text-academy-dark">📧 Ti verrà spedito per email!</p>
+          </div>
           <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo Premium</h3>
