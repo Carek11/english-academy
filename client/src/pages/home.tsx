@@ -3,8 +3,8 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
     <div className="space-y-20">
       <section className="text-center space-y-8 mb-16 pt-8">
         <div className="space-y-4">
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-display text-academy-dark leading-tight">
-            Inglese <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Tecnico</span> per i <br className="hidden sm:block" />Professionisti del Mare
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-academy-dark leading-tight">
+            Inglese <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Tecnico</span> <br className="block sm:hidden" />per il Mare
           </h2>
           <div className="h-1 w-24 bg-academy-gold mx-auto rounded"></div>
         </div>
