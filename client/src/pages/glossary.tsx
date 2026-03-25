@@ -30,15 +30,33 @@ export default function GlossaryPage() {
 
   const filtered = useMemo(() => {
     if (!isSearching) return [];
-    return glossaryTerms.filter((term) => {
-      const matchSearch =
-        search.trim() === "" ||
-        term.en.toLowerCase().includes(search.toLowerCase()) ||
-        term.it.toLowerCase().includes(search.toLowerCase()) ||
-        (term.description?.toLowerCase().includes(search.toLowerCase()) ?? false);
-      const matchCategory = activeCategory === "all" || term.category === activeCategory;
-      return matchSearch && matchCategory;
-    });
+    const searchLower = search.toLowerCase().trim();
+    
+    return glossaryTerms
+      .filter((term) => {
+        const matchCategory = activeCategory === "all" || term.category === activeCategory;
+        if (!matchCategory) return false;
+        
+        // Exact match
+        if (term.en.toLowerCase() === searchLower || term.it.toLowerCase() === searchLower) {
+          return true;
+        }
+        
+        // Starts with (per suggerimenti)
+        if (term.en.toLowerCase().startsWith(searchLower) || term.it.toLowerCase().startsWith(searchLower)) {
+          return true;
+        }
+        
+        return false;
+      })
+      .sort((a, b) => {
+        const aExactEn = a.en.toLowerCase() === searchLower ? 0 : 1;
+        const bExactEn = b.en.toLowerCase() === searchLower ? 0 : 1;
+        const aExactIt = a.it.toLowerCase() === searchLower ? 0 : 1;
+        const bExactIt = b.it.toLowerCase() === searchLower ? 0 : 1;
+        
+        return Math.min(aExactEn, aExactIt) - Math.min(bExactEn, bExactIt);
+      });
   }, [search, activeCategory, isSearching]);
 
   const categories: Array<GlossaryCategory | "all"> = [
