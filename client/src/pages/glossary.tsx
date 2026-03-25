@@ -59,6 +59,25 @@ export default function GlossaryPage() {
               ✕
             </button>
           )}
+          
+          {search && filtered.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-2xl shadow-lg max-h-96 overflow-y-auto z-50">
+              {filtered.slice(0, 10).map((term, idx) => (
+                <div key={idx} className="px-4 py-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 cursor-pointer transition-colors">
+                  <div className="font-semibold text-academy-blue">{term.en}</div>
+                  <div className="text-sm text-academy-gray">{term.it}</div>
+                  {term.description && (
+                    <div className="text-xs text-gray-500 mt-1">{term.description}</div>
+                  )}
+                </div>
+              ))}
+              {filtered.length > 10 && (
+                <div className="px-4 py-3 text-center text-sm text-academy-gray font-semibold">
+                  +{filtered.length - 10} altri risultati
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
