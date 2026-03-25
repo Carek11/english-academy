@@ -90,22 +90,21 @@ export default function NavyEncyclopediaPage() {
     return () => document.removeEventListener("mousemove", handleMouseMove);
   }, [hoveredWord]);
 
-  const handleWordClick = async (e: React.MouseEvent) => {
+  const handleWordClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.className.includes("word-unit")) {
       const word = target.textContent?.trim();
       if (!word || word.length === 0) return;
 
       setHoveredWord(word);
-      setIsTranslatingWord(true);
       
       // Pulisci la parola
       const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
       const normalized = cleaned.toLowerCase().trim();
       
-      // Prova prima la traduzione precisa via API
-      const translation = await getAccurateTranslation(cleaned);
-      setWordTranslation(translation);
+      // Mostra traduzione istantanea dal cache locale
+      const instantTranslation = getInstantTranslation(cleaned);
+      setWordTranslation(instantTranslation);
       setIsTranslatingWord(false);
 
       // Position tooltip, keeping it within viewport
@@ -115,6 +114,16 @@ export default function NavyEncyclopediaPage() {
         x = window.innerWidth - 220;
       }
       setTooltipPos({ x, y });
+
+      // Carica traduzione precisa in background (non blocca UI)
+      if (instantTranslation === cleaned) {
+        // Se non trovato nel locale, prova API
+        setIsTranslatingWord(true);
+        getAccurateTranslation(cleaned).then((accurateTranslation) => {
+          setWordTranslation(accurateTranslation);
+          setIsTranslatingWord(false);
+        });
+      }
     }
   };
 
