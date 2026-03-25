@@ -267,12 +267,12 @@ export default function PremiumPage() {
                         })
                         .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                     }}
-                    className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-md hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl active:shadow-md"
+                    className="w-full px-8 py-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-blue-600 text-white font-bold rounded-md hover:from-yellow-500 hover:via-yellow-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl active:shadow-md"
                     data-testid="button-paypal-payment"
                   >
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="text-lg">𝐏𝐚𝐲𝐏𝐚𝐥</span>
-                      <span className="text-xl">▶</span>
+                    <span className="flex items-center justify-center gap-3">
+                      <span className="text-lg font-black">PayPal</span>
+                      <span className="text-2xl">→</span>
                     </span>
                   </button>
                 )}
