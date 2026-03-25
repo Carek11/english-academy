@@ -279,7 +279,7 @@ export default function PremiumPage() {
               </div>
             )}
             
-            <p className="text-xs opacity-75">💳 Pagamento 100% sicuro con PayPal</p>
+            <p className="text-xs opacity-75 mt-6 pt-6 border-t border-white border-opacity-20">💳 Pagamento 100% sicuro con PayPal</p>
           </div>
 
           {/* Garanzia */}
