@@ -230,9 +230,9 @@ export default function PremiumPage() {
           {/* Prezzo - Sezione Principale */}
           <div className="bg-gradient-to-br from-sky-400 via-sky-500 to-blue-600 rounded-2xl p-12 text-white text-center shadow-xl">
             <h2 className="text-xs font-black tracking-widest opacity-95 mb-6 uppercase letter-spacing-2">Piano Premium</h2>
-            <div className="flex items-baseline justify-center gap-3 mb-8">
-              <span className="text-7xl font-black leading-none">€4.99</span>
-              <span className="text-2xl font-semibold opacity-90 mb-2">/mese</span>
+            <div className="mb-10">
+              <div className="text-6xl font-black leading-tight">€4.99</div>
+              <div className="text-xl font-semibold opacity-90 mt-2">al mese</div>
             </div>
             <p className="text-base leading-relaxed opacity-90 mb-12 max-w-sm mx-auto font-medium">
               Primo mese al prezzo pieno, rinnovo automatico. Cancella quando vuoi.
