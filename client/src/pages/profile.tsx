@@ -1,31 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
-import { useState, useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 export default function ProfilePage() {
-  const [location] = useLocation();
   const [, setLocation] = useLocation();
   const [cancelLoading, setCancelLoading] = useState(false);
-  const [statsDropdownOpen, setStatsDropdownOpen] = useState(false);
-  const statsDropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setStatsDropdownOpen(false);
-  }, [location]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (statsDropdownRef.current && !statsDropdownRef.current.contains(event.target as Node)) {
-        setStatsDropdownOpen(false);
-      }
-    };
-
-    if (statsDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [statsDropdownOpen]);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ["/api/me"],
@@ -154,47 +133,38 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Statistiche Dropdown */}
-        <div ref={statsDropdownRef} className="bg-white border-2 border-gray-100 rounded-2xl p-8 shadow-md">
-          <button
-            onClick={() => setStatsDropdownOpen(!statsDropdownOpen)}
-            className="w-full flex items-center justify-between text-left"
-            data-testid="button-stats-dropdown"
-          >
-            <h2 className="text-2xl font-bold text-academy-dark flex items-center gap-2">
-              📊 Statistiche
-            </h2>
-            <ChevronDown
-              size={24}
-              className={`text-academy-gray transition-transform ${statsDropdownOpen ? "rotate-180" : ""}`}
-            />
-          </button>
-          
-          {statsDropdownOpen && (
-            <div className="mt-6 space-y-3 border-t border-gray-200 pt-6">
-              <a
-                href="/statistiche"
-                className="block px-4 py-3 bg-sky-50 hover:bg-sky-100 rounded-lg text-academy-blue font-semibold transition-colors"
-                data-testid="link-progress-stats"
-              >
-                📈 Progresso Generale
-              </a>
-              <a
-                href="/statistiche"
-                className="block px-4 py-3 bg-sky-50 hover:bg-sky-100 rounded-lg text-academy-blue font-semibold transition-colors"
-                data-testid="link-course-stats"
-              >
-                📚 Statistiche Corsi
-              </a>
-              <a
-                href="/statistiche"
-                className="block px-4 py-3 bg-sky-50 hover:bg-sky-100 rounded-lg text-academy-blue font-semibold transition-colors"
-                data-testid="link-quiz-stats"
-              >
-                🎯 Risultati Quiz
-              </a>
+        {/* Statistiche Section */}
+        <div className="bg-gradient-to-br from-sky-50 to-blue-50 border-2 border-sky-100 rounded-2xl p-8 shadow-md">
+          <h2 className="text-2xl font-bold text-academy-dark mb-8 flex items-center gap-2">
+            📊 Le Tue Statistiche
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl p-6 border-l-4 border-sky-500 shadow-sm">
+              <div className="text-sm font-semibold text-academy-gray mb-2">Corsi Completati</div>
+              <div className="text-4xl font-bold text-academy-blue">0</div>
             </div>
-          )}
+            <div className="bg-white rounded-xl p-6 border-l-4 border-green-500 shadow-sm">
+              <div className="text-sm font-semibold text-academy-gray mb-2">Quiz Totali</div>
+              <div className="text-4xl font-bold text-academy-blue">0</div>
+            </div>
+            <div className="bg-white rounded-xl p-6 border-l-4 border-orange-500 shadow-sm">
+              <div className="text-sm font-semibold text-academy-gray mb-2">Progresso Medio</div>
+              <div className="text-4xl font-bold text-academy-blue">0%</div>
+            </div>
+            <div className="bg-white rounded-xl p-6 border-l-4 border-purple-500 shadow-sm">
+              <div className="text-sm font-semibold text-academy-gray mb-2">Streak 🔥</div>
+              <div className="text-4xl font-bold text-academy-blue">0</div>
+            </div>
+          </div>
+          <div className="mt-8">
+            <a
+              href="/statistiche"
+              className="block text-center px-8 py-3 bg-gradient-to-r from-academy-blue to-sky-500 text-white font-bold rounded-lg hover:shadow-lg transition-all"
+              data-testid="link-full-stats"
+            >
+              📈 Visualizza Statistiche Dettagliate →
+            </a>
+          </div>
         </div>
 
         {/* Logout */}
