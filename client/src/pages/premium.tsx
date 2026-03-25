@@ -253,8 +253,7 @@ export default function PremiumPage() {
               🎁 7 giorni gratuiti, poi €7.99 al mese. Cancella quando vuoi.
             </p>
             <div className="mb-10">
-              <div className="text-6xl font-black leading-tight">€7.99</div>
-              <div className="text-xl font-semibold opacity-90 mt-2">al mese</div>
+              <div className="text-5xl font-black leading-tight">€7.99<span className="text-2xl font-semibold opacity-90 align-top">/mese</span></div>
             </div>
             
             {paypalError ? (
