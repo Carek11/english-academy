@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 export default function ProfilePage() {
   const [, setLocation] = useLocation();
   const [cancelLoading, setCancelLoading] = useState(false);
+  const [statsDropdownOpen, setStatsDropdownOpen] = useState(false);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ["/api/me"],
@@ -132,6 +134,49 @@ export default function ProfilePage() {
             )}
           </div>
         )}
+
+        {/* Statistiche Dropdown */}
+        <div className="bg-white border-2 border-gray-100 rounded-2xl p-8 shadow-md">
+          <button
+            onClick={() => setStatsDropdownOpen(!statsDropdownOpen)}
+            className="w-full flex items-center justify-between text-left"
+            data-testid="button-stats-dropdown"
+          >
+            <h2 className="text-2xl font-bold text-academy-dark flex items-center gap-2">
+              📊 Statistiche
+            </h2>
+            <ChevronDown
+              size={24}
+              className={`text-academy-gray transition-transform ${statsDropdownOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+          
+          {statsDropdownOpen && (
+            <div className="mt-6 space-y-3 border-t border-gray-200 pt-6">
+              <a
+                href="/statistiche"
+                className="block px-4 py-3 bg-sky-50 hover:bg-sky-100 rounded-lg text-academy-blue font-semibold transition-colors"
+                data-testid="link-progress-stats"
+              >
+                📈 Progresso Generale
+              </a>
+              <a
+                href="/statistiche"
+                className="block px-4 py-3 bg-sky-50 hover:bg-sky-100 rounded-lg text-academy-blue font-semibold transition-colors"
+                data-testid="link-course-stats"
+              >
+                📚 Statistiche Corsi
+              </a>
+              <a
+                href="/statistiche"
+                className="block px-4 py-3 bg-sky-50 hover:bg-sky-100 rounded-lg text-academy-blue font-semibold transition-colors"
+                data-testid="link-quiz-stats"
+              >
+                🎯 Risultati Quiz
+              </a>
+            </div>
+          )}
+        </div>
 
         {/* Logout */}
         <div className="flex gap-4 justify-center">

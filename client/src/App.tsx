@@ -546,7 +546,6 @@ function AppInner() {
       label: "Risorse",
       emoji: "ℹ️",
       submenu: [
-        { id: "statistiche", label: "Statistiche", emoji: "📊" },
         { id: "glossario", label: "Glossario", emoji: "📖" },
         { id: "chi-siamo", label: "Chi Siamo", emoji: "👥" },
         { id: "contatti", label: "Contatti", emoji: "✉️" },
