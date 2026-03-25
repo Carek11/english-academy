@@ -361,8 +361,8 @@ export default function PremiumPage() {
             </div>
 
             {/* FAQ */}
-            <div className="space-y-4">
-              <div className="text-center space-y-1">
+            <div>
+              <div className="text-center space-y-1 mb-8">
                 <h3 className="text-2xl font-bold text-academy-dark">Domande Frequenti</h3>
                 <p className="text-academy-gray text-sm">Tutto quello che devi sapere prima di iscriverti</p>
               </div>
