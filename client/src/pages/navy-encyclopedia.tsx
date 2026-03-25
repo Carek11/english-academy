@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getInstantTranslation, preTranslateText } from "@/lib/instantTranslator";
+import { getInstantTranslation, getAccurateTranslation, preTranslateText } from "@/lib/instantTranslator";
 import { loadUserProgress, recordWordTranslation, saveUserProgress } from "@/lib/gamification";
 
 export default function NavyEncyclopediaPage() {
@@ -90,18 +90,21 @@ export default function NavyEncyclopediaPage() {
     return () => document.removeEventListener("mousemove", handleMouseMove);
   }, [hoveredWord]);
 
-  const handleWordClick = (e: React.MouseEvent) => {
+  const handleWordClick = async (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.className.includes("word-unit")) {
       const word = target.textContent?.trim();
       if (!word || word.length === 0) return;
 
       setHoveredWord(word);
+      setIsTranslatingWord(true);
       
-      // Usa la traduzione pre-calcolata
+      // Pulisci la parola
       const cleaned = word.replace(/[.,!?;:"()—–-]/g, "");
       const normalized = cleaned.toLowerCase().trim();
-      const translation = wordTranslations[normalized] || getInstantTranslation(cleaned);
+      
+      // Prova prima la traduzione precisa via API
+      const translation = await getAccurateTranslation(cleaned);
       setWordTranslation(translation);
       setIsTranslatingWord(false);
 
