@@ -15,9 +15,9 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
         <div className="flex gap-4 justify-center flex-wrap pt-6">
           <button
             onClick={() => onNavigate("corsi")}
-            className="px-10 py-5 bg-gradient-to-r from-academy-blue to-sky-500 text-white font-bold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all text-lg shadow-xl"
+            className="px-10 py-5 bg-gradient-to-r from-academy-blue to-sky-500 text-white font-bold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all text-lg shadow-xl flex items-center gap-3 justify-center"
           >
-            🎓 Inizia i Corsi
+            <span className="text-3xl">🎓</span> Inizia i Corsi
           </button>
           <button
             onClick={() => onNavigate("quiz-marina")}
