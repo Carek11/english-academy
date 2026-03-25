@@ -116,38 +116,6 @@ export default function GlossaryPage() {
         </div>
       )}
 
-      {isSearching && filtered.length > 0 && (
-        <>
-          <p className="text-center text-academy-gray text-sm">
-            {filtered.length} {filtered.length === 1 ? "termine trovato" : "termini trovati"}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((term, i) => {
-              const cfg = categoryConfig[term.category];
-              return (
-                <div
-                  key={i}
-                  data-testid={`card-term-${i}`}
-                  className={`bg-white rounded-xl border-2 p-5 hover:shadow-md transition-shadow ${cfg.bg}`}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full bg-white border ${cfg.color}`}>
-                      {cfg.icon} {cfg.label}
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-lg font-bold text-academy-dark">{term.en}</p>
-                    <p className={`font-semibold ${cfg.color}`}>{term.it}</p>
-                    {term.description && (
-                      <p className="text-academy-gray text-xs leading-relaxed mt-2">{term.description}</p>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </>
-      )}
     </div>
   );
 }
