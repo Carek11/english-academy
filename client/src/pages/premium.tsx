@@ -366,7 +366,7 @@ export default function PremiumPage() {
                 <h3 className="text-2xl font-bold text-academy-dark">Domande Frequenti</h3>
                 <p className="text-academy-gray text-sm">Tutto quello che devi sapere prima di iscriverti</p>
               </div>
-              <div className="divide-y divide-gray-100 rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="divide-y divide-gray-100 rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm mt-10">
                 {faqs.map((faq, i) => (
                   <div key={i}>
                     <button
