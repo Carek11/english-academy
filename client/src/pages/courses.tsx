@@ -326,7 +326,7 @@ export default function CoursesPage({ onNavigate }: { onNavigate: (page: string)
             <div className="text-3xl mb-4">{course.icon}</div>
             <h3 className="font-bold text-lg mb-3 text-academy-dark">{course.title}</h3>
             <p className="text-academy-gray text-sm mb-5 flex-grow">{course.description}</p>
-            <span className="inline-block px-3 py-1 bg-academy-dark text-white text-xs font-semibold rounded mb-5">{course.badge}</span>
+            <span className="inline-block px-3 py-1 bg-slate-600 text-white text-xs font-semibold rounded mb-5">{course.badge}</span>
             {course.details.length > 0 && (
               <div className="text-xs text-academy-gray mb-5 space-y-1">
                 {course.details.map((d, idx) => <div key={idx}>✓ {d}</div>)}
