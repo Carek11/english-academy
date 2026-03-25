@@ -253,8 +253,11 @@ export default function PremiumPage() {
               <div className="text-6xl font-black leading-tight">€7.99</div>
               <div className="text-xl font-semibold opacity-90 mt-2">al mese</div>
             </div>
-            <p className="text-base leading-relaxed opacity-90 mb-12 max-w-sm mx-auto font-medium">
-              Primo mese al prezzo pieno, rinnovo automatico. Cancella quando vuoi.
+            <p className="text-base leading-relaxed opacity-90 mb-4 max-w-sm mx-auto font-medium">
+              Attiva la modalità Premium per 7 giorni gratuiti con rinnovo a soli €7.99 al mese.
+            </p>
+            <p className="text-sm opacity-85 mb-12 max-w-sm mx-auto">
+              Cancella quando vuoi. Nessun vincolo.
             </p>
             
             {paypalError ? (
