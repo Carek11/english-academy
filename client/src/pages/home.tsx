@@ -12,8 +12,8 @@ export default function HomePage({ onNavigate }: { onNavigate: (page: string) =>
           <div className="h-1 w-24 bg-academy-gold mx-auto rounded"></div>
         </div>
         <p className="text-lg text-academy-gray max-w-3xl mx-auto leading-relaxed">
-          La piattaforma italiana che trasforma il tuo inglese. Corsi strutturati, quiz interattivi e una sezione specializzata per l'inglese tecnico della{" "}
-          <span className="font-semibold text-academy-blue">Marina Militare</span>.
+          Inglese tecnico per professionisti del mare. Corsi strutturati, quiz interattivi e contenuti specializzati per{" "}
+          <span className="font-semibold text-academy-blue">ufficiali e marinai</span>.
         </p>
         <div className="flex gap-4 justify-center flex-wrap pt-6">
           <button
