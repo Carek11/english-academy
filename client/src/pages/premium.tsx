@@ -185,20 +185,40 @@ export default function PremiumPage() {
       </section>
 
       {isPremium ? (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400 rounded-2xl p-12 text-center shadow-lg">
-          <div className="text-6xl mb-4">✨</div>
-          <h2 className="text-3xl font-bold text-green-700 mb-3">Benvenuto nel Club Premium!</h2>
-          <p className="text-lg text-green-600 mb-6">
-            Grazie per il supporto. Stai accedendo a tutti i vantaggi esclusivi.
-          </p>
-          <p className="text-sm text-green-600 mb-6">
-            📅 Valido fino al <span className="font-bold text-green-700">
-              {expiresAt ? new Date(expiresAt).toLocaleDateString("it-IT") : "data sconosciuta"}
-            </span>
-          </p>
-          <a href="/" className="inline-block px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
-            ⚓ Torna alla Home →
-          </a>
+        <div className="space-y-10">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400 rounded-2xl p-12 text-center shadow-lg">
+            <div className="text-6xl mb-4">✨</div>
+            <h2 className="text-3xl font-bold text-green-700 mb-3">Benvenuto nel Club Premium!</h2>
+            <p className="text-lg text-green-600 mb-6">
+              Grazie per il supporto. Stai accedendo a tutti i vantaggi esclusivi.
+            </p>
+            <p className="text-sm text-green-600 mb-6">
+              📅 Valido fino al <span className="font-bold text-green-700">
+                {expiresAt ? new Date(expiresAt).toLocaleDateString("it-IT") : "data sconosciuta"}
+              </span>
+            </p>
+            <a href="/" className="inline-block px-8 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors">
+              ⚓ Torna alla Home →
+            </a>
+          </div>
+
+          {/* Ebook Bonus - Solo per Premium */}
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
+            <div className="text-6xl mb-4">📚</div>
+            <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo</h3>
+            <p className="text-academy-gray mb-6 max-w-xl mx-auto">
+              Scarica gratis l'ebook "English for Naval Professionals" - una guida completa per imparare l'inglese tecnico navale, realizzato da una professoressa esperta del settore.
+            </p>
+            <a 
+              href="/ebook-english-naval.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+              data-testid="button-download-ebook"
+            >
+              ⬇️ Scarica l&apos;eBook Gratuito
+            </a>
+          </div>
         </div>
       ) : (
         <div className="space-y-10">
@@ -282,24 +302,6 @@ export default function PremiumPage() {
             )}
             
             <p className="text-sm font-medium opacity-85 mt-10 pt-10 border-t border-white border-opacity-30">💳 Pagamento 100% sicuro con PayPal</p>
-          </div>
-
-          {/* Ebook Bonus */}
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
-            <div className="text-6xl mb-4">📚</div>
-            <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo</h3>
-            <p className="text-academy-gray mb-6 max-w-xl mx-auto">
-              Scarica gratis l'ebook "English for Naval Professionals" - una guida completa per imparare l'inglese tecnico navale, realizzato da una professoressa esperta del settore.
-            </p>
-            <a 
-              href="/ebook-english-naval.pdf" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl"
-              data-testid="button-download-ebook"
-            >
-              ⬇️ Scarica l&apos;eBook Gratuito
-            </a>
           </div>
 
           {/* Garanzia */}
