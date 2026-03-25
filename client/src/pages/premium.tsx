@@ -269,12 +269,12 @@ export default function PremiumPage() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-6">
-                <div id="paypal-button-container" className="mb-8 min-h-12"></div>
+              <div className="space-y-3">
+                <div id="paypal-button-container" className="mb-4 min-h-12"></div>
                 
                 {!paypalLoaded && (
                   <div className="text-center">
-                    <p className="text-white font-bold text-lg mb-4">Paga ora</p>
+                    <p className="text-white font-bold text-lg mb-3">Paga ora</p>
                     <button
                       onClick={() => {
                         if (!user) {
@@ -289,7 +289,7 @@ export default function PremiumPage() {
                           })
                           .catch(() => alert("❌ Errore nell'inizializzazione del pagamento"));
                       }}
-                      className="w-full px-10 py-5 bg-yellow-500 hover:bg-yellow-600 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
+                      className="w-full px-10 py-4 bg-yellow-500 hover:bg-yellow-600 rounded-lg transition-all shadow-lg hover:shadow-2xl active:shadow-md font-bold"
                       data-testid="button-paypal-payment"
                     >
                       <div className="flex items-center justify-center">
