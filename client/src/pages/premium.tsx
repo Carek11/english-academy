@@ -284,6 +284,24 @@ export default function PremiumPage() {
             <p className="text-sm font-medium opacity-85 mt-10 pt-10 border-t border-white border-opacity-30">💳 Pagamento 100% sicuro con PayPal</p>
           </div>
 
+          {/* Ebook Bonus */}
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-10 text-center border-2 border-amber-200 shadow-lg">
+            <div className="text-6xl mb-4">📚</div>
+            <h3 className="text-2xl font-bold text-academy-dark mb-3">Bonus Esclusivo</h3>
+            <p className="text-academy-gray mb-6 max-w-xl mx-auto">
+              Scarica gratis l'ebook "English for Naval Professionals" - una guida completa per imparare l'inglese tecnico navale, realizzato da una professoressa esperta del settore.
+            </p>
+            <a 
+              href="/ebook-english-naval.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+              data-testid="button-download-ebook"
+            >
+              ⬇️ Scarica l&apos;eBook Gratuito
+            </a>
+          </div>
+
           {/* Garanzia */}
           <div className="bg-sky-50 border-l-4 border-sky-500 rounded-lg p-8">
             <h3 className="font-bold text-academy-dark mb-3 flex items-center gap-2">
