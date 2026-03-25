@@ -330,19 +330,23 @@ export default function PremiumPage() {
           </div>
 
           {/* FAQ */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-academy-dark text-center mb-6">❓ Domande Frequenti</h3>
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h4 className="font-bold text-academy-dark mb-2">Posso cancellare quando voglio?</h4>
-              <p className="text-academy-gray">Sì, cancella il tuo abbonamento in qualsiasi momento dal tuo account. Nessuna penalità.</p>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h4 className="font-bold text-academy-dark mb-2">Come funziona il rinnovo?</h4>
-              <p className="text-academy-gray">L'abbonamento si rinnova automaticamente ogni mese. Riceverai una notifica 3 giorni prima del rinnovo.</p>
-            </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
-              <h4 className="font-bold text-academy-dark mb-2">Quali metodi di pagamento accettate?</h4>
-              <p className="text-academy-gray">Accettiamo PayPal, il metodo più sicuro e affidabile per i tuoi acquisti online.</p>
+          <div className="mt-16 pt-16 border-t-2 border-gray-300">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-12 border-2 border-blue-200 shadow-lg space-y-6">
+              <h3 className="text-2xl font-bold text-academy-dark text-center">❓ Domande Frequenti</h3>
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-6 border-l-4 border-blue-500 hover:shadow-md transition-shadow">
+                  <h4 className="font-bold text-academy-dark mb-2">Posso cancellare quando voglio?</h4>
+                  <p className="text-academy-gray">Sì, cancella il tuo abbonamento in qualsiasi momento dal tuo account. Nessuna penalità.</p>
+                </div>
+                <div className="bg-white rounded-lg p-6 border-l-4 border-blue-500 hover:shadow-md transition-shadow">
+                  <h4 className="font-bold text-academy-dark mb-2">Come funziona il rinnovo?</h4>
+                  <p className="text-academy-gray">L'abbonamento si rinnova automaticamente ogni mese. Riceverai una notifica 3 giorni prima del rinnovo.</p>
+                </div>
+                <div className="bg-white rounded-lg p-6 border-l-4 border-blue-500 hover:shadow-md transition-shadow">
+                  <h4 className="font-bold text-academy-dark mb-2">Quali metodi di pagamento accettate?</h4>
+                  <p className="text-academy-gray">Accettiamo PayPal, il metodo più sicuro e affidabile per i tuoi acquisti online.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
