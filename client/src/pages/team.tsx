@@ -27,7 +27,7 @@ export default function TeamPage() {
               Così abbiamo deciso: facciamo diverso. Un luogo dove l'inglese non è solo una lingua, ma uno strumento reale per raggiungere i tuoi obiettivi.
             </p>
           </div>
-          <div className="bg-gradient-to-br from-academy-blue to-academy-dark rounded-2xl p-12 text-white text-center">
+          <div className="bg-academy-blue rounded-2xl p-12 text-white text-center">
             <div className="text-6xl mb-4">📚</div>
             <p className="text-lg font-semibold">Imparare davvero significa fare, non solo leggere.</p>
           </div>
@@ -37,7 +37,7 @@ export default function TeamPage() {
       {/* STORY 2 */}
       <section className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="bg-gradient-to-br from-academy-gold via-yellow-400 to-orange-400 rounded-2xl p-12 text-white text-center md:order-2">
+          <div className="bg-academy-dark rounded-2xl p-12 text-white text-center md:order-2">
             <div className="text-6xl mb-4">⚓</div>
             <p className="text-lg font-semibold">L'inglese tecnico della Marina Militare: dove la lingua salva le vite.</p>
           </div>
@@ -68,9 +68,9 @@ export default function TeamPage() {
               50 domande al giorno, 1000 al mese. Non di più, non di meno. La qualità conta.
             </p>
           </div>
-          <div className="bg-gradient-to-br from-green-100 to-blue-100 rounded-2xl p-12 text-center">
+          <div className="bg-academy-blue rounded-2xl p-12 text-center text-white">
             <div className="text-6xl mb-4">🎯</div>
-            <p className="text-lg font-semibold text-academy-dark">Imparare con un proposito richiede focus e costanza.</p>
+            <p className="text-lg font-semibold">Imparare con un proposito richiede focus e costanza.</p>
           </div>
         </div>
       </section>
