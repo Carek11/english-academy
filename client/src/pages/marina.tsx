@@ -695,8 +695,12 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
 
         {/* Navi Italiane */}
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold font-display text-academy-blue border-b-2 border-academy-gold pb-2 flex items-center gap-2">
-            <span className="text-3xl">🇮🇹</span>
+          <h3 className="text-2xl font-bold font-display text-academy-blue border-b-2 border-academy-gold pb-2 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" className="w-8 h-6 rounded shadow-sm flex-shrink-0">
+              <rect width="1" height="2" fill="#009246"/>
+              <rect x="1" width="1" height="2" fill="#fff"/>
+              <rect x="2" width="1" height="2" fill="#ce2b37"/>
+            </svg>
             Navi Italiane della Marina Militare
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
