@@ -693,7 +693,7 @@ function AppInner() {
           <div className="hidden sm:flex items-center gap-2 min-w-[200px] justify-end flex-1">
             {!isLoading && user ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold opacity-90 truncate max-w-[100px]">👤 {user.fullName.split(" ")[0]}</span>
+                <span className="text-sm font-semibold opacity-90 truncate max-w-[120px]">Ciao {user.fullName.split(" ")[0]} 👋</span>
                 <button
                   data-testid="button-logout"
                   onClick={() => logoutMutation.mutate()}
@@ -806,7 +806,7 @@ function AppInner() {
                 onClick={() => logoutMutation.mutate()}
                 className="px-3 py-2 rounded-lg font-semibold text-sm bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
               >
-                👤 {user.fullName.split(" ")[0]} · Esci
+                Ciao {user.fullName.split(" ")[0]} 👋 · Esci
               </button>
             ) : !isLoading ? (
               <>
