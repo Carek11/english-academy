@@ -20,6 +20,7 @@ app.use((req, res, next) => {
     "https://englishacademy-it.replit.app",
     "https://english-academy.it.com",
     "https://www.english-academy.it.com",
+    "https://english-academy-red.vercel.app",
   ];
 
   if (allowedOrigins.includes(origin)) {
