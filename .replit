@@ -41,9 +41,9 @@ waitForPort = 5000
 [userenv]
 
 [userenv.shared]
+SITE_URL = "https://englishacademy-it.replit.app"
 
 [userenv.production]
-SITE_URL = "https://englishacademy-it.replit.app"
 
 [agent]
 integrations = ["github:1.0.0"]
