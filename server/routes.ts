@@ -92,9 +92,9 @@ export async function registerRoutes(
 
   registerHealthCheck(app);
 
-  const sessionStore = process.env.VERCEL
-    ? undefined
-    : new PgStore({ conString: process.env.DATABASE_URL, createTableIfMissing: true });
+  const sessionStore = process.env.DATABASE_URL
+    ? new PgStore({ conString: process.env.DATABASE_URL, createTableIfMissing: true })
+    : undefined;
 
   app.use(
     session({
