@@ -11,6 +11,10 @@ import HomePage from "@/pages/home";
 import CoursesPage from "@/pages/courses";
 import MarinaPage from "@/pages/marina";
 import QuizMarinaPage from "@/pages/quiz-marina";
+import QuizNavigationPage from "@/pages/quiz-navigation";
+import QuizEngineRoomPage from "@/pages/quiz-engine-room";
+import QuizCommunicationsPage from "@/pages/quiz-communications";
+import QuizSafetyPage from "@/pages/quiz-safety";
 import QuizCulturaPage from "@/pages/quiz-cultura";
 import TeamPage from "@/pages/team";
 import ContactsPage from "@/pages/contacts";
@@ -49,7 +53,7 @@ if (import.meta.env.PROD) {
   fetch("/api/_health").catch(() => logger.warn("Health check failed"));
 }
 
-type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche" | "navy-encyclopedia" | "premium" | "profilo";
+type PageType = "home" | "corsi" | "marina" | "quiz-marina" | "quiz-navigation" | "quiz-engine-room" | "quiz-communications" | "quiz-safety" | "quiz-cultura" | "chi-siamo" | "contatti" | "auth" | "glossario" | "statistiche" | "navy-encyclopedia" | "esercizi-marina" | "premium" | "profilo";
 
 const TRIAL_DURATION = Infinity; // ✅ Accesso completamente libero, nessun limite temporale
 const MODAL_DISABLED = true; // ✅ NON mostrare MAI il modal registrazione finché non riattivato
@@ -542,6 +546,10 @@ function AppInner() {
     corsi: <CoursesPage onNavigate={handleNavigate} />,
     marina: <MarinaPage onNavigate={handleNavigate} />,
     "quiz-marina": <QuizMarinaPage />,
+    "quiz-navigation": <QuizNavigationPage />,
+    "quiz-engine-room": <QuizEngineRoomPage />,
+    "quiz-communications": <QuizCommunicationsPage />,
+    "quiz-safety": <QuizSafetyPage />,
     "quiz-cultura": <QuizCulturaPage />,
     "chi-siamo": <TeamPage />,
     contatti: <ContactsPage />,

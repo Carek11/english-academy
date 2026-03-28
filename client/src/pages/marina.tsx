@@ -760,17 +760,20 @@ export default function MarinaPage({ onNavigate }: { onNavigate: (page: string) 
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {navyComponents.map((comp, i) => (
-            <button
-              key={i}
-              onClick={() => onNavigate("quiz-marina")}
-              className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-center group border-2 border-transparent hover:border-academy-gold cursor-pointer"
-            >
-              <div className="text-5xl mb-3">{comp.icon}</div>
-              <h3 className="font-bold text-academy-dark text-lg group-hover:text-academy-blue transition-colors">{comp.title}</h3>
-              <p className="text-academy-gray text-sm">{comp.desc}</p>
-            </button>
-          ))}
+          {navyComponents.map((comp, i) => {
+            const quizPages: Array<"quiz-navigation" | "quiz-engine-room" | "quiz-communications" | "quiz-safety"> = ["quiz-navigation", "quiz-engine-room", "quiz-communications", "quiz-safety"];
+            return (
+              <button
+                key={i}
+                onClick={() => onNavigate(quizPages[i])}
+                className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all text-center group border-2 border-transparent hover:border-academy-gold cursor-pointer"
+              >
+                <div className="text-5xl mb-3">{comp.icon}</div>
+                <h3 className="font-bold text-academy-dark text-lg group-hover:text-academy-blue transition-colors">{comp.title}</h3>
+                <p className="text-academy-gray text-sm">{comp.desc}</p>
+              </button>
+            );
+          })}
         </div>
       </section>
 
